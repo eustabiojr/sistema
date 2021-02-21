@@ -7,7 +7,7 @@
     <title>Sistema</title>
 </head>
     <h2>Meu novo sistema</h2>
-    <p>xxx</p>
+    <p><?php echo "<p>O retorno é: " . $_GET['var'] . "</p>\n"; ?></p>
     
 <body>
     

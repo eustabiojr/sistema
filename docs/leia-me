@@ -1,0 +1,18 @@
+Nome do projeto: sistema
+Data: 21/02/2021
+
+No caso específico deste projeto, não pretendo usar nenhuma biblioteca externa, por melhor que estas sejam. 
+embora pense em fazer outros projetos que bibliotecas externas como Lavavel, Codeigniter. Ou seja, muitas 
+bibliotecas disponíveis em https://packagist.org/.
+
+Pretendo desenvolver um sistema com MVC, auto-carregamento de classes, ORM. codigo de barras e assim por
+ diante.
+
+Project name: sistema
+Date: 2/21/2021
+
+In the specific case of this project, I do not intend to use any external library, however good they may be.
+although I think of doing projects other than external libraries like Lavavel, Codeigniter. That is, many
+libraries available at https://packagist.org/.
+
+I intend to develop a system with MVC, auto-loading of classes, ORM. barcode and so on. 

@@ -1,0 +1,11 @@
+--------------------------------------------------------------------------------------------------
+| Dicas e Truques
+|
+| Prentendo fazer aqui algumas anotações de coisas que eu for aprendendo com o PHP. 
+| 
+| Data: 27/02/2021
+--------------------------------------------------------------------------------------------------
+
+# Para informar o nome de classes em PHP de forma dinâmica em ambientes que usam espaço de nomes (Ou seja, namespace),
+é necessário informar o nome do namespace antes do nome da classe, e jogar o retorno em uma variável intermediária,
+para só então instanciá-la com new.

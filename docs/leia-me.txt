@@ -8,6 +8,8 @@ bibliotecas disponíveis em https://packagist.org/.
 Pretendo desenvolver um sistema com MVC, auto-carregamento de classes, ORM. codigo de barras e assim por
  diante.
 
+ Acho que isso vai fazer com que eu de fato aprendar melhor a linguagem de programação PHP.
+
 Project name: sistema
 Date: 2/21/2021
 

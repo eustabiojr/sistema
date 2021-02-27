@@ -1,36 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema</title>
-</head>
-    <h2>Meu novo sistema</h2>
 <?php
-$url = $_SERVER['HTTP_HOST'];
-$uri = $_SERVER['REQUEST_URI'];
+/**
+ * Inicio
+ * 
+ * Autor: Eustábio Júnior
+ * Data: 27/02/2021
+ */
 
-# $u = "http" . (isset($_SERVER['HTTP_HOST']))
+# inclusões
+include_once "./ageu/base/autocarregador.php";
 
-if (isset($_SERVER['HTTPS'])) {
-    echo "<p>É HTTPS</p>\n\r";
-} else {
-    echo "<p>Não é HTTPS</p>\n\r"; 
-}
-echo "<p> A hospedagem é: " . $url . "</p>\r\n";
-echo "<p> A URI é: " . $uri . "</p>\r\n";
-?>
-    <p><?php echo "<p>A chave é: " . $_GET['p'] . "</p>\n"; ?></p>
-     <!-- <p><?php echo "<p>O valor é: " . $_GET['v'] . "</p>\n"; ?></p> -->
-    <div>
-        <ul>
-            <li><a href="inicio.php?p=1&v=casa">Enviar Param 1</a></li>
-            <!-- <li><a href="inicio.php?p=2&v=apartamento">Enviar Param 2</a></li> -->
-        </ul>
-    </div>
-    
-<body>
-    
-</body>
-</html>
+use ageu\bib\Teste;
+use ageu\bib\Inicio;
+
+$classe = ucfirst($_GET['classe'] ?? 'Inicio');
+$nomeClasse = __NAMESPACE__ . $classe;
+
+$ob = new Teste; # Teste # Inicio;
+
+//
+#use ageu\bib;
+#use aplic\controladores\Inicio;
+#use aplic\controladores\Saudacao;
+
+#include_once "./ageu/bib/pagina.php";
+// include_once "./aplic/controladores/inicio.php";
+// include_once "./aplic/controladores/saudacao.php";
+
+// $classe = ucfirst($_GET['classe'] ?? 'Inicio');
+
+#print_r($classe);
+// $nomeClasse = "\\aplic\controladores\\" . $classe;
+#$nomeClasse = __NAMESPACE__ . $classe;
+#print_r($nomeClasse);
+// $ic = new $nomeClasse;

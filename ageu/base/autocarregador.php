@@ -6,59 +6,54 @@
  * Data: 27/02/2021
  */
 
-spl_autoload_register(function($classe) {
-    /*
-    echo '<pre>';
-    print($classe);
-    echo '</pre>'; */
-    /*
-    $string1 = 'abc'; # casa                    | # ageu\bib\Teste
-    $string2 = 'abcx'; # apto # apartamento     | # ageu\bib\Teste
-    echo strncmp($string1, $string2, 4); */
-
-    # $c = "ageu\bib\Teste";
-    $ce = explode("\\", $classe);
-    $nome_classe = array_pop($ce);
-    # $cer = array_reverse($ce);
-    /*
-    echo "<br>A classe é: " . $nome_classe;
-    echo '<pre>';
-    print_r($ce);
-    echo '</pre>';*/
-
-    $caminho =  implode('/', $ce);
-
-    /**
-     * Retorno: ageu\bib\Teste
-     * 
-     * Preciso separar o nome da classe do nome no caminho. Qual a melhor forma de fazer
-     * isso? a) poderia explodir com base na barra invertida; a) poderia pegar o tamanho 
-     * da última palavra, pegar o comprimento da mesma para fazer a separação.
-     * 
-     * No caso: O caminho = ageu\bib\ e a classe = Teste
-     */
-    $caminho = '/' . $caminho . '/';
-    $fonte = $_SERVER['DOCUMENT_ROOT'] . $caminho . strtolower($nome_classe) . '.php';
-    #echo '<pre>' . $fonte . '</pre>' . PHP_EOL;
-    include_once $fonte;
-});
-
-
 /**
  * Pretendo criar uma variável array para registrar os namespace que serão consultados 
  * durante o carregamento das classes
  */
-/*
 class AutoCarregadorClasses {
 
+    private $espaco_nome = []; 
+
+    /**
+     * Construtor
+     * 
+     * Lembrete: a função spl_autoload_register só será chamada quando encontrar
+     * a tentativa de instanciar uma classe.
+     */
     public function inicializa($classe)
     {
+        #echo "<p> Inicializado </p>" . PHP_EOL;
+        
         spl_autoload_register(function($classe) {
 
-            $caminho = "ageu/bib";
-            include_once $caminho . $classe;
+            #echo '<pre>' . print_r($classe) . '</pre>' . PHP_EOL;
+
+            $ce = explode("\\", $classe);
+            $nome_classe = array_pop($ce);
+
+            foreach($this->listaNamespace() as $namespace) {
+                $caminho_parcial = str_replace("\\", "/", $namespace);
+                $caminho = '/' . $caminho_parcial . '/';
+ 
+                $fonte = $_SERVER['DOCUMENT_ROOT'] . $caminho . strtolower($nome_classe) . '.php';
+                if (file_exists($fonte)) { 
+                    #echo '<pre>' . $fonte . '</pre>' . PHP_EOL;
+                    include_once $fonte;
+                }
+                #echo "<p>Espaço de nome (2): " . $caminho_parcial . "</p>" . PHP_EOL;
+            }
         });
+    }
+
+    /**
+     * Método adicNamespace
+     */
+    public function adicNamespace($namespace) {
+        $this->espaco_nome[] = $namespace;
+    }
+
+    protected function listaNamespace() {
+        return $this->espaco_nome;
     }
 }
 
-*/

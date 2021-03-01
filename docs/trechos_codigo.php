@@ -92,3 +92,32 @@ include_once "aplic/visoes/{$param}.php";
     #echo '<pre>' . $fonte . '</pre>' . PHP_EOL;
     #include_once $fonte;
 #});
+
+ //-----------------------------------------------------------------------------------------------------
+class MinhaClasse {
+    private $variavel;
+
+    public function obtNomeClasse() {
+        return get_class($this);
+    }
+}
+
+$mc = new MinhaClasse;
+echo "<br>O nome da classe é: " . $mc->obtNomeClasse();
+
+//------------------------------------------------------------------------------------------- 
+$dados = include_once("aplic/config/exemplo.php");
+echo "<p>" . $dados['nome'] . "</p>" . PHP_EOL;
+
+//------------------------------------------------------------------------------------------- 
+error_reporting(E_ALL);
+function incrementa(&$var) {
+    $var++;
+}
+
+function imprime($param) {
+    echo "<p>" . $param . "</p>" . PHP_EOL;
+}
+
+$a = "Alguma coisa qualquer";
+call_user_func('imprime', $a);

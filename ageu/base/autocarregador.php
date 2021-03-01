@@ -5,7 +5,7 @@
  * Autor: Eustábio Júnior
  * Data: 27/02/2021
  */
-
+//---------------------------------------------------------------------------------------------------
 /**
  * Pretendo criar uma variável array para registrar os namespace que serão consultados 
  * durante o carregamento das classes
@@ -20,19 +20,19 @@ class AutoCarregadorClasses {
      * Lembrete: a função spl_autoload_register só será chamada quando encontrar
      * a tentativa de instanciar uma classe.
      */
-    public function inicializa($classe)
+    public function registra($classe)
     {
-        #echo "<p> Inicializado </p>" . PHP_EOL;
+        # echo "<p> Inicializado </p>" . PHP_EOL;
         
         spl_autoload_register(function($classe) {
 
-            #echo '<pre>' . print_r($classe) . '</pre>' . PHP_EOL;
+            # echo '<pre>' . print_r($classe) . '</pre>' . PHP_EOL;
 
             $ce = explode("\\", $classe);
             $nome_classe = array_pop($ce);
 
             foreach($this->listaNamespace() as $namespace) {
-                $caminho_parcial = str_replace("\\", "/", $namespace);
+                $caminho_parcial = str_replace("\\", DIRECTORY_SEPARATOR, $namespace);
                 $caminho = '/' . $caminho_parcial . '/';
  
                 $fonte = $_SERVER['DOCUMENT_ROOT'] . $caminho . strtolower($nome_classe) . '.php';
@@ -52,6 +52,9 @@ class AutoCarregadorClasses {
         $this->espaco_nome[] = $namespace;
     }
 
+    /**
+     * Método listaNamespace
+     */
     protected function listaNamespace() {
         return $this->espaco_nome;
     }

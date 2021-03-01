@@ -1,0 +1,6 @@
+ARQUIVO DE MUDANÇAS
+
+
+Mudanças futuras
+
+incluir recurso de exceção no auto-carregamento de classes

@@ -1,7 +1,11 @@
 <?php
 /**
  * Classe Pagina
+ * 
+ * Data: 01/03/2021
  */
+
+# Espaço de nomes
 
 namespace ageu\controle;
 

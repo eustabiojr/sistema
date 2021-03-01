@@ -22,8 +22,9 @@ $crg = new AutoCarregadorClasses();
 $crg->adicNamespace("ageu\base");
 $crg->adicNamespace("ageu\bib");
 $crg->adicNamespace("ageu\controle");
-$crg->registra($classe);
+$crg->registra();
 
+(new Inicio);
 //------------------------------------------------------------------------------------------- 
 $pgn = new Pagina;
 $pgn->operar();

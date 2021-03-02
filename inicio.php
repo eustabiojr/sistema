@@ -26,6 +26,13 @@ $crg->registra();
 
 (new Inicio);
 //------------------------------------------------------------------------------------------- 
+/**
+ * Nota: A classe 'Pagina' não deve ser instanciada diretamente. Essa classe deverá extendida
+ * uma classe controlador.
+ * 
+ * Antes de continuar, preciso implementar alguns recursos a mais no auto-carregamento de
+ * classes.
+ */
 $pgn = new Pagina;
 $pgn->operar();
 

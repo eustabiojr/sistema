@@ -1,0 +1,6 @@
+# 
+#RewriteEngine On
+#RewriteBase /rotas/public
+#RewriteCond %{REQUEST_FILENAME} ! -f
+#RewriteCond %{REQUEST_FILENAME} ! -d
+#RewriteRule ^([A-Za-z0-9\\\/\-]+)$ inicio.php?uri=$1 [QSA,L]

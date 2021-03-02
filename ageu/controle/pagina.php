@@ -50,6 +50,12 @@ class Pagina {
                 echo "</p>" . "YYYYYY: " . $objeto ."</p>" . PHP_EOL;
 
                 if (method_exists($objeto, $metodo)) {
+
+                    /**
+					 * Essa função é interessante. Pois com ela podemos chamar o método classe
+					 * por meio de parametros enviados pela URL. Ou seja, chamamos aquela 
+                     * classe que herda a classe 'Pagina', e seus métodos.
+					 */
                     call_user_func(array($objeto, $metodo), $_GET);
                 }
             }

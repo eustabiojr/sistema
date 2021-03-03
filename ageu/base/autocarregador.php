@@ -24,6 +24,9 @@ class AutoCarregadorClasses {
     {
         # echo "<p> Inicializado </p>" . PHP_EOL;
         
+        /**
+         * Aqui, estou usando uma função anônima
+         */
         spl_autoload_register(function($classe) {
 
             # echo '<pre>' . print_r($classe) . '</pre>' . PHP_EOL;

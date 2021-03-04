@@ -4,7 +4,7 @@
  * 
  * Data: 26/02/2021
  */
-namespace aplic\controladores;
+namespace Aplicativo\Controladores;
 
 #  extends Controlador
 class Inicio 

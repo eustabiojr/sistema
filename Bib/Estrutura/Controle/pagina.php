@@ -7,7 +7,7 @@
 
 # Espaço de nomes
 
-namespace ageu\controle;
+namespace Estrutura\Controle;
 
 /**
  * Classe Pagina 

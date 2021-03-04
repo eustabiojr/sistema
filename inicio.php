@@ -12,13 +12,8 @@
 # inclusões
 
 //------------------------------------------------------------------------------------------- 
-use ageu\bib\Teste;
-use ageu\bib\Inicio;
-use ageu\controle\Pagina;
-
-//------------------------------------------------------------------------------------------- 
-include_once "./ageu/base/autocarregador.php";
-$crg = new AutoCarregadorClasses();
+include_once "Bib/Estrutura/Nucleo/AutoCarregadorAplic.php";
+$crg = new AutoCarregadorAplic();
 $crg->adicNamespace("ageu\base");
 $crg->adicNamespace("ageu\bib");
 $crg->adicNamespace("ageu\controle");

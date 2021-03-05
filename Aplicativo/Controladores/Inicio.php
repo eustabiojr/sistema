@@ -6,8 +6,10 @@
  */
 namespace Aplicativo\Controladores;
 
+use Estrutura\Controle\Pagina;
+
 #  extends Controlador
-class Inicio 
+class Inicio extends Pagina;
 {
     public function __construct()
     {

@@ -8,8 +8,10 @@ namespace Aplicativo\Controladores;
 
 use Estrutura\Controle\Pagina;
 
+echo "KKKK";
+
 #  extends Controlador
-class Inicio extends Pagina;
+class Inicio extends Pagina
 {
     public function __construct()
     {

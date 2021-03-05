@@ -106,8 +106,8 @@ class AutoCarregadorEstrutura {
 		}
 
 		foreach ($this->prefixos[$espaconome] as $pasta_base) {
-			# echo "<p>**** Esse é o nosso include: " . $pasta_base . str_replace('\\', '/', $classe_relativa) . '.php' . "</p>" . PHP_EOL; 
-			$arquivo = $pasta_base . str_replace('\\', '/', $classe_relativa) . '.php' . "</p>" . PHP_EOL; 
+			#echo "<p>**** Esse é o nosso include: " . $pasta_base . str_replace('\\', '/', $classe_relativa) . '.php' . "</p>" . PHP_EOL; 
+			$arquivo = $pasta_base . str_replace('\\', '/', $classe_relativa) . '.php'; 
 		}
 
 		$this->solicitaArquivo($arquivo);

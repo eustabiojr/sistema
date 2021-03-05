@@ -16,19 +16,9 @@ namespace Estrutura\Controle;
  */
 class Pagina {
 
-    public function __construct()
-    {
-        /**
-         * O código comentado abaixo é antigo. foi escrito durante as primeiras fases de 
-         * desenvolvimento.
-         */
-        #echo "<p> Construtor da classe Pagina</p>" . PHP_EOL;
-        #$classe = ucfirst($_GET['classe'] ?? 'Inicio');
-        #$nomeClasse = "\\ageu\bib\\" . $classe;
-        #$ob = new $nomeClasse; # Teste # Inicio;
-    }
-
     public function exibe() {
+
+        #echo "ZZZZZZZZZZZZZZZZZZZZZZ";
 
         # Só entra no IF caso exista dados GET
         if ($_GET) {
@@ -44,10 +34,10 @@ class Pagina {
                  */
                 # echo "</p>" . "O nome do parametro classe é: " . $classe . "</p>" . PHP_EOL;
 
-                #echo "</p>" . "O nome da classe é: " . get_class($this) . "</p>" . PHP_EOL;
+                //echo "</p>" . "O nome da classe é: " . get_class($this) . "</p>" . PHP_EOL;
                 $objeto = $classe == get_class($this) ? $this : new $classe; # 'Sim' : 'Não';
                 
-                #echo "</p>" . "YYYYYY: " . $objeto ."</p>" . PHP_EOL;
+                echo "</p>" . "YYYYYY: " . $objeto ."</p>" . PHP_EOL;
 
                 if (method_exists($objeto, $metodo)) {
 

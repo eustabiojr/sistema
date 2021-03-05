@@ -31,7 +31,7 @@ class AutoCarregadorAplic {
     {
         $pastas = $this->diretorios;
 
-        $pastas = $this->diretorios;
+        echo "<p>#### A string é (esta seria a string da classe chamada): " . $classe . "</p>" . PHP_EOL;
     
         foreach ($pastas as $pasta) {
             # Caso a pasta exista no diretório
@@ -40,11 +40,11 @@ class AutoCarregadorAplic {
                 require_once "{$pasta}/{$classe}.php";
                 return true;
             } else {
-                # Quando não é localizado logo. Vamos ...
+                # Quando não é localizado logo. Vamos pesquisar se a classe existe em alguma subpasta
 				if (file_exists($pasta)) {
                     if (file_exists($pasta)) {
-                        $diretorios = new RecursiveDirectoryIterator('bibliotecas', RecursiveIteratorIterator::SELF_FIRST);
-                        $iterador   = new RecursiveIteratorIterator($diretorios);
+                        $diretorios = new \RecursiveDirectoryIterator($pasta, \RecursiveIteratorIterator::SELF_FIRST);
+                        $iterador   = new \RecursiveIteratorIterator($diretorios);
                         foreach ($iterador as $entrada) {
                             if(is_dir($entrada)) {
                                 if (file_exists("{$entrada}/{$classe}.php")) {

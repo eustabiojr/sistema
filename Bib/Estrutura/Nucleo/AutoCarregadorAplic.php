@@ -1,16 +1,19 @@
 <?php
-/**
+/****************************************************************************************************
  * Sistema
  * 
  * Data: 04/0/2021
- */
+ ****************************************************************************************************/
 //--------------------------------------------------------------------------------------------------- 
 namespace Estrutura\Nucleo;
 
 /**
  * Classe AutoCarregadorEstrutura
  * 
- * Carregamento automático das classe estruturais do sistema.
+ * Carregamento automático das classes aplicativo. Como as classes do aplicativo não usam espaço de
+ * nomes, apenas definimos a pasta onde a classe está localizada. Esse auto-carregador é capaz de 
+ * pesquisar em subpastas na tentativa de localizar a classe requisitada.
+ * 
  */
 class AutoCarregadorAplic {
 
@@ -30,10 +33,9 @@ class AutoCarregadorAplic {
     public function carregaClasse($classe)
     {
         $pastas = $this->diretorios;
-
-        echo "<p>#### A string é (esta seria a string da classe chamada): " . $classe . "</p>" . PHP_EOL;
-    
+   
         foreach ($pastas as $pasta) {
+            #echo "<p>#### A string é (esta seria a string da classe chamada): " . $classe . "</p>" . PHP_EOL;
             # Caso a pasta exista no diretório
             if (file_exists("{$pasta}/{$classe}.php")) {
                 #echo "{$pasta}/{$classe}.php";

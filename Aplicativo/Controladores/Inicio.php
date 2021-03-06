@@ -1,16 +1,12 @@
 <?php
-/**
+/*****************************************************************************************
  * Controlador Inicio
  * 
  * Data: 26/02/2021
- */
-namespace Aplicativo\Controladores;
+ *****************************************************************************************/
 
 use Estrutura\Controle\Pagina;
 
-echo "KKKK";
-
-#  extends Controlador
 class Inicio extends Pagina
 {
     public function __construct()

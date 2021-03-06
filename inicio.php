@@ -1,10 +1,10 @@
 <?php
-/**
+/********************************************************************************************
  * Inicio
  * 
  * Autor: Eustábio Júnior
  * Data: 27/02/2021
- */
+ ********************************************************************************************/
 
 use Estrutura\Controle\Pagina;
 
@@ -27,39 +27,14 @@ $ca->adicPasta('Aplicativo/Controladores');
 $ca->registra();
 
 //-------------------------------------------------------------------------------------------
-/*
+
 if ($_GET) {
     $classe = $_GET['classe'];
     if(class_exists($classe)) {
         $pagina = new $classe;
         $pagina->exibe();
     }
-}*/
-
-$cp = new Aplicativo\Controladores\Inicio;
-#$cp->exibe();
-//-------------------------------------------------------------------------------------------
-/*
-class Teste {
-    public function __construct()
-    {
-        echo "<p>Iniciada!...</p>" . PHP_EOL;
-    }
 }
 
-$t = new Teste;*/
-
 //------------------------------------------------------------------------------------------- 
-/**
- * Nota: A classe 'Pagina' não deve ser instanciada diretamente. Essa classe deverá extendida
- * uma classe controlador.
- * 
- */
-#$pgn = new Pagina;
-#$pgn->operar();
 
-//------------------------------------------------------------------------------------------- 
-/*
-echo '<pre>';
-    print_r($crg->listaNamespace());
-echo '</pre>'; */

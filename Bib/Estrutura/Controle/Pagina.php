@@ -37,8 +37,6 @@ class Pagina {
                 //echo "</p>" . "O nome da classe é: " . get_class($this) . "</p>" . PHP_EOL;
                 $objeto = $classe == get_class($this) ? $this : new $classe; # 'Sim' : 'Não';
                 
-                echo "</p>" . "YYYYYY: " . $objeto ."</p>" . PHP_EOL;
-
                 if (method_exists($objeto, $metodo)) {
 
                     /**

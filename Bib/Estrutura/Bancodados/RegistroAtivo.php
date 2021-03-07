@@ -10,10 +10,18 @@ namespace Estrutura\BancoDados;
 
 use Exception;
 
+/**
+ * Classe RegistroAtivo
+ * 
+ * Esta é uma classe abstrata, portanto não será instanciada diretamente
+ */
 abstract class RegistroAtivo {
     
     protected $dados; 
 
+    /**
+     * Método __construct (construtor)
+     */
     public function __construct($id = NULL)
     {
         if ($id) {
@@ -24,11 +32,17 @@ abstract class RegistroAtivo {
         }
     }
 
+    /**
+     * Método __clone (duplica)
+     */
     public function __clone()
     {
         unset($this->dados['id']);
     }
 
+    /**
+     * Método __set
+     */
     public function __set($prop, $valor) 
     {
         if (method_exists($this, 'def_'.$prop)) {
@@ -42,6 +56,9 @@ abstract class RegistroAtivo {
         }
     }
 
+    /**
+     * Método __get
+     */
     public function __get($prop) 
     {
         if (method_exists($this, 'obt_'.$prop)) {
@@ -228,7 +245,7 @@ abstract class RegistroAtivo {
      * melhor este método por questões de segurança
      */
     public function escapa($valor) {
-        # aqui apenas verificamos se é string ou que não está em branco
+        # aqui apenas verificamos se é string ou que não está vazio
         if (is_string($valor) AND (!empty($valor))) {
             # Adiciona \ em aspas
             $valor = addslashes($valor);

@@ -39,7 +39,7 @@ use Exception;
     /**
      * Método obtInfoBD
      */
-    public static function vetorBD() {
+    public static function vetorBD($bd) {
         # Lê as informações contidas no arquivo de config
         $usuario  = isset($bd['usuario'])  ?? NULL;
         $senha    = isset($bd['senha'])    ?? NULL;
@@ -98,9 +98,9 @@ use Exception;
             self::$cache_cnx[$bd] = $ini;
             return $ini;
         } else if (file_exists($arquivop)) {
-            $ini = require $arquivop;
-            self::$cache_cnx[$bd] = $ini;
-            return $ini;
+            $php = require $arquivop;
+            self::$cache_cnx[$bd] = $php;
+            return $php;
         } else {
             return FALSE;
         }

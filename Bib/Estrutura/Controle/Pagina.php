@@ -6,19 +6,26 @@
  */
 
 # Espaço de nomes
-
 namespace Estrutura\Controle;
+
+use Estrutura\Base\Elemento;
 
 /**
  * Classe Pagina 
  * 
  * Esta classe futuramente deverá extender a classe Elemento.
  */
-class Pagina {
+class Pagina extends Elemento {
 
+    public function __construct()
+    {
+        parent::__construct('div');
+    }
+
+    /**
+     * Método exibe
+     */
     public function exibe() {
-
-        #echo "ZZZZZZZZZZZZZZZZZZZZZZ";
 
         # Só entra no IF caso exista dados GET
         if ($_GET) {

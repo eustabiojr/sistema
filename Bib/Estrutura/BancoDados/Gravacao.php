@@ -9,13 +9,15 @@
 namespace Estrutura\BancoDados;
 
 use Exception;
+use Estrutura\BancoDados\Transacao;
+use Estrutura\BancoDados\InterfaceGravacao;
 
 /**
  * Classe RegistroAtivo
  * 
  * Esta é uma classe abstrata, portanto não será instanciada diretamente
  */
-abstract class RegistroAtivo {
+abstract class Gravacao extends InterfaceGravacao {
     
     protected $dados; 
 
@@ -262,5 +264,3 @@ abstract class RegistroAtivo {
         }
     } # FIM do método 'escapa($valor)'
 }
-
-

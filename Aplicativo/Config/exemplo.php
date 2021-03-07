@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'hospedagem' => "localhost",
+    'servidor' => "localhost",
     'porta'      => "",
-    'nome'       => "pgsql",
+    'nome'       => "ageubd",
     'usuario'    => "eustabiojr",
-    'senha'      => "",
-    'tipo'       => ""
+    'senha'      => "76198919",
+    'tipo'       => "pgsql"
 ];

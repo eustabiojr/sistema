@@ -51,11 +51,11 @@ use Exception;
         # Descobre qual o tipo (condutor) de banco de dados a ser utilizado
         switch ($tipo) {
             case 'pgsql':
-                $porta = $porta ? $porta : '5432';
+                $porta = isset($porta) ?? '5432';
                 $conexao = new PDO("pgsql:dbname={$nome}; user={$usuario}; password={$senha}; host={$servidor}; port={$porta}; ");
             break;
             case 'mysql':
-                $porta = $porta ? $porta : '3306';
+                $porta = isset($porta) ?? '3306';
                 $conexao = new PDO("mysql:host={$servidor}; port={$porta}; dbname={$nome}", $usuario, $senha);
             break;
             case 'sqlite':

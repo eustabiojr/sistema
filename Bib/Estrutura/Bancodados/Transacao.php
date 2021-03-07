@@ -1,12 +1,13 @@
 <?php
-
-use Estrutura\BancoDados\Conexao;
-
 /********************************************************************************************
  * Sistema
  * 
  * Data: 06/03/2021
  ********************************************************************************************/
+# Espaço de nomes
+namespace Estrutura\BancoDados;
+
+use Estrutura\BancoDados\Conexao;
 
  /**
   * Classe Transacao

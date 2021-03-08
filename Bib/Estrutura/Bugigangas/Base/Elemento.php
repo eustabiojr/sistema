@@ -5,7 +5,7 @@
  * Data: 10/04/2020
  ********************************************************************************************/
 # espaço de nomes
-namespace Estrutura\Base;
+namespace Estrutura\Bugigangas\Base;
 
 /**
  * Classe Elemento
@@ -37,7 +37,7 @@ class Elemento {
      */
     public function __get($nome)
     {
-        return isset($this->propriedades[$nome]) ?? NULL;
+        return $this->propriedades[$nome] ?? NULL;
     }
 
     /**
@@ -82,6 +82,17 @@ class Elemento {
             }
         }
         echo '>';
+    }
+
+    /**
+     * Método __toString
+     */
+    public function __toString()
+    {
+        ob_start();
+        $this->exibe();
+        $conteudo = ob_get_clean();
+        return $conteudo;
     }
 
     /**

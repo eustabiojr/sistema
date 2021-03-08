@@ -8,7 +8,7 @@
 # Espaço de nomes
 namespace Estrutura\Controle;
 
-use Estrutura\Base\Elemento;
+use Estrutura\Bugigangas\Base\Elemento;
 
 /**
  * Classe Pagina 
@@ -17,6 +17,9 @@ use Estrutura\Base\Elemento;
  */
 class Pagina extends Elemento {
 
+    /**
+     * Método __construct
+     */
     public function __construct()
     {
         parent::__construct('div');
@@ -29,11 +32,13 @@ class Pagina extends Elemento {
 
         # Só entra no IF caso exista dados GET
         if ($_GET) {
+
             $classe = $_GET['classe'] ?? NULL;
             $metodo = $_GET['metodo'] ?? NULL;
 
             # caso a variável $classe esteja definida, entra no IF
             if ($classe) {
+
                 /**
                  * testa se o nome da classe fornecido pelo URI é igual ao nome da classe
                  * do objeto atual. Se for igual retorna para na variável $objeto, o objeto 
@@ -55,6 +60,7 @@ class Pagina extends Elemento {
                 }
             }
         }
+        parent::exibe();
     }
 }
 

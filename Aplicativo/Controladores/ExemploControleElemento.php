@@ -5,7 +5,7 @@
  * Data: 07/03/2021
  ************************************************************************************/
 
-use Estrutura\Base\Elemento;
+use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Controle\Pagina;
 
 class ExemploControleElemento extends Pagina {

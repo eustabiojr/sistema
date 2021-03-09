@@ -100,6 +100,6 @@ class Elemento {
      */
     private function fecha() 
     {
-        echo "</{$this->nometag}\n";
+        echo "</{$this->nometag}>\n";
     }
 }

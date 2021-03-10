@@ -12,7 +12,7 @@ use Estrutura\Bugigangas\Base\Elemento;
 /**
  * Class Abstrata Campo
  */
-class BotaoRadio extends Campo implements InterfaceElementoForm
+class BotaoCheck extends Campo implements InterfaceElementoForm
 {
     /**
      * Método exibe
@@ -24,7 +24,7 @@ class BotaoRadio extends Campo implements InterfaceElementoForm
         $tag->class = 'field';
         $tag->name = $this->nome;
         $tag->value = $this->valor;
-        $tag->type = 'radio';
+        $tag->type = 'checkbox';
         $tag->style = "width: {$this->tamanho}";
 
         # caso o campo não seja editável

@@ -54,7 +54,8 @@ class Elemento {
     public function exibe() 
     {
         $this->abre();
-        echo PHP_EOL;
+        echo "\n";
+        
         if ($this->filhos) {
             foreach ($this->filhos as  $filho) {
                 if (is_object($filho)) {
@@ -71,7 +72,7 @@ class Elemento {
     /**
      * Método abre
      */
-    public function abre() 
+    private function abre() 
     {
         echo "<{$this->nometag}";
         if ($this->propriedades) {

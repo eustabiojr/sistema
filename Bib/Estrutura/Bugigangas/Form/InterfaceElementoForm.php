@@ -17,5 +17,7 @@ interface InterfaceElementoForm {
     public function defValor($valor);
     public function obtValor();
     public function exibe();
+    public function defTamanho($tamanho);
+    public function defRotulo($rotulo);
 }
 

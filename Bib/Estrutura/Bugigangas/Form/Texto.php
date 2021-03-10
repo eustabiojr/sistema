@@ -19,6 +19,9 @@ class Texto extends Campo implements InterfaceElementoForm
     private $largura;
     private $altura = 100;
 
+    /**
+     * Método defTamanho
+     */
     public function defTamanho($largura, $altura = NULL)
     {
         $this->size = $largura;

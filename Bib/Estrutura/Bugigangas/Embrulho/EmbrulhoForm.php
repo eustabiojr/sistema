@@ -10,6 +10,7 @@ namespace Estrutura\Bugigangas\Embrulho;
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Recipiente\Painel;
 use Estrutura\Bugigangas\Form\Form;
+use Estrutura\Bugigangas\Form\Botao;
 
 /**
  * Classe EmbrulhoForm

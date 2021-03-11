@@ -9,6 +9,7 @@ namespace Estrutura\Bugigangas\Base;
 
 /**
  * Classe Elemento
+ * 
  */
 class Elemento {
     # propriedades

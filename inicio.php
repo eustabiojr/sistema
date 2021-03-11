@@ -5,8 +5,13 @@
  * Autor: Eustábio Júnior
  * Data: 27/02/2021
  ********************************************************************************************/
-# Pagina
-use Estrutura\Controle\Pagina;
+# definição do fuso-horário padrão
+date_default_timezone_set('America/Bahia');
+
+# Ambiente de execução
+if (version_compare(PHP_VERSION, '8.0.0') == -1) {
+    die('A versão mínima para executar esta aplicação é: 8.0.0');
+}
 
 //------------------------------------------------------------------------------------------- 
 /**
@@ -25,16 +30,35 @@ include_once "Bib/Estrutura/Nucleo/AutoCarregadorAplic.php";
 $ca = new Estrutura\Nucleo\AutoCarregadorAplic();
 $ca->adicPasta('Aplicativo/Controladores');
 $ca->registra();
-
 //-------------------------------------------------------------------------------------------
+
+# Vendor
+#$carregador = require 'vendor/autoload.php';
+#$carregador->register();
+
+//------------------------------------------------------------------------------------------- 
+
+$template = file_get_contents('Aplicativo/Templates/template.html');
+$conteudo = '';
+$class    = 'Inicio';
 
 if ($_GET) {
     $classe = $_GET['classe'];
     if(class_exists($classe)) {
-        $pagina = new $classe;
-        $pagina->exibe();
+        try {
+            $pagina = new $classe;
+            ob_start();
+            $pagina->exibe();
+            $conteudo = ob_get_contents();
+            ob_end_clean();
+        } catch (Exception $e) {
+            $conteudo = $e->getMessage() . '<br/>' . $e->getTraceAsString();
+        }
+    } else {
+        $conteudo = "Classe <b>{$classe} não encontrada";
     }
 }
-
-//------------------------------------------------------------------------------------------- 
+$saida = str_replace('{conteudo}', $conteudo, $template);
+$saida = str_replace('{conteudo}', $classe, $saida);
+echo $saida;
 

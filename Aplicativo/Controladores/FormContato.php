@@ -80,9 +80,17 @@ class FormContato extends Pagina
             $mensagem .= "Email: {$dados->email} <br/>" . PHP_EOL;
             $mensagem .= "Assunto: {$dados->assunto} <br/>" . PHP_EOL;
             $mensagem .= "Mensagem: {$dados->mensagem} <br/>" . PHP_EOL;
+            new Mensagem('info', $mensagem);
 
         } catch (Exception $e) {
             new Mensagem('erro', $e->getMessage());
         }
+    }
+
+    public function aoCarregar()
+    {
+        $obj = new stdClass;
+        $obj->mensagem = 'Escreva aqui o motivo do contato. Seja o mais claro possível...';
+        $this->form->defDados($obj);
     }
 }

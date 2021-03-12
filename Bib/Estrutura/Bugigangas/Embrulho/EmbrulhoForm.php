@@ -32,10 +32,11 @@ class EmbrulhoForm
     public function exibe()
     {
         $elemento = new Elemento('form');
+        $elemento->name  = $this->decorado->obtNome();
         $elemento->class = "form-horizontal";
         $elemento->enctype = "multipart/form-data";
-        $elemento->method = 'post';
-        $elemento->width = '100%';
+        $elemento->method  = 'post';
+        $elemento->width   = '100%';
 
         foreach ($this->decorado->obtCampos() as $campo) {
             $grupo = new Elemento('div');

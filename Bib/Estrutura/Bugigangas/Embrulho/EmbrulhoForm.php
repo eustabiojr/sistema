@@ -62,8 +62,7 @@ class EmbrulhoForm
             $botao = new Botao($nome);
             $botao->defNomeForm($this->decorado->obtNome());
             $botao->defAcao($acao, $rotulo);
-            $botao->class = 'btn' . ( ($i==0) ? 'btn-success' : 'btn-default');
-
+            $botao->class = 'btn ' . ( ($i==0) ? 'btn-success' : 'btn-default');
             $grupo->adic($botao);
             $i++;
         }

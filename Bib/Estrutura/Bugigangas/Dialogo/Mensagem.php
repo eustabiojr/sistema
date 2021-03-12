@@ -13,6 +13,10 @@ use Estrutura\Bugigangas\Base\Elemento;
   * Classe Mensagem
   */
 class Mensagem {
+
+    /**
+     * Classe __construct
+     */
     public function __construct($tipo, $mensagem)
     {
         $div = new Elemento('div');

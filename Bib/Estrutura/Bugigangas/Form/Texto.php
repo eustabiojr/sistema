@@ -36,7 +36,7 @@ class Texto extends Campo implements InterfaceElementoForm
     public function exibe()
     {
         # atribui as propriedades da tag
-        $tag = new Elemento('input'); 
+        $tag = new Elemento('textarea'); 
         $tag->class = 'field';
         $tag->name = $this->nome;
         $tag->style = "width: {$this->tamanho}; height:{$this->altura}";

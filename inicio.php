@@ -33,14 +33,14 @@ $ca->registra();
 //-------------------------------------------------------------------------------------------
 
 # Vendor
-#$carregador = require 'vendor/autoload.php';
-#$carregador->register();
+$carregador = require 'vendor/autoload.php';
+$carregador->register();
 
 //------------------------------------------------------------------------------------------- 
 
 $template = file_get_contents('Aplicativo/Templates/template.html');
 $conteudo = '';
-$class    = 'Inicio';
+$classe    = 'Inicio';
 
 if ($_GET) {
     $classe = $_GET['classe'];
@@ -58,7 +58,8 @@ if ($_GET) {
         $conteudo = "Classe <b>{$classe} não encontrada";
     }
 }
+
 $saida = str_replace('{conteudo}', $conteudo, $template);
-$saida = str_replace('{conteudo}', $classe, $saida);
+$saida = str_replace('{classe}', $classe, $saida);
 echo $saida;
 

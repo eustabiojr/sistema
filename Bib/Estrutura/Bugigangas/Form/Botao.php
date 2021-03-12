@@ -43,13 +43,13 @@ class Botao extends Campo implements InterfaceElementoForm
         $url = $this->acao->serializa();
 
         # define as propriedades do botão
-        $tag = new Elemento('botao');
-        $tag->nome = $this->nome;
+        $tag = new Elemento('button');
+        $tag->name = $this->nome;
         $tag->type = 'button';
         $tag->adic($this->rotulo);
 
         # define ação do botão
-        $tag->onclick = "document.{$this->nomeForm}.action='{$url}';" . 
+        $tag->onclick = "document.{$this->nomeForm}.action='{$url}'; " . 
                             "document.{$this->nomeForm}.submit()";
 
         if ($this->propriedades) {

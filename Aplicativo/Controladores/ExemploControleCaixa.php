@@ -17,16 +17,16 @@ class ExemploControleCaixa extends Pagina
 
         $painel1 = new Painel('Painel 1');
         $painel1->style = 'margin: 10px';
-        $painel1->adic(str_repeat('sdf sdf sdf sdf sdf sdf sdf sdf sdf sdf', 5));
+        $painel1->adic(str_repeat('sdf sdf sdf sdf sdf sdf sdf sdf sdf sdf', 2));
 
        
         $painel2 = new Painel('Painel 2');
         $painel2->style = 'margin: 10px';
-        $painel2->adic(str_repeat('sdf sdf sdf sdf sdf sdf sdf sdf sdf sdf', 5));
+        $painel2->adic(str_repeat('sdf sdf sdf sdf sdf sdf sdf sdf sdf sdf', 2));
 
         $caixa = new CaixaH;
         $caixa->adic($painel1);
         $caixa->adic($painel2);
-        $caixa->exibe();
+        parent::adic($caixa);
     }
 }

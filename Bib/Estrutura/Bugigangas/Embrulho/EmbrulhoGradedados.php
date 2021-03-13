@@ -122,10 +122,10 @@ class EmbrulhoGradedados
             # percorre as ações
             foreach ($acoes as $acao) {
                 # obtém as propriedades da ação
-                $url = $acao['acao']->serializa();
-                $rotulo = $acao['label'];
-                $imagem = $acao['image'];
-                $campo  = $acao['field'];
+                $url    = $acao['acao']->serializa();
+                $rotulo = $acao['rotulo'];
+                $imagem = $acao['imagem'];
+                $campo  = $acao['campo'];
 
                 # obtém o campo do objeto que será passado adiante
                 $chave = $item->$campo;

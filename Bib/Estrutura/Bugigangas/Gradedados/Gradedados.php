@@ -32,7 +32,7 @@ class Gradedados
      */
     public function adicAcao($rotulo, InterfaceAcao $acao, $campo, $imagem = NULL)
     {
-        $this->acoes[] = ['label' => $rotulo, 'action' => $acao, 'field' => $campo, 'image' => $imagem];
+        $this->acoes[] = ['rotulo' => $rotulo, 'acao' => $acao, 'campo' => $campo, 'imagem' => $imagem];
     }
 
     /**

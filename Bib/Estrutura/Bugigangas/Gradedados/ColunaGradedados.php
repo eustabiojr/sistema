@@ -24,7 +24,7 @@ class ColunaGradedados
         # atribui os parâmetros às propriedades do objeto
         $this->nome       = $nome;
         $this->rotulo     = $rotulo;
-        $this->linhamento = $alinhamento;
+        $this->alinhamento = $alinhamento;
         $this->largura    = $largura;
     }
 

@@ -51,10 +51,10 @@ class FormFuncionario extends Pagina
         $contratacao->defEsboco('horizontal');
 
         # define alguns atributos
-        $departamento->adicItens(array('1' => 'RH',
-                                  '2' => 'Atendimento',
-                                  '3' => 'Engenharia',
-                                  '4' => 'Produção'));
+        $departamento->adicItens(array( '1' => 'RH',
+                                        '2' => 'Atendimento',
+                                        '3' => 'Engenharia',
+                                        '4' => 'Produção'));
 
         # define alguns atributos
         $idiomas->adicItens(array('1' => 'Inglês',

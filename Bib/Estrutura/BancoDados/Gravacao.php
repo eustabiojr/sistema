@@ -115,6 +115,7 @@ abstract class Gravacao implements InterfaceGravacao {
         $preparado = $this->prepara($this->dados);
 
         if (empty($this->dados['id']) OR (!$this->carrega($this->id))) {
+            # aqui incrementamos o ID
             if (empty($this->dados['id'])) {
                 $this->id = $this->obtUltimo() + 1;
                 $preparado['id'] = $this->id;
@@ -122,7 +123,7 @@ abstract class Gravacao implements InterfaceGravacao {
 
             # cria uma instrução INSERT
             $sql = "INSERT INTO {$this->obtEntidade()} " . 
-            '(' . implode(', ', array_keys($preparado)) . ' )';
+            '(' . implode(', ', array_keys($preparado)) . ' )' .
             ' VALUES ' . 
             '(' . implode(', ', array_values($preparado)) . ' )';
 
@@ -247,20 +248,23 @@ abstract class Gravacao implements InterfaceGravacao {
      * melhor este método por questões de segurança
      */
     public function escapa($valor) {
-        # aqui apenas verificamos se é string ou que não está vazio
-        if (is_string($valor) AND (!empty($valor))) {
-            # Adiciona \ em aspas
-            $valor = addslashes($valor);
-            return "'$valor'";
-        # já aqui verificamos se o valor é um booleano (VERDADEIRO ou FALSO)
-        } else if(is_bool($valor)) { 
-            return $valor ? 'TRUE' : 'FALSE';
-        # caso seja diferente de string em branco retornamos o valor
-        } else if ($valor !== '') {
-            return $valor;
-        # se for qualquer outra coisa retornamos nulo.
-        } else {
-            return "NULL";
+        # Verifica se úm dado escalar
+        if (is_scalar($valor)) {
+            # aqui apenas verificamos se é string ou que não está vazio
+            if (is_string($valor) AND (!empty($valor))) {
+                # Adiciona \ em aspas
+                $valor = addslashes($valor);
+                return "'$valor'";
+            # já aqui verificamos se o valor é um booleano (VERDADEIRO ou FALSO)
+            } else if(is_bool($valor)) { 
+                return $valor ? 'TRUE' : 'FALSE';
+            # caso seja diferente de string em branco retornamos o valor
+            } else if ($valor !== '') {
+                return $valor;
+            # se for qualquer outra coisa retornamos nulo.
+            } else {
+                return "NULL";
+            }
         }
     } # FIM do método 'escapa($valor)'
 }

@@ -49,6 +49,7 @@ class Combo extends Campo implements InterfaceElementoForm
             foreach ($this->itens as $chave => $item) {
                 # cria uma tag <option> para o item
                 $opcao = new Elemento('option');
+                $opcao->value = $chave;
                 $opcao->adic($item);
 
                 # caso seja a opção selecionada

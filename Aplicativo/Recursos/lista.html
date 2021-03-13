@@ -1,0 +1,25 @@
+<div class="panel panel-default" style="margin: 20px">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{titulo}}</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Endereço</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for pessoa in pessoas %}
+                <tr>
+                    <td>{{pessoa.codigo}}</td>
+                    <td>{{pessoa.nome}}</td>
+                    <td>{{pessoa.endereco}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

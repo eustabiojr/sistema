@@ -2,7 +2,7 @@
 
 return [
     'servidor' => "localhost",
-    'porta'      => "",
+    'porta'      => "5432",
     'nome'       => "ageubd",
     'usuario'    => "eustabiojr",
     'senha'      => "76198919",

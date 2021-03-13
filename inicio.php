@@ -29,6 +29,7 @@ $ce->registra();
 include_once "Bib/Estrutura/Nucleo/AutoCarregadorAplic.php";
 $ca = new Estrutura\Nucleo\AutoCarregadorAplic();
 $ca->adicPasta('Aplicativo/Controladores');
+$ca->adicPasta('Aplicativo/Modelos');
 $ca->registra();
 //-------------------------------------------------------------------------------------------
 

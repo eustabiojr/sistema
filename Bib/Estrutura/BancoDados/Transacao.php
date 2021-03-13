@@ -7,7 +7,6 @@
 # Espaço de nomes
 namespace Estrutura\BancoDados;
 
-use Estrutura\BancoDados\Conexao;
 use Estrutura\Historico\Historico;
 
  /**
@@ -28,7 +27,10 @@ final class Transacao {
     {
         if (empty(self::$conexao)) {
             self::$conexao = Conexao::abre($bd);
+            # inicia a transação
             self::$conexao->beginTransaction();
+            # desliga o histórico de SQL
+            self::$historico = NULL;
         }
     }
 
@@ -46,7 +48,8 @@ final class Transacao {
     public static function desfaz() 
     {
         if (self::$conexao) {
-            self::$conexao->desfaz();
+            // desfaz as operações realizadas durante a transação
+            self::$conexao->rollback();
             self::$conexao = NULL;
         }
     }
@@ -57,7 +60,8 @@ final class Transacao {
     public static function fecha() 
     {
         if (self::$conexao) {
-            self::$conexao->confirma();
+            # aplica as operações realizadas durante a transação
+            self::$conexao->commit();
             self::$conexao = NULL;
         }
     }

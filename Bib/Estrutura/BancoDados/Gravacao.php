@@ -17,7 +17,7 @@ use Estrutura\BancoDados\InterfaceGravacao;
  * 
  * Esta é uma classe abstrata, portanto não será instanciada diretamente
  */
-abstract class Gravacao extends InterfaceGravacao {
+abstract class Gravacao implements InterfaceGravacao {
     
     protected $dados; 
 
@@ -114,7 +114,7 @@ abstract class Gravacao extends InterfaceGravacao {
     {
         $preparado = $this->prepara($this->dados);
 
-        if (empty($this['id']) OR (!$this->carrega($this->id))) {
+        if (empty($this->dados['id']) OR (!$this->carrega($this->id))) {
             if (empty($this->dados['id'])) {
                 $this->id = $this->obtUltimo() + 1;
                 $preparado['id'] = $this->id;

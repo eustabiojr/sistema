@@ -41,21 +41,21 @@ use Exception;
      */
     public static function vetorBD($bd) {
         # Lê as informações contidas no arquivo de config
-        $usuario  = isset($bd['usuario'])  ?? NULL;
-        $senha    = isset($bd['senha'])    ?? NULL;
-        $nome     = isset($bd['nome'])     ?? NULL;
-        $servidor = isset($bd['servidor']) ?? NULL;
-        $tipo     = isset($bd['tipo'])     ?? NULL;
-        $porta    = isset($bd['porta'])    ?? NULL;
+        $usuario  = $bd['usuario']  ?? NULL;
+        $senha    = $bd['senha']    ?? NULL;
+        $nome     = $bd['nome']     ?? NULL;
+        $servidor = $bd['servidor'] ?? NULL;
+        $tipo     = $bd['tipo']     ?? NULL;
+        $porta    = $bd['porta']    ?? NULL;
 
         # Descobre qual o tipo (condutor) de banco de dados a ser utilizado
         switch ($tipo) {
             case 'pgsql':
-                $porta = isset($porta) ?? '5432';
+                $porta = $porta ?? '5432';
                 $conexao = new PDO("pgsql:dbname={$nome}; user={$usuario}; password={$senha}; host={$servidor}; port={$porta}; ");
             break;
             case 'mysql':
-                $porta = isset($porta) ?? '3306';
+                $porta = $porta ?? '3306';
                 $conexao = new PDO("mysql:host={$servidor}; port={$porta}; dbname={$nome}", $usuario, $senha);
             break;
             case 'sqlite':

@@ -8,7 +8,7 @@
 use Estrutura\BancoDados\Gravacao;
 
 /**
- * Classe Funcionario
+ * Classe Unidade
  */
 class Unidade extends Gravacao {
     const NOMETABELA = 'unidade';

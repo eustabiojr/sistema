@@ -8,7 +8,7 @@
 use Estrutura\BancoDados\Gravacao;
 
 /**
- * Classe Funcionario
+ * Classe Grupo
  */
 class Grupo extends Gravacao {
     const NOMETABELA = 'grupo';

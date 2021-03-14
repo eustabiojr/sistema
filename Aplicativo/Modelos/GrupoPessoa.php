@@ -8,8 +8,8 @@
 use Estrutura\BancoDados\Gravacao;
 
 /**
- * Classe Tipo
+ * Classe GrupoPessoa
  */
-class Tipo extends Gravacao {
-    const NOMETABELA = 'tipo';
+class GrupoPessoa extends Gravacao {
+    const NOMETABELA = 'grupo_pessoa';
 }

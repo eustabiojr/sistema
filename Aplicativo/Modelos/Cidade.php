@@ -8,7 +8,7 @@
 use Estrutura\BancoDados\Gravacao;
 
 /**
- * Classe Funcionario
+ * Classe Cidade
  */
 class Cidade extends Gravacao {
     const NOMETABELA = 'cidade';

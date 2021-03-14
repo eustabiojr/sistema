@@ -8,7 +8,7 @@
 use Estrutura\BancoDados\Gravacao;
 
 /**
- * Classe Funcionario
+ * Classe Fabricante
  */
 class Fabricante extends Gravacao {
     const NOMETABELA = 'fabricante';

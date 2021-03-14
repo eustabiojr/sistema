@@ -110,4 +110,24 @@ class FormFuncionario extends Pagina
         $arr = array();
         $this->form->defDados($arr);
     }
+
+    public function aoEditar($param)
+    {
+        try {
+            Transacao::abre('exemplo');
+
+            $id = $param['id'];
+
+            $funcionario = Funcionario::localiza($id);
+            if ($funcionario) {
+                if (isset($funcionario->idiomas)) {
+                    $funcionario->idiomas = explode(',', $funcionario->idiomas);
+                }
+                $this->form->defDados($funcionario);
+            }
+            Transacao::fecha();
+        } catch (Exception $e) {
+            new Mensagem('erro', $e->getMessage());
+        }
+    }
 }

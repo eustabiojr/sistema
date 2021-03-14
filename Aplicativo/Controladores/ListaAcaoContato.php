@@ -12,10 +12,16 @@ use Estrutura\Bugigangas\Gradedados\Gradedados;
 use Estrutura\Controle\Acao;
 use Estrutura\Controle\Pagina;
 
+/**
+ * Class ListaAcaoContato
+ */
 class ListaAcaoContato extends Pagina
 {
     private $gradedados;
 
+    /**
+     * Método Construtor
+     */
     public function __construct()
     {
         parent::__construct();
@@ -45,11 +51,17 @@ class ListaAcaoContato extends Pagina
         parent::adic($this->gradedados);
     }
 
+    /**
+     * Método aoVisualizar
+     */
     public function aoVisualizar($param)
     {
         new Mensagem('info', 'Você clicou sobre o registro: ' . $param['nome']);
     }
 
+    /**
+     * Método aoRecarregar
+     */
     public function aoRecarregar()
     {
         $this->gradedados->limpa();
@@ -69,6 +81,9 @@ class ListaAcaoContato extends Pagina
         $this->gradedados->adicItem($m2);
     }
 
+    /**
+     * Método exibe
+     */
     public function exibe()
     {
         $this->aoRecarregar();

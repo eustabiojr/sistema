@@ -13,13 +13,13 @@ class ItemVenda extends Gravacao
 
     private $produto;
 
-    public function defProduto(Produto $p)
+    public function def_produto(Produto $p)
     {
         $this->produto = $p;
         $this->id_produto = $p->id;
     }
 
-    public function obtProduto()
+    public function obt_produto()
     {
         if (empty($this->produto)) {
             $this->produto = new Produto($this->id_produto);

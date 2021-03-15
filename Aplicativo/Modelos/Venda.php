@@ -17,15 +17,15 @@ class Venda extends Gravacao
     private $itens;
     private $cliente;
 
-    const NOMETABELA = 'venda';
+    const NOMETABELA = 'movimento_estoque';
 
-    public function defCliente(Pessoa $c)
+    public function def_cliente(Pessoa $c)
     {
         $this->cliente = $c;
         $this->id_cliente = $c->id;
     }
 
-    public function obtCliente() 
+    public function obt_cliente() 
     {
         if (empty($this->cliente)) {
             $this->cliente = new Pessoa($this->id_cliente);
@@ -40,7 +40,7 @@ class Venda extends Gravacao
         $item->preco       = $p->preco_venda;
         $item->quantidade  = $quantidade;
         $this->itens[]     = $item;
-        $this->valor_venda += ($item->preco * $quantidade);
+        $this->valor += ($item->preco * $quantidade);
     }
 
     public function grava() 
@@ -59,7 +59,7 @@ class Venda extends Gravacao
         $repositorio = new Repositorio('ItemVenda');
         # define o critério de filtro
         $criterio = new Criterio;
-        $criterio->adic('id_venda', '=', $this->id);
+        $criterio->adic('id_movimento_estoque', '=', $this->id);
         $this->itens = $repositorio->carrega($criterio);
         return $this->itens;
     }

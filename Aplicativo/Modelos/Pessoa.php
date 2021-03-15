@@ -18,7 +18,7 @@ class Pessoa extends Gravacao
 
     private $cidade;
 
-    public function obtCidade()
+    public function obt_cidade()
     {
         if (empty($this->cidade)) {
             $this->cidade = new Cidade($this->id_cidade);
@@ -26,7 +26,7 @@ class Pessoa extends Gravacao
         return $this->cidade;
     }
 
-    public function obtNomeCidade() {
+    public function obt_nome_cidade() {
         if (empty($this->cidade)) {
             $this->cidade = new Cidade($this->id_cidade);
         }
@@ -46,7 +46,7 @@ class Pessoa extends Gravacao
         $criterio = new Criterio;
         $criterio->adic('id_pessoa', '=', $this->id);
 
-        $repo =  new Repositorio('PessoaGrupo');
+        $repo =  new Repositorio('GrupoPessoa');
         return $repo->apaga($criterio);
     }
 
@@ -56,7 +56,7 @@ class Pessoa extends Gravacao
         $criterio = new Criterio;
         $criterio->adic('id_pessoa', '=', $this->id);
 
-        $repo =  new Repositorio('PessoaGrupo');
+        $repo =  new Repositorio('GrupoPessoa');
         $vinculos = $repo->carrega($criterio);
 
         if ($vinculos) {

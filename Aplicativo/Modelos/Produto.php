@@ -16,7 +16,7 @@ class Produto extends Gravacao
 
   private $fabricante;
 
-  public function obtNomeFabricante()
+  public function obt_nome_fabricante()
   {
     if (empty($this->fabricante)) {
       $this->fabricante = new Fabricante($this->id_fabricante);

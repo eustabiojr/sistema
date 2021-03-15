@@ -13,11 +13,11 @@ use Estrutura\BancoDados\Repositorio;
  * Classe Conta
  */
 class Conta extends Gravacao {
-    const NOMETABELA = 'conta';
+    const NOMETABELA = 'conta_areceber';
 
     private $cliente;
 
-    public function obtCliente()
+    public function obt_cliente()
     {
         if (empty($this->cliente)) {
             $this->cliente = new Pessoa($this->id_cliente);
@@ -28,7 +28,7 @@ class Conta extends Gravacao {
     public static function obtPorPessoa($id_pessoa)
     {
         $criterio = new Criterio;
-        $criterio->adic('paga', '<>', 'S');
+        $criterio->adic('situacao', '<>', 'S');
         $criterio->adic('id_cliente', '=', $id_pessoa);
 
         $repo = new Repositorio('Conta');
@@ -49,13 +49,13 @@ class Conta extends Gravacao {
 
     public static function geraParcelas($id_cliente, $atraso, $valor, $parcelas) 
     {
-        $data = new DateTime(date('Y-m-d'));
+        $data = new DateTime(date('d-m-Y'));
         $data->add(new DateInterval('P'. $atraso . 'D'));
         for ($n = 1; $n <= $parcelas; $n++) {
             $conta = new self;
             $conta->id_cliente = $id_cliente;
-            $conta->dt_emissao = date('Y-m-d');
-            $conta->data_vencimento = $data->format('Y-m-d');
+            $conta->dt_emissao = date('d-m-Y');
+            $conta->data_vencimento = $data->format('d-m-Y');
             $conta->valor = $valor / $parcelas;
             $conta->paga = 'N';
             $conta->grava();

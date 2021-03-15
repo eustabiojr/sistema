@@ -1,0 +1,9 @@
+-- BANCO DE DADOS POSTGRES
+
+-- Data: 14/03/2021
+
+
+-- Comando de BACKUP que funcionou
+
+Atenção: Não é necessário entrar no shell do postgres para realizar o backup. Estando no shell do Linux dê o seguinte comando:
+pg_dump -h localhost -U eustabiojr ageubd > 14-03-2021-1-backup.sql

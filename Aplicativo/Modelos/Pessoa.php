@@ -35,10 +35,10 @@ class Pessoa extends Gravacao
 
     public function adicGrupo(Grupo $grupo)
     {
-        $pg = new GrupoPessoa;
-        $pg->id_grupo = $grupo->id;
-        $pg->id_pessoa = $this->id;
-        $pg->grava();
+        $gp = new GrupoPessoa;
+        $gp->id_grupo = $grupo->id;
+        $gp->id_pessoa = $this->id;
+        $gp->grava();
     }
 
     public function apagGrupos() 

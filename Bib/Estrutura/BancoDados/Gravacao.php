@@ -200,6 +200,16 @@ abstract class Gravacao implements InterfaceGravacao {
     } # FIM do método 'apaga($id = NULL)'
 
     /**
+     * Método todos
+     */
+    public static function todos()
+    {
+        $nomeclasse = get_called_class();
+        $rep = new Repositorio($nomeclasse);
+        return $rep->carrega(new Criterio);
+    }
+
+    /**
      * Método localiza
      */
     public static function localiza($id)

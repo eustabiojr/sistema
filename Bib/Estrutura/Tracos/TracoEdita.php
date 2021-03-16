@@ -11,7 +11,7 @@ use Estrutura\BancoDados\Transacao;
 use Estrutura\Bugigangas\Dialogo\Mensagem;
 use Exception;
 
-trait TracaoEdita 
+trait TracoEdita 
 {
     public function aoEditar($param)
     {

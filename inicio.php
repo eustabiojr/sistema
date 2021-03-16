@@ -12,7 +12,11 @@ date_default_timezone_set('America/Bahia');
 if (version_compare(PHP_VERSION, '8.0.0') == -1) {
     die('A versão mínima para executar esta aplicação é: 8.0.0');
 }
-
+/*
+            echo '<pre>';
+                print_r($objetos);
+            echo '</pre>';
+*/
 //------------------------------------------------------------------------------------------- 
 /**
  * Proximo passo: carregar classe dinamicamente (ou seja com parametro passado pelo URI)

@@ -17,7 +17,7 @@ trait TracoSalva
     {
         try {
             Transacao::abre($this->conexao);
-            $classe = $this->registroAtivo();
+            $classe = $this->registroAtivo;
             $dados  = $this->form->obtDados();
 
             $objeto = new $classe;

@@ -41,7 +41,7 @@ class FormProdutos extends Pagina
         $codigo      = new Entrada('id');
         $descricao   = new Entrada('descricao');
         $estoque     = new Entrada('estoque');
-        $preco_custo = new Entrada('preco_custo');
+        $preco_custo = new Entrada('preco_custo_bruto');
         $preco_venda = new Entrada('preco_venda');
         $fabricante  = new Combo('id_fabricante');
         $tipo        = new GrupoRadio('id_tipo');

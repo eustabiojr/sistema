@@ -65,7 +65,7 @@ class ListaProdutos extends Pagina
         $this->gradedados->adicColuna($estoque);
         $this->gradedados->adicColuna($preco);
 
-        $this->gradedados->adicAcao('Editar', new Acao([new FormPessoas, 'aoEditar']),
+        $this->gradedados->adicAcao('Editar', new Acao([new FormProdutos, 'aoEditar']),
             'id', 'fa fa-edit la-lg blue');
 
         $this->gradedados->adicAcao('Excluir', new Acao([$this, 'aoApagar']),

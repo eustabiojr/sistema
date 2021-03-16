@@ -38,8 +38,6 @@ class ListaBuscaFuncionario extends Pagina
         
         # cria os campos do formulário
         $nome = new Entrada('nome');
-
-        # cria os campos do formulário
         $this->form->adicCampo('Nome', $nome, 300); 
         $this->form->adicAcao('Buscar', new Acao(array($this, 'aoRecarregar')));
         $this->form->adicAcao('Novo', new Acao(array(new FormFuncionario, 'aoEditar')));

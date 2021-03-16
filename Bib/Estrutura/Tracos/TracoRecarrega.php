@@ -15,7 +15,7 @@ use Exception;
 
 trait TracoRecarrega 
 {
-    public function aoRecarregar($param)
+    public function aoRecarregar()
     {
         try {
             Transacao::abre($this->conexao);

@@ -145,7 +145,7 @@ abstract class Gravacao implements InterfaceGravacao {
 
         # obtém transação ativa
         if ($conexao = Transacao::obt()) {
-            Transacao::hist($sql); ### RECURSO A SER IMPLEMENTADO: histórico (log)
+            Transacao::hist($sql); ###
             $resultado = $conexao->exec($sql);
             return $resultado;
         } else {

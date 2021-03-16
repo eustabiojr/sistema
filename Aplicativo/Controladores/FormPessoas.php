@@ -83,12 +83,16 @@ class FormPessoas extends Pagina
         try {
             # inicia transação com o banco de dados
             Transacao::abre('exemplo');
+
+            //Transacao::defHistorico("/tmp/log");
             $dados = $this->form->obtDados();
+            
+            $idsGrupos = $dados->ids_grupos;
+
             $this->form->defDados($dados);
 
+            $grupo_pessoa = new GrupoPessoa;
             $pessoa = new Pessoa;
-            $pessoa->doArray((array) $dados);
-            $pessoa->grava();
 
             $pessoa->apagGrupos();
             if ($dados->ids_grupos) {
@@ -96,6 +100,12 @@ class FormPessoas extends Pagina
                     $pessoa->adicGrupo(new Grupo($id_grupo));
                 }
             }
+
+            unset($dados->ids_grupos);
+
+            $pessoa->doArray((array) $dados);
+            $pessoa->grava();
+
             Transacao::fecha();
             new Mensagem('info', 'Dados armazenados com sucesso');
         } catch (Exception $e) {

@@ -5,6 +5,7 @@
  * Data: 16/03/2021
  ************************************************************************************/
 
+use Estrutura\BancoDados\Transacao;
 use Estrutura\Bugigangas\Dialogo\Mensagem;
 use Estrutura\Bugigangas\Embrulho\EmbrulhoForm;
 use Estrutura\Bugigangas\Form\Combo;
@@ -25,6 +26,9 @@ class FormConcluiVenda extends Pagina
     {
         parent::__construct();
         new Sessao;
+
+        $this->conexao = 'exemplo';
+        $this->registroAtivo = 'Produto';
 
         # Instância um formulário
         $this->form = new EmbrulhoForm(new Form('form_conclui_venda')); 
@@ -85,7 +89,49 @@ class FormConcluiVenda extends Pagina
     public function aoGravarVenda()
     {
         try {
+            Transacao::abre($this->conexao);
+            $dados = $this->form->obtDados();
 
+            $cliente = Pessoa::localiza($dados->id_cliente);
+            if (!$cliente) {
+                throw new Exception('Cliente não encontrado!');
+            }
+
+            # verifica débitos
+            if ($cliente->totalDebitos() > 0) {
+                throw new Exception('Débitos impedem esta operação');
+            }
+
+            # inicia gravação da venda
+            $venda = new Venda;
+            $venda->cliente     = $dados->cliente;
+            $venda->data_venda  = date('Y-m-d');
+            $venda->desconto    = $dados->desconto;
+            $venda->acrescimos  = $dados->acrescimos;
+            $venda->valor_final = $dados->valor_final;
+            $venda->observacoes = $dados->obs;
+
+            # lê a variável lista da sessão
+            $itens = Sessao::obtValor('lista');
+            if ($itens) {
+                # percorre os itens
+                foreach ($itens as $item) {
+                    # adiciona item na venda
+                    $venda->adicItem(new Produto($item->id_produto), $item->quantidade);
+                }
+            }
+            # armazena venda no banco de dados
+            $venda->grava();
+
+            # gera o financeiro
+            Conta::geraParcelas($dados->id_cliente, 2, $dados->valor_final, $dados->parcelas);
+
+            Transacao::fecha();
+
+            Sessao::defValor('lista', array());
+
+            # exibe mensagem de sucesso
+            new Mensagem('info', 'Venda registrada com sucesso!');
         }  catch (Exception $e) {
             new Mensagem('erro', $e->getMessage());
         }

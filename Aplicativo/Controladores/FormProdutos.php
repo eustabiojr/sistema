@@ -26,6 +26,9 @@ class FormProdutos extends Pagina
     use TracoSalva;
     use TracoEdita;
 
+    /**
+     * Método Construtor
+     */
     public function __construct()
     {
         parent::__construct();

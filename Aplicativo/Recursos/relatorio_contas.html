@@ -1,0 +1,27 @@
+<table class="table table-bordered" width="100%" style="border-collapse: collapse; border: 1px solid #ddd">
+    <tr style="color: #C0C3E8;">
+        <td>Emissão</td>
+        <td>Vencimento</td>
+        <td>Cliente</td>
+        <td>Valor</td>
+        <td>Paga</td>
+    </tr>
+    {% set total = 0 %}
+    {% for conta in contas %}
+    <tr>
+        <td style="text-align: center">{{conta.data_emissao|date("d/m/Y")}}</td>
+        <td style="text-align: center">{{conta.data_vencimento|date("d/m/Y")}}</td>
+        <td>{{conta.nome_cliente}}</td>
+        <td style="text-align: right;">{{conta.valor|number_format(2, ',', '.')}}</td>
+        <td style="text-align: center; color:{{conta.paga == 'S' ? 'green' : 'red'}};">
+            <b>{{conta.paga == 'S' ? 'Sim' : 'Não'}}</b>
+        </td>
+    </tr>
+    {% set total = total + conta.valor %}
+    {% endfor %}
+    <tr style="background-color: whitesmoke;">
+        <td style="text-align: center;" colspan="3">Total</td>
+        <td style="text-align: right;">{{total|number_format(2, ',', '.')}}</td>
+        <td></td>
+    </tr>
+</table>

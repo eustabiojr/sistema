@@ -8,8 +8,6 @@
  namespace Estrutura\Bugigangas\Form;
 
 use Estrutura\Bugigangas\Base\Elemento;
-use Estrutura\Bugigangas\Form\Campo;
-use Estrutura\Bugigangas\Form\InterfaceElementoForm;
 
  /**
   * Class Rotulo

@@ -56,7 +56,7 @@ class FormVendas extends Pagina
         # instancia objeto grade de dados
         $this->gradedados = new EmbrulhoGradedados(new Gradedados);
 
-        $codigo     = new ColunaGradedados('id_produto', 'Código',    'center', '20%');
+        $codigo     = new ColunaGradedados('id', 'Código',    'center', '20%');
         $descricao  = new ColunaGradedados('descricao',  'Descrição', 'left',   '40%');
         $quantidade = new ColunaGradedados('quantidade', 'Estado',    'right',  '20%');
         $preco      = new ColunaGradedados('preco',      'Preço',     'right',  '20%');
@@ -91,15 +91,14 @@ class FormVendas extends Pagina
             # obtém os dados do formulário
             $item = $this->form->obtDados();
             Transacao::abre($this->conexao);
-
-            $produto = Produto::localiza($item->id_produto);
+            $produto = Produto::localiza($item->id);
             if ($produto) {
                 # busca mais informações do produto
                 $item->descricao = $produto->descricao;
                 $item->preco     = $produto->preco_venda;
 
                 $lista = Sessao::obtValor('lista');
-                $lista[$item->id_produto] = $item;
+                $lista[$item->id] = $item;
                 Sessao::defValor('lista', $lista);
             }
             Transacao::fecha();
@@ -118,7 +117,7 @@ class FormVendas extends Pagina
         $lista = Sessao::obtValor('lista');
 
         # exclui a posição que armazena o produto de código
-        unset($lista[$param['id_produto']]);
+        unset($lista[$param['id']]);
 
         # grava variável $lista de volta à sessão
         Sessao::defValor('lista', $lista);

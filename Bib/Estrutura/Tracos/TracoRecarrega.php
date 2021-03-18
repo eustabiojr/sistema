@@ -28,7 +28,7 @@ trait TracoRecarrega
             # verifica se há filtro predefinido
             if (isset($this->filtros)) {
                 foreach ($this->filtros as $filtro) {
-                    $criterio->adic($filtro[0], $filtro[1], $filtro[2], $filtro[3]);
+                    $criterio->adic($filtro[0], $filtro[1], $filtro[2]); # , $filtro[3]
                 }
             }
 

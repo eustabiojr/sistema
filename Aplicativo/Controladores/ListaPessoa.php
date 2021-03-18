@@ -38,7 +38,7 @@ class ListaPessoa extends Pagina
         
         $this->form->adicCampo('Nome',   $nome, '100%');
         $this->form->adicAcao('Buscar', new Acao(array($this, 'aoRecarregar')));
-        $this->form->adicAcao('Nome',   new Acao(array(new FormPessoas, 'aoEditar')));      
+        $this->form->adicAcao('Novo',   new Acao(array(new FormPessoas, 'aoEditar')));      
 
         # instancia objeto grade de dados
         $this->gradedados = new EmbrulhoGradedados(new Gradedados);

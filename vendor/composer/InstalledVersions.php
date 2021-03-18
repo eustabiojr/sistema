@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '55ecfb8d767a672ea7859ea836d1a02ef95e1c1b',
+    'reference' => '8b63d6a413a2c619f8f9cea6ce6000073b3a93a2',
     'name' => '__root__',
   ),
   'versions' => 
@@ -42,7 +42,25 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '55ecfb8d767a672ea7859ea836d1a02ef95e1c1b',
+      'reference' => '8b63d6a413a2c619f8f9cea6ce6000073b3a93a2',
+    ),
+    'bacon/bacon-qr-code' => 
+    array (
+      'pretty_version' => '2.0.3',
+      'version' => '2.0.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '3e9d791b67d0a2912922b7b7c7312f4b37af41e4',
+    ),
+    'dasprid/enum' => 
+    array (
+      'pretty_version' => '1.0.3',
+      'version' => '1.0.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5abf82f213618696dda8e3bf6f64dd042d8542b2',
     ),
     'dompdf/dompdf' => 
     array (
@@ -70,6 +88,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '5fa61b65e612ce1ae15f69b3d223cb14ecc60e32',
+    ),
+    'picqer/php-barcode-generator' => 
+    array (
+      'pretty_version' => 'v2.1.0',
+      'version' => '2.1.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '2221d834efab0dbfa9d37f9dfb4673d7f27f3757',
     ),
     'sabberworm/php-css-parser' => 
     array (

@@ -22,6 +22,10 @@ class ComposerStaticInit2518bc1144fdfa6cfb152c24a8dde8a7
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Svg\\' => 4,
         ),
+        'P' => 
+        array (
+            'Picqer\\Barcode\\' => 15,
+        ),
         'F' => 
         array (
             'FontLib\\' => 8,
@@ -29,6 +33,11 @@ class ComposerStaticInit2518bc1144fdfa6cfb152c24a8dde8a7
         'D' => 
         array (
             'Dompdf\\' => 7,
+            'DASPRiD\\Enum\\' => 13,
+        ),
+        'B' => 
+        array (
+            'BaconQrCode\\' => 12,
         ),
     );
 
@@ -49,6 +58,10 @@ class ComposerStaticInit2518bc1144fdfa6cfb152c24a8dde8a7
         array (
             0 => __DIR__ . '/..' . '/phenx/php-svg-lib/src/Svg',
         ),
+        'Picqer\\Barcode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/picqer/php-barcode-generator/src',
+        ),
         'FontLib\\' => 
         array (
             0 => __DIR__ . '/..' . '/phenx/php-font-lib/src/FontLib',
@@ -56,6 +69,14 @@ class ComposerStaticInit2518bc1144fdfa6cfb152c24a8dde8a7
         'Dompdf\\' => 
         array (
             0 => __DIR__ . '/..' . '/dompdf/dompdf/src',
+        ),
+        'DASPRiD\\Enum\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dasprid/enum/src',
+        ),
+        'BaconQrCode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bacon/bacon-qr-code/src',
         ),
     );
 

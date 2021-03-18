@@ -1,0 +1,22 @@
+<table class="table table-bordered" width="100%">
+    <tr>
+        <td colspan="5"><b>Produtos</b></td>
+    </tr>
+    <tr>
+        <td style="text-align: center; vertical-align: middle;">
+            <span style="font-size: 17pt;">
+                {{produto.id}} <br>
+                {{produto.descricao}} <br>
+                {{produto.estoque}} <br>
+                R$ {{produto.preco_venda}}
+            </span>
+        </td>
+        <td style="text-align: center; vertical-align: middle;">
+            {{produto.codigobarras | raw}}
+        </td>
+        <td style="text-align: center; vertical-align: middle;">
+            {{produto.qrcode | raw}}
+        </td>
+    </tr>
+    {% endfor %}
+</table>

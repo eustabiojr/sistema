@@ -32,6 +32,9 @@ class ListaProdutos extends Pagina
         aoRecarregar as tracoAoRecarregar;
     }
 
+    /**
+     * Método Construtor
+     */
     public function __construct()
     {
         parent::__construct();

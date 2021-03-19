@@ -22,6 +22,9 @@ class FormConcluiVenda extends Pagina
 {
     private $form;
 
+    /**
+     * Método Construtor
+     */
     public function __construct()
     {
         parent::__construct();

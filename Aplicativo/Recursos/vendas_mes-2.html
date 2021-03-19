@@ -1,0 +1,23 @@
+<canvas id="bar-chart" height="500"></canvas>
+<script>
+    new Chart(document.getElementById("bar-chart"),
+        type: 'bar',
+        data: {
+            labels: {{rotulos|raw}},
+            grupodados: [ {
+
+            }],
+            data: {{data|raw}},
+            borderWidth: 2,
+            borderColor: [ 'rgb(200,57,18)', 'rgb(255,153,0)', 'rgb(16,150,24)', 'rgb(153,0,153']
+        }]},
+        options: {
+            legend: { display: false}, 
+            maintainAspectRadio: false,
+            title: {
+                title: true,
+                text: '{{titulo}}'
+            }
+        }
+    );
+</script>

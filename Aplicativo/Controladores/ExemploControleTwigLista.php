@@ -9,8 +9,14 @@ use Estrutura\Controle\Pagina;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
+/**
+ * Classe ExemploControleTwigLista
+ */
 class ExemploControleTwigLista extends Pagina 
 {
+    /**
+     * Método Construtor
+     */
     public function __construct()
     {
         parent::__construct();

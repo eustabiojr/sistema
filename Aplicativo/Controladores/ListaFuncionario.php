@@ -24,6 +24,9 @@ class ListaFuncionario extends Pagina
     private $gradedados;
     private $carregado;
 
+    /**
+     * Método Construtor
+     */
     public function __construct()
     {
         parent::__construct();

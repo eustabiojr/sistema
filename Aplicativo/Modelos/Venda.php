@@ -100,13 +100,23 @@ class Venda extends Gravacao
         $meses[12] = 'Dezembro';
 
         $conexao = Transacao::obt();
-        $resultado = $conexao->query("SELECT strftime('%m', data_venda) AS mes, sum(valor_final) AS
-            valor FROM venda GROUP BY 1");
+        /*$resultado = $conexao->query("SELECT strftime('%m', data_movimento) AS mes, sum(valor_final) AS
+            valor FROM movimento_estoque GROUP BY 1"); */
+
+        $resultado = $conexao->query("SELECT date_part('MONTH',data_movimento) AS mes, sum(valor_final) AS valor
+                                         FROM movimento_estoque GROUP BY 1");
         $grupodados = [];
         foreach ($resultado as $linha) {
             $mes = $meses[ (int) $linha['mes']];
             $grupodados[$mes] = $linha['valor'];
         }
         return $grupodados;
+
+        # SELECT * FROM movimento_estoque GROUP BY 1;
+        # SELECT valor_final FROM movimento_estoque GROUP BY 1;
+        # SELECT valor_final AS valor FROM movimento_estoque GROUP BY 1;
+        # SELECT sum(valor_final) AS valor FROM movimento_estoque GROUP BY 1;
+        # SELECT id, sum(valor_final) AS valor FROM movimento_estoque GROUP BY 1;
+        # SELECT date_part('MONTH',data_movimento) AS mes, sum(valor_final) AS valor FROM movimento_estoque GROUP BY 1;
     }
 }

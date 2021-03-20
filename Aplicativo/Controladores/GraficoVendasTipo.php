@@ -15,7 +15,7 @@ use Twig\Loader\FilesystemLoader;
 /**
  * Classe GraficoVendasMes 4910116 197203008
  */
-class GraficoVendasMes extends Pagina
+class GraficoVendasTipo extends Pagina
 {
     /**
      * Método Construtor
@@ -29,7 +29,7 @@ class GraficoVendasMes extends Pagina
 
         $carregador = new FilesystemLoader('Aplicativo/Recursos');
         $twig = new Environment($carregador);
-        $template = $twig->loadTemplate('vendas_mes.html');
+        $template = $twig->loadTemplate('vendas_tipo.html');
 
         try {
             # inicia transação com o banco de dados
@@ -44,14 +44,14 @@ class GraficoVendasMes extends Pagina
 
         # vetor de parâmetros para o template
         $substituicoes = array();
-        $substituicoes['titulo'] = 'Vendas por mês';
+        $substituicoes['titulo'] = 'Vendas por tipo';
         $substituicoes['rotulos'] = json_encode(array_keys($vendas));
         $substituicoes['dados'] = json_encode(array_values($vendas));
 
         $conteudo = $template->render($substituicoes);
 
         # cria um painel para conter o formulário
-        $painel = new Painel('Vendas/Mês');
+        $painel = new Painel('Vendas/Tipo');
         $painel->adic($conteudo);
 
         parent::adic($painel);

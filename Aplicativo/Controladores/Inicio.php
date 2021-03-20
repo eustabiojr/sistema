@@ -11,7 +11,7 @@ class Inicio extends Pagina
 {
     public function __construct()
     {
-        echo "<p>Construtor do controlador inicial</p>\n";
+        #echo "<p>Construtor do controlador inicial</p>\n";
     }
 
     public function Saudacao() 

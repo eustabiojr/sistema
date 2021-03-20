@@ -33,43 +33,25 @@ class FormEntrar extends Pagina
         # Instância um formulário
         $this->form = new EmbrulhoForm(new Form('form_entrar'));
         $this->form->defTitulo('Entrar');
+        $this->form->defTipoLinha(1);
 
         # cria os campos do formulário
         $usuario  = new Entrada('usuario');
-        $usuario->type  = "email";
-        $usuario->id    = "entradaUsuario";
-        $usuario->class = "form-control";
-        $usuario->{'required'} = '';
-        $usuario->{'autofocus'} = '';
+        $usuario->class    = "form-control";
+        $usuario->id    = "entradaUsuario"; 
+        #$usuario->{'required'} = '';
+        #$usuario->{'autofocus'} = '';
         $usuario->placeholder = 'admin';
 
         $senha   = new Senha('senha');
-        $senha->type  = "email";
+        $senha->class    = "form-control";
         $senha->id    = "entradaSenha";
-        $senha->class = "form-control";
-        $senha->{'required'} = '';
+        #$senha->{'required'} = '';
         $senha->placeholder = 'senha';
 
         $this->form->adicCampo('Entrar', $usuario, 200);
         $this->form->adicCampo('Senha', $senha, 200);
         $this->form->adicAcao('Entrar', new Acao(array($this, 'aoEntrar')));
-/*
-        <form>
-        #<img class="mb-2" src="Aplicativo/Templates/ativos/marca/logo_ageu.svg" alt="" width="150" height="160">
-        #<h1 class="h3 mb-3 fw-normal">Por favor se registre</h1>
-        #<label for="inputEmail" class="visually-hidden">Email</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
-        <label for="inputPassword" class="visually-hidden">Senha</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Senha" required>
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me"> Lembre-me
-          </label>
-        </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Entrar</button>
-        <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
-      </form>
-      */
 
         parent::adic($this->form);
     }

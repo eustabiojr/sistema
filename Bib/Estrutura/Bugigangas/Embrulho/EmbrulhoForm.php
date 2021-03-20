@@ -18,6 +18,8 @@ use Estrutura\Bugigangas\Form\Botao;
 class EmbrulhoForm 
 {
     private $decorado;
+    private $elemento;
+    private $tipoLinha;
 
     /**
      * Método Construtor
@@ -36,37 +38,34 @@ class EmbrulhoForm
     }
 
     /**
+     * Método defTipoLinha
+     */
+    public function defTipoLinha($tipo = '')
+    {
+        $this->tipoLinha = $tipo;
+    }
+
+    /**
+     * Método defTipoLinha
+     */
+    public function obtTipoLinha()
+    {
+        return $this->tipoLinha;
+    }
+
+    /**
      * Método exibe
      */
     public function exibe()
     {
-        $elemento = new Elemento('form');
-        $elemento->name  = $this->decorado->obtNome();
-        $elemento->class = "form-horizontal";
-        $elemento->enctype = "multipart/form-data";
-        $elemento->method  = 'post';
-        $elemento->width   = '100%';
+        $this->elemento = new Elemento('form');
+        $this->elemento->name  = $this->decorado->obtNome();
+        $this->elemento->class = "form-horizontal";
+        $this->elemento->enctype = "multipart/form-data";
+        $this->elemento->method  = 'post';
+        $this->elemento->width   = '100%';
 
-        /**
-         * O laço abaixo é repetido para cada campo do formulário
-         */
-        foreach ($this->decorado->obtCampos() as $campo) {
-            $grupo = new Elemento('div');
-            $grupo->class = 'mb-3';
-
-            $rotulo = new Elemento('label');
-            $rotulo->class = 'form-label';
-            $rotulo->adic($campo->obtRotulo());
-
-            $col = new Elemento('div');
-            $col->class = 'col-sm-10';
-            $col->adic($campo);
-            $campo->class = 'form-control';
-
-            $grupo->adic($rotulo);
-            $grupo->adic($col);
-            $elemento->adic($grupo);
-        }
+        $this->criaLinhaForm($this->decorado->obtCampos(), $this->obtTipoLinha());
 
         $grupo = new Elemento('div');
         $i = 0;
@@ -77,14 +76,100 @@ class EmbrulhoForm
             $botao = new Botao($nome);
             $botao->defNomeForm($this->decorado->obtNome());
             $botao->defAcao($acao, $rotulo);
-            $botao->class = 'btn ' . ( ($i==0) ? 'btn-success' : 'btn-default');
+            # 
+            if ($this->obtTipoLinha() == 1) {
+                $botao->class = 'w-100 btn btn-lg btn-primary';
+            } else {
+                $botao->class = 'btn ' . ( ($i==0) ? 'btn-success' : 'btn-default');   
+            }
             $grupo->adic($botao);
             $i++;
         }
 
         $painel = new Painel($this->decorado->obtTitulo());
-        $painel->adic($elemento);
+        $painel->adic($this->elemento);
         $painel->adicRodape($grupo);
         $painel->exibe();
+    }
+
+    /**
+     * Método criaLinhaForm 
+     * 
+     * O laço abaixo é repetido para cada campo do formulário
+     */
+    private function criaLinhaForm($campos, $tipo = 1, $msg = 'Por favor registre-se')
+    {
+        switch($tipo) {
+            case 1:
+                if($campos) {
+
+                    $imagem = new Elemento('img');
+                    $imagem->class  = 'mb-4';
+                    $imagem->src    = '';
+                    $imagem->alt    = '';
+                    $imagem->width  = 60;
+                    $imagem->height = 53;
+
+                    $h1 = new Elemento('h1');
+                    $h1->class = 'h3 mb-3 fw-normal';
+                    $h1->adic($msg);
+
+                    $this->elemento->adic($imagem);
+                    $this->elemento->adic($h1);
+
+                    /**
+                     * O laço abaixo é repetido para cada campo do formulário
+                     */
+                    foreach ($campos as $campo) {
+         
+                        $rotulo = new Elemento('label');
+                        $rotulo->class = 'visually-hidden';
+                        $rotulo->adic($campo->obtRotulo());
+        
+                        $this->elemento->adic($rotulo);
+                        $this->elemento->adic($campo);
+                    }
+
+                    $entrada = new Elemento('input');
+                    $entrada->type = 'checkbox';
+                    $entrada->value = 'Ficar conectado';
+                    $entrada->adic("Ficar conectado");
+                    $rotulo = new Elemento('label');
+                    $rotulo->adic($entrada);
+
+                    $div = new Elemento('div');
+                    $div->class = 'checkbox mb-3';
+                    $div->adic($rotulo);
+
+                    $this->elemento->adic($div);
+                }
+            break;
+
+            default:
+                if($campos) {
+                    /**
+                     * O laço abaixo é repetido para cada campo do formulário
+                     */
+                    foreach ($campos as $campo) {
+                        
+                        $grupo = new Elemento('div');
+                        $grupo->class = 'mb-3';
+        
+                        $rotulo = new Elemento('label');
+                        $rotulo->class = 'form-label';
+                        $rotulo->adic($campo->obtRotulo());
+        
+                        $col = new Elemento('div');
+                        $col->class = 'col-sm-10';
+                        $col->adic($campo);
+                        $campo->class = 'form-control';
+        
+                        $grupo->adic($rotulo);
+                        $grupo->adic($col);
+                        $this->elemento->adic($grupo);
+                    }
+                }
+            break;
+        }
     }
 }

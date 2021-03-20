@@ -34,7 +34,7 @@ class Combo extends Campo implements InterfaceElementoForm
     {
         # atribui as propriedades da tag
         $tag = new Elemento('select'); 
-        $tag->class = 'combo';
+        $tag->class = 'form-select';
         $tag->name = $this->nome;
         $tag->style = "width: {$this->tamanho}";
         

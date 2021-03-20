@@ -34,6 +34,22 @@ class FormEntrar extends Pagina
         $this->form = new EmbrulhoForm(new Form('form_entrar'));
         $this->form->defTitulo('Entrar');
 
+        $logo = new Elemento('img');
+        $logo->class  = "mb-2";
+        $logo->src    = "Aplicativo/Templates/ativos/marca/logo_ageu.svg";
+        $logo->alt    = "";
+        $logo->width  = "150";
+        $logo->height = "160";
+
+        $titulo = new Elemento('h1');
+        $titulo->class = "h3 mb-3 fw-normal";
+        $titulo->adic("Por favor se registre");
+
+        $rotulo = new Elemento('label');
+        $rotulo->for = "entradaUsuario";
+        $rotulo->class = "visually-hidden";
+        $rotulo->adic("Usuário");
+
         # cria os campos do formulário
         $usuario  = new Entrada('usuario');
         $usuario->type  = "email";
@@ -49,6 +65,18 @@ class FormEntrar extends Pagina
         $senha->class = "form-control";
         $senha->{'required'} = '';
         $senha->placeholder = 'senha';
+
+        $entrada = new BotaoCheck('lembre-me');
+        $entrada->value = "Lembre-me";
+
+        $rotulo = new Elemento('label');
+
+        $div = new Elemento('div');
+        $div->class = "checkbox mb-3";
+
+        $paragrafo = new Elemento('p');
+        $paragrafo->class = "mt-5 mb-3 text-muted";
+        $paragrafo->adic("&copy; 2020–2021");
 
         $this->form->adicCampo('Entrar', $usuario, 200);
         $this->form->adicCampo('Senha', $senha, 200);

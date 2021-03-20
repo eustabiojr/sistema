@@ -46,10 +46,10 @@ $conteudo = '';
 new Sessao;
 
 if (Sessao::obtValor('logado')) {
-    $template = file_get_contents('Aplicativo/Templates/template.html');
+    $template = file_get_contents('Aplicativo/Templates/painelcontrole.html');
     $classe = 'Inicio';
 } else {
-    $template = file_get_contents('Aplicativo/Templates/entrar.html');
+    $template = file_get_contents('Aplicativo/Templates/entrar2.html');
     $classe = 'FormEntrar';
 }
 

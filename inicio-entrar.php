@@ -47,6 +47,7 @@ new Sessao;
 
 if (Sessao::obtValor('logado')) {
     $template = file_get_contents('Aplicativo/Templates/template.html');
+    $classe = 'Inicio';
 } else {
     $template = file_get_contents('Aplicativo/Templates/entrar.html');
     $classe = 'FormEntrar';

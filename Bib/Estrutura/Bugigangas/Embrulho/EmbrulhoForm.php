@@ -19,16 +19,25 @@ class EmbrulhoForm
 {
     private $decorado;
 
+    /**
+     * Método Construtor
+     */
     public function __construct(Form $form)
     {
         $this->decorado = $form;
     }
 
+    /**
+     * Método __call
+     */
     public function __call($metodo, $parametros)
     {
         return call_user_func_array(array($this->decorado,  $metodo), $parametros);
     }
 
+    /**
+     * Método exibe
+     */
     public function exibe()
     {
         $elemento = new Elemento('form');
@@ -38,12 +47,15 @@ class EmbrulhoForm
         $elemento->method  = 'post';
         $elemento->width   = '100%';
 
+        /**
+         * O laço abaixo é repetido para cada campo do formulário
+         */
         foreach ($this->decorado->obtCampos() as $campo) {
             $grupo = new Elemento('div');
-            $grupo->class = 'form-group';
+            $grupo->class = 'mb-3';
 
             $rotulo = new Elemento('label');
-            $rotulo->class = 'col-sm-2 control-label';
+            $rotulo->class = 'form-label';
             $rotulo->adic($campo->obtRotulo());
 
             $col = new Elemento('div');
@@ -58,6 +70,8 @@ class EmbrulhoForm
 
         $grupo = new Elemento('div');
         $i = 0;
+
+        # Os botões abaixo 
         foreach ($this->decorado->obtAcoes() as $rotulo => $acao) {
             $nome = strtolower(str_replace(' ', '_', $rotulo));
             $botao = new Botao($nome);
@@ -67,6 +81,7 @@ class EmbrulhoForm
             $grupo->adic($botao);
             $i++;
         }
+
         $painel = new Painel($this->decorado->obtTitulo());
         $painel->adic($elemento);
         $painel->adicRodape($grupo);

@@ -45,7 +45,7 @@ $conteudo = '';
 
 new Sessao;
 
-Sessao::verificaAtividade();
+#Sessao::verificaAtividade();
 
 # Acho que devemos atualizar o tempo da sessão quando.
 /**

@@ -57,10 +57,9 @@ class FormEntrar extends Pagina
         #$senha->{'required'} = '';
         $senha->placeholder = 'senha';
 
-        $ficha = new Oculto('ficha_sinc');
-        if (!$_GET) {
-            $ficha->value = $this->defFicha();
-        }
+        $ficha = new Entrada('ficha_sinc');
+        $ficha->defEditavel(FALSE);
+        $ficha->value = Sessao::obtValor('ficha_sinc');
 
         $this->form->adicCampo('Entrar', $usuario, 200);
         $this->form->adicCampo('Senha', $senha, 200);
@@ -81,14 +80,14 @@ class FormEntrar extends Pagina
 
         $entrada = new Usuario();
 
-        #echo "<p>Ficha enviada: " . $dados->ficha_sinc . "</p>" . PHP_EOL;
+        echo "<p>Ficha enviada: " . $dados->ficha_sinc . "</p>" . PHP_EOL;
 
         #echo "<p>Ficha gravada: " . Sessao::obtValor('ficha_sinc') . "</p>" . PHP_EOL;
 
         $ficha = $this->verificaFicha($dados->ficha_sinc);
 
-        #$teste =  $ficha ? "Sim" : "Não";
-        #echo "<p> Ficha confere? " . $teste . "</p>" . PHP_EOL;
+        $teste =  $ficha ? "Sim" : "Não";
+        echo "<p> Ficha confere? " . $teste . "</p>" . PHP_EOL;
 
         $rst = $entrada->fazLogin($dados->usuario, $dados->senha);
 
@@ -123,6 +122,9 @@ class FormEntrar extends Pagina
         } else {
             return false;
         }
+
+        # Só devemos alterar a ficha após a última ficha ser conferida
+        $this->defFicha();
     }
 
     /**

@@ -5,11 +5,16 @@
  * Data: 19/03/2021
  ************************************************************************************/
 
+use Estrutura\BancoDados\Criterio;
+use Estrutura\BancoDados\Repositorio;
+use Estrutura\BancoDados\Transacao;
 use Estrutura\Bugigangas\Base\Elemento;
+use Estrutura\Bugigangas\Dialogo\Mensagem;
 use Estrutura\Bugigangas\Embrulho\EmbrulhoForm;
 use Estrutura\Bugigangas\Form\BotaoCheck;
 use Estrutura\Bugigangas\Form\Entrada;
 use Estrutura\Bugigangas\Form\Form;
+use Estrutura\Bugigangas\Form\Oculto;
 use Estrutura\Bugigangas\Form\Rotulo;
 use Estrutura\Bugigangas\Form\Senha;
 use Estrutura\Controle\Acao;
@@ -22,12 +27,15 @@ use Estrutura\Sessao\Sessao;
 class FormEntrar extends Pagina
 {
     private $form;
+    private $conexao;
 
     /**
      * Método Construtor
      */
     public function __construct()
     {
+        $this->conexao = 'exemplo';
+
         parent::__construct();
 
         # Instância um formulário
@@ -49,8 +57,14 @@ class FormEntrar extends Pagina
         #$senha->{'required'} = '';
         $senha->placeholder = 'senha';
 
+        $ficha = new Oculto('ficha_sinc');
+        if (!$_GET) {
+            $ficha->value = $this->defFicha();
+        }
+
         $this->form->adicCampo('Entrar', $usuario, 200);
         $this->form->adicCampo('Senha', $senha, 200);
+        $this->form->adicCampo('Senha', $ficha);
         $this->form->adicAcao('Entrar', new Acao(array($this, 'aoEntrar')));
 
         parent::adic($this->form);
@@ -61,11 +75,37 @@ class FormEntrar extends Pagina
      */
     public function aoEntrar($param)
     {
+        Transacao::abre($this->conexao);
+
         $dados = $this->form->obtDados();
-        if ($dados->usuario == 'admin' AND $dados->senha == 'admin') {
-            Sessao::defValor('logado', TRUE);
-            echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
-        }
+
+        $entrada = new Usuario();
+
+        #echo "<p>Ficha enviada: " . $dados->ficha_sinc . "</p>" . PHP_EOL;
+
+        #echo "<p>Ficha gravada: " . Sessao::obtValor('ficha_sinc') . "</p>" . PHP_EOL;
+
+        $ficha = $this->verificaFicha($dados->ficha_sinc);
+
+        #$teste =  $ficha ? "Sim" : "Não";
+        #echo "<p> Ficha confere? " . $teste . "</p>" . PHP_EOL;
+
+        $rst = $entrada->fazLogin($dados->usuario, $dados->senha);
+
+        if ($ficha) {
+            if ($rst) {
+                echo "<p> Logado com sucesso!</p>" . PHP_EOL;
+                Sessao::defValor('logado', TRUE);
+                Sessao::atualizaAtividade();
+                echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
+            }  else {
+                new Mensagem('erro', 'Senha ou usuario incorreto!');
+            }   
+        }  else {
+            Sessao::defValor('logado', FALSE);
+            #echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
+            new Mensagem('erro', 'Detectada tentativa de invasão!');
+        }   
     }
 
     /**
@@ -74,5 +114,25 @@ class FormEntrar extends Pagina
     public function aoSair($param) {
         Sessao::defValor('logado', FALSE);
         echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
+    }
+
+    private function verificaFicha($ficha)
+    {
+        if ($ficha == Sessao::obtValor('ficha_sinc')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Método defFicha
+     */
+    private function defFicha() {
+        # define ficha sincronizadora do formulário
+        $ficha = md5(uniqid('auth'));
+        Sessao::defValor('ficha_sinc', $ficha);
+
+        return $ficha;
     }
 }

@@ -26,6 +26,8 @@ use Twig\Loader\FilesystemLoader;
 class RelatorioContas extends Pagina
 {
     private $form;
+    private $conexao;
+    private $registroAtivo;
 
     /**
      * Método Construtor

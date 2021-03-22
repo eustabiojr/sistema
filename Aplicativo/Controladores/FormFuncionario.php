@@ -22,9 +22,12 @@ use Estrutura\Controle\Pagina;
 class FormFuncionario extends Pagina
 {
     private $form;
+    private $conexao;
 
     public function __construct()
     {
+        $this->conexao = 'exemplo';
+
         # Instância um formulário
         $this->form = new EmbrulhoForm(new Form('form_funcionario'));
         $this->form->defTitulo('Formulário de funcionário');
@@ -77,7 +80,7 @@ class FormFuncionario extends Pagina
     public function aoSalvar() 
     {
         try {
-            Transacao::abre('exemplo');
+            Transacao::abre($this->conexao);
 
             # obtém os dados
             $dados = $this->form->obtDados();
@@ -114,7 +117,7 @@ class FormFuncionario extends Pagina
     public function aoEditar($param)
     {
         try {
-            Transacao::abre('exemplo');
+            Transacao::abre($this->conexao);
 
             $id = $param['id'];
 

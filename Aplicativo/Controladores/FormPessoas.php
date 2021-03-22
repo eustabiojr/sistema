@@ -22,6 +22,8 @@ use Estrutura\Controle\Pagina;
 class FormPessoas extends Pagina
 {
     private $form;
+    private $conexao;
+    private $registroAtivo;
 
     /**
      * Método Construtor
@@ -29,6 +31,9 @@ class FormPessoas extends Pagina
     public function __construct()
     {
         parent::__construct();
+
+        $this->conexao = 'exemplo';
+        $this->registroAtivo = 'Pessoa';
 
         # Instância um formulário
         $this->form = new EmbrulhoForm(new Form('form_pessoas'));
@@ -82,7 +87,7 @@ class FormPessoas extends Pagina
     {
         try {
             # inicia transação com o banco de dados
-            Transacao::abre('exemplo');
+            Transacao::abre($this->registroAtivo);
 
             //Transacao::defHistorico("/tmp/log");
             $dados = $this->form->obtDados();
@@ -121,7 +126,7 @@ class FormPessoas extends Pagina
                 $id = $param['id'];
 
                 # inicia transação com o banco de dados
-                Transacao::abre('exemplo');
+                Transacao::abre($this->registroAtivo);
 
                 $pessoa = Pessoa::localiza($id);
                 if ($pessoa) {

@@ -45,19 +45,31 @@ $conteudo = '';
 
 new Sessao;
 
+Sessao::verificaAtividade();
+
+# Acho que devemos atualizar o tempo da sessão quando.
+/**
+ * Acho que a lógica é a seguinte. Verificamos se a sessão ainda é válida. 
+ * Se for válida, restauramos o tempo de sessão. Em caso negativo, definimos
+ * a sessão como não logado.
+ */
+
 if (Sessao::obtValor('logado')) {
+
     $template = file_get_contents('Aplicativo/Templates/painelcontrole.html');
     $classe = 'Inicio';
+
 } else {
     $template = file_get_contents('Aplicativo/Templates/entrar2.html');
     $classe = 'FormEntrar';
 }
 
 if (isset($_GET['classe']) AND Sessao::obtValor(('logado'))) {
-    $classe = $_GET['classe'];
+        $classe = $_GET['classe'];
 }
 
 if(class_exists($classe)) {
+
     try {
         $pagina = new $classe;
         ob_start();

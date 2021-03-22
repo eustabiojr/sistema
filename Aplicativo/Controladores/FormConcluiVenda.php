@@ -21,6 +21,8 @@ use Estrutura\Sessao\Sessao;
 class FormConcluiVenda extends Pagina
 {
     private $form;
+    private $conexao;
+    private $registroAtivo;
 
     /**
      * Método Construtor

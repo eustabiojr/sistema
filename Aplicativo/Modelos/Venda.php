@@ -50,7 +50,7 @@ class Venda extends Gravacao
         $item->preco       = $p->preco_venda;
         $item->quantidade  = $quantidade;
         $this->itens[]     = $item;
-        $this->valor += ($item->preco * $quantidade);
+        $this->valor      += ($item->preco * $quantidade);
     }
 
     /**

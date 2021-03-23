@@ -52,6 +52,8 @@ class Sessao
     }
 
     /**
+     * Método atualizaAtividade
+     * 
      * Quando vamos definir o tempo de atividade?
      * 
      * A sessão é iniciada na página inicio.php
@@ -66,7 +68,7 @@ class Sessao
     {
         self::$agora = time();
 
-        $carencia = self::$agora + (30);
+        $carencia = self::$agora + (60);
         
         Sessao::defValor('tempo', $carencia);
 
@@ -74,6 +76,12 @@ class Sessao
     }
 
     # verificaForcaBruta()
+    /**
+     * Método verificaAtividade
+     * 
+     * Por razões de segurança este método deve ser usado para fazer logout, caso o usuário
+     * fique inativo por muito tempo na página.
+     */
     public static function verificaAtividade()
     {
         self::$agora = time();
@@ -95,11 +103,10 @@ class Sessao
         if (Sessao::obtValor('tempo') > self::$agora) {
 
             self::atualizaAtividade();
-            self::defValor('logado', TRUE);
             #echo "<p>Logado</p>" . PHP_EOL;
             return true;
         } else {
-
+            
             self::defValor('logado', FALSE);
 
             #echo "<p>Não logado</p>" . PHP_EOL;

@@ -60,14 +60,14 @@ class FormEntrar extends Pagina
         #$senha->{'required'} = '';
         $senha->placeholder = 'senha';
 
-        $ficha = new Entrada('ficha_sinc');
-        $ficha->defEditavel(FALSE);
+        $ficha = new Oculto('ficha_sinc');
+        #$ficha->defEditavel(FALSE);
 
         # definindo a ficha no carregamento inicial da página.
-        #if (!$_GET) {
+        if (!$_GET) {
             #echo "Carregamento inicial <br>RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR";
             $this->autenticador->defFicha();
-        #}
+        }
 
         # obtém a ficha no formulário
         $ficha->value = $this->autenticador->obtFicha();
@@ -89,30 +89,39 @@ class FormEntrar extends Pagina
 
         $dados = $this->form->obtDados();
 
-        echo "<p>Ficha enviada: " . $dados->ficha_sinc . "</p>" . PHP_EOL;
+        #echo "<p>Ficha enviada: " . $dados->ficha_sinc . "</p>" . PHP_EOL;
 
-        echo "<p>Ficha gravada: " . Sessao::obtValor('ficha_sinc') . "</p>" . PHP_EOL;
+        #echo "<p>Ficha gravada: " . Sessao::obtValor('ficha_sinc') . "</p>" . PHP_EOL;
 
         $ficha = $this->autenticador->verificaFicha($dados->ficha_sinc);
-        $teste =  $ficha ? "Sim" : "Não";
-        echo "<p> Ficha confere? " . $teste . "</p>" . PHP_EOL;
-
-        echo "<p>Ficha gravada (APÓS CONFERENCIA): " . Sessao::obtValor('ficha_sinc') . "</p>" . PHP_EOL;
+        #$teste =  $ficha ? "Sim" : "Não";
+        #echo "<p> Ficha confere? " . $teste . "</p>" . PHP_EOL;
 
         $rst = $this->autenticador->autentica($dados->usuario, $dados->senha);
 
+        # se a ficha confere
         if ($ficha) {
+            # caso o login seja bem sucedido
             if ($rst) {
                 #echo "<p> Logado com sucesso!</p>" . PHP_EOL;
                 Sessao::defValor('logado', TRUE);
                 Sessao::atualizaAtividade();
-                #echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
+                echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
+
+            # caso o login seja mau sucedido
             }  else {
+                # Só preciso renovar a ficha sincronizadora caso o login não seja bem sucedido. Pois no c
+                # caso de login bem sucedido, o usuário é redirecionado para a página inicial do site.
+                #echo "<p>Ficha gravada (APÓS CONFERENCIA): " . Sessao::obtValor('ficha_sinc') . "</p>" . PHP_EOL;
+                echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
+
+                Sessao::defValor('logado', FALSE);
                 new Mensagem('erro', 'Senha ou usuario incorreto!');
-            }   
+            }  
+        # se a ficha não confere 
         }  else {
+
             Sessao::defValor('logado', FALSE);
-            #echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
             new Mensagem('erro', 'Detectada tentativa de invasão!');
         }   
     }
@@ -122,6 +131,6 @@ class FormEntrar extends Pagina
      */
     public function aoSair($param) {
         Sessao::defValor('logado', FALSE);
-        #echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
+        echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
     }
 }

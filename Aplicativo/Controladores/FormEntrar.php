@@ -5,6 +5,7 @@
  * Data: 19/03/2021
  ************************************************************************************/
 
+use Estrutura\Autenticacao\Autenticador;
 use Estrutura\BancoDados\Criterio;
 use Estrutura\BancoDados\Repositorio;
 use Estrutura\BancoDados\Transacao;
@@ -28,6 +29,7 @@ class FormEntrar extends Pagina
 {
     private $form;
     private $conexao;
+    private $autenticador;
 
     /**
      * Método Construtor
@@ -35,6 +37,7 @@ class FormEntrar extends Pagina
     public function __construct()
     {
         $this->conexao = 'exemplo';
+        $this->autenticador = new Autenticador;
 
         parent::__construct();
 
@@ -59,7 +62,15 @@ class FormEntrar extends Pagina
 
         $ficha = new Entrada('ficha_sinc');
         $ficha->defEditavel(FALSE);
-        $ficha->value = Sessao::obtValor('ficha_sinc');
+
+        # definindo a ficha no carregamento inicial da página.
+        #if (!$_GET) {
+            #echo "Carregamento inicial <br>RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR";
+            $this->autenticador->defFicha();
+        #}
+
+        # obtém a ficha no formulário
+        $ficha->value = $this->autenticador->obtFicha();
 
         $this->form->adicCampo('Entrar', $usuario, 200);
         $this->form->adicCampo('Senha', $senha, 200);
@@ -78,25 +89,24 @@ class FormEntrar extends Pagina
 
         $dados = $this->form->obtDados();
 
-        $entrada = new Usuario();
-
         echo "<p>Ficha enviada: " . $dados->ficha_sinc . "</p>" . PHP_EOL;
 
-        #echo "<p>Ficha gravada: " . Sessao::obtValor('ficha_sinc') . "</p>" . PHP_EOL;
+        echo "<p>Ficha gravada: " . Sessao::obtValor('ficha_sinc') . "</p>" . PHP_EOL;
 
-        $ficha = $this->verificaFicha($dados->ficha_sinc);
-
+        $ficha = $this->autenticador->verificaFicha($dados->ficha_sinc);
         $teste =  $ficha ? "Sim" : "Não";
         echo "<p> Ficha confere? " . $teste . "</p>" . PHP_EOL;
 
-        $rst = $entrada->fazLogin($dados->usuario, $dados->senha);
+        echo "<p>Ficha gravada (APÓS CONFERENCIA): " . Sessao::obtValor('ficha_sinc') . "</p>" . PHP_EOL;
+
+        $rst = $this->autenticador->autentica($dados->usuario, $dados->senha);
 
         if ($ficha) {
             if ($rst) {
-                echo "<p> Logado com sucesso!</p>" . PHP_EOL;
+                #echo "<p> Logado com sucesso!</p>" . PHP_EOL;
                 Sessao::defValor('logado', TRUE);
                 Sessao::atualizaAtividade();
-                echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
+                #echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
             }  else {
                 new Mensagem('erro', 'Senha ou usuario incorreto!');
             }   
@@ -112,29 +122,6 @@ class FormEntrar extends Pagina
      */
     public function aoSair($param) {
         Sessao::defValor('logado', FALSE);
-        echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
-    }
-
-    private function verificaFicha($ficha)
-    {
-        if ($ficha == Sessao::obtValor('ficha_sinc')) {
-            return true;
-        } else {
-            return false;
-        }
-
-        # Só devemos alterar a ficha após a última ficha ser conferida
-        $this->defFicha();
-    }
-
-    /**
-     * Método defFicha
-     */
-    private function defFicha() {
-        # define ficha sincronizadora do formulário
-        $ficha = md5(uniqid('auth'));
-        Sessao::defValor('ficha_sinc', $ficha);
-
-        return $ficha;
+        #echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
     }
 }

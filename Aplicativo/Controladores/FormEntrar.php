@@ -75,7 +75,7 @@ class FormEntrar extends Pagina
         $this->form->adicCampo('Entrar', $usuario, 200);
         $this->form->adicCampo('Senha', $senha, 200);
         $this->form->adicCampo('Senha', $ficha);
-        $this->form->adicAcao('Entrar', new Acao(array($this, 'aoEntrar')));
+        $this->form->adicAcao('Entrar', new Acao(array(new Autenticao, 'autenticaUsuario')));
 
         parent::adic($this->form);
     }
@@ -85,45 +85,7 @@ class FormEntrar extends Pagina
      */
     public function aoEntrar($param)
     {
-        Transacao::abre($this->conexao);
-
-        $dados = $this->form->obtDados();
-
-        #echo "<p>Ficha enviada: " . $dados->ficha_sinc . "</p>" . PHP_EOL;
-
-        #echo "<p>Ficha gravada: " . Sessao::obtValor('ficha_sinc') . "</p>" . PHP_EOL;
-
-        $ficha = $this->autenticador->verificaFicha($dados->ficha_sinc);
-        #$teste =  $ficha ? "Sim" : "Não";
-        #echo "<p> Ficha confere? " . $teste . "</p>" . PHP_EOL;
-
-        $rst = $this->autenticador->autentica($dados->usuario, $dados->senha);
-
-        # se a ficha confere
-        if ($ficha) {
-            # caso o login seja bem sucedido
-            if ($rst) {
-                #echo "<p> Logado com sucesso!</p>" . PHP_EOL;
-                Sessao::defValor('logado', TRUE);
-                Sessao::atualizaAtividade();
-                echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
-
-            # caso o login seja mau sucedido
-            }  else {
-                # Só preciso renovar a ficha sincronizadora caso o login não seja bem sucedido. Pois no c
-                # caso de login bem sucedido, o usuário é redirecionado para a página inicial do site.
-                #echo "<p>Ficha gravada (APÓS CONFERENCIA): " . Sessao::obtValor('ficha_sinc') . "</p>" . PHP_EOL;
-                echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
-
-                Sessao::defValor('logado', FALSE);
-                new Mensagem('erro', 'Senha ou usuario incorreto!');
-            }  
-        # se a ficha não confere 
-        }  else {
-
-            Sessao::defValor('logado', FALSE);
-            new Mensagem('erro', 'Detectada tentativa de invasão!');
-        }   
+   
     }
 
     /**

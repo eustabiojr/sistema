@@ -31,9 +31,7 @@ class Autenticao
         Transacao::abre($this->conexao);
 
         $dados = $this->form->obtDados();
-
         #echo "<p>Ficha enviada: " . $dados->ficha_sinc . "</p>" . PHP_EOL;
-
         #echo "<p>Ficha gravada: " . Sessao::obtValor('ficha_sinc') . "</p>" . PHP_EOL;
 
         $ficha = $this->autenticador->verificaFicha($dados->ficha_sinc);

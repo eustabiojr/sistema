@@ -41,6 +41,7 @@ class FormEntrar extends Pagina
         $this->conexao = 'exemplo';
         //$this->autenticador = new Autenticador;
         $this->ficha = new FichaSincronizadora;
+        $this->ficha->inicializa();
 
         parent::__construct();
 
@@ -71,7 +72,7 @@ class FormEntrar extends Pagina
         if (!$_GET) {
             #echo "Carregamento inicial <br>RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR";
             //$this->autenticador->defFicha();
-            $this->ficha->inicializa();
+            #$this->ficha->inicializa();
 
         }
 
@@ -98,14 +99,16 @@ class FormEntrar extends Pagina
         $dados = $this->form->obtDados();
 
         #echo "<p>Ficha enviada: " . $dados->ficha_sinc . "</p>" . PHP_EOL;
-
         #echo "<p>Ficha gravada: " . Sessao::obtValor('ficha_sinc') . "</p>" . PHP_EOL;
 
         $ficha = $this->ficha->verificaFicha();
         #$teste =  $ficha ? "Sim" : "Não";
         #echo "<p> Ficha confere? " . $teste . "</p>" . PHP_EOL;
 
-        $rst = $this->autenticador->autentica($dados->usuario, $dados->senha);
+        $u = new Usuario;
+        $u->defUsuario($dados->usuario);
+        $u->defSenha($dados->senha);
+        $rst = $u->validaEntrada();
 
         # se a ficha confere
         if ($ficha) {

@@ -21,6 +21,7 @@ use Estrutura\Bugigangas\Form\Senha;
 use Estrutura\Controle\Acao;
 use Estrutura\Controle\Pagina;
 use Estrutura\Sessao\Sessao;
+use Estrutura\Validacao\FichaSincronizadora;
 
 /**
  * Classe FormEntrar
@@ -29,6 +30,7 @@ class FormEntrar extends Pagina
 {
     private $form;
     private $conexao;
+    private $ficha;
     private $autenticador;
 
     /**
@@ -37,7 +39,8 @@ class FormEntrar extends Pagina
     public function __construct()
     {
         $this->conexao = 'exemplo';
-        $this->autenticador = new Autenticador;
+        //$this->autenticador = new Autenticador;
+        $this->ficha = new FichaSincronizadora;
 
         parent::__construct();
 
@@ -64,28 +67,71 @@ class FormEntrar extends Pagina
         #$ficha->defEditavel(FALSE);
 
         # definindo a ficha no carregamento inicial da página.
+        # Ou seja, quando o formulário for postado, a ficha não será reinicializada.
         if (!$_GET) {
             #echo "Carregamento inicial <br>RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR";
-            $this->autenticador->defFicha();
+            //$this->autenticador->defFicha();
+            $this->ficha->inicializa();
+
         }
 
         # obtém a ficha no formulário
-        $ficha->value = $this->autenticador->obtFicha();
-
+        $ficha->value = $this->ficha->obtFichaInterna();
         $this->form->adicCampo('Entrar', $usuario, 200);
         $this->form->adicCampo('Senha', $senha, 200);
         $this->form->adicCampo('Senha', $ficha);
-        $this->form->adicAcao('Entrar', new Acao(array(new Autenticao, 'autenticaUsuario')));
+        $this->form->adicAcao('Entrar', new Acao(array($this, 'aoEntrar')));
 
         parent::adic($this->form);
     }
 
     /**
      * Método aoEntrar
+     * 
+     * 184
+     * sanduicheira, freezer
      */
     public function aoEntrar($param)
     {
-   
+        Transacao::abre($this->conexao);
+
+        $dados = $this->form->obtDados();
+
+        #echo "<p>Ficha enviada: " . $dados->ficha_sinc . "</p>" . PHP_EOL;
+
+        #echo "<p>Ficha gravada: " . Sessao::obtValor('ficha_sinc') . "</p>" . PHP_EOL;
+
+        $ficha = $this->ficha->verificaFicha();
+        #$teste =  $ficha ? "Sim" : "Não";
+        #echo "<p> Ficha confere? " . $teste . "</p>" . PHP_EOL;
+
+        $rst = $this->autenticador->autentica($dados->usuario, $dados->senha);
+
+        # se a ficha confere
+        if ($ficha) {
+            # caso o login seja bem sucedido
+            if ($rst) {
+                #echo "<p> Logado com sucesso!</p>" . PHP_EOL;
+                Sessao::defValor('logado', TRUE);
+                Sessao::atualizaAtividade();
+                echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
+
+            # caso o login seja mau sucedido
+            }  else {
+                Sessao::defValor('logado', FALSE);
+                new Mensagem('erro', 'Senha ou usuario incorreto!');
+
+                # Só preciso renovar a ficha sincronizadora caso o login não seja bem sucedido. Pois no
+                # caso de login bem sucedido, o usuário é redirecionado para a página inicial do site.
+                #echo "<p>Ficha gravada (APÓS CONFERENCIA): " . Sessao::obtValor('ficha_sinc') . "</p>" . PHP_EOL
+                //echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
+            }  
+        # se a ficha não confere 
+        }  else {
+
+            Sessao::defValor('logado', FALSE);
+            new Mensagem('erro', 'Detectada tentativa de invasão!');
+        }
     }
 
     /**

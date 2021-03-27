@@ -30,7 +30,7 @@ class FormEntrar extends Pagina
 {
     private $form;
     private $conexao;
-    private $ficha;
+    private $ficha_sinc;
     private $autenticador;
 
     /**
@@ -40,9 +40,9 @@ class FormEntrar extends Pagina
     {
         $this->conexao = 'exemplo';
         //$this->autenticador = new Autenticador;
-        $this->ficha = new FichaSincronizadora;
-        $this->ficha->inicializa();
-
+        $this->fc = new FichaSincronizadora;
+        $this->fc->adicFicha(md5(uniqid('auth')));
+        
         parent::__construct();
 
         # Instância um formulário
@@ -52,7 +52,7 @@ class FormEntrar extends Pagina
 
         # cria os campos do formulário
         $usuario  = new Entrada('usuario');
-        $usuario->class    = "form-control";
+        $usuario->class = "form-control";
         $usuario->id    = "entradaUsuario"; 
         #$usuario->{'required'} = '';
         #$usuario->{'autofocus'} = '';
@@ -64,8 +64,8 @@ class FormEntrar extends Pagina
         #$senha->{'required'} = '';
         $senha->placeholder = 'senha';
 
-        $ficha = new Oculto('ficha_sinc');
-        #$ficha->defEditavel(FALSE);
+        $ficha = new Entrada('ficha_sinc'); // Oculto
+        $ficha->defEditavel(FALSE);
 
         # definindo a ficha no carregamento inicial da página.
         # Ou seja, quando o formulário for postado, a ficha não será reinicializada.
@@ -76,11 +76,13 @@ class FormEntrar extends Pagina
 
         }
 
+        #echo "CCCCCCCCCCCCCCCCCC: " . $this->fc->obtFichaInterna() . "<br>";
+        
         # obtém a ficha no formulário
-        $ficha->value = $this->ficha->obtFichaInterna();
+        $ficha->value = $this->fc->obtFichaInterna();
         $this->form->adicCampo('Entrar', $usuario, 200);
         $this->form->adicCampo('Senha', $senha, 200);
-        $this->form->adicCampo('Senha', $ficha);
+        $this->form->adicCampo('', $ficha);
         $this->form->adicAcao('Entrar', new Acao(array($this, 'aoEntrar')));
 
         parent::adic($this->form);
@@ -101,9 +103,9 @@ class FormEntrar extends Pagina
         #echo "<p>Ficha enviada: " . $dados->ficha_sinc . "</p>" . PHP_EOL;
         #echo "<p>Ficha gravada: " . Sessao::obtValor('ficha_sinc') . "</p>" . PHP_EOL;
 
-        $ficha = $this->ficha->verificaFicha();
-        #$teste =  $ficha ? "Sim" : "Não";
-        #echo "<p> Ficha confere? " . $teste . "</p>" . PHP_EOL;
+        $ficha = $this->fc->verificaFicha();
+        $teste =  $ficha ? "Sim" : "Não";
+        echo "<p> Ficha confere? " . $teste . "</p>" . PHP_EOL;
 
         $u = new Usuario;
         $u->defUsuario($dados->usuario);

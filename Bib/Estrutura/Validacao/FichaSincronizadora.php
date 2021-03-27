@@ -24,15 +24,18 @@ use Estrutura\Sessao\Sessao;
  */
 class FichaSincronizadora
 {
-    private $ficha_interna;
+    private $ficha_interna = array();
     private $ficha_form;
 
     /**
      * Método construtor
      */
-    public function inicializa($ficha_interna = NULL)
+    public function adicFicha($ficha_interna = NULL)
     {
 		$tam = count($this->ficha_interna);
+
+        #$ficha = md5(uniqid('auth'));
+        #$ficha_interna = $ficha_interna ?? $ficha);
 
 		if ($tam == 0) {
 			$this->ficha_interna = array($ficha_interna);
@@ -41,7 +44,9 @@ class FichaSincronizadora
 		} else {
 			$this->ficha_interna = array($this->ficha_interna[1], $ficha_interna);
 		}
-        Sessao::defValor('ficha_sinc', $this->ficha_interna);      
+        Sessao::defValor('ficha_sinc', $this->ficha_interna);    
+        
+        echo ">>>>>: " . print_r(Sessao::obtValor('ficha_sinc')) . "<br/>";
     }
 
     /**
@@ -64,9 +69,13 @@ class FichaSincronizadora
      * Método defFicha
      */
     public function obtFichaInterna() {
-        return $this->ficha_interna ?? Sessao::obtValor('ficha_sinc');
+        $ficha = Sessao::obtValor('ficha_sinc');
+        return $ficha[0]; # $this->ficha_interna ?? 
     }
 
+    /**
+     * Método verificaFicha
+     */
     public function verificaFicha()
     {
         $ficha = Sessao::obtValor('ficha_sinc');

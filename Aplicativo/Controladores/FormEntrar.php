@@ -30,8 +30,6 @@ class FormEntrar extends Pagina
 {
     private $form;
     private $conexao;
-    private $ficha_sinc;
-    private $autenticador;
 
     /**
      * Método Construtor
@@ -39,7 +37,6 @@ class FormEntrar extends Pagina
     public function __construct()
     {
         $this->conexao = 'exemplo';
-        //$this->autenticador = new Autenticador;
         $this->fc = new FichaSincronizadora;
         $this->fc->adicFicha(md5(uniqid('auth')));
         
@@ -64,19 +61,8 @@ class FormEntrar extends Pagina
         #$senha->{'required'} = '';
         $senha->placeholder = 'senha';
 
-        $ficha = new Entrada('ficha_sinc'); // Oculto
+        $ficha = new Oculto('ficha_sinc'); // Oculto
         $ficha->defEditavel(FALSE);
-
-        # definindo a ficha no carregamento inicial da página.
-        # Ou seja, quando o formulário for postado, a ficha não será reinicializada.
-        if (!$_GET) {
-            #echo "Carregamento inicial <br>RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR";
-            //$this->autenticador->defFicha();
-            #$this->ficha->inicializa();
-
-        }
-
-        #echo "CCCCCCCCCCCCCCCCCC: " . $this->fc->obtFichaInterna() . "<br>";
         
         # obtém a ficha no formulário
         $ficha->value = $this->fc->obtFichaInterna();
@@ -100,12 +86,8 @@ class FormEntrar extends Pagina
 
         $dados = $this->form->obtDados();
 
-        #echo "<p>Ficha enviada: " . $dados->ficha_sinc . "</p>" . PHP_EOL;
-        #echo "<p>Ficha gravada: " . Sessao::obtValor('ficha_sinc') . "</p>" . PHP_EOL;
-
-        $ficha = $this->fc->verificaFicha();
-        $teste =  $ficha ? "Sim" : "Não";
-        echo "<p> Ficha confere? " . $teste . "</p>" . PHP_EOL;
+        $ficha = $this->fc->verificaFicha($dados->ficha_sinc);
+        #echo "<p> Ficha confere? " . ($ficha ? "Sim" : "Não") . "</p>" . PHP_EOL;
 
         $u = new Usuario;
         $u->defUsuario($dados->usuario);
@@ -125,11 +107,6 @@ class FormEntrar extends Pagina
             }  else {
                 Sessao::defValor('logado', FALSE);
                 new Mensagem('erro', 'Senha ou usuario incorreto!');
-
-                # Só preciso renovar a ficha sincronizadora caso o login não seja bem sucedido. Pois no
-                # caso de login bem sucedido, o usuário é redirecionado para a página inicial do site.
-                #echo "<p>Ficha gravada (APÓS CONFERENCIA): " . Sessao::obtValor('ficha_sinc') . "</p>" . PHP_EOL
-                //echo "<script language='JavaScript'>window.location = 'inicio.php'; </script>";
             }  
         # se a ficha não confere 
         }  else {

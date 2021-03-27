@@ -21,6 +21,8 @@ use Estrutura\Sessao\Sessao;
  * Outra ideia, é permitir que a ficha seja alterada a cada carregamento da página. E como,
  * no carregamento da página a ficha é alterada, e a ficha do post é a anterior. Precisams,
  * comparar a ficha anterior (ou seja, antes da alteração).
+ * 
+ * Nota: Foi adotada a última opção.
  */
 class FichaSincronizadora
 {
@@ -30,23 +32,13 @@ class FichaSincronizadora
     /**
      * Método construtor
      */
-    public function adicFicha($ficha_interna = NULL)
+    public function adicFicha($ficha = NULL)
     {
-		$tam = count($this->ficha_interna);
+		$this->ficha_interna = array($ficha);
+        $ficha_sinc = Sessao::obtValor('ficha_sinc');
+		array_push($this->ficha_interna, $ficha_sinc[0]);
 
-        #$ficha = md5(uniqid('auth'));
-        #$ficha_interna = $ficha_interna ?? $ficha);
-
-		if ($tam == 0) {
-			$this->ficha_interna = array($ficha_interna);
-		} else if ($tam == 1) {
-			$this->ficha_interna = array($this->ficha_interna[0], $ficha_interna);
-		} else {
-			$this->ficha_interna = array($this->ficha_interna[1], $ficha_interna);
-		}
-        Sessao::defValor('ficha_sinc', $this->ficha_interna);    
-        
-        echo ">>>>>: " . print_r(Sessao::obtValor('ficha_sinc')) . "<br/>";
+        Sessao::defValor('ficha_sinc', $this->ficha_interna);
     }
 
     /**
@@ -62,7 +54,7 @@ class FichaSincronizadora
      */
     public function obtFichaForm()
     {
-        return $this->ficha_interna[0];
+        return $this->ficha_form;
     }
 
     /**
@@ -70,17 +62,18 @@ class FichaSincronizadora
      */
     public function obtFichaInterna() {
         $ficha = Sessao::obtValor('ficha_sinc');
-        return $ficha[0]; # $this->ficha_interna ?? 
+        return $ficha[0];
     }
 
     /**
      * Método verificaFicha
      */
-    public function verificaFicha()
+    public function verificaFicha($ficha)
     {
-        $ficha = Sessao::obtValor('ficha_sinc');
+        $ficha = $this->ficha_form ?? $ficha;
+        $ficha_armazenada = Sessao::obtValor('ficha_sinc');
 
-        if ($this->ficha_form == $ficha[0]) {
+        if ($ficha == $ficha_armazenada[1]) {
             return true;
         } else {
             return false;

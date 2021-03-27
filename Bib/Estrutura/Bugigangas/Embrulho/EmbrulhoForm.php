@@ -97,7 +97,7 @@ class EmbrulhoForm
      * 
      * O laço abaixo é repetido para cada campo do formulário
      */
-    private function criaLinhaForm($campos, $tipo = 1, $msg = 'Por favor registre-se')
+    private function criaLinhaForm($campos, $tipo = 1, $msg = 'Identifique-se por favor!')
     {
         switch($tipo) {
             case 1:

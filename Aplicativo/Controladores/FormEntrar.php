@@ -46,6 +46,7 @@ class FormEntrar extends Pagina
         $this->form = new EmbrulhoForm(new Form('form_entrar'));
         $this->form->defTitulo('Entrar');
         $this->form->defTipoLinha(1);
+        $this->form->defTituloCabecalho("Identifique-se por favor!");
 
         # cria os campos do formulário
         $usuario  = new Entrada('usuario');
@@ -53,7 +54,7 @@ class FormEntrar extends Pagina
         $usuario->id    = "entradaUsuario"; 
         #$usuario->{'required'} = '';
         #$usuario->{'autofocus'} = '';
-        $usuario->placeholder = 'admin';
+        $usuario->placeholder = 'usuario';
 
         $senha   = new Senha('senha');
         $senha->class    = "form-control";
@@ -110,7 +111,7 @@ class FormEntrar extends Pagina
             }  
         # se a ficha não confere 
         }  else {
-
+            # 
             Sessao::defValor('logado', FALSE);
             new Mensagem('erro', 'Detectada tentativa de invasão!');
         }

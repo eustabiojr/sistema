@@ -20,6 +20,7 @@ class EmbrulhoForm
     private $decorado;
     private $elemento;
     private $tipoLinha;
+    private $titulo_cabecalho;
 
     /**
      * Método Construtor
@@ -54,6 +55,22 @@ class EmbrulhoForm
     }
 
     /**
+     * Método defTituloCabecalho
+     */
+    public function defTituloCabecalho($titulo = '')
+    {
+        $this->titulo_cabecalho = $titulo;
+    }
+
+    /**
+     * Método obtTituloCabecalho
+     */
+    public function obtTituloCabecalho()
+    {
+        return $this->titulo_cabecalho;
+    }
+
+    /**
      * Método exibe
      */
     public function exibe()
@@ -65,7 +82,7 @@ class EmbrulhoForm
         $this->elemento->method  = 'post';
         $this->elemento->width   = '100%';
 
-        $this->criaLinhaForm($this->decorado->obtCampos(), $this->obtTipoLinha());
+        $this->criaLinhaForm($this->decorado->obtCampos(), $this->obtTipoLinha(), $this->obtTituloCabecalho());
 
         $grupo = new Elemento('div');
         $i = 0;
@@ -95,9 +112,8 @@ class EmbrulhoForm
     /**
      * Método criaLinhaForm 
      * 
-     * O laço abaixo é repetido para cada campo do formulário
      */
-    private function criaLinhaForm($campos, $tipo = 1, $msg = 'Identifique-se por favor!')
+    private function criaLinhaForm($campos, $tipo = 1, $msg)
     {
         switch($tipo) {
             case 1:
@@ -105,10 +121,10 @@ class EmbrulhoForm
 
                     $imagem = new Elemento('img');
                     $imagem->class  = 'mb-4';
-                    $imagem->src    = '';
+                    $imagem->src    = '/Aplicativo/Imagens/Ageu17.png';
                     $imagem->alt    = '';
-                    $imagem->width  = 60;
-                    $imagem->height = 53;
+                    $imagem->width  = 129;
+                    $imagem->height = 78;
 
                     $h1 = new Elemento('h1');
                     $h1->class = 'h3 mb-3 fw-normal';

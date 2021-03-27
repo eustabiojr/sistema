@@ -68,7 +68,7 @@ class Sessao
     {
         self::$agora = time();
 
-        $carencia = self::$agora + (60);
+        $carencia = self::$agora + (2 * 60 * 60);
         
         Sessao::defValor('tempo', $carencia);
 

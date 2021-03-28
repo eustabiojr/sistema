@@ -5,18 +5,12 @@
  * Data: 19/03/2021
  ************************************************************************************/
 
-use Estrutura\Autenticacao\Autenticador;
-use Estrutura\BancoDados\Criterio;
-use Estrutura\BancoDados\Repositorio;
 use Estrutura\BancoDados\Transacao;
-use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Dialogo\Mensagem;
 use Estrutura\Bugigangas\Embrulho\EmbrulhoForm;
-use Estrutura\Bugigangas\Form\BotaoCheck;
 use Estrutura\Bugigangas\Form\Entrada;
 use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Bugigangas\Form\Oculto;
-use Estrutura\Bugigangas\Form\Rotulo;
 use Estrutura\Bugigangas\Form\Senha;
 use Estrutura\Controle\Acao;
 use Estrutura\Controle\Pagina;
@@ -50,17 +44,17 @@ class FormEntrar extends Pagina
 
         # cria os campos do formulário
         $usuario  = new Entrada('usuario');
-        $usuario->class = "form-control";
-        $usuario->id    = "entradaUsuario"; 
-        #$usuario->{'required'} = '';
-        #$usuario->{'autofocus'} = '';
-        $usuario->placeholder = 'usuario';
+        $usuario->class         = "form-control";
+        $usuario->id            = "entradaUsuario"; 
+        $usuario->{'required'}  = '';
+        $usuario->{'autofocus'} = '';
+        $usuario->placeholder   = 'usuario';
 
         $senha   = new Senha('senha');
-        $senha->class    = "form-control";
-        $senha->id    = "entradaSenha";
-        #$senha->{'required'} = '';
-        $senha->placeholder = 'senha';
+        $senha->class        = "form-control";
+        $senha->id           = "entradaSenha";
+        $senha->{'required'} = '';
+        $senha->placeholder  = 'senha';
 
         $ficha = new Oculto('ficha_sinc'); // Oculto
         $ficha->defEditavel(FALSE);

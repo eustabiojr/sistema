@@ -16,6 +16,7 @@ class Elemento {
     protected $nometag;
     protected $propriedades;
     protected $filhos;
+    protected $elementos_simples = array();
 
     /**
      * Método __construct
@@ -23,6 +24,7 @@ class Elemento {
     public function __construct($nome)
     {
         $this->nometag = $nome;
+        $this->elementos_simples = array('meta', 'link', 'input', 'img', 'hr', 'base', 'area', 'col', 'param', 'track');
     }
 
     /**
@@ -66,7 +68,11 @@ class Elemento {
                     echo $filho;
                 }
             }
-            $this->fecha(); # fecha tag
+            # caso a tag não esteja no array, fazemos o fechamento
+            if (!in_array($this->nometag, $this->elementos_simples)) {
+                # Em elementos vazios esse fechamento não deve acontecer.
+                $this->fecha(); # fecha tag
+            }
         }
     }
 
@@ -79,7 +85,13 @@ class Elemento {
         if ($this->propriedades) {
             foreach ($this->propriedades as $nome => $valor) {
                 if (is_scalar($valor)) {
-                    echo " {$nome}=\"{$valor}\"";
+                    if (empty($valor)) {
+                        echo " {$nome}";
+                    }  else {
+                        echo " {$nome}=\"{$valor}\"";
+                    }
+                } else if ($valor === NULL) {
+                    echo " {$nome}";
                 }
             }
         }

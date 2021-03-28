@@ -50,7 +50,7 @@ class ListaProdutos extends Pagina
         $descricao = new Entrada('descricao');
         $this->form->adicCampo('Descrição', $descricao, '100%'); 
         $this->form->adicAcao('Buscar', new Acao(array($this, 'aoRecarregar')));
-        $this->form->adicAcao('Cadastrar', new Acao(array(new FormFuncionario, 'aoEditar')));
+        $this->form->adicAcao('Cadastrar', new Acao(array(new FormProdutos, 'aoEditar')));
 
         # instancia objeto grade de dados
         $this->gradedados = new EmbrulhoGradedados(new Gradedados);
@@ -69,7 +69,7 @@ class ListaProdutos extends Pagina
         $this->gradedados->adicColuna($preco);
 
         $this->gradedados->adicAcao('Editar', new Acao([new FormProdutos, 'aoEditar']),
-            'id', 'fa fa-edit la-lg blue');
+            'id', 'bi bi-pencil-square'); # fa fa-edit la-lg blue # bi bi-pencil-square
 
         $this->gradedados->adicAcao('Excluir', new Acao([$this, 'aoApagar']),
             'id', 'fa fa-trash la-lg red');

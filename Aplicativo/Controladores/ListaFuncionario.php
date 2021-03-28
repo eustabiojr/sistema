@@ -35,10 +35,10 @@ class ListaFuncionario extends Pagina
         $this->gradedados = new EmbrulhoGradedados(new Gradedados);
         
         # instancia as colunas da grade de dados
-        $codigo   = new ColunaGradedados('id',      'Código',  'center', '10%');
-        $nome     = new ColunaGradedados('nome',    'Nome',    'left', '30%');
-        $endereco = new ColunaGradedados('endereco', 'Endereço', 'left', '30%');
-        $email    = new ColunaGradedados('email',   'Email',   'left', '30%');
+        $codigo   = new ColunaGradedados('id',       'Código',   'center', '10%');
+        $nome     = new ColunaGradedados('nome',     'Nome',     'left',   '30%');
+        $endereco = new ColunaGradedados('endereco', 'Endereço', 'left',   '30%');
+        $email    = new ColunaGradedados('email',    'Email',    'left',   '30%');
 
         # adiciona as colunas à grade de dados
         $this->gradedados->adicColuna($codigo);

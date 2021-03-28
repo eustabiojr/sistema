@@ -14,6 +14,10 @@ use Estrutura\Controle\Acao;
  * Classe Pergunta
  */
 class Pergunta {
+
+    /**
+     * Método construtor
+     */
     public function __construct($mensagem, Acao $acao_sim, Acao $acao_nao = NULL)
     {
         $div = new Elemento('div');
@@ -21,6 +25,7 @@ class Pergunta {
 
         # converte os nomes de métodos em URL's
         $url_sim = $acao_sim->serializa();
+        
         $link_sim = new Elemento('a');
         $link_sim->href =  $url_sim;
         $link_sim->class = 'btn btn-default'; 
@@ -30,8 +35,8 @@ class Pergunta {
 
         if ($acao_nao) {
             $url_nao = $acao_nao->serializa();
-            $link_nao = new Elemento('a');
-            $link_nao->href =  $url_nao;
+            $link_nao        = new Elemento('a');
+            $link_nao->href  =  $url_nao;
             $link_nao->class = 'btn btn-default'; 
             $link_nao->style = 'float: right';
             $link_nao->adic('Não');

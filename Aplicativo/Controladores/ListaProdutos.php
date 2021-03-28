@@ -69,10 +69,10 @@ class ListaProdutos extends Pagina
         $this->gradedados->adicColuna($preco);
 
         $this->gradedados->adicAcao('Editar', new Acao([new FormProdutos, 'aoEditar']),
-            'id', 'bi bi-pencil-square'); # fa fa-edit la-lg blue # bi bi-pencil-square
+            'id'); # fa fa-edit la-lg blue # bi bi-pencil-square
 
         $this->gradedados->adicAcao('Excluir', new Acao([$this, 'aoApagar']),
-            'id', 'fa fa-trash la-lg red');
+            'id');
 
         # monta a página por meio de uma caixa
         $caixa = new CaixaV;

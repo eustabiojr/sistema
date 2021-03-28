@@ -20,6 +20,9 @@ use Estrutura\Bugigangas\Gradedados\Gradedados;
 use Estrutura\Controle\Acao;
 use Estrutura\Controle\Pagina;
 
+/**
+ * Classe ListaPessoa
+ */
 class ListaPessoa extends Pagina
 {
     private $form;
@@ -58,10 +61,10 @@ class ListaPessoa extends Pagina
         $this->gradedados->adicColuna($cidade);
 
         $this->gradedados->adicAcao('Editar', new Acao([new FormPessoas, 'aoEditar']),
-            'id', 'fa fa-edit la-lg blue');
+            'id'); # , 'fa fa-edit la-lg blue'
 
         $this->gradedados->adicAcao('Excluir', new Acao([$this, 'aoApagar']),
-            'id', 'fa fa-trash la-lg red');
+            'id'); # , 'fa fa-trash la-lg red'
 
         # monta a página por meio de uma caixa
         $caixa = new CaixaV;
@@ -72,6 +75,9 @@ class ListaPessoa extends Pagina
         parent::adic($caixa);
     }
 
+    /**
+     * Método aoRecarregar
+     */
     public function aoRecarregar()
     {
         Transacao::abre('exemplo');
@@ -106,6 +112,9 @@ class ListaPessoa extends Pagina
         $this->carregado = TRUE;
     }
 
+    /**
+     * Método aoApagar
+     */
     public function aoApagar($param)
     {
         $id = $param['id'];
@@ -115,6 +124,9 @@ class ListaPessoa extends Pagina
         new Pergunta('Deseja realmente excluir o registro?', $acao1);
     }
 
+    /**
+     * Método Apaga
+     */
     public function Apaga($param)
     {
         try {
@@ -131,6 +143,9 @@ class ListaPessoa extends Pagina
         }
     }
 
+    /**
+     * Método exibe
+     */
     public function exibe()
     {
         # se a listagem ainda não foi carregada

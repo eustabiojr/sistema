@@ -48,7 +48,7 @@ class FormProdutos extends Pagina
         $preco_venda = new Entrada('preco_venda');
         $fabricante  = new Combo('id_fabricante');
         $tipo        = new GrupoRadio('id_tipo');
-        $unidade     = new Combo('unidade');
+        $unidade     = new Combo('id_unidade');
 
         # carrega os fabricantes do banco de dados
         Transacao::abre($this->conexao);

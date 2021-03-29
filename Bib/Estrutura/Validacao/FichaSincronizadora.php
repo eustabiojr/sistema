@@ -36,8 +36,10 @@ class FichaSincronizadora
     {
 		$this->ficha_interna = array($ficha);
         $ficha_sinc = Sessao::obtValor('ficha_sinc');
-		array_push($this->ficha_interna, $ficha_sinc[0]);
 
+        if (isset($ficha_sinc[0])) {
+            array_push($this->ficha_interna, $ficha_sinc[0]);
+        }
         Sessao::defValor('ficha_sinc', $this->ficha_interna);
     }
 

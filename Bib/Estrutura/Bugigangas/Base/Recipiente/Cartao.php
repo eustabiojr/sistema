@@ -32,8 +32,11 @@ class Cartao extends Elemento
         /**
          * Assim, podemos passar outros parâmetros de necessário
          */
-        if (is_array($titulo)) {
+        if (is_array($titulo) AND isset($titulo['titulo_cartao'])) {
             $titulo_cartao = $titulo['titulo_cartao'];
+            if ($titulo['sub_classe']) {
+                
+            }
         } else {
             $titulo_cartao = $titulo;
         }

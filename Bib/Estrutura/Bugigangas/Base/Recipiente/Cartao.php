@@ -16,9 +16,10 @@ use Estrutura\Bugigangas\Base\Elemento;
 class Cartao extends Elemento 
 {
     private $corpo;
+    private $titulo_corpo;
+    private $texto_corpo;
+    private $link_corpo;
     private $rodape;
-    private $imagem_titulo = array();
-    private $itens = array();
 
     /**
      * Método construtor
@@ -28,6 +29,7 @@ class Cartao extends Elemento
         parent::__construct('div');
         $this->class = 'card';
 
+        # $imagem é um array com as seguintes informações: a origem da imagem e o valor da propriedade 'alt'
         if ($imagem) {
             $imagem_titulo = new Elemento('img');
             $imagem_titulo->class = 'card-img-top';
@@ -46,6 +48,7 @@ class Cartao extends Elemento
             $titulo = new Elemento('h5');
             $titulo->adic($titulo_cartao);
 
+            # $links é um array de 2 dimensões. A primeira são os links, e a segunda é a marcação
             if (count($links['links']) > 0) {
                 $ul = new Elemento('ul');
                 $ul->class = 'nav nav-tabs card-header-tabs';
@@ -87,42 +90,51 @@ class Cartao extends Elemento
             if (isset($ul)) {
                 $cabecalho->adic($ul);
             }
+
             parent::adic($cabecalho);
         }
 
+        # Corpo
         $this->corpo = new Elemento('div');
         $this->corpo->class = 'card-body';
-        $this->corpo->adic($this->corpo);
 
-        $titulo_cartao = new Elemento('h5');
-        $titulo_cartao->class = 'card-title';
-        $this->corpo->adic($titulo_cartao);
+        $this->titulo_corpo = new Elemento('h5'); 
+        $this->titulo_corpo->class = 'card-title';
 
-        $texto_cartao = new Elemento('p');
-        $texto_cartao->class = 'card-text';
-        $this->corpo->adic($texto_cartao);
+        $this->texto_corpo = new Elemento('p'); 
+        $this->texto_corpo->class = 'card-text';
 
-        $link_cartao = new Elemento('a');
-        $link_cartao->class = 'btn btn-primary';
-        $this->corpo->adic($link_cartao);
+        $this->link_corpo = new Elemento('a'); 
+        $this->link_corpo->class = 'btn btn-primary';
+        $this->link_corpo->href  = '#';
 
+        # Rodapé
         $this->rodape = new Elemento('div');
         $this->rodape->{'class'} = 'card-footer';
     }
 
-    public function defImagem($nome, $origem, $classe = 'card-img-top')
-    {
-        $this->imagem_titulo = array($nome, $origem, $classe);
-    }
-
-    public function obtImagem()
-    {
-        return $this->imagem_titulo;
-    }
-
-    public function adic($conteudo)
+    public function adicCorpo($conteudo)
     {
         $this->corpo->adic($conteudo);
+        parent::adic($this->corpo);
+    }
+
+    public function adicTituloCorpo($conteudo)
+    {
+        $this->titulo_corpo->adic($conteudo);
+        parent::adic($this->titulo_corpo);
+    }
+
+    public function adicTextoCorpo($conteudo)
+    {
+        $this->texto_corpo->adic($conteudo);
+        parent::adic($this->texto_corpo);
+    }
+
+    public function adicLinkCorpo($conteudo)
+    {
+        $this->link_corpo->adic($conteudo);
+        parent::adic($this->link_corpo);
     }
 
     public function adicRodape($rodape)

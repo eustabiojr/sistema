@@ -29,6 +29,10 @@ class Cartao extends Elemento
         parent::__construct('div');
         $this->class = 'card';
 
+        if (!isset($links['links'])) {
+            $links['links'] = array();
+        }
+
         # $imagem é um array com as seguintes informações: a origem da imagem e o valor da propriedade 'alt'
         if ($imagem) {
             $imagem_titulo = new Elemento('img');
@@ -41,7 +45,7 @@ class Cartao extends Elemento
 
         if ($titulo_cartao) {
 
-            $tipo = $tipo_titulo ? 'div' : 'h5';
+            $tipo = $tipo_titulo ? 'h5' : 'div';
             $cabecalho = new Elemento($tipo);
             $cabecalho->class = 'card-header';
 

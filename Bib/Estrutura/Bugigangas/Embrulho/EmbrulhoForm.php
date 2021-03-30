@@ -8,7 +8,7 @@
 namespace Estrutura\Bugigangas\Embrulho;
 
 use Estrutura\Bugigangas\Base\Elemento;
-use Estrutura\Bugigangas\Base\Recipiente\Painel;
+use Estrutura\Bugigangas\Base\Recipiente\Cartao;
 use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Bugigangas\Form\Botao;
 
@@ -103,10 +103,10 @@ class EmbrulhoForm
             $i++;
         }
 
-        $painel = new Painel($this->decorado->obtTitulo());
-        $painel->adic($this->elemento);
-        $painel->adicRodape($grupo);
-        $painel->exibe();
+        $cartao = new Cartao($this->decorado->obtTitulo());
+        $cartao->adic($this->elemento);
+        $cartao->adicRodape($grupo);
+        $cartao->exibe();
     }
 
     /**

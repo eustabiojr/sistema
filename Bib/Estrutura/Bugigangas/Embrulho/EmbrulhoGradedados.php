@@ -9,7 +9,7 @@ namespace Estrutura\Bugigangas\Embrulho;
 
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Gradedados\Gradedados;
-use Estrutura\Bugigangas\Base\Recipiente\Painel;
+use Estrutura\Bugigangas\Base\Recipiente\Cartao;
 
 /**
  * Class EmbrulhoGradedados
@@ -61,10 +61,10 @@ class EmbrulhoGradedados
             $this->criaItem($tcorpo, $item);
         }
 
-        $painel = new Painel;
-        $painel->type = 'gradedados';
-        $painel->adic($elemento);
-        $painel->exibe();
+        $cartao = new Cartao;
+        $cartao->type = 'gradedados';
+        $cartao->adicCorpo($elemento);
+        $cartao->exibe();
     }
 
     public function criaCabecalhos($tcabecalho)

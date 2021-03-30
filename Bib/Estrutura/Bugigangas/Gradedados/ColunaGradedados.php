@@ -22,10 +22,10 @@ class ColunaGradedados
     public function __construct($nome, $rotulo, $alinhamento, $largura)
     {   
         # atribui os parâmetros às propriedades do objeto
-        $this->nome       = $nome;
-        $this->rotulo     = $rotulo;
+        $this->nome        = $nome;
+        $this->rotulo      = $rotulo;
         $this->alinhamento = $alinhamento;
-        $this->largura    = $largura;
+        $this->largura     = $largura;
     }
 
     /**

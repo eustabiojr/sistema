@@ -61,12 +61,12 @@ class FormConcluiVenda extends Pagina
         $valor_venda->defEditavel(FALSE);
         $valor_final->defEditavel(FALSE);
 
-        $this->form->adicCampo('Código',    $cliente, '50%');
-        $this->form->adicCampo('Valor', $valor_venda, '50%');
-        $this->form->adicCampo('Desconto', $desconto, '50%');
+        $this->form->adicCampo('Código',     $cliente, '50%');
+        $this->form->adicCampo('Valor',      $valor_venda, '50%');
+        $this->form->adicCampo('Desconto',   $desconto, '50%');
         $this->form->adicCampo('Acréscimos', $acrescimos, '50%');
-        $this->form->adicCampo('Final', $valor_final, '50%');
-        $this->form->adicCampo('Parcelas', $parcelas, '50%');
+        $this->form->adicCampo('Final',      $valor_final, '50%');
+        $this->form->adicCampo('Parcelas',   $parcelas, '50%');
         $this->form->adicCampo('Obs', $obs, '50%');
 
         $this->form->adicAcao('Salvar', new Acao(array($this, 'aoGravarVenda')));

@@ -113,7 +113,7 @@ class EmbrulhoForm
      * Método criaLinhaForm 
      * 
      */
-    private function criaLinhaForm($campos, $tipo = 1, $msg)
+    private function criaLinhaForm($campos, $tipo = 1, $msg = '')
     {
         switch($tipo) {
             case 1:

@@ -63,7 +63,7 @@ class EmbrulhoGradedados
 
         $cartao = new Cartao;
         $cartao->type = 'gradedados';
-        $cartao->adicCorpo($elemento);
+        $cartao->adic($elemento);
         $cartao->exibe();
     }
 

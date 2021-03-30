@@ -8,7 +8,7 @@
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use Estrutura\BancoDados\Transacao;
-use Estrutura\Bugigangas\Base\Recipiente\Painel;
+use Estrutura\Bugigangas\Base\Recipiente\Cartao;
 use Estrutura\Bugigangas\Dialogo\Mensagem;
 use Estrutura\Controle\Pagina;
 use Twig\Environment;
@@ -65,9 +65,9 @@ class RelatorioProdutos extends Pagina
 
         $conteudo = $template->render($substituicoes);
 
-        // cria um painel para conter o formulário
-        $painel = new Painel('Produtos');
-        $painel->adic($conteudo);
-        parent::adic($painel);
+        // cria um cartao para conter o formulário
+        $cartao = new Cartao('Produtos');
+        $cartao->adic($conteudo);
+        parent::adic($cartao);
     }
 }

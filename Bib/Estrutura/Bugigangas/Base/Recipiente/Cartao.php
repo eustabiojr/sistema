@@ -117,7 +117,7 @@ class Cartao extends Elemento
         $this->rodape->{'class'} = 'card-footer';
     }
 
-    public function adicCorpo($conteudo)
+    public function adic($conteudo)
     {
         $this->corpo->adic($conteudo);
         parent::adic($this->corpo);

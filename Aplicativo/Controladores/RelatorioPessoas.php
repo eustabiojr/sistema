@@ -6,7 +6,7 @@
  ************************************************************************************/
 
 use Estrutura\BancoDados\Transacao;
-use Estrutura\Bugigangas\Base\Recipiente\Painel;
+use Estrutura\Bugigangas\Base\Recipiente\Cartao;
 use Estrutura\Bugigangas\Dialogo\Mensagem;
 use Estrutura\Controle\Pagina;
 use Twig\Environment;
@@ -46,10 +46,10 @@ class RelatorioPessoas extends Pagina
 
         $conteudo = $template->render($substituicoes);
 
-        # cria um painel para conter o formulário
-        $painel = new Painel('Pessoas');
-        $painel->adic($conteudo);
+        # cria um cartao para conter o formulário
+        $cartao = new Cartao('Pessoas');
+        $cartao->adic($conteudo);
 
-        parent::adic($painel);
+        parent::adic($cartao);
     }
 }

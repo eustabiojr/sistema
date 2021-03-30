@@ -5,21 +5,17 @@
  * Data: 15/03/2021
  ************************************************************************************/
 
-use Estrutura\BancoDados\Transacao;
-use Estrutura\Bugigangas\Dialogo\Mensagem;
-use Estrutura\Bugigangas\Embrulho\EmbrulhoForm;
-use Estrutura\Bugigangas\Form\Combo;
-use Estrutura\Bugigangas\Form\Entrada;
-use Estrutura\Bugigangas\Form\Form;
-use Estrutura\Bugigangas\Form\GrupoCheck;
-use Estrutura\Bugigangas\Form\Texto;
-use Estrutura\Controle\Acao;
+use Estrutura\Bugigangas\Base\Recipiente\Cartao;
 use Estrutura\Controle\Pagina;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
 /**
  * Classe FormPessoas
+ * 
+ * Pretendo implementar API para recurso NAVs do Bootstrap. 
+ * 
+ * Já o formulário, devido a sua complexidade, pretendo usar um template.
  */
 class FormPessoas2 extends Pagina
 {
@@ -40,5 +36,17 @@ class FormPessoas2 extends Pagina
         $carregador = new FilesystemLoader('Aplicativo/Recursos');
         $twig = new Environment($carregador);
         $template = $twig->loadTemplate('cadastro_pessoa.html');
+
+        # vetor de parâmetros para o template
+        $substituicoes = array();
+
+        $conteudo = $template->render($substituicoes);
+
+        # cria um cartao para conter o formulário
+        $parametros['titulo_cartao'] = 'Pessoas Exemplo';
+        $cartao = new Cartao($parametros);
+        $cartao->adic($conteudo);
+
+        parent::adic($cartao);
     }
 }

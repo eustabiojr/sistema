@@ -2,7 +2,8 @@
 /********************************************************************************************
  * Sistema Agenet
  * 
- * Data: 08/03/2021
+ * Autor: Eustábio J. Silva Jr. 
+ * Data: 30/03/2021
  ********************************************************************************************/
 
  # Espaço de nomes
@@ -24,9 +25,19 @@ class Cartao extends Elemento
     /**
      * Método construtor
      */
-    public function __construct($titulo_cartao = NULL, $tipo_titulo = NULL, array $imagem = array(), array $links = array())
+    public function __construct($titulo = NULL, $tipo_titulo = NULL, array $imagem = array(), array $links = array())
     {
         parent::__construct('div');
+
+        /**
+         * Assim, podemos passar outros parâmetros de necessário
+         */
+        if (is_array($titulo)) {
+            $titulo_cartao = $titulo['titulo_cartao'];
+        } else {
+            $titulo_cartao = $titulo;
+        }
+
         $this->class = 'card';
 
         if (!isset($links['links'])) {
@@ -80,8 +91,6 @@ class Cartao extends Elemento
                         $ancora = new Elemento('a');
                         $ancora->class    = 'nav-link';
                         $ancora->href     = '#';
-                        #$ancora->tabindex = '-1';
-                        #$ancora->{'aria-disabled'} = 'true';
                         $ancora->adic($valor);
 
                         $li->adic($ancora);         
@@ -117,30 +126,45 @@ class Cartao extends Elemento
         $this->rodape->{'class'} = 'card-footer';
     }
 
+    /**
+     * Método adic
+     */
     public function adic($conteudo)
     {
         $this->corpo->adic($conteudo);
         parent::adic($this->corpo);
     }
 
+    /**
+     * Método adicTituloCorpo
+     */
     public function adicTituloCorpo($conteudo)
     {
         $this->titulo_corpo->adic($conteudo);
         parent::adic($this->titulo_corpo);
     }
 
+    /**
+     * Método adicTextoCorpo
+     */
     public function adicTextoCorpo($conteudo)
     {
         $this->texto_corpo->adic($conteudo);
         parent::adic($this->texto_corpo);
     }
 
+    /**
+     * Método adicLinkCorpo
+     */
     public function adicLinkCorpo($conteudo)
     {
         $this->link_corpo->adic($conteudo);
         parent::adic($this->link_corpo);
     }
 
+    /**
+     * Método adicRodape
+     */
     public function adicRodape($rodape)
     {
         $this->rodape->adic($rodape);

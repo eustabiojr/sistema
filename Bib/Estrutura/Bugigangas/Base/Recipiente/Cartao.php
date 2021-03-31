@@ -29,20 +29,21 @@ class Cartao extends Elemento
     {
         parent::__construct('div');
 
+        $this->class = 'card';
+
         /**
          * Assim, podemos passar outros parâmetros de necessário
          */
         if (is_array($titulo) AND isset($titulo['titulo_cartao'])) {
             $titulo_cartao = $titulo['titulo_cartao'];
             if (isset($titulo['sub_classe'])) {
-                $titulo['sub_classe'];
+                $this->class = 'card ' . $titulo['sub_classe'];
             }
         } else {
             $titulo_cartao = $titulo;
         }
 
-        $this->class = 'card';
-
+        # 
         if (!isset($links['links'])) {
             $links['links'] = array();
         }
@@ -59,12 +60,12 @@ class Cartao extends Elemento
 
         if ($titulo_cartao) {
 
-            $tipo = $tipo_titulo ? 'h5' : 'div';
+            $tipo = $tipo_titulo ?? 'div';
             $cabecalho = new Elemento($tipo);
             $cabecalho->class = 'card-header';
 
-            $titulo = new Elemento('h5');
-            $titulo->adic($titulo_cartao);
+            #$titulo = new Elemento('h5');
+            $cabecalho->adic($titulo_cartao);
 
             # $links é um array de 2 dimensões. A primeira são os links, e a segunda é a marcação
             if (count($links['links']) > 0) {
@@ -144,7 +145,7 @@ class Cartao extends Elemento
     public function adicTituloCorpo($conteudo)
     {
         $this->titulo_corpo->adic($conteudo);
-        parent::adic($this->titulo_corpo);
+        $this->corpo->adic($this->titulo_corpo);
     }
 
     /**
@@ -153,7 +154,7 @@ class Cartao extends Elemento
     public function adicTextoCorpo($conteudo)
     {
         $this->texto_corpo->adic($conteudo);
-        parent::adic($this->texto_corpo);
+        $this->corpo->adic($this->texto_corpo);
     }
 
     /**
@@ -162,7 +163,7 @@ class Cartao extends Elemento
     public function adicLinkCorpo($conteudo)
     {
         $this->link_corpo->adic($conteudo);
-        parent::adic($this->link_corpo);
+        $this->corpo->adic($this->link_corpo);
     }
 
     /**

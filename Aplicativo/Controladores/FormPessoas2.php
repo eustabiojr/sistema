@@ -5,6 +5,7 @@
  * Data: 15/03/2021
  ************************************************************************************/
 
+use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Recipiente\Cartao;
 use Estrutura\Controle\Pagina;
 use Twig\Environment;
@@ -42,10 +43,19 @@ class FormPessoas2 extends Pagina
 
         $conteudo = $template->render($substituicoes);
 
+        $titulo = array('titulo_cartao' => $conteudo, 'sub_classe' => 'text-center');
+
+        # Aqui no título na verdade incluimos conteudo HTML
+        $cartao_int_cab = new Cartao($titulo, 'div');
+        $cartao_int_cab->adic('');
+        $cartao_int_cab->adicTituloCorpo("Titulo de tratamento especial");
+        $cartao_int_cab->adicTextoCorpo("Com o texto de apoio abaixo como uma introdução natural para conteúdo adicional.");
+        $cartao_int_cab->adicLinkCorpo("Ir para algum lugar");
+
         # cria um cartao para conter o formulário
         $parametros['titulo_cartao'] = 'Pessoas Exemplo';
         $cartao = new Cartao($parametros);
-        $cartao->adic($conteudo);
+        $cartao->adic($cartao_int_cab);
 
         parent::adic($cartao);
     }

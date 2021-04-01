@@ -44,9 +44,9 @@ class Navs extends Elemento
             } else if ($args_links['desabilitado'] == $chave) {
 
                 $link = new Elemento('a');
-                $link->{'class'}        = 'nav-link disabled';
-                $link->href = '#';
-                $link->tabindex = '-1';
+                $link->{'class'}         = 'nav-link disabled';
+                $link->href              = '#';
+                $link->tabindex          = '-1';
                 $link->{'aria-disabled'} = 'true';
                 $link->adic($nome_link);
 
@@ -58,7 +58,7 @@ class Navs extends Elemento
 
                 $link = new Elemento('a');
                 $link->{'class'} = 'nav-link';
-                $link->href = '#';
+                $link->href      = '#';
                 $link->adic($nome_link);
 
                 $nav_item = new Elemento('li');

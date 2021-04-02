@@ -5,8 +5,9 @@
  * Data: 15/03/2021
  ************************************************************************************/
 
-use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Recipiente\Cartao;
+use Estrutura\Bugigangas\Base\Recipiente\NavItens;
+use Estrutura\Bugigangas\Base\Recipiente\Navs;
 use Estrutura\Controle\Pagina;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -43,7 +44,20 @@ class FormPessoas2 extends Pagina
 
         $conteudo = $template->render($substituicoes);
 
-        $titulo = array('titulo_cartao' => $conteudo, 'sub_classe' => 'text-center');
+        $nav_links = new NavItens;
+        $nav_links->adicItem('links', 'Básico',        'nav-item active');
+        $nav_links->adicItem('links', 'Endereço',      'nav-item');
+        $nav_links->adicItem('links', 'Emprego',       'nav-item');
+        $nav_links->adicItem('links', 'Referências',   'nav-item');
+      
+        $nav_links->adicItem('param', 'sub_classe', 'nav-tabs card-header-tabs');
+        $nav_links->adicItem('param', 'ativo', 0);
+        $nav_links->adicItem('param', 'desabilitado', 2);
+      
+        $nav = new Navs($nav_links);
+
+        # $conteudo
+        $titulo = array('titulo_cartao' => $nav, 'sub_classe' => 'text-center');
 
         # Aqui no título na verdade incluimos conteudo HTML
         $cartao_int_cab = new Cartao($titulo, 'div');

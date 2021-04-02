@@ -14,68 +14,75 @@ use Estrutura\Bugigangas\Base\Elemento;
 /**
  * Classe Navs 
  */
+/**
+ * Classe Navs 
+ */
 class Navs extends Elemento 
 {
-    public function __construct(array $param = array(), array $args_links = array())
+    private $params;
+    private $nav_item;
+
+    /**
+    * Método Construtor
+    */
+    public function __construct(NavItens $nav_itens)
     {
         parent::__construct('ul');
 
-        if (!isset($param['sub_classe'])) {
+        $params = $nav_itens->obtItens();
+
+        if (!isset($params['param']['sub_classe'])) { 
             $this->class = 'nav';
-        } else {
-            $this->class = 'nav ' . $param['sub_classe'];
+        } else { 
+            $this->class = 'nav ' . $params['param']['sub_classe'];
         }
 
-        foreach ($param['links'] as $chave => $nome_link) {
+        if (isset($params['links'])) {
 
-            if ($args_links['ativo'] == $chave) {
+            foreach ($params['links'] as $indice => $link_indice) {
 
-                $link = new Elemento('a');
-                $link->{'class'}        = 'nav-link active';
-                $link->{'aria-current'} = 'page';
+                $nome_link = $link_indice[0];
+                $tipo_link = $link_indice[1] ?? 'nav-item';
 
-                $link->href = '#';
-                $link->adic($nome_link);
+                if ($params['param']['ativo'] == $indice) {
 
-                $nav_item = new Elemento('li');
-                $nav_item->{'class'} = 'nav-item';
-                $nav_item->adic($link);
+                    $link = new Elemento('a');
+                    $link->{'class'}        = 'nav-link active';
+                    $link->{'aria-current'} = 'page';
 
-            } else if ($args_links['desabilitado'] == $chave) {
+                    $link->href = '#';
+                    $link->adic($nome_link);
 
-                $link = new Elemento('a');
-                $link->{'class'}         = 'nav-link disabled';
-                $link->href              = '#';
-                $link->tabindex          = '-1';
-                $link->{'aria-disabled'} = 'true';
-                $link->adic($nome_link);
+                    $nav_item = new Elemento('li');
+                    $nav_item->{'class'} = $tipo_link;
+                    $nav_item->adic($link);
 
-                $nav_item = new Elemento('li');
-                $nav_item->{'class'} = 'nav-item';
-                $nav_item->adic($link);
+                } else if ($params['param']['desabilitado'] == $indice) {
 
-            } else {
+                    $link = new Elemento('a');
+                    $link->{'class'}         = 'nav-link disabled';
+                    $link->href              = '#';
+                    $link->tabindex          = '-1';
+                    $link->{'aria-disabled'} = 'true';
+                    $link->adic($nome_link);
 
-                $link = new Elemento('a');
-                $link->{'class'} = 'nav-link';
-                $link->href      = '#';
-                $link->adic($nome_link);
+                    $nav_item = new Elemento('li');
+                    $nav_item->{'class'} = $tipo_link;
+                    $nav_item->adic($link);
 
-                $nav_item = new Elemento('li');
-                $nav_item->{'class'} = 'nav-item';
-                $nav_item->adic($link);
+                } else {
+
+                    $link = new Elemento('a');
+                    $link->{'class'} = 'nav-link';
+                    $link->href      = '#';
+                    $link->adic($nome_link);
+
+                    $nav_item = new Elemento('li');
+                    $nav_item->{'class'} = $tipo_link;
+                    $nav_item->adic($link);
+                }
+                parent::adic($nav_item);
             }
-            # 
-            parent::adic($nav_item);
         }
-    }
-
-    /**
-     * Método adic
-     */
-    public function adic($conteudo)
-    {
-        $this->corpo->adic($conteudo);
-        parent::adic($this->corpo);
     }
 }

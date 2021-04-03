@@ -9,7 +9,7 @@ use Estrutura\Bugigangas\Base\Recipiente\Cartao;
 use Estrutura\Bugigangas\Base\Recipiente\Forms;
 use Estrutura\Bugigangas\Base\Recipiente\ItensForm;
 use Estrutura\Bugigangas\Base\Recipiente\NavItens;
-use Estrutura\Bugigangas\Base\Recipiente\Navs;
+use Estrutura\Bugigangas\Base\Recipiente\NavsTabs;
 use Estrutura\Controle\Pagina;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -52,10 +52,10 @@ class FormPessoas3 extends Pagina
         $nav_links->adicItem('param', 'ativo', 0);
         $nav_links->adicItem('param', 'desabilitado', 2);
       
-        $nav = new Navs($nav_links);
+        $navtabs = new NavsTabs($nav_links);
 
         # $conteudo
-    $titulo = array('titulo_cartao' => $nav/*, 'sub_classe' => 'text-center'*/);
+        $titulo = array('titulo_cartao' => $navtabs/*, 'sub_classe' => 'text-center'*/);
 
         $itens_form = new ItensForm;
 

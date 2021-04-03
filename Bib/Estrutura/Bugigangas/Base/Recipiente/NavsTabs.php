@@ -12,12 +12,9 @@ namespace Estrutura\Bugigangas\Base\Recipiente;
 use Estrutura\Bugigangas\Base\Elemento;
 
 /**
- * Classe Navs 
+ * Classe NavsTabs 
  */
-/**
- * Classe Navs 
- */
-class Navs extends Elemento 
+class NavsTabs extends Elemento 
 {
     private $params;
     private $nav_item;
@@ -83,6 +80,28 @@ class Navs extends Elemento
                 }
                 parent::adic($nav_item);
             }
+        }
+    }
+
+    /**
+     * Método adicAba
+     */
+    public function adicAba($conteudo)
+    {
+        $div = new Elemento('div');
+        $div->class = 'tab-content';
+
+        $abas = array();
+
+        foreach($abas as $chave => $valor) {
+            $aba = new Elemento('div');
+            $aba->class               = 'tab-pane active';
+            $aba->id                  = 'inicio';
+            $aba->role                = 'tabpanel';
+            $aba->{'aria-labelledby'} = 'home-tab';
+            $aba->adic($conteudo);
+
+            $div->adic($aba);
         }
     }
 }

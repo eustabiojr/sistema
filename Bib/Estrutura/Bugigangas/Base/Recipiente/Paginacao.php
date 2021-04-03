@@ -21,29 +21,41 @@ class Paginacao extends Elemento
     /**
     * Método Construtor
     */
-    public function __construct(array $paginas = array(), $classe = 'Page', $subclasse = '', $tipo = 0)
+    public function __construct(array $paginas = [], array $params = [])
     {
         parent::__construct('nav');
 
-        $this->{'aria-label'} = $classe;
+        $this->{'aria-label'} = $params['classe'] ?? 'Page';
 
 	    $ul = new Elemento('ul');
-	    $ul->class = (!empty($subclasse)) ? 'pagination ' . $subclasse : 'pagination';
+	    $ul->class = (!isset($params['subclasse'])) ? 'pagination' : 'pagination ' . $params['subclasse'];
 
-        $paginas = array('1','2','3','4','5');
+        $links_adjacentes = $params['links_adjacentes'] ?? null;
 
-        $anterior_posterior = true;
+        $tipo = !isset($params['tipo']) ? 0 : $params['tipo']; 
 
-        if ($anterior_posterior) {
-        	$anterior = $tipo === 0 ? 'Anterior' : '&laquo;';
+        if ($links_adjacentes) {
+            $anterior = $tipo === 0 ? 'Anterior' : '&laquo;';
+            $span = new Elemento('span');
+            $span->{'aria-hidden'} = 'true';
+            $span->adic($anterior);
+
         	$a = new Elemento('a');
         	$a->class = 'page-link';
         	$a->href  = '#';
         	$a->{'aria-label'} = 'Anterior';
-        	$a->adic($anterior);
+            if (1) {
+                $a->tabindex = '-1';
+                $a->{'aria-disabled'} = 'true';
+            }
+            if ($params['span']) {
+                $a->adic($span);
+            } else {
+               $a->adic($anterior);
+            }
 
-        	$li = new Elemento('li');
-        	$li->class = 'page-item';
+        	$li = new Elemento('li'); 
+        	$li->class = $param['item_desativado'] ?? 'page-item'; 
         	$li->adic($a);
 
         	$ul->adic($li);
@@ -63,13 +75,22 @@ class Paginacao extends Elemento
         	$ul->adic($li);
         }
 
-        if ($anterior_posterior) {
-        	$anterior = $tipo === 0 ? 'Posterior' : '&raquo;';
+        if ($links_adjacentes) {
+
+            $anterior = $tipo === 0 ? 'Anterior' : '&laquo;';
+            $span = new Elemento('span');
+            $span->{'aria-hidden'} = 'true';
+            $span->adic($anterior);
+
         	$a = new Elemento('a');
         	$a->class = 'page-link';
         	$a->href  = '#';
         	$a->{'aria-label'} = 'Anterior';
-        	$a->adic($anterior);
+            if ($params['span']) {
+                $a->adic($span);
+            } else {
+               $a->adic($anterior);
+            }
 
         	$li = new Elemento('li');
         	$li->class = 'page-item';

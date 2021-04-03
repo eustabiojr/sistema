@@ -18,8 +18,11 @@ class ItensForm
 
 	# 'rotulo' => array($classe, $conteudo)
 	# 'entrada' => array($tipo, $nome, $classe_entrada, $marcador)
-    public function adicLinhaForm($classe_linha, array $rotulo, array $entrada, $valor = NULL)
+    public function adicLinhaForm($classe_linha, $rotulo, array $entrada, $valor = NULL)
     {
+    	if (is_string($rotulo)) {
+    		$rotulo = array($rotulo, '');
+    	}
     	$this->linha[][$classe_linha] = array('rotulo' => $rotulo, 'entrada' => $entrada, 'valor' => $valor);
     }
 

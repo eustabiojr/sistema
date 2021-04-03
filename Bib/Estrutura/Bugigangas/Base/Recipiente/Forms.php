@@ -24,8 +24,9 @@ class Forms extends Elemento
     {
         parent::__construct('form');
 
-        $this->class = 'form';
-        
+        if (isset($parametros['classe'])) {
+        	$this->class  = 'row ' . $parametros['classe'];
+        } 
 		if (isset($nome_form) OR $nome_form !== NULL) {
         	$this->name  = $nome_form;
         } 
@@ -35,7 +36,6 @@ class Forms extends Elemento
         if (isset($parametros['metodo'])) {
         	$this->method  = $parametros['metodo'];
         } 
-
 
         $linhaForm = $itens_form->obtLinhasForm();
 
@@ -53,12 +53,19 @@ class Forms extends Elemento
         			case 'button':
         				$tipo_entrada = 'button';
         			break;
+					case 'text':
+        				$tipo_entrada = 'input';
+        			break;
+					case 'password':
+        				$tipo_entrada = 'input';
+        			break;
+					case 'email':
+        				$tipo_entrada = 'input';
+        			break;
         			default:
         				$tipo_entrada = 'input';
         			break;
         		}
-
-        		#echo '<p>' . $tipo_entrada . '</p>' . PHP_EOL;
 
 	        	$entrada = new Elemento($tipo_entrada);
 	        	$entrada->class   	  = $vl['entrada'][2];
@@ -67,9 +74,21 @@ class Forms extends Elemento
 	        		$entrada->nome = $nome;
 	        	}
 
-	        	switch ($tipo_entrada) {
+	        	switch ($vl['entrada'][0]) {
 	        		case 'input': 
 		        		$entrada->type  	 = $vl['entrada'][0] == 'submit' ? 'submit' : $tipo_entrada;
+		        		$entrada->value  	 = $vl['valor'];
+	        		break;
+					case 'text': 
+		        		$entrada->type  	 = 'text';
+		        		$entrada->value  	 = $vl['valor'];
+	        		break;
+					case 'password': 
+		        		$entrada->type  	 = 'password';
+		        		$entrada->value  	 = $vl['valor'];
+	        		break;
+					case 'email': 
+		        		$entrada->type  	 = 'email';
 		        		$entrada->value  	 = $vl['valor'];
 	        		break;
 	        		case 'button':

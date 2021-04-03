@@ -16,8 +16,6 @@ use Estrutura\Bugigangas\Base\Elemento;
  */
 class Paginacao extends Elemento
 {
-    #private $params;
-
     /**
     * Método Construtor
     */
@@ -30,11 +28,11 @@ class Paginacao extends Elemento
 	    $ul = new Elemento('ul');
 	    $ul->class = (!isset($params['subclasse'])) ? 'pagination' : 'pagination ' . $params['subclasse'];
 
-        $links_adjacentes = $params['links_adjacentes'] ?? null;
+        $links_extremidades = $params['links_extremidades'] ?? null;
 
         $tipo = !isset($params['tipo']) ? 0 : $params['tipo']; 
 
-        if ($links_adjacentes) {
+        if ($links_extremidades) {
             $anterior = $tipo === 0 ? 'Anterior' : '&laquo;';
             $span = new Elemento('span');
             $span->{'aria-hidden'} = 'true';
@@ -44,18 +42,25 @@ class Paginacao extends Elemento
         	$a->class = 'page-link';
         	$a->href  = '#';
         	$a->{'aria-label'} = 'Anterior';
-            if (1) {
+
+            $desativado = false;
+            if (isset($params['item_desativado']) && $params['item_desativado'] == 'anterior') {
+                $desativado = true;
                 $a->tabindex = '-1';
                 $a->{'aria-disabled'} = 'true';
             }
-            if ($params['span']) {
+            if (isset($params['span'])) {
                 $a->adic($span);
             } else {
                $a->adic($anterior);
             }
 
         	$li = new Elemento('li'); 
-        	$li->class = $param['item_desativado'] ?? 'page-item'; 
+            if ($desativado) {
+                $li->class = 'page-item disabled'; 
+            } else {
+                $li->class = 'page-item'; 
+            }
         	$li->adic($a);
 
         	$ul->adic($li);
@@ -75,7 +80,7 @@ class Paginacao extends Elemento
         	$ul->adic($li);
         }
 
-        if ($links_adjacentes) {
+        if ($links_extremidades) {
 
             $anterior = $tipo === 0 ? 'Anterior' : '&laquo;';
             $span = new Elemento('span');
@@ -86,14 +91,25 @@ class Paginacao extends Elemento
         	$a->class = 'page-link';
         	$a->href  = '#';
         	$a->{'aria-label'} = 'Anterior';
-            if ($params['span']) {
+            $desativado = false;
+            if (isset($params['item_desativado']) && $params['item_desativado'] == 'posterior') {
+                $desativado = true;
+                $a->tabindex = '-1';
+                $a->{'aria-disabled'} = 'true';
+            }
+            
+            if (isset($params['span'])) {
                 $a->adic($span);
             } else {
                $a->adic($anterior);
             }
 
         	$li = new Elemento('li');
-        	$li->class = 'page-item';
+            if ($desativado) {
+                $li->class = 'page-item disabled'; 
+            } else {
+                $li->class = 'page-item'; 
+            }
         	$li->adic($a);
 
         	$ul->adic($li);

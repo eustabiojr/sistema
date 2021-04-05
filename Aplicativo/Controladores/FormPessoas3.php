@@ -5,7 +5,7 @@
  * Data: 02/04/2021
  ************************************************************************************/
 
-use Estrutura\Bugigangas\Base\Recipiente\Abas;
+use Estrutura\Bugigangas\Base\Recipiente\AbasConteudo;
 use Estrutura\Bugigangas\Base\Recipiente\Cartao;
 use Estrutura\Bugigangas\Base\Recipiente\Forms;
 use Estrutura\Bugigangas\Base\Recipiente\ItensForm;
@@ -95,7 +95,7 @@ class FormPessoas3 extends Pagina
 
         $parametros = array('id' => 'meuConteudoAba', 'ativo' => 'basico');
         $abas = array('basico' => $form, 'endereco' => 'Dois', 'emprego' => 'Três', 'referencias' => 'Quatro', 'obs' => 'Observações');
-        $aba = new Abas($abas, $parametros);
+        $aba = new AbasConteudo($abas, $parametros);
 
         parent::adic($navtabs);
         parent::adic($aba);

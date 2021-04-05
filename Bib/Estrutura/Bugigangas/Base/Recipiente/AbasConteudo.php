@@ -14,7 +14,7 @@ use Estrutura\Bugigangas\Base\Elemento;
 /**
  * Classe Navs 
  */
-class Abas extends Elemento 
+class AbasConteudo extends Elemento 
 {
     /**
      * Método construtor

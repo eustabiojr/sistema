@@ -14,6 +14,7 @@ namespace Estrutura\Bugigangas\Base\Recipiente;
 class NavItens
 {
 	private $params;
+    private $propriedades;
 
     /**
      * Método adicLink
@@ -21,6 +22,11 @@ class NavItens
     public function adicItem($tipo, $nome, $subclasse)
     {
     	if ($tipo == 'links') {
+
+            if (!is_array($nome)) {
+                $nome = array(strtolower($nome) => $nome);
+            }
+
     		$this->params[$tipo][] = array($nome, $subclasse);
     	} else {
         	$this->params[$tipo][$nome] = $subclasse;
@@ -35,3 +41,4 @@ class NavItens
         return isset($tipo) ? $this->params[$tipo] : $this->params;
     }
 }
+

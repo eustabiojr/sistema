@@ -11,6 +11,7 @@ class Inicio extends Pagina
 {
     public function __construct()
     {
+        parent::__construct('div');
         #echo "<p>Construtor do controlador inicial</p>\n";
     }
 

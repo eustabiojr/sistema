@@ -26,6 +26,8 @@ class FormFuncionario extends Pagina
 
     public function __construct()
     {
+        parent::__construct('div');
+        
         $this->conexao = 'exemplo';
 
         # Instância um formulário

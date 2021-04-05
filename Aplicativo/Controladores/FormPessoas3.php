@@ -5,11 +5,12 @@
  * Data: 02/04/2021
  ************************************************************************************/
 
+use Estrutura\Bugigangas\Base\Recipiente\Abas;
 use Estrutura\Bugigangas\Base\Recipiente\Cartao;
 use Estrutura\Bugigangas\Base\Recipiente\Forms;
 use Estrutura\Bugigangas\Base\Recipiente\ItensForm;
 use Estrutura\Bugigangas\Base\Recipiente\NavItens;
-use Estrutura\Bugigangas\Base\Recipiente\NavsTabs;
+use Estrutura\Bugigangas\Base\Recipiente\NavsAbas;
 use Estrutura\Controle\Pagina;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -43,20 +44,18 @@ class FormPessoas3 extends Pagina
         $conteudo = $template->render($substituicoes);
 
         $nav_links = new NavItens;
-        $nav_links->adicItem('links', 'Básico',        'nav-item active');
-        $nav_links->adicItem('links', 'Endereço',      'nav-item');
-        $nav_links->adicItem('links', 'Emprego',       'nav-item');
-        $nav_links->adicItem('links', 'Referências',   'nav-item');
+        $nav_links->adicItem('links', array('basico'      => 'Básico'),     'nav-item active');
+        $nav_links->adicItem('links', array('endereco'    => 'Endereço'),   'nav-item');
+        $nav_links->adicItem('links', array('emprego'     => 'Emprego'),    'nav-item');
+        $nav_links->adicItem('links', array('referencias' => 'Referências'),'nav-item');
+        $nav_links->adicItem('links', array('observacoes' => 'Observações'),'nav-item');
       
         $nav_links->adicItem('param', 'sub_classe', 'nav-tabs card-header-tabs');
         $nav_links->adicItem('param', 'ativo', 0);
         $nav_links->adicItem('param', 'desabilitado', 2);
+        $nav_links->adicItem('param', 'modo_link', 'button');
       
-        $navtabs = new NavsTabs($nav_links);
-
-        # $conteudo
-        $titulo = array('titulo_cartao' => $navtabs/*, 'sub_classe' => 'text-center'*/);
-
+        $navtabs = new NavsAbas($nav_links);
         $itens_form = new ItensForm;
 
         # O segundo parâmetro aceita array e string. Caso seja um array vazio, o rótulo não será criado.
@@ -94,18 +93,11 @@ class FormPessoas3 extends Pagina
 
         $form = new Forms($itens_form, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'));
 
-        # Aqui no título na verdade incluimos conteudo HTML
-        $cartao_int_cab = new Cartao($titulo, 'div');
-        $cartao_int_cab->adic('');
-        #$cartao_int_cab->adicTituloCorpo("Titulo de tratamento especial");
-        $cartao_int_cab->adicTextoCorpo($form);
-        #$cartao_int_cab->adicLinkCorpo("Ir para algum lugar");
+        $parametros = array('id' => 'meuConteudoAba', 'ativo' => 'basico');
+        $abas = array('basico' => $form, 'endereco' => 'Dois', 'emprego' => 'Três', 'referencias' => 'Quatro', 'obs' => 'Observações');
+        $aba = new Abas($abas, $parametros);
 
-        # cria um cartao para conter o formulário
-        $parametros['titulo_cartao'] = 'Pessoas Exemplo';
-        $cartao = new Cartao($parametros);
-        $cartao->adic($cartao_int_cab); # 
-
-        parent::adic($cartao);
+        parent::adic($navtabs);
+        parent::adic($aba);
     }
 }

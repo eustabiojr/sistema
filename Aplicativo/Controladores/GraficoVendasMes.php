@@ -6,7 +6,7 @@
  ************************************************************************************/
 
 use Estrutura\BancoDados\Transacao;
-use Estrutura\Bugigangas\Base\Recipiente\Painel;
+use Estrutura\Bugigangas\Base\Recipiente\Cartao;
 use Estrutura\Bugigangas\Dialogo\Mensagem;
 use Estrutura\Controle\Pagina;
 use Twig\Environment;
@@ -51,7 +51,7 @@ class GraficoVendasMes extends Pagina
         $conteudo = $template->render($substituicoes);
 
         # cria um painel para conter o formulário
-        $painel = new Painel('Vendas/Mês');
+        $painel = new Cartao('Vendas/Mês');
         $painel->adic($conteudo);
 
         parent::adic($painel);

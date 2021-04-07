@@ -22,7 +22,7 @@ class NavsAbas extends Elemento
     /**
     * Método Construtor
     */
-    public function __construct(NavItens $nav_itens)
+    public function __construct(NavItens $nav_itens, $abas_conteudo = '')
     {
         parent::__construct('ul');
 
@@ -129,6 +129,9 @@ class NavsAbas extends Elemento
                         $nav_item->role = 'presentation';
                     }
                     $nav_item->adic($link);
+                }
+                if (!empty($abas_conteudo)) {
+                    parent::adic($abas_conteudo);
                 }
                 parent::adic($nav_item);
             }

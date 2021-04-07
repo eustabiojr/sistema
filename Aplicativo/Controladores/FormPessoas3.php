@@ -107,6 +107,6 @@ class FormPessoas3 extends Pagina
 
         #parent::adic($cartao);
         parent::adic($navtabs);
-        parent::adic($aba);
+        #parent::adic($aba);
     }
 }

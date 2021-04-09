@@ -9,7 +9,7 @@
 namespace Estrutura\Bugigangas\Base\Recipiente;
 
 /**
- * Classe GrupoCartao
+ * Classe GrupoCartao (Em desenvolvimento)
  */
 class GrupoCartao
 {

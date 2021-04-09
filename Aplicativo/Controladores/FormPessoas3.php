@@ -99,15 +99,24 @@ class FormPessoas3 extends Pagina
         $nav_links->adicItem('param', 'desabilitado', 2);
         $nav_links->adicItem('param', 'modo_link', 'button');
 
-        $cartao = new Cartao("Pessoas");
+        $links_abas = $nav_links->obtItens();
+
+        $la = $links_abas + array('ativo' => 0, 'desabilitado' => 2);
+
+        #echo '<pre>';
+            #print_r($la);
+        #echo '</pre>';
+
+        $cartao = new Cartao("Pessoas", 'div', [], $la);
         $cartao->adic($aba);
         $cartao->adicRodape("Rodapé");
       
-        $navtabs = new NavsAbas($nav_links); # ); #
+        #$navtabs = new NavsAbas($nav_links); # ); #
 
-        parent::adic($navtabs);
-        #parent::adic($cartao);
-        parent::adic($aba);
+
+        #parent::adic($navtabs);
+        parent::adic($cartao);
+        #parent::adic($aba);
         parent::adic($conteudo);
     }
 }

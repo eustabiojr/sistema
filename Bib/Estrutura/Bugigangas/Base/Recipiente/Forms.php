@@ -77,27 +77,27 @@ class Forms extends Elemento
 	        	switch ($vl['entrada'][0]) {
 	        		case 'input': 
 		        		$entrada->type  	 = $vl['entrada'][0] == 'submit' ? 'submit' : $tipo_entrada;
-		        		$entrada->value  	 = $vl['valor'];
+		        		$entrada->value  	 = $vl['valor'] ?? '';
 	        		break;
 					case 'text': 
 		        		$entrada->type  	 = 'text';
-		        		$entrada->value  	 = $vl['valor'];
+		        		$entrada->value  	 = $vl['valor'] ?? '';
 	        		break;
 					case 'password': 
 		        		$entrada->type  	 = 'password';
-		        		$entrada->value  	 = $vl['valor'];
+		        		$entrada->value  	 = $vl['valor'] ?? '';
 	        		break;
 					case 'email': 
 		        		$entrada->type  	 = 'email';
-		        		$entrada->value  	 = $vl['valor'];
+		        		$entrada->value  	 = $vl['valor'] ?? '';
 	        		break;
 	        		case 'button':
 		        		$entrada->type  	 = 'submit';
-		        		$entrada->adic($vl['valor']);
+		        		$entrada->adic($vl['valor']) ?? '';
 	        		break;
 	        		case 'submit':
 		        		$entrada->type  	 = 'submit';
-		        		$entrada->value  	 = $vl['valor'];
+		        		$entrada->value  	 = $vl['valor'] ?? '';
 	        		break;
 	        		case 'select':
 			        	if(isset($opcoes_seleciona[$nome])) {
@@ -122,9 +122,10 @@ class Forms extends Elemento
 
 		    	$com_rotulo = (count($vl['rotulo']) !== 0) ? true : false;
 
+				$rotulo = new Elemento('label');
+
 				if ($com_rotulo) {
 
-		        	$rotulo = new Elemento('label');
 		        	if (!empty($vl['rotulo'][1])) {
 		        		$rotulo->class = $vl['rotulo'][1];
 		        	}
@@ -132,8 +133,8 @@ class Forms extends Elemento
 		        	if (isset($vl['id'])) {
 		        		$rotulo->for = $vl['id'];
 		        	}
-				}
-        		
+				} 
+
         		$div = new Elemento('div');
 	        	$div->class = $ch;
 

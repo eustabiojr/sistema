@@ -22,7 +22,7 @@ class NavsAbas extends Elemento
     /**
     * Método Construtor
     */
-    public function __construct(NavItens $nav_itens, $abas_conteudo = '')
+    public function __construct(NavItens $nav_itens/*, $abas_conteudo = ''*/)
     {
         parent::__construct('ul');
 
@@ -32,6 +32,14 @@ class NavsAbas extends Elemento
             $this->class = 'nav';
         } else { 
             $this->class = 'nav ' . $params['param']['sub_classe'];
+        }
+
+        if (isset($params['param']['id'])) { 
+            $this->id = $params['param']['id'];
+        }
+
+        if (isset($params['param']['role'])) { 
+            $this->role = 'tablist';
         }
 
         $modo_link = $params['param']['modo_link'] ?? 'a';
@@ -85,7 +93,7 @@ class NavsAbas extends Elemento
                         $link->adic($nome_link);
                     } elseif ($modo_link == 'button') {
                         $link = new Elemento('button');
-                        $link->{'class'}          = 'nav-link active';
+                        $link->{'class'}          = 'nav-link';
                         $link->id                 = $indice_link . '-tab';
                         $link->{'data-bs-toggle'} = '#' . $indice_link;
                         $link->{'data-bs-target'} = 'tab';
@@ -112,7 +120,7 @@ class NavsAbas extends Elemento
                         $link->adic($nome_link);
                     } elseif ($modo_link == 'button') {
                         $link = new Elemento('button');
-                        $link->{'class'}          = 'nav-link active';
+                        $link->{'class'}          = 'nav-link';
                         $link->id                 = $indice_link . '-tab';
                         $link->{'data-bs-toggle'} = '#' . $indice_link;
                         $link->{'data-bs-target'} = 'tab';
@@ -130,11 +138,16 @@ class NavsAbas extends Elemento
                     }
                     $nav_item->adic($link);
                 }
-                if (!empty($abas_conteudo)) {
-                    parent::adic($abas_conteudo);
-                }
-                parent::adic($nav_item);
-            }
+                $div = new Elemento('div');
+                #$div->class = "style: dashed 2px black;";
+                #$div->style = "dashed 6px black;";
+                $div->adic($nav_item);
+                parent::adic($div);
+            } # Fim do foreach
         }
-    }
+        /*
+        if (!empty($abas_conteudo)) {
+            parent::adic($abas_conteudo);
+        }*/
+    } # Fim do construtor
 }

@@ -86,7 +86,7 @@ class Elemento {
             foreach ($this->propriedades as $nome => $valor) {
                 if (is_scalar($valor)) {
                     if (empty($valor)) {
-                        echo " {$nome}";
+                        echo " {$nome}=\"\"";
                     }  else {
                         echo " {$nome}=\"{$valor}\"";
                     }

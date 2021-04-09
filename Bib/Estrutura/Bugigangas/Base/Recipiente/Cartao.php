@@ -64,9 +64,6 @@ class Cartao extends Elemento
             $cabecalho = new Elemento($tipo);
             $cabecalho->class = 'card-header';
 
-            #$titulo = new Elemento('h5');
-            $cabecalho->adic($titulo_cartao);
-
             # $links é um array de 2 dimensões. A primeira são os links, e a segunda é a marcação
             if (count($links['links']) > 0) {
                 $ul = new Elemento('ul');
@@ -103,7 +100,7 @@ class Cartao extends Elemento
                 } # Fim do foreach
             }
 
-            $cabecalho->adic($titulo);
+            $cabecalho->adic($titulo_cartao);
             if (isset($ul)) {
                 $cabecalho->adic($ul);
             }

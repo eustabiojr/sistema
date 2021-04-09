@@ -44,19 +44,6 @@ class FormPessoas3 extends Pagina
 
         $conteudo = $template->render($substituicoes);
 
-        $nav_links = new NavItens;
-        $nav_links->adicItem('links', array('basico'      => 'Básico'),     'nav-item active');
-        $nav_links->adicItem('links', array('endereco'    => 'Endereço'),   'nav-item');
-        $nav_links->adicItem('links', array('emprego'     => 'Emprego'),    'nav-item');
-        $nav_links->adicItem('links', array('referencias' => 'Referências'),'nav-item');
-        $nav_links->adicItem('links', array('observacoes' => 'Observações'),'nav-item');
-      
-        $nav_links->adicItem('param', 'sub_classe', 'nav-tabs card-header-tabs');
-        $nav_links->adicItem('param', 'ativo', 0);
-        $nav_links->adicItem('param', 'desabilitado', 2);
-        $nav_links->adicItem('param', 'modo_link', 'button');
-      
-        $navtabs = new NavsAbas($nav_links);
         $itens_form = new ItensForm;
 
         # O segundo parâmetro aceita array e string. Caso seja um array vazio, o rótulo não será criado.
@@ -82,7 +69,7 @@ class FormPessoas3 extends Pagina
         $itens_form->adicLinhaForm('col-12',   array('Endereço', 'form-label'), array('text', 'endereco', 'form-control', 'inputEndereco', '1234 Main St'));
         $itens_form->adicLinhaForm('col-md-4', array('Estado', 'form-label'), array('select', 'uf', 'form-select', 'inputEstado'));
         $itens_form->adicLinhaForm('col-md-4', array('Cidade', 'form-label'), array('select', 'cidades', 'form-select', 'inputCidade'));
-        $itens_form->adicLinhaForm('col-12', array(),   array('button', 'enviar', 'btn btn-primary'), 'Enviar');
+        $itens_form->adicLinhaForm('col-12',   array(), array('button', 'enviar', 'btn btn-primary'), 'Enviar');
         #
         $itens_form->defOpcoesSeleciona('nacionalidade', array('Brasileiro', 'Argentino', 'Norte Americando', 'Chileno'));
         $itens_form->defOpcoesSeleciona('uf_expedidor', array('AL', 'BA', 'ES', 'MG', 'SP','RJ', 'SC','RS','TO','AM'));
@@ -91,22 +78,36 @@ class FormPessoas3 extends Pagina
         $itens_form->defOpcoesSeleciona('uf', array('Alagoas', 'Bahia', 'Espírito Santo', 'Minas Gerais', 'São Paulo'));
         $itens_form->defOpcoesSeleciona('cidades', array('Prado', 'Alcobaça', 'Porto Seguro', 'Caravelas', 'Teixeira de Freitas'));
 
-
         $form = new Forms($itens_form, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'));
 
         $parametros = array('id' => 'meuConteudoAba', 'ativo' => 'basico');
         $abas = array('basico' => $form, 'endereco' => 'Dois', 'emprego' => 'Três', 'referencias' => 'Quatro', 'obs' => 'Observações');
         $aba = new AbasConteudo($abas, $parametros);
 
-        #$cartao = new Cartao("Pessoas ");
-        #$cartao->adic($navtabs);
-        #$cartao->adic($aba);
-        #$cartao->adic($aba);
-        #$cartao->adicRodape($navtabs);
-        #$cartao->exibe();
+        # Abas
+        $nav_links = new NavItens;
+        $nav_links->adicItem('links', array('basico'      => 'Básico'),     'nav-item active');
+        $nav_links->adicItem('links', array('endereco'    => 'Endereço'),   'nav-item');
+        $nav_links->adicItem('links', array('emprego'     => 'Emprego'),    'nav-item');
+        $nav_links->adicItem('links', array('referencias' => 'Referências'),'nav-item');
+        $nav_links->adicItem('links', array('observacoes' => 'Observações'),'nav-item');
+      
+        $nav_links->adicItem('param', 'sub_classe', 'nav-tabs');
+        $nav_links->adicItem('param', 'id', 'minhaAbra');
+        $nav_links->adicItem('param', 'role', 'tablist');
+        $nav_links->adicItem('param', 'ativo', 0);
+        $nav_links->adicItem('param', 'desabilitado', 2);
+        $nav_links->adicItem('param', 'modo_link', 'button');
 
-        #parent::adic($cartao);
+        $cartao = new Cartao("Pessoas");
+        $cartao->adic($aba);
+        $cartao->adicRodape("Rodapé");
+      
+        $navtabs = new NavsAbas($nav_links); # ); #
+
         parent::adic($navtabs);
-        #parent::adic($aba);
+        #parent::adic($cartao);
+        parent::adic($aba);
+        parent::adic($conteudo);
     }
 }

@@ -102,7 +102,7 @@ class EmbrulhoForm
             $grupo->adic($botao);
             $i++;
         }
-
+        # 
         $cartao = new Cartao($this->decorado->obtTitulo());
         $cartao->adic($this->elemento);
         $cartao->adicRodape($grupo);

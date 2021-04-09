@@ -1,14 +1,12 @@
-  <ul class="nav nav-tabs card-header-tabs">
-    <li class="nav-item">
-      <a class="nav-link active" aria-current="true" href="#">Básico</a>
-    </li>
-    <li class="nav-item">
-       <a class="nav-link" href="#">Endereço</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Emprego</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Referências</a>
-    </li>
-  </ul>
+<script>
+var gatilhoListaAbra = [].slice.call(document.querySelectorAll('#minhaAbra button'))
+gatilhoListaAbra.forEach(function (gatilhoEl) {
+  var gatilhoAba = new bootstrap.Tab(gatilhoEl)
+
+  gatilhoEl.addEventListener('click', function (event) {
+    event.preventDefault()
+    gatilhoAba.show()
+  })
+})
+</script>
+

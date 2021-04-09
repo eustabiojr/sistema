@@ -28,7 +28,7 @@ class GrupoCartao
      */
     public function adicItens($titulo = NULL, $tipo_titulo = NULL, array $imagem = array(), array $links = array())
     {
-        $this->itens[] = array();
+        $this->itens[] = array($titulo, $tipo_titulo, $imagem, $links);
     }
 
     /**
@@ -39,11 +39,14 @@ class GrupoCartao
         if ($this->itens) {
             # percorre cada uma das opções de radio
             foreach ($this->itens as $indice => $item) {
-
                 #
-                $cartao = new Cartao();
+                $cartao = new Cartao($item[0], $item[1], $item[2], $item[3]);
+                $cartao->adic("Texto");
+                $cartao->adicTituloCorpo("O titulo");
+                $cartao->adicTextoCorpo("texto texto texto");
+                $cartao->adicLinkCorpo('#');
+                $cartao->adicRodape("Atualizado a pouco");
             }
-
         }
     }
 }

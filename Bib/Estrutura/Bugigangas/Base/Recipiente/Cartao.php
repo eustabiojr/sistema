@@ -71,12 +71,25 @@ class Cartao extends Elemento
 
                 foreach ($links['links'] as $chave => $valor) {
 
-                    if ($links['marcado'] == $chave) {
+                    if ($links['ativo'] == $chave) {
                         $li = new Elemento('li');
                         $li->class = 'nav-item';
 
                         $ancora = new Elemento('a');
-                        $ancora->class    = 'nav-link';
+                        $ancora->class    = 'nav-link active'; 
+                        $ancora->{'aria-current'} = 'true';
+                        $ancora->href     = '#';
+                        $ancora->adic($valor);
+
+                        $li->adic($ancora);         
+                        $ul->adic($li);
+
+                    } else if ($links['desabilitado'] == $chave) {
+                        $li = new Elemento('li');
+                        $li->class = 'nav-item';
+
+                        $ancora = new Elemento('a');
+                        $ancora->class    = 'nav-link disabled';
                         $ancora->href     = '#';
                         $ancora->tabindex = '-1';
                         $ancora->{'aria-disabled'} = 'true';
@@ -84,8 +97,7 @@ class Cartao extends Elemento
 
                         $li->adic($ancora);         
                         $ul->adic($li);
-
-                    } else {
+                    } else { 
                         $li = new Elemento('li');
                         $li->class = 'nav-item';
 

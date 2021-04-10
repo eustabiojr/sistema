@@ -25,7 +25,7 @@ class Cartao extends Elemento
     /**
      * Método construtor
      */
-    public function __construct($titulo = NULL, $tipo_titulo = NULL, array $imagem = array(), array $links = array())
+    public function __construct($parametros = NULL, $tipo_titulo = NULL, array $imagem = array(), array $links = array())
     {
         parent::__construct('div');
 
@@ -34,13 +34,13 @@ class Cartao extends Elemento
         /**
          * Assim, podemos passar outros parâmetros de necessário
          */
-        if (is_array($titulo) AND isset($titulo['titulo_cartao'])) {
-            $titulo_cartao = $titulo['titulo_cartao'];
-            if (isset($titulo['sub_classe'])) {
-                $this->class = 'card ' . $titulo['sub_classe'];
+        if (is_array($parametros) AND isset($parametros['titulo_cartao'])) {
+            $titulo_cartao = $parametros['titulo_cartao'];
+            if (isset($parametros['sub_classe'])) {
+                $this->class = 'card ' . $parametros['sub_classe'];
             }
         } else {
-            $titulo_cartao = $titulo;
+            $titulo_cartao = $parametros;
         }
 
         # 
@@ -69,7 +69,25 @@ class Cartao extends Elemento
                 $ul = new Elemento('ul');
                 $ul->class = 'nav nav-tabs card-header-tabs';
 
+                if (isset($parametros['id'])) { 
+                    $ul->id = $parametros['id'];
+                }
+        
+                if (isset($parametros['role'])) { 
+                    $ul->role = 'tablist';
+                }
+
                 foreach ($links['links'] as $chave => $valor) {
+
+                    $temp = array_values($valor[0]);
+                    $ch_id = array_keys($valor[0]);
+                    $id = $ch_id[0];
+
+                    if (is_array($valor)) {
+                        $vlr = $temp[0];
+                    } else {
+                        $vlr = $valor;
+                    };
 
                     if ($links['ativo'] == $chave) {
                         $li = new Elemento('li');
@@ -78,8 +96,8 @@ class Cartao extends Elemento
                         $ancora = new Elemento('a');
                         $ancora->class    = 'nav-link active'; 
                         $ancora->{'aria-current'} = 'true';
-                        $ancora->href     = '#';
-                        $ancora->adic($valor);
+                        $ancora->href     = '#' . $id;
+                        $ancora->adic($vlr);
 
                         $li->adic($ancora);         
                         $ul->adic($li);
@@ -90,10 +108,10 @@ class Cartao extends Elemento
 
                         $ancora = new Elemento('a');
                         $ancora->class    = 'nav-link disabled';
-                        $ancora->href     = '#';
+                        $ancora->href     = '#' . $id;
                         $ancora->tabindex = '-1';
                         $ancora->{'aria-disabled'} = 'true';
-                        $ancora->adic($valor);
+                        $ancora->adic($vlr);
 
                         $li->adic($ancora);         
                         $ul->adic($li);
@@ -103,8 +121,8 @@ class Cartao extends Elemento
 
                         $ancora = new Elemento('a');
                         $ancora->class    = 'nav-link';
-                        $ancora->href     = '#';
-                        $ancora->adic($valor);
+                        $ancora->href     = '#' . $id;
+                        $ancora->adic($vlr);
 
                         $li->adic($ancora);         
                         $ul->adic($li);

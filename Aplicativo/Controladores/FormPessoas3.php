@@ -44,44 +44,51 @@ class FormPessoas3 extends Pagina
 
         $conteudo = $template->render($substituicoes);
 
-        $itens_form = new ItensForm;
+        $itens_form_1 = new ItensForm;
 
         # O segundo parâmetro aceita array e string. Caso seja um array vazio, o rótulo não será criado.
-        $itens_form->adicLinhaForm('col-md-4', array('CPF', 'form-label'), array('text', 'cpf', 'form-control', 'inputCPF1'));
-        $itens_form->adicLinhaForm('col-md-4', array('', 'form-label'), array('button', 'pesquisar', 'btn btn-primary'), 'Pesquisar');
-        $itens_form->adicLinhaForm('col-md-4', array('Código', 'form-label'), array('text', 'codigo', 'form-control', 'inputCod1'));
-        $itens_form->adicLinhaForm('col-md-8', array('Nome',   'form-label'), array('text', 'nome', 'form-control', 'inputNome4'));
-        $itens_form->adicLinhaForm('col-md-2', array('Apelido',   'form-label'), array('text', 'apelido', 'form-control', 'inputApelido4'));
-        $itens_form->adicLinhaForm('col-md-2', array('Nascimento',   'form-label'), array('text', 'nascimento', 'form-control', 'inputNascimento4'));
-        $itens_form->adicLinhaForm('col-md-3', array('Número RG',   'form-label'), array('text', 'rg', 'form-control', 'inputRG4'));
-        $itens_form->adicLinhaForm('col-md-2', array('Orgão Expedidor', 'form-label'), array('text', 'orgao_expedidor', 'form-control', 'inputOrgExp4'));
-        $itens_form->adicLinhaForm('col-md-3', array('UF', 'form-label'), array('select', 'uf_expedidor', 'form-select', 'inputUFExpedidor'));
-        $itens_form->adicLinhaForm('col-md-2', array('Data Expedição',   'form-label'), array('text', 'data_expedicao', 'form-control', 'inputDataExpedicao4'));
-        $itens_form->adicLinhaForm('col-md-3', array('Nacionalidade', 'form-label'), array('select', 'nacionalidade', 'form-select', 'inputNacionalidade'));
-        $itens_form->adicLinhaForm('col-md-3', array('Naturalidade',   'form-label'), array('text', 'naturalidade', 'form-control', 'inputNaturalidade4'));
-        $itens_form->adicLinhaForm('col-md-2', array('Sexo', 'form-label'), array('select', 'sexo', 'form-select', 'inputSexo'));
-        $itens_form->adicLinhaForm('col-md-1', array('DDD',   'form-label'), array('text', 'ddd', 'form-control', 'inputDDD4'));
-        $itens_form->adicLinhaForm('col-md-3', array('Celular', 'form-label'), array('text', 'celular', 'form-control', 'inputCelular4'));
-        $itens_form->adicLinhaForm('col-md-6', array('Nome do pai', 'form-label'), array('text', 'nome_pai', 'form-control', 'inputPai4'));
-        $itens_form->adicLinhaForm('col-md-6', array('Nome da mãe', 'form-label'), array('text', 'nome_mae', 'form-control', 'inputMae4'));
-        $itens_form->adicLinhaForm('col-md-4', array('Estado Civil', 'form-label'), array('select', 'estado_civil', 'form-select', 'inputEstadoCivil'));
-        $itens_form->adicLinhaForm('col-md-6', array('Email',   'form-label'), array('email', 'email', 'form-control', 'inputEmail4'), 'nome@email.com');
-        $itens_form->adicLinhaForm('col-12',   array('Endereço', 'form-label'), array('text', 'endereco', 'form-control', 'inputEndereco', '1234 Main St'));
-        $itens_form->adicLinhaForm('col-md-4', array('Estado', 'form-label'), array('select', 'uf', 'form-select', 'inputEstado'));
-        $itens_form->adicLinhaForm('col-md-4', array('Cidade', 'form-label'), array('select', 'cidades', 'form-select', 'inputCidade'));
-        $itens_form->adicLinhaForm('col-12',   array(), array('button', 'enviar', 'btn btn-primary'), 'Enviar');
+        $itens_form_1->adicLinhaForm('col-md-4', array('CPF', 'form-label'), array('text', 'cpf', 'form-control', 'inputCPF1'));
+        $itens_form_1->adicLinhaForm('col-md-4', array('', 'form-label'), array('button', 'pesquisar', 'btn btn-primary'), 'Pesquisar');
+        $itens_form_1->adicLinhaForm('col-md-4', array('Código', 'form-label'), array('text', 'codigo', 'form-control', 'inputCod1'));
+        $itens_form_1->adicLinhaForm('col-md-8', array('Nome',   'form-label'), array('text', 'nome', 'form-control', 'inputNome4'));
+        $itens_form_1->adicLinhaForm('col-md-2', array('Apelido',   'form-label'), array('text', 'apelido', 'form-control', 'inputApelido4'));
+        $itens_form_1->adicLinhaForm('col-md-2', array('Nascimento',   'form-label'), array('text', 'nascimento', 'form-control', 'inputNascimento4'));
+        $itens_form_1->adicLinhaForm('col-md-3', array('Número RG',   'form-label'), array('text', 'rg', 'form-control', 'inputRG4'));
+        $itens_form_1->adicLinhaForm('col-md-2', array('Orgão Expedidor', 'form-label'), array('text', 'orgao_expedidor', 'form-control', 'inputOrgExp4'));
+        $itens_form_1->adicLinhaForm('col-md-3', array('UF', 'form-label'), array('select', 'uf_expedidor', 'form-select', 'inputUFExpedidor'));
+        $itens_form_1->adicLinhaForm('col-md-2', array('Data Expedição',   'form-label'), array('text', 'data_expedicao', 'form-control', 'inputDataExpedicao4'));
+        $itens_form_1->adicLinhaForm('col-md-3', array('Nacionalidade', 'form-label'), array('select', 'nacionalidade', 'form-select', 'inputNacionalidade'));
+        $itens_form_1->adicLinhaForm('col-md-3', array('Naturalidade',   'form-label'), array('text', 'naturalidade', 'form-control', 'inputNaturalidade4'));
+        $itens_form_1->adicLinhaForm('col-md-2', array('Sexo', 'form-label'), array('select', 'sexo', 'form-select', 'inputSexo'));
+        $itens_form_1->adicLinhaForm('col-md-1', array('DDD',   'form-label'), array('text', 'ddd', 'form-control', 'inputDDD4'));
+        $itens_form_1->adicLinhaForm('col-md-3', array('Celular', 'form-label'), array('text', 'celular', 'form-control', 'inputCelular4'));
+        $itens_form_1->adicLinhaForm('col-md-6', array('Nome do pai', 'form-label'), array('text', 'nome_pai', 'form-control', 'inputPai4'));
+        $itens_form_1->adicLinhaForm('col-md-6', array('Nome da mãe', 'form-label'), array('text', 'nome_mae', 'form-control', 'inputMae4'));
+        $itens_form_1->adicLinhaForm('col-md-4', array('Estado Civil', 'form-label'), array('select', 'estado_civil', 'form-select', 'inputEstadoCivil'));
+        $itens_form_1->adicLinhaForm('col-md-6', array('Email',   'form-label'), array('email', 'email', 'form-control', 'inputEmail4'), 'nome@email.com');
+        $itens_form_1->adicLinhaForm('col-12',   array(), array('button', 'enviar', 'btn btn-primary'), 'Enviar');
         #
-        $itens_form->defOpcoesSeleciona('nacionalidade', array('Brasileiro', 'Argentino', 'Norte Americando', 'Chileno'));
-        $itens_form->defOpcoesSeleciona('uf_expedidor', array('AL', 'BA', 'ES', 'MG', 'SP','RJ', 'SC','RS','TO','AM'));
-        $itens_form->defOpcoesSeleciona('sexo', array('Masculino', 'Feminino'));
-        $itens_form->defOpcoesSeleciona('estado_civil', array('Solteiro(a)', 'Casado(a)','Viúvo(a)', 'Divorciado(a)', 'Outro'));
-        $itens_form->defOpcoesSeleciona('uf', array('Alagoas', 'Bahia', 'Espírito Santo', 'Minas Gerais', 'São Paulo'));
-        $itens_form->defOpcoesSeleciona('cidades', array('Prado', 'Alcobaça', 'Porto Seguro', 'Caravelas', 'Teixeira de Freitas'));
+        $itens_form_1->defOpcoesSeleciona('nacionalidade', array('Brasileiro', 'Argentino', 'Norte Americando', 'Chileno'));
+        $itens_form_1->defOpcoesSeleciona('uf_expedidor', array('AL', 'BA', 'ES', 'MG', 'SP','RJ', 'SC','RS','TO','AM'));
+        $itens_form_1->defOpcoesSeleciona('sexo', array('Masculino', 'Feminino'));
+        $itens_form_1->defOpcoesSeleciona('estado_civil', array('Solteiro(a)', 'Casado(a)','Viúvo(a)', 'Divorciado(a)', 'Outro'));
 
-        $form = new Forms($itens_form, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'));
+        $itens_form_2 = new ItensForm;
+
+        $itens_form_2->adicLinhaForm('col-12',   array('Endereço', 'form-label'), array('text', 'endereco', 'form-control', 'inputEndereco', '1234 Main St'));
+        $itens_form_2->adicLinhaForm('col-md-4', array('Estado', 'form-label'), array('select', 'uf', 'form-select', 'inputEstado'));
+        $itens_form_2->adicLinhaForm('col-md-4', array('Cidade', 'form-label'), array('select', 'cidades', 'form-select', 'inputCidade'));
+        $itens_form_2->defOpcoesSeleciona('uf', array('Alagoas', 'Bahia', 'Espírito Santo', 'Minas Gerais', 'São Paulo'));
+        $itens_form_2->defOpcoesSeleciona('cidades', array('Prado', 'Alcobaça', 'Porto Seguro', 'Caravelas', 'Teixeira de Freitas'));
+
+
+        //-------------------------------------------------------------------------------------------------------------------------
+        $form1 = new Forms($itens_form_1, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'));
+
+        $form2 = new Forms($itens_form_2, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'));
 
         $parametros = array('id' => 'meuConteudoAba', 'ativo' => 'basico');
-        $abas = array('basico' => $form, 'endereco' => 'Dois', 'emprego' => 'Três', 'referencias' => 'Quatro', 'obs' => 'Observações');
+        $abas = array('basico' => $form1, 'endereco' => $form2, 'emprego' => 'Três', 'referencias' => 'Quatro', 'obs' => 'Observações');
         $aba = new AbasConteudo($abas, $parametros);
 
         # Abas
@@ -101,22 +108,23 @@ class FormPessoas3 extends Pagina
 
         $links_abas = $nav_links->obtItens();
 
-        $la = $links_abas + array('ativo' => 0, 'desabilitado' => 2);
+        $la = $links_abas + array('ativo' => 0, 'desabilitado' => 4);
 
         #echo '<pre>';
             #print_r($la);
         #echo '</pre>';
 
-        $cartao = new Cartao("Pessoas", 'div', [], $la);
-        $cartao->adic($aba);
-        $cartao->adicRodape("Rodapé");
+        $parametros = array('titulo_cartao' => " ", 'id' => 'idAbaPessoa', 'role' => 'tablist');
+
+        $cartao_form = new Cartao($parametros, 'div', [], $la);
+        $cartao_form->adic($aba);
+
+        $cartao = new Cartao("Pessoas", 'h5', []);
+        $cartao->adic($cartao_form);
       
         #$navtabs = new NavsAbas($nav_links); # ); #
 
-
-        #parent::adic($navtabs);
         parent::adic($cartao);
-        #parent::adic($aba);
         parent::adic($conteudo);
     }
 }

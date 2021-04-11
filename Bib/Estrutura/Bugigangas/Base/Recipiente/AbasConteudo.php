@@ -26,7 +26,7 @@ class AbasConteudo extends Elemento
         $div = new Elemento('div');
         $div->class = 'tab-content';
         $div->id    = $parametros['id'];
-        $desaparecimento    = $parametros['desaparecimento'] ?? '';
+        $desaparecimento = $parametros['desaparecimento'] ?? '';
 
         if (isset($abas)) {
 

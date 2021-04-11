@@ -15,7 +15,7 @@ use Estrutura\Bugigangas\Base\Elemento;
  */
 class Forms extends Elemento
 {
-    #private $corpo;
+    private $opcoes_seleciona;
 
     /**
      * Método construtor
@@ -37,10 +37,17 @@ class Forms extends Elemento
         	$this->method  = $parametros['metodo'];
         } 
 
-        $linhaForm = $itens_form->obtLinhasForm();
+        $this->opcoes_seleciona = $itens_form->obtOpcoesSeleciona();
 
-        $opcoes_seleciona = $itens_form->obtOpcoesSeleciona();
+        $this->itensForm($itens_form->obtLinhasForm());
+    }
 
+    /**
+     * Método itensForm
+     */
+    private function itensForm($linhaForm)
+    {
+		# A variável não está sendo usada
         foreach ($linhaForm as $chave => $valor) {
 
         	# Esse laço cria as DIVs externas de cada linha
@@ -100,9 +107,9 @@ class Forms extends Elemento
 		        		$entrada->value  	 = $vl['valor'] ?? '';
 	        		break;
 	        		case 'select':
-			        	if(isset($opcoes_seleciona[$nome])) {
+			        	if(isset($this->opcoes_seleciona[$nome])) {
 
-				        	foreach ($opcoes_seleciona[$nome] as $chave_opcao => $valor_opcao) {
+				        	foreach ($this->opcoes_seleciona[$nome] as $chave_opcao => $valor_opcao) {
 
 				        		$opcao = new Elemento('option');
 				        		$opcao->value = $chave_opcao;
@@ -142,9 +149,8 @@ class Forms extends Elemento
 	        		$div->adic($rotulo); 
 	        	}
 	        	$div->adic($entrada);
-
-        		parent::adic($div);
-        	}
-        }
+        	} # Fim do foreach interno
+			parent::adic($div);
+        } # Fim do foreach externo
     }
 }

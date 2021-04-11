@@ -83,6 +83,10 @@ class FormPessoas3 extends Pagina
 
 
         //-------------------------------------------------------------------------------------------------------------------------
+
+        /**
+         * Aqui já sai o formulário completo. Mas precisamos apenas de parte dos campos do formulário de cada vez.
+         */
         $form1 = new Forms($itens_form_1, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'));
 
         $form2 = new Forms($itens_form_2, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'));

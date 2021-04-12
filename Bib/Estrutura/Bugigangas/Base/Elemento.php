@@ -24,7 +24,7 @@ class Elemento {
     public function __construct($nome)
     {
         $this->nometag = $nome;
-        $this->elementos_simples = array('meta', 'link', 'input', 'img', 'hr', 'base', 'area', 'col', 'param', 'track');
+        $this->elementos_simples = array('meta', 'link', 'input', 'img', 'hr', 'base', 'area', 'col', 'param', 'track','comand','embed','wbr');
     }
 
     /**

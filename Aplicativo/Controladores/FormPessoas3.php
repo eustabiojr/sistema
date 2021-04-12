@@ -10,6 +10,7 @@ use Estrutura\Bugigangas\Base\Recipiente\AbasConteudo;
 use Estrutura\Bugigangas\Base\Recipiente\Cartao;
 use Estrutura\Bugigangas\Base\Recipiente\Forms;
 use Estrutura\Bugigangas\Base\Recipiente\ItensForm;
+use Estrutura\Bugigangas\Base\Recipiente\ItensFormulario;
 use Estrutura\Bugigangas\Base\Recipiente\NavItens;
 use Estrutura\Bugigangas\Base\Recipiente\NavsAbas;
 use Estrutura\Controle\Pagina;
@@ -44,6 +45,7 @@ class FormPessoas3 extends Pagina
 
         $conteudo = $template->render($substituicoes);
 
+        # Itens da aba 1
         $itens_form_1 = new ItensForm;
 
         # O segundo parâmetro aceita array e string. Caso seja um array vazio, o rótulo não será criado.
@@ -73,27 +75,32 @@ class FormPessoas3 extends Pagina
         $itens_form_1->defOpcoesSeleciona('sexo', array('Masculino', 'Feminino'));
         $itens_form_1->defOpcoesSeleciona('estado_civil', array('Solteiro(a)', 'Casado(a)','Viúvo(a)', 'Divorciado(a)', 'Outro'));
 
+        # Itens da aba 2
         $itens_form_2 = new ItensForm;
 
         $itens_form_2->adicLinhaForm('col-12',   array('Endereço', 'form-label'), array('text', 'endereco', 'form-control', 'inputEndereco', '1234 Main St'));
         $itens_form_2->adicLinhaForm('col-md-4', array('Estado', 'form-label'), array('select', 'uf', 'form-select', 'inputEstado'));
         $itens_form_2->adicLinhaForm('col-md-4', array('Cidade', 'form-label'), array('select', 'cidades', 'form-select', 'inputCidade'));
+
         $itens_form_2->defOpcoesSeleciona('uf', array('Alagoas', 'Bahia', 'Espírito Santo', 'Minas Gerais', 'São Paulo'));
         $itens_form_2->defOpcoesSeleciona('cidades', array('Prado', 'Alcobaça', 'Porto Seguro', 'Caravelas', 'Teixeira de Freitas'));
 
+        //------------------------------------------------------------------------------------------------------------------------- 
 
-        //-------------------------------------------------------------------------------------------------------------------------
+        $itens_aba1 = new ItensFormulario($itens_form_1, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'));
+        $itens_aba2 = new ItensFormulario($itens_form_2, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'));
+
+        $form1 = new Forms($itens_form_1, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'));
+               
+        $parametros = array('id' => 'meuConteudoAba', 'ativo' => 'basico');
+        $abas = array('basico' => $form1, 'endereco' => '', 'emprego' => 'Três', 'referencias' => 'Quatro', 'obs' => 'Observações');
+        #$abas = array('basico' => $itens_aba1, 'endereco' => '$itens_aba2', 'emprego' => 'Três', 'referencias' => 'Quatro', 'obs' => $itens_aba2);
+        $aba = new AbasConteudo($abas, $parametros);
 
         /**
          * Aqui já sai o formulário completo. Mas precisamos apenas de parte dos campos do formulário de cada vez.
          */
-        $form1 = new Forms($itens_form_1, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'));
-
-        $form2 = new Forms($itens_form_2, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'));
-
-        $parametros = array('id' => 'meuConteudoAba', 'ativo' => 'basico');
-        $abas = array('basico' => $form1, 'endereco' => $form2, 'emprego' => 'Três', 'referencias' => 'Quatro', 'obs' => 'Observações');
-        $aba = new AbasConteudo($abas, $parametros);
+        $form = new Forms($itens_form_1, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'), $aba); # , $aba
 
         # Abas
         $nav_links = new NavItens;
@@ -121,13 +128,11 @@ class FormPessoas3 extends Pagina
         $parametros = array('titulo_cartao' => " ", 'id' => 'idAbaPessoa', 'role' => 'tablist');
 
         $cartao_form = new Cartao($parametros, 'div', [], $la);
-        $cartao_form->adic($aba);
+        $cartao_form->adic($aba); # form aba
 
         $cartao = new Cartao("Pessoas", 'h5', []);
         $cartao->adic($cartao_form);
       
-        #$navtabs = new NavsAbas($nav_links); # ); #
-
         parent::adic($cartao);
         parent::adic($conteudo);
     }

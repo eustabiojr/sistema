@@ -1,28 +1,27 @@
 <script type="text/javascript">
-var gatilhoListaAbra = [].slice.call(document.querySelectorAll('#idAbaPessoa a'))
-gatilhoListaAbra.forEach(function (gatilhoEl) {
-  var gatilhoAba = new bootstrap.Tab(gatilhoEl)
-
-  gatilhoEl.addEventListener('click', function (event) {
-    event.preventDefault()
-    gatilhoAba.show()
+  var gatilhoListaAbra = [].slice.call(document.querySelectorAll('#idAbaPessoa a'))
+  gatilhoListaAbra.forEach(function (gatilhoEl) {
+    var gatilhoAba = new bootstrap.Tab(gatilhoEl)
+  
+    gatilhoEl.addEventListener('click', function (event) {
+      event.preventDefault()
+      gatilhoAba.show()
+    })
   })
-})
-
-var gatilhoEl1 = document.querySelector('#idAbaPessoa #basico')
-bootstrap.Tab.getInstance(gatilhoEl1).show() // Seleção pelo nome da aba
-
-var gatilhoEl2 = document.querySelector('#idAbaPessoa #endereco')
-bootstrap.Tab.getInstance(gatilhoEl2).show() 
-
-var gatilhoEl3 = document.querySelector('#idAbaPessoa #emprego')
-bootstrap.Tab.getInstance(gatilhoEl3).show() 
-
-var gatilhoEl4 = document.querySelector('#idAbaPessoa #referencias')
-bootstrap.Tab.getInstance(gatilhoEl4).show() 
-
-var gatilhoEl5 = document.querySelector('#idAbaPessoa #obs')
-bootstrap.Tab.getInstance(gatilhoEl5).show() 
-
+  
+  var gatilhoEl1 = document.querySelector('#idAbaPessoa #basico')
+  bootstrap.Tab.getInstance(gatilhoEl1).show() // Seleção pelo nome da aba
+  
+  var gatilhoEl2 = document.querySelector('#idAbaPessoa #endereco')
+  bootstrap.Tab.getInstance(gatilhoEl2).show() 
+  
+  var gatilhoEl3 = document.querySelector('#idAbaPessoa #emprego')
+  bootstrap.Tab.getInstance(gatilhoEl3).show() 
+  
+  var gatilhoEl4 = document.querySelector('#idAbaPessoa #referencias')
+  bootstrap.Tab.getInstance(gatilhoEl4).show() 
+  
+  var gatilhoEl5 = document.querySelector('#idAbaPessoa #obs')
+  bootstrap.Tab.getInstance(gatilhoEl5).show() 
+  
 </script>
-

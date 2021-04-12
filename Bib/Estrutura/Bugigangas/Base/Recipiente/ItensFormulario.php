@@ -2,7 +2,7 @@
 /********************************************************************************************
  * Sistema Agenet
  * 
- * Data: 01/04/2021
+ * Data: 11/04/2021
  ********************************************************************************************/
 
  # Espaço de nomes
@@ -11,20 +11,18 @@ namespace Estrutura\Bugigangas\Base\Recipiente;
 use Estrutura\Bugigangas\Base\Elemento;
 
 /**
- * Classe Forms
+ * Classe ItensFormulario
  */
-class Forms extends Elemento
+class ItensFormulario extends Elemento 
 {
     private $opcoes_seleciona;
 
     /**
-     * Método construtor
-	 * 
-	 * ItensForm|NULL 
+     * Método itensForm
      */
-    public function __construct($itens_form, $nome_form = 'meu_formulario', array $parametros = array(), $abas = NULL)
+    public function __construct(ItensForm $itens_form, $nome_form = 'meu_formulario', array $parametros = array())
     {
-        parent::__construct('form');
+/*        parent::__construct('span');
 
         if (isset($parametros['classe'])) {
         	$this->class  = 'row ' . $parametros['classe'];
@@ -37,15 +35,11 @@ class Forms extends Elemento
         } 
         if (isset($parametros['metodo'])) {
         	$this->method  = $parametros['metodo'];
-        } 
-
-		if ($abas !== NULL) {
-			parent::adic($abas);
-		} else { # if ($itens_form !== NULL) 
-			$this->opcoes_seleciona = $itens_form->obtOpcoesSeleciona();
-			$this->itensForm($itens_form->obtLinhasForm());
-		}
-	}
+        }*/
+		
+        $this->opcoes_seleciona = $itens_form->obtOpcoesSeleciona();
+		$this->itensForm($itens_form->obtLinhasForm());
+    }
 
     /**
      * Método itensForm
@@ -111,7 +105,7 @@ class Forms extends Elemento
 		        		$entrada->type  	 = 'submit';
 		        		$entrada->value  	 = $vl['valor'] ?? '';
 	        		break;
-	        		case 'select':
+	        		case 'select':          
 			        	if(isset($this->opcoes_seleciona[$nome])) {
 
 				        	foreach ($this->opcoes_seleciona[$nome] as $chave_opcao => $valor_opcao) {

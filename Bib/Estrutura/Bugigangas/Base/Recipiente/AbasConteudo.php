@@ -41,7 +41,6 @@ class AbasConteudo extends Elemento
                 $aba->role                = 'tabpanel';
                 $aba->{'aria-labelledby'} = $chave . '-tab';
                 $aba->adic($valor);
-
                 $div->adic($aba);
             }
         }

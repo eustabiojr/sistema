@@ -47,7 +47,6 @@ class FormPessoas3 extends Pagina
 
         # Itens da aba 1
         $itens_form_1 = new ItensForm;
-
         # O segundo parâmetro aceita array e string. Caso seja um array vazio, o rótulo não será criado.
         $itens_form_1->adicLinhaForm('col-md-4', array('CPF', 'form-label'), array('text', 'cpf', 'form-control', 'inputCPF1'));
         $itens_form_1->adicLinhaForm('col-md-4', array('', 'form-label'), array('button', 'pesquisar', 'btn btn-primary'), 'Pesquisar');
@@ -77,7 +76,6 @@ class FormPessoas3 extends Pagina
 
         # Itens da aba 2
         $itens_form_2 = new ItensForm;
-
         $itens_form_2->adicLinhaForm('col-12',   array('Endereço', 'form-label'), array('text', 'endereco', 'form-control', 'inputEndereco', '1234 Main St'));
         $itens_form_2->adicLinhaForm('col-md-4', array('Estado', 'form-label'), array('select', 'uf', 'form-select', 'inputEstado'));
         $itens_form_2->adicLinhaForm('col-md-4', array('Cidade', 'form-label'), array('select', 'cidades', 'form-select', 'inputCidade'));
@@ -90,8 +88,10 @@ class FormPessoas3 extends Pagina
         $itens_aba1 = new ItensFormulario($itens_form_1, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'));
         $itens_aba2 = new ItensFormulario($itens_form_2, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'));
 
+        # O que estava bagunçando a layout das abas era a class 'row g-3'. Para arrumar, basta criar uma div 
+        # com essa classe em cada aba, e deixar form sem classe.
         $form1 = new Forms($itens_form_1, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'));
-               
+        
         $parametros = array('id' => 'meuConteudoAba', 'ativo' => 'basico');
         $abas = array('basico' => $form1, 'endereco' => '', 'emprego' => 'Três', 'referencias' => 'Quatro', 'obs' => 'Observações');
         #$abas = array('basico' => $itens_aba1, 'endereco' => '$itens_aba2', 'emprego' => 'Três', 'referencias' => 'Quatro', 'obs' => $itens_aba2);

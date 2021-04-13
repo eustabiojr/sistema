@@ -22,10 +22,9 @@ class AbasConteudo extends Elemento
     public function __construct(array $abas = array(), array $parametros = array())
     {
         parent::__construct('div');
-        
-        $div = new Elemento('div');
-        $div->class = 'tab-content';
-        $div->id    = $parametros['id'];
+        $this->class = 'tab-content';
+        $this->id = $parametros['id'];
+     
         $desaparecimento = $parametros['desaparecimento'] ?? '';
 
         if (isset($abas)) {
@@ -41,9 +40,8 @@ class AbasConteudo extends Elemento
                 $aba->role                = 'tabpanel';
                 $aba->{'aria-labelledby'} = $chave . '-tab';
                 $aba->adic($valor);
-                $div->adic($aba);
+                parent::adic($aba);
             }
         }
-        parent::adic($div);
     }
 }

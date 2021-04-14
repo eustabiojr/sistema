@@ -85,22 +85,19 @@ class FormPessoas3 extends Pagina
 
         //------------------------------------------------------------------------------------------------------------------------- 
 
-        $itens_aba1 = new ItensFormulario($itens_form_1, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'));
-        $itens_aba2 = new ItensFormulario($itens_form_2, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'));
+        $itens_aba1 = new ItensFormulario($itens_form_1, NULL, array('id' => 'aba1', 'classe' => 'g-3'));
+        $itens_aba2 = new ItensFormulario($itens_form_2, NULL, array('id' => 'aba2', 'classe' => 'g-3'));
 
         # O que estava bagunçando a layout das abas era a class 'row g-3'. Para arrumar, basta criar uma div 
-        # com essa classe em cada aba, e deixar form sem classe.
-        $form1 = new Forms($itens_form_1, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'));
-        
+        # com essa classe em cada aba, e deixar form sem classe.        
         $parametros = array('id' => 'meuConteudoAba', 'ativo' => 'basico');
-        $abas = array('basico' => $form1, 'endereco' => '', 'emprego' => 'Três', 'referencias' => 'Quatro', 'obs' => 'Observações');
-        #$abas = array('basico' => $itens_aba1, 'endereco' => '$itens_aba2', 'emprego' => 'Três', 'referencias' => 'Quatro', 'obs' => $itens_aba2);
+        $abas = array('basico' => $itens_aba1, 'endereco' => $itens_aba2, 'emprego' => 'Três', 'referencias' => 'Quatro', 'obs' => 'xx');
         $aba = new AbasConteudo($abas, $parametros);
 
         /**
          * Aqui já sai o formulário completo. Mas precisamos apenas de parte dos campos do formulário de cada vez.
          */
-        $form = new Forms($itens_form_1, NULL, array('id' => 2, 'metodo' => 'post', 'classe' => 'g-3'), $aba); # , $aba
+        $form = new Forms($itens_form_1, NULL, array('id' => 'form_clientes_abas', 'metodo' => 'post'), $aba); # , $aba
 
         # Abas
         $nav_links = new NavItens;
@@ -128,7 +125,7 @@ class FormPessoas3 extends Pagina
         $parametros = array('titulo_cartao' => " ", 'id' => 'idAbaPessoa', 'role' => 'tablist');
 
         $cartao_form = new Cartao($parametros, 'div', [], $la);
-        $cartao_form->adic($aba); # form aba
+        $cartao_form->adic($form); # form aba
 
         $cartao = new Cartao("Pessoas", 'h5', []);
         $cartao->adic($cartao_form);

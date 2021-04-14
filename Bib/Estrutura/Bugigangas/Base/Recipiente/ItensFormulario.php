@@ -22,7 +22,7 @@ class ItensFormulario extends Elemento
      */
     public function __construct(ItensForm $itens_form, $nome_form = 'meu_formulario', array $parametros = array())
     {
-/*        parent::__construct('span');
+        parent::__construct('div');
 
         if (isset($parametros['classe'])) {
         	$this->class  = 'row ' . $parametros['classe'];
@@ -32,10 +32,7 @@ class ItensFormulario extends Elemento
         } 
         if (isset($parametros['id']) OR (is_null($parametros['id']))) {
         	$this->id  = $parametros['id'];
-        } 
-        if (isset($parametros['metodo'])) {
-        	$this->method  = $parametros['metodo'];
-        }*/
+        }
 		
         $this->opcoes_seleciona = $itens_form->obtOpcoesSeleciona();
 		$this->itensForm($itens_form->obtLinhasForm());

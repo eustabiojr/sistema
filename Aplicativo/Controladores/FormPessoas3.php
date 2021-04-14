@@ -5,14 +5,12 @@
  * Data: 02/04/2021
  ************************************************************************************/
 
-use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Recipiente\AbasConteudo;
 use Estrutura\Bugigangas\Base\Recipiente\Cartao;
 use Estrutura\Bugigangas\Base\Recipiente\Forms;
+use Estrutura\Bugigangas\Base\Recipiente\ItensAbasForm;
 use Estrutura\Bugigangas\Base\Recipiente\ItensForm;
-use Estrutura\Bugigangas\Base\Recipiente\ItensFormulario;
 use Estrutura\Bugigangas\Base\Recipiente\NavItens;
-use Estrutura\Bugigangas\Base\Recipiente\NavsAbas;
 use Estrutura\Controle\Pagina;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -76,17 +74,29 @@ class FormPessoas3 extends Pagina
 
         # Itens da aba 2
         $itens_form_2 = new ItensForm;
-        $itens_form_2->adicLinhaForm('col-12',   array('Endereço', 'form-label'), array('text', 'endereco', 'form-control', 'inputEndereco', '1234 Main St'));
+        $itens_form_2->adicLinhaForm('col-md-3', array('CEP',   'form-label'), array('text', 'cep', 'form-control', 'inputCEP4'));
+        $itens_form_2->adicLinhaForm('col-md-6', array('Endereço', 'form-label'), array('text', 'endereco', 'form-control', 'inputEndereco', '1234 Main St'));
+        $itens_form_2->adicLinhaForm('col-md-1', array('Número',   'form-label'), array('text', 'numero', 'form-control', 'inputNumero4'));
+        $itens_form_2->adicLinhaForm('col-md-3', array('Complemento', 'form-label'), array('text', 'complemento', 'form-control', 'inputComplemento4'));
+        $itens_form_2->adicLinhaForm('col-md-3', array('Bairro',   'form-label'), array('text', 'bairro', 'form-control', 'inputBairro4'));
         $itens_form_2->adicLinhaForm('col-md-4', array('Estado', 'form-label'), array('select', 'uf', 'form-select', 'inputEstado'));
         $itens_form_2->adicLinhaForm('col-md-4', array('Cidade', 'form-label'), array('select', 'cidades', 'form-select', 'inputCidade'));
+        # Este campo precisa ser implementado corretamente (textarea)
+        $itens_form_2->adicLinhaForm('col-md-8', array('Ponto de referência', 'form-label'), array('textarea', 'ponto_referencia', 'form-control', 'inputPontoReferencia'));
+        #
+        $itens_form_2->adicLinhaForm('col-md-1', array('DDD',   'form-label'), array('text', 'ddd', 'form-control', 'inputDDD4'));
+        $itens_form_2->adicLinhaForm('col-md-2', array('Telefone',   'form-label'), array('text', 'telefone', 'form-control', 'inputTelefone4'));
+        $itens_form_2->adicLinhaForm('col-md-3', array('Tempo de residência',   'form-label'), array('text', 'tempo_residencia', 'form-control', 'inputTempoResidencia4'));
+        $itens_form_2->adicLinhaForm('col-md-4', array('Tipo de imóvel', 'form-label'), array('select', 'tipo_imovel', 'form-select', 'inputTipoImovel'));
 
         $itens_form_2->defOpcoesSeleciona('uf', array('Alagoas', 'Bahia', 'Espírito Santo', 'Minas Gerais', 'São Paulo'));
         $itens_form_2->defOpcoesSeleciona('cidades', array('Prado', 'Alcobaça', 'Porto Seguro', 'Caravelas', 'Teixeira de Freitas'));
+        $itens_form_2->defOpcoesSeleciona('tipo_imovel', array('Próprio', 'Alugado', 'Família'));
 
         //------------------------------------------------------------------------------------------------------------------------- 
 
-        $itens_aba1 = new ItensFormulario($itens_form_1, NULL, array('id' => 'aba1', 'classe' => 'g-3'));
-        $itens_aba2 = new ItensFormulario($itens_form_2, NULL, array('id' => 'aba2', 'classe' => 'g-3'));
+        $itens_aba1 = new ItensAbasForm($itens_form_1, NULL, array('id' => 'aba1', 'classe' => 'g-3'));
+        $itens_aba2 = new ItensAbasForm($itens_form_2, NULL, array('id' => 'aba2', 'classe' => 'g-3'));
 
         # O que estava bagunçando a layout das abas era a class 'row g-3'. Para arrumar, basta criar uma div 
         # com essa classe em cada aba, e deixar form sem classe.        

@@ -13,7 +13,7 @@ use Estrutura\Bugigangas\Base\Elemento;
 /**
  * Classe ItensFormulario
  */
-class ItensFormulario extends Elemento 
+class ItensAbasForm extends Elemento 
 {
     private $opcoes_seleciona;
 
@@ -74,7 +74,7 @@ class ItensFormulario extends Elemento
 	        	$entrada->class   	  = $vl['entrada'][2];
 	        	$nome = $vl['entrada'][1];
 	        	if (isset($nome)) {
-	        		$entrada->nome = $nome;
+	        		$entrada->name = $nome;
 	        	}
 
 	        	switch ($vl['entrada'][0]) {

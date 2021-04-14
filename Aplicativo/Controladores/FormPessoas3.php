@@ -95,6 +95,9 @@ class FormPessoas3 extends Pagina
 
         //------------------------------------------------------------------------------------------------------------------------- 
 
+        /** O formulário com abas funciona assim. Os grupos de itens de formulário são inseridos no objeto abas conteúdo. 
+         * E em seguida o objeto. AbasConteudo é inserido em um formulário.
+         */
         $itens_aba1 = new ItensAbasForm($itens_form_1, NULL, array('id' => 'aba1', 'classe' => 'g-3'));
         $itens_aba2 = new ItensAbasForm($itens_form_2, NULL, array('id' => 'aba2', 'classe' => 'g-3'));
 

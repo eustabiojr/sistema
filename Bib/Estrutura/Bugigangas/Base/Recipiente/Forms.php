@@ -41,7 +41,7 @@ class Forms extends Elemento
 
 		if ($abas !== NULL) {
 			parent::adic($abas);
-		} else { # if ($itens_form !== NULL) 
+		} else {
 			$this->opcoes_seleciona = $itens_form->obtOpcoesSeleciona();
 			$this->itensForm($itens_form->obtLinhasForm());
 		}

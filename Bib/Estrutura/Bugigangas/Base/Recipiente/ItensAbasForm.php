@@ -11,14 +11,14 @@ namespace Estrutura\Bugigangas\Base\Recipiente;
 use Estrutura\Bugigangas\Base\Elemento;
 
 /**
- * Classe ItensFormulario
+ * Classe ItensAbasForm
  */
 class ItensAbasForm extends Elemento 
 {
     private $opcoes_seleciona;
 
     /**
-     * Método itensForm
+     * Método construtor
      */
     public function __construct(ItensForm $itens_form, $nome_form = 'meu_formulario', array $parametros = array())
     {

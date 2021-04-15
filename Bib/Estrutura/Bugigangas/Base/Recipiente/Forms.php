@@ -12,6 +12,12 @@ use Estrutura\Bugigangas\Base\Elemento;
 
 /**
  * Classe Forms
+ * 
+ * Argumento 1: Os campos são criados na classe ItensAbasForm
+ * Argumento 2: É onde os campos são armazenados
+ * Argumento 3: Nome do formulário
+ * Argumento 4: Parâmetros de cada campo
+ * Argumento 5: As abas
  */
 class Forms extends Elemento
 {
@@ -22,7 +28,7 @@ class Forms extends Elemento
 	 * 
 	 * ItensForm|NULL 
      */
-    public function __construct($itens_form, $nome_form = 'meu_formulario', array $parametros = array(), $abas = NULL)
+    public function __construct(ItensAbasForm|null $campos, $itens_form, $nome_form = 'meu_formulario', array $parametros = array(), $abas = NULL)
     {
         parent::__construct('form');
 
@@ -43,119 +49,7 @@ class Forms extends Elemento
 			parent::adic($abas);
 		} else {
 			$this->opcoes_seleciona = $itens_form->obtOpcoesSeleciona();
-			$this->itensForm($itens_form->obtLinhasForm());
+			$campos->itensForm($itens_form->obtLinhasForm());
 		}
 	}
-
-    /**
-     * Método itensForm
-     */
-    private function itensForm($linhaForm)
-    {
-		# A variável não está sendo usada
-        foreach ($linhaForm as $chave => $valor) {
-
-        	# Esse laço cria as DIVs externas de cada linha
-        	foreach ($valor as $ch => $vl) {
-
-        		switch ($vl['entrada'][0]) {
-        			case 'select':
-        				$tipo_entrada = 'select';
-        			break;
-        			case 'button':
-        				$tipo_entrada = 'button';
-        			break;
-					case 'text':
-        				$tipo_entrada = 'input';
-        			break;
-					case 'password':
-        				$tipo_entrada = 'input';
-        			break;
-					case 'email':
-        				$tipo_entrada = 'input';
-        			break;
-        			default:
-        				$tipo_entrada = 'input';
-        			break;
-        		}
-
-	        	$entrada = new Elemento($tipo_entrada);
-	        	$entrada->class   	  = $vl['entrada'][2];
-	        	$nome = $vl['entrada'][1];
-	        	if (isset($nome)) {
-	        		$entrada->nome = $nome;
-	        	}
-
-	        	switch ($vl['entrada'][0]) {
-	        		case 'input': 
-		        		$entrada->type  	 = $vl['entrada'][0] == 'submit' ? 'submit' : $tipo_entrada;
-		        		$entrada->value  	 = $vl['valor'] ?? '';
-	        		break;
-					case 'text': 
-		        		$entrada->type  	 = 'text';
-		        		$entrada->value  	 = $vl['valor'] ?? '';
-	        		break;
-					case 'password': 
-		        		$entrada->type  	 = 'password';
-		        		$entrada->value  	 = $vl['valor'] ?? '';
-	        		break;
-					case 'email': 
-		        		$entrada->type  	 = 'email';
-		        		$entrada->value  	 = $vl['valor'] ?? '';
-	        		break;
-	        		case 'button':
-		        		$entrada->type  	 = 'submit';
-		        		$entrada->adic($vl['valor']) ?? '';
-	        		break;
-	        		case 'submit':
-		        		$entrada->type  	 = 'submit';
-		        		$entrada->value  	 = $vl['valor'] ?? '';
-	        		break;
-	        		case 'select':
-			        	if(isset($this->opcoes_seleciona[$nome])) {
-
-				        	foreach ($this->opcoes_seleciona[$nome] as $chave_opcao => $valor_opcao) {
-
-				        		$opcao = new Elemento('option');
-				        		$opcao->value = $chave_opcao;
-				        		$opcao->adic($valor_opcao);
-				        		$entrada->adic($opcao);
-				        	}
-			        	}
-	        		break;
-	        	}
-
-	        	if (isset($vl['entrada'][3])) {
-	        		$entrada->id = $vl['entrada'][3];
-	        	}
-	        	if (isset($vl['entrada'][4]) AND ($vl['entrada'][0] == 'text')) {
-	        		$entrada->placeholder = $vl['entrada'][4];
-	        	}
-
-		    	$com_rotulo = (count($vl['rotulo']) !== 0) ? true : false;
-
-				$rotulo = new Elemento('label');
-
-				if ($com_rotulo) {
-
-		        	if (!empty($vl['rotulo'][1])) {
-		        		$rotulo->class = $vl['rotulo'][1];
-		        	}
-		        	$rotulo->adic($vl['rotulo'][0]);
-		        	if (isset($vl['id'])) {
-		        		$rotulo->for = $vl['id'];
-		        	}
-				} 
-
-        		$div = new Elemento('div');
-	        	$div->class = $ch;
-
-	        	if ($com_rotulo) { 
-	        		$div->adic($rotulo); 
-	        	}
-	        	$div->adic($entrada);
-        	} # Fim do foreach interno
-			parent::adic($div);
-        } # Fim do foreach externo
-    }
 }

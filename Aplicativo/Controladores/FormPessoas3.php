@@ -64,8 +64,8 @@ class FormPessoas3 extends Pagina
         $itens_form_1->adicLinhaForm('col-md-6', array('Nome do pai', 'form-label'), array('text', 'nome_pai', 'form-control', 'inputPai4'));
         $itens_form_1->adicLinhaForm('col-md-6', array('Nome da mãe', 'form-label'), array('text', 'nome_mae', 'form-control', 'inputMae4'));
         $itens_form_1->adicLinhaForm('col-md-4', array('Estado Civil', 'form-label'), array('select', 'estado_civil', 'form-select', 'inputEstadoCivil'));
-        $itens_form_1->adicLinhaForm('col-md-6', array('Email',   'form-label'), array('email', 'email', 'form-control', 'inputEmail4'), 'nome@email.com');
-        $itens_form_1->adicLinhaForm('col-12',   array(), array('button', 'enviar', 'btn btn-primary'), 'Enviar');
+        $itens_form_1->adicLinhaForm('col-md-6', array('Email', 'form-label'), array('email', 'email', 'form-control', 'inputEmail4'), 'nome@email.com');
+        $itens_form_1->adicLinhaForm('col-12',   [], array('button', 'enviar', 'btn btn-primary'), 'Enviar');
         #
         $itens_form_1->defOpcoesSeleciona('nacionalidade', array('Brasileiro', 'Argentino', 'Norte Americando', 'Chileno'));
         $itens_form_1->defOpcoesSeleciona('uf_expedidor', array('AL', 'BA', 'ES', 'MG', 'SP','RJ', 'SC','RS','TO','AM'));
@@ -125,15 +125,14 @@ class FormPessoas3 extends Pagina
         $itens_form_5->adicLinhaForm('col-md-12', array('Anotações', 'form-label'), array('textarea', 'observacoes', 'form-control', 'inputObservacoes'));
         
         //------------------------------------------------------------------------------------------------------------------------- 
-
         /** O formulário com abas funciona assim. Os grupos de itens de formulário são inseridos no objeto abas conteúdo. 
          * E em seguida o objeto. AbasConteudo é inserido em um formulário.
          */
-        $itens_aba1 = new ItensAbasForm($itens_form_1, NULL, array('id' => 'aba1', 'classe' => 'g-3'));
-        $itens_aba2 = new ItensAbasForm($itens_form_2, NULL, array('id' => 'aba2', 'classe' => 'g-3'));
-        $itens_aba3 = new ItensAbasForm($itens_form_3, NULL, array('id' => 'aba3', 'classe' => 'g-3'));
-        $itens_aba4 = new ItensAbasForm($itens_form_4, NULL, array('id' => 'aba4', 'classe' => 'g-3'));
-        $itens_aba5 = new ItensAbasForm($itens_form_5, NULL, array('id' => 'aba5', 'classe' => 'g-3'));
+        $itens_aba1 = new ItensAbasForm($itens_form_1, array('id' => 'aba1', 'classe' => 'g-3'));
+        $itens_aba2 = new ItensAbasForm($itens_form_2, array('id' => 'aba2', 'classe' => 'g-3'));
+        $itens_aba3 = new ItensAbasForm($itens_form_3, array('id' => 'aba3', 'classe' => 'g-3'));
+        $itens_aba4 = new ItensAbasForm($itens_form_4, array('id' => 'aba4', 'classe' => 'g-3'));
+        $itens_aba5 = new ItensAbasForm($itens_form_5, array('id' => 'aba5', 'classe' => 'g-3'));
 
         $params_identificacao = array('titulo_cartao' => "Dados Pessoais", 'id' => 'idAbaIdent', 'role' => 'tablist');
         $cartao_basico = new Cartao($params_identificacao, 'div', []);
@@ -163,9 +162,12 @@ class FormPessoas3 extends Pagina
         $aba = new AbasConteudo($abas, $parametros);
 
         /**
-         * Aqui já sai o formulário completo. Mas precisamos apenas de parte dos campos do formulário de cada vez.
+         * Forms
+         * 
+         * Os itens são criados em uma classe externa (ItensAbasForm)
+         * itens_form_1
          */
-        $form = new Forms($itens_form_1, NULL, array('id' => 'form_clientes_abas', 'metodo' => 'post'), $aba);
+        $form = new Forms(NULL, new ItensForm(NULL, NULL, []), "form_cliente", array('id' => 'form_clientes_abas', 'metodo' => 'post'), $aba);
 
         # Abas
         $nav_links = new NavItens;

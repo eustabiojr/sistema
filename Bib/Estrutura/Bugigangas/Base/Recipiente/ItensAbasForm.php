@@ -20,15 +20,12 @@ class ItensAbasForm extends Elemento
     /**
      * Método construtor
      */
-    public function __construct(ItensForm $itens_form, $nome_form = 'meu_formulario', array $parametros = array())
+    public function __construct(ItensForm $itens_form, array $parametros = array())
     {
         parent::__construct('div');
 
         if (isset($parametros['classe'])) {
         	$this->class  = 'row ' . $parametros['classe'];
-        } 
-		if (isset($nome_form) OR $nome_form !== NULL) {
-        	$this->name  = $nome_form;
         } 
         if (isset($parametros['id']) OR (is_null($parametros['id']))) {
         	$this->id  = $parametros['id'];
@@ -39,9 +36,9 @@ class ItensAbasForm extends Elemento
     }
 
     /**
-     * Método itensForm
+     * Método itensForm (Nota: Este método está sendo repetido em Forms, preciso evitar isso)
      */
-    private function itensForm($linhaForm)
+    public function itensForm($linhaForm)
     {
 		# A variável não está sendo usada
         foreach ($linhaForm as $chave => $valor) {
@@ -135,14 +132,14 @@ class ItensAbasForm extends Elemento
 				$rotulo = new Elemento('label');
 
 				if ($com_rotulo) {
-
 		        	if (!empty($vl['rotulo'][1])) {
 		        		$rotulo->class = $vl['rotulo'][1];
 		        	}
 		        	$rotulo->adic($vl['rotulo'][0]);
-		        	if (isset($vl['id'])) {
-		        		$rotulo->for = $vl['id'];
-		        	}
+
+					if (isset($vl['entrada'][3])) {
+						$rotulo->for = $vl['entrada'][3];
+					}
 				} 
 
         		$div = new Elemento('div');

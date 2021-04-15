@@ -48,7 +48,8 @@ class FormPessoas3 extends Pagina
         # O segundo parâmetro aceita array e string. Caso seja um array vazio, o rótulo não será criado.
         $itens_form_1->adicLinhaForm('col-md-4', array('CPF', 'form-label'), array('text', 'cpf', 'form-control', 'inputCPF1'));
         $itens_form_1->adicLinhaForm('col-md-4', array('', 'form-label'), array('button', 'pesquisar', 'btn btn-primary'), 'Pesquisar');
-        $itens_form_1->adicLinhaForm('col-md-4', array('Código', 'form-label'), array('text', 'codigo', 'form-control', 'inputCod1'));
+        $itens_form_1->adicLinhaForm('col-md-4', array('Código', 'form-label'), array('text', 'codigo', 'form-control', 'inputCod1', 
+                                     [array('readonly' => NULL, 'disabled' => NULL)]));
         $itens_form_1->adicLinhaForm('col-md-8', array('Nome',   'form-label'), array('text', 'nome', 'form-control', 'inputNome4'));
         $itens_form_1->adicLinhaForm('col-md-2', array('Apelido',   'form-label'), array('text', 'apelido', 'form-control', 'inputApelido4'));
         $itens_form_1->adicLinhaForm('col-md-2', array('Nascimento',   'form-label'), array('text', 'nascimento', 'form-control', 'inputNascimento4'));

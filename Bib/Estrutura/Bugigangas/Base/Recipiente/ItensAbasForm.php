@@ -59,6 +59,9 @@ class ItensAbasForm extends Elemento
 					case 'text':
         				$tipo_entrada = 'input';
         			break;
+					case 'textarea':
+        				$tipo_entrada = 'textarea';
+        			break;
 					case 'password':
         				$tipo_entrada = 'input';
         			break;
@@ -85,6 +88,10 @@ class ItensAbasForm extends Elemento
 					case 'text': 
 		        		$entrada->type  	 = 'text';
 		        		$entrada->value  	 = $vl['valor'] ?? '';
+	        		break;
+					case 'textarea': 
+		        		$entrada->type  	 = 'textarea';
+		        		$entrada->adic($vl['valor']) ?? '';
 	        		break;
 					case 'password': 
 		        		$entrada->type  	 = 'password';

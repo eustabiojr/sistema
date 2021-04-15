@@ -122,7 +122,7 @@ class FormPessoas3 extends Pagina
         
         # Itens da aba 5 (Observações)
         $itens_form_5 = new ItensForm;
-        $itens_form_5->adicLinhaForm('col-md-12', array('Observações', 'form-label'), array('textarea', 'observacoes', 'form-control', 'inputObservacoes'));
+        $itens_form_5->adicLinhaForm('col-md-12', array('Anotações', 'form-label'), array('textarea', 'observacoes', 'form-control', 'inputObservacoes'));
         
         //------------------------------------------------------------------------------------------------------------------------- 
 
@@ -131,9 +131,9 @@ class FormPessoas3 extends Pagina
          */
         $itens_aba1 = new ItensAbasForm($itens_form_1, NULL, array('id' => 'aba1', 'classe' => 'g-3'));
         $itens_aba2 = new ItensAbasForm($itens_form_2, NULL, array('id' => 'aba2', 'classe' => 'g-3'));
-        $itens_aba3 = new ItensAbasForm($itens_form_3, NULL, array('id' => 'aba2', 'classe' => 'g-3'));
-        $itens_aba4 = new ItensAbasForm($itens_form_4, NULL, array('id' => 'aba2', 'classe' => 'g-3'));
-        $itens_aba5 = new ItensAbasForm($itens_form_5, NULL, array('id' => 'aba2', 'classe' => 'g-3'));
+        $itens_aba3 = new ItensAbasForm($itens_form_3, NULL, array('id' => 'aba3', 'classe' => 'g-3'));
+        $itens_aba4 = new ItensAbasForm($itens_form_4, NULL, array('id' => 'aba4', 'classe' => 'g-3'));
+        $itens_aba5 = new ItensAbasForm($itens_form_5, NULL, array('id' => 'aba5', 'classe' => 'g-3'));
 
         $params_identificacao = array('titulo_cartao' => "Dados Pessoais", 'id' => 'idAbaIdent', 'role' => 'tablist');
         $cartao_basico = new Cartao($params_identificacao, 'div', []);
@@ -173,13 +173,13 @@ class FormPessoas3 extends Pagina
         $nav_links->adicItem('links', array('endereco'    => 'Endereço'),   'nav-item');
         $nav_links->adicItem('links', array('emprego'     => 'Emprego'),    'nav-item');
         $nav_links->adicItem('links', array('referencias' => 'Referências'),'nav-item');
-        $nav_links->adicItem('links', array('observacoes' => 'Observações'),'nav-item');
+        $nav_links->adicItem('links', array('obs' => 'Observações'),'nav-item');
       
         $nav_links->adicItem('param', 'sub_classe', 'nav-tabs');
         $nav_links->adicItem('param', 'id', 'minhaAbra');
         $nav_links->adicItem('param', 'role', 'tablist');
         $nav_links->adicItem('param', 'ativo', 0);
-        $nav_links->adicItem('param', 'desabilitado', 2);
+        #$nav_links->adicItem('param', 'desabilitado', 3);
         $nav_links->adicItem('param', 'modo_link', 'button');
 
         $links_abas = $nav_links->obtItens();

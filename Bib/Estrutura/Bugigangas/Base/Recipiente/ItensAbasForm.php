@@ -127,15 +127,15 @@ class ItensAbasForm extends Elemento
 	        		$entrada->placeholder = $vl['entrada'][4];
 	        	}
 
+				# Definimos aqui as demais propriedades
 				if (isset($vl['entrada'][4]) AND is_array($vl['entrada'][4])) {
 					$propriedades = $vl['entrada'][4];
 
-					# Acho que é melhor usar um laço aqui.
-					$nome__propriedade = array_keys($propriedades[0]);
-					$valor_propriedade = array_values($propriedades[0]);
-					$propriedade = $nome__propriedade[0];
-					$valor_prop = $valor_propriedade[0];
-					$entrada->$propriedade = $valor_prop;
+					foreach ($propriedades[0] as $nome__propriedade => $valor_propriedade) {
+						$propriedade = $nome__propriedade;
+						$valor_prop = $valor_propriedade;
+						$entrada->$propriedade = $valor_prop;
+					}
 				}
 
 		    	$com_rotulo = (count($vl['rotulo']) !== 0) ? true : false;

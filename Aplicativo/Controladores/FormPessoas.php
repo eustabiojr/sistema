@@ -77,6 +77,8 @@ class FormPessoas extends Pagina
         $this->form->adicCampo('Grupo',    $grupo, '70%');
 
         $codigo->defEditavel(FALSE);
+        # O parâmetro da classe ação vai um array. Sendo que no índice 0 tem um objeto e no índice 1 possui o método
+        # O objeto ação (Acao) transforma o array em parâmetros enviados pela URL.
         $this->form->adicAcao('Salvar', new Acao(array($this, 'aoSalvar')));
 
         # adiciona o formulário à página

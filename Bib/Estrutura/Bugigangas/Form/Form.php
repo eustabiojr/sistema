@@ -69,19 +69,19 @@ class Form {
     }
 
     /**
-     * Método adicAcao
-     */
-    public function adicAcao($rotulo, InterfaceAcao $acao)
-    {
-        $this->acoes[$rotulo] = $acao;
-    }
-
-    /**
      * Método obtCampos
      */
     public function obtCampos() 
     {
         return $this->campos;
+    }
+
+    /**
+     * Método adicAcao
+     */
+    public function adicAcao($rotulo, InterfaceAcao $acao)
+    {
+        $this->acoes[$rotulo] = $acao;
     }
 
     /**

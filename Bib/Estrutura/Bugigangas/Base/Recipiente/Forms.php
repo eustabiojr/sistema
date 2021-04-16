@@ -9,6 +9,7 @@
 namespace Estrutura\Bugigangas\Base\Recipiente;
 
 use Estrutura\Bugigangas\Base\Elemento;
+use Estrutura\Controle\InterfaceAcao;
 
 /**
  * Classe Forms
@@ -22,7 +23,8 @@ use Estrutura\Bugigangas\Base\Elemento;
 class Forms extends Elemento
 {
     private $opcoes_seleciona;
-
+    protected $acoes;
+    
     /**
      * Método construtor
 	 * 
@@ -52,4 +54,20 @@ class Forms extends Elemento
 			$campos->itensForm($itens_form->obtLinhasForm());
 		}
 	}
+
+    /**
+     * Método adicAcao
+     */
+    public function adicAcao($rotulo, InterfaceAcao $acao)
+    {
+        $this->acoes[$rotulo] = $acao;
+    }
+
+    /**
+     * Método obtAcoes
+     */
+    public function obtAcoes()
+    {
+        return $this->acoes;
+    }
 }

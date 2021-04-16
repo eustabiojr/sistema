@@ -30,11 +30,14 @@ class Acao implements InterfaceAcao {
         $this->param[$param] = $valor;
     }
 
+    /**
+     * Método serializa
+     */
     public function serializa() 
     {
         # verifica se a ação é um método
         if (is_array($this->acao)) {
-            // obtém o nome da classe
+            // obtém o nome da classe a partir no objeto informado.
             $url['classe'] = is_object($this->acao[0]) ? get_class($this->acao[0]) : $this->acao[0];
 
             # obtém o nome da método

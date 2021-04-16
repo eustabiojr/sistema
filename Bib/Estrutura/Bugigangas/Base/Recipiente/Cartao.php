@@ -134,7 +134,6 @@ class Cartao extends Elemento
             if (isset($ul)) {
                 $cabecalho->adic($ul);
             }
-
             parent::adic($cabecalho);
         }
 

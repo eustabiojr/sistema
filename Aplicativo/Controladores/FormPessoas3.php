@@ -47,7 +47,7 @@ class FormPessoas3 extends Pagina
         $itens_form_1 = new ItensForm;
         # O segundo parâmetro aceita array e string. Caso seja um array vazio, o rótulo não será criado.
         $itens_form_1->adicLinhaForm('col-md-4', array('CPF', 'form-label'), array('text', 'cpf', 'form-control', 'inputCPF1'));
-        $itens_form_1->adicLinhaForm('col-md-2', array('<br/>', 'form-label'), array('button', 'pesquisar', 'form-control btn btn-primary mb-3'), 'Pesquisar');
+        $itens_form_1->adicLinhaForm('col-md-2', array('<br/>', 'form-label'), array('button', 'pesquisar', 'form-control btn btn-primary'), 'Pesquisar');
         $itens_form_1->adicLinhaForm('col-md-4', array('Código', 'form-label'), array('text', 'codigo', 'form-control', 'inputCod1', 
                                      [array('readonly' => NULL/*, 'disabled' => NULL*/)]));
         $itens_form_1->adicLinhaForm('col-md-8', array('Nome',   'form-label'), array('text', 'nome', 'form-control', 'inputNome4'));
@@ -158,8 +158,7 @@ class FormPessoas3 extends Pagina
         # O que estava bagunçando a layout das abas era a class 'row g-3'. Para arrumar, basta criar uma div 
         # com essa classe em cada aba, e deixar form sem classe.        
         $parametros = array('id' => 'meuConteudoAba', 'ativo' => 'basico');
-        $abas = array('basico' => $cartao_basico, 'endereco' => $cartao_endereco, 'emprego' => $cartao_emprego, 
-                      'referencias' => $cartao_refs, 'obs' => $cartao_observacoes);
+        $abas = array('basico' => $cartao_basico, 'endereco' => $cartao_endereco, 'emprego' => $cartao_emprego, 'referencias' => $cartao_refs, 'obs' => $cartao_observacoes);
         $aba = new AbasConteudo($abas, $parametros);
 
         /**
@@ -176,7 +175,7 @@ class FormPessoas3 extends Pagina
         $nav_links->adicItem('links', array('endereco'    => 'Endereço'),   'nav-item');
         $nav_links->adicItem('links', array('emprego'     => 'Emprego'),    'nav-item');
         $nav_links->adicItem('links', array('referencias' => 'Referências'),'nav-item');
-        $nav_links->adicItem('links', array('obs' => 'Observações'),'nav-item');
+        $nav_links->adicItem('links', array('obs'         => 'Observações'),'nav-item');
       
         $nav_links->adicItem('param', 'sub_classe', 'nav-tabs');
         $nav_links->adicItem('param', 'id', 'minhaAbra');

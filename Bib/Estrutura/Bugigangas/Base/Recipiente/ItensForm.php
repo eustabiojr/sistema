@@ -16,8 +16,6 @@ class ItensForm
 	private $linha;
 	private $opcoes;
 
-	# 'rotulo' => array($classe, $conteudo)
-	# 'entrada' => array($tipo, $nome, $classe_entrada, $marcador)
     /**
      * Método adicLinhaForm
      */
@@ -35,14 +33,6 @@ class ItensForm
     public function obtLinhasForm()
     {
     	return $this->linha;
-    }
-
-    /**
-     * Método adicGrupoForm (a ser implementado)
-     */
-    public function adicGrupoForm()
-    {
-        
     }
 
     /**

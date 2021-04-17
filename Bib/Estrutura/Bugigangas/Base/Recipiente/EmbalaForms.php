@@ -9,6 +9,7 @@
 namespace Estrutura\Bugigangas\Base\Recipiente;
 
 use Estrutura\Bugigangas\Base\Elemento;
+use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Controle\InterfaceAcao;
 
 /**
@@ -20,9 +21,10 @@ use Estrutura\Controle\InterfaceAcao;
  * Argumento 4: Parâmetros de cada campo
  * Argumento 5: As abas
  */
-class Forms extends Elemento
+class EmbalaForms extends Elemento
 {
     private $opcoes_seleciona;
+    private $decorado;
     protected $acoes;
     
     /**
@@ -30,22 +32,19 @@ class Forms extends Elemento
 	 * 
 	 * ItensForm|NULL 
      */
-    public function __construct(ItensAbasForm|null $campos, $itens_form, $nome_form = 'meu_formulario', array $parametros = array(), $abas = NULL)
+    public function __construct(Form $form, EmbalaGrupoForm|null $campos, $itens_form, array $parametros = array(), $abas = NULL)
     {
         parent::__construct('form');
+
+        $this->decorado = $form;
 
         if (isset($parametros['classe'])) {
         	$this->class  = 'row ' . $parametros['classe'];
         } 
-		if (isset($nome_form) OR $nome_form !== NULL) {
-        	$this->name  = $nome_form;
-        } 
-        if (isset($parametros['id']) OR (is_null($parametros['id']))) {
-        	$this->id  = $parametros['id'];
-        } 
-        if (isset($parametros['metodo'])) {
-        	$this->method  = $parametros['metodo'];
-        } 
+        $this->name    = $this->decorado->obtNome();
+        $this->id      = $parametros['id'] ?? NULL;
+        $this->enctype = $parametros['enctype'] ?? "multipart/form-data";
+        $this->method  = $parametros['metodo'] ?? 'post';
 
 		if ($abas !== NULL) {
 			parent::adic($abas);
@@ -56,18 +55,14 @@ class Forms extends Elemento
 	}
 
     /**
-     * Método adicAcao
+     * Método __call
+     * 
+     * Este método é acionado quando um método inexistente na classe é chamado. Com isso, o método estranho
+     * é chamado no objeto decorado. Os seus respectivos parâmetros também são passados. Na prática ele
+     * chama métodos da classe form.
      */
-    public function adicAcao($rotulo, InterfaceAcao $acao)
+    public function __call($metodo, $parametros)
     {
-        $this->acoes[$rotulo] = $acao;
-    }
-
-    /**
-     * Método obtAcoes
-     */
-    public function obtAcoes()
-    {
-        return $this->acoes;
+        return call_user_func_array(array($this->decorado,  $metodo), $parametros);
     }
 }

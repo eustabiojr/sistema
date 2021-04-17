@@ -13,7 +13,7 @@ use Estrutura\Bugigangas\Base\Elemento;
 /**
  * Classe ItensAbasForm
  */
-class ItensAbasForm extends Elemento 
+class EmbalaGrupoForm extends Elemento 
 {
     private $opcoes_seleciona;
 
@@ -27,12 +27,36 @@ class ItensAbasForm extends Elemento
         if (isset($parametros['classe'])) {
         	$this->class  = 'row ' . $parametros['classe'];
         } 
-        if (isset($parametros['id']) OR (is_null($parametros['id']))) {
-        	$this->id  = $parametros['id'];
-        }
+		$this->id  = $parametros['id'] ?? NULL;
 		
         $this->opcoes_seleciona = $itens_form->obtOpcoesSeleciona();
 		$this->itensForm($itens_form->obtLinhasForm());
+
+		/*        
+		$grupo = new Elemento('div');
+        $i = 0;
+
+        # Os botões abaixo 
+        foreach ($this->decorado->obtAcoes() as $rotulo => $acao) {
+            $nome = strtolower(str_replace(' ', '_', $rotulo));
+            $botao = new Botao($nome);
+            $botao->defNomeForm($this->decorado->obtNome());
+            $botao->defAcao($acao, $rotulo);
+            # 
+            if ($this->obtTipoLinha() == 1) {
+                $botao->class = 'w-100 btn btn-lg btn-primary';
+            } else {
+                $botao->class = 'btn ' . ( ($i==0) ? 'btn-success' : 'btn-default');   
+            }
+            $grupo->adic($botao);
+            $i++;
+        }
+        # 
+        $cartao = new Cartao($this->decorado->obtTitulo());
+        $cartao->adic($this->elemento);
+        $cartao->adicRodape($grupo);
+        $cartao->exibe();
+		*/
     }
 
     /**
@@ -161,6 +185,8 @@ class ItensAbasForm extends Elemento
 	        	}
 	        	$div->adic($entrada);
         	} # Fim do foreach interno
+
+			# Estou pensando em incluir o resultado em um Cartao.
 			parent::adic($div);
         } # Fim do foreach externo
     }

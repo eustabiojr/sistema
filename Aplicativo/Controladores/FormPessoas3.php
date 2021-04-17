@@ -7,10 +7,11 @@
 
 use Estrutura\Bugigangas\Base\Recipiente\AbasConteudo;
 use Estrutura\Bugigangas\Base\Recipiente\Cartao;
-use Estrutura\Bugigangas\Base\Recipiente\Forms;
-use Estrutura\Bugigangas\Base\Recipiente\ItensAbasForm;
+use Estrutura\Bugigangas\Base\Recipiente\EmbalaForms;
+use Estrutura\Bugigangas\Base\Recipiente\EmbalaGrupoForm;
 use Estrutura\Bugigangas\Base\Recipiente\ItensForm;
 use Estrutura\Bugigangas\Base\Recipiente\NavItens;
+use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Controle\Pagina;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -129,11 +130,11 @@ class FormPessoas3 extends Pagina
         /** O formulário com abas funciona assim. Os grupos de itens de formulário são inseridos no objeto abas conteúdo. 
          * E em seguida o objeto. AbasConteudo é inserido em um formulário.
          */
-        $itens_aba1 = new ItensAbasForm($itens_form_1, array('id' => 'aba1', 'classe' => 'g-3'));
-        $itens_aba2 = new ItensAbasForm($itens_form_2, array('id' => 'aba2', 'classe' => 'g-3'));
-        $itens_aba3 = new ItensAbasForm($itens_form_3, array('id' => 'aba3', 'classe' => 'g-3'));
-        $itens_aba4 = new ItensAbasForm($itens_form_4, array('id' => 'aba4', 'classe' => 'g-3'));
-        $itens_aba5 = new ItensAbasForm($itens_form_5, array('id' => 'aba5', 'classe' => 'g-3'));
+        $itens_aba1 = new EmbalaGrupoForm($itens_form_1, array('id' => 'aba1', 'classe' => 'g-3'));
+        $itens_aba2 = new EmbalaGrupoForm($itens_form_2, array('id' => 'aba2', 'classe' => 'g-3'));
+        $itens_aba3 = new EmbalaGrupoForm($itens_form_3, array('id' => 'aba3', 'classe' => 'g-3'));
+        $itens_aba4 = new EmbalaGrupoForm($itens_form_4, array('id' => 'aba4', 'classe' => 'g-3'));
+        $itens_aba5 = new EmbalaGrupoForm($itens_form_5, array('id' => 'aba5', 'classe' => 'g-3'));
 
         $params_identificacao = array('titulo_cartao' => "Dados Pessoais", 'id' => 'idAbaIdent', 'role' => 'tablist');
         $cartao_basico = new Cartao($params_identificacao, 'div', []);
@@ -164,10 +165,10 @@ class FormPessoas3 extends Pagina
         /**
          * Forms
          * 
-         * Os itens são criados em uma classe externa (ItensAbasForm)
+         * Os itens são criados em uma classe externa (EmbalaGrupoForm)
          * itens_form_1
          */
-        $form = new Forms(NULL, new ItensForm(NULL, NULL, []), "form_cliente", array('id' => 'form_clientes_abas', 'metodo' => 'post'), $aba);
+        $form = new EmbalaForms(new Form('form_cliente'), NULL, new ItensForm(NULL, NULL, []), array('id' => 'form_clientes_abas', 'metodo' => 'post'), $aba);
 
         # Abas
         $nav_links = new NavItens;
@@ -192,12 +193,14 @@ class FormPessoas3 extends Pagina
             #print_r($la);
         #echo '</pre>';
 
+        # É bem provável que eu resolva colocar esse cartão dentro da classe EmbalaGrupoForm
         $parametros = array('titulo_cartao' => " ", 'id' => 'idAbaPessoa', 'role' => 'tablist');
         $cartao_form = new Cartao($parametros, 'div', [], $la);
         $cartao_form->adic($form);
 
         $cartao = new Cartao("Pessoas", 'h5', []);
         $cartao->adic($cartao_form);
+        $cartao->adicRodape('Botao');
       
         parent::adic($cartao);
         parent::adic($conteudo);

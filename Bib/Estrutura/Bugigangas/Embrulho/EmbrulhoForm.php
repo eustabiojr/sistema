@@ -32,6 +32,9 @@ class EmbrulhoForm
 
     /**
      * Método __call
+     * 
+     * Este método é acionado quando um método inexistente na classe é chamado. Com isso, o método estranho
+     * é chamado no objeto decorado. Os seus respectivos parâmetros também são passados.
      */
     public function __call($metodo, $parametros)
     {

@@ -10,6 +10,7 @@
 
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Recipiente\Cartao;
+use Estrutura\Bugigangas\Form\Botao;
 use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Bugigangas\Form\ItensForm;
 use Estrutura\Controle\InterfaceAcao;
@@ -68,14 +69,29 @@ class EmbalaForms extends Elemento
 			$this->campos->itensForm($itens_form->obtLinhasForm());
 		}
 
-        # É bem provável que eu resolva colocar esse cartão dentro da classe EmbalaGrupoForm
-        $parametros = array('titulo_cartao' => " ", 'id' => 'idAbaPessoa', 'role' => 'tablist');
-        $cartao_form = new Cartao($parametros, 'div', [], $this->parametros['links_abas']); # links_abas
+        //---------------------------------------------------------------------------------------------------------------------
+        
+		$grupo = new Elemento('div');
+        $i = 0;
+
+        # Os botões abaixo 
+        foreach ($this->decorado->obtAcoes() as $rotulo => $acao) {
+            $nome = strtolower(str_replace(' ', '_', $rotulo));
+            $botao = new Botao($nome);
+            $botao->defNomeForm($this->decorado->obtNome());
+            $botao->defAcao($acao, $rotulo);
+            # 
+            $botao->class = 'btn ' . ( ($i==0) ? 'btn-primary' : 'btn-success');  
+            $grupo->adic($botao);
+            $i++;
+        }
+
+        $cartao_form = new Cartao($this->parametros['params_cartao'], 'div', [], $this->parametros['links_abas']); # links_abas
         $cartao_form->adic($this->elemento);
 
-        $cartao = new Cartao("Pessoas", 'h5', []);
+        $cartao = new Cartao($this->decorado->obtTitulo(), 'h5', []);
         $cartao->adic($cartao_form);
-        $cartao->adicRodape('Botao');
+        $cartao->adicRodape($grupo);
         $cartao->exibe();
     }
 

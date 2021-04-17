@@ -5,13 +5,16 @@
  * Data: 02/04/2021
  ************************************************************************************/
 
+use Estrutura\BancoDados\Transacao;
 use Estrutura\Bugigangas\Base\Recipiente\AbasConteudo;
 use Estrutura\Bugigangas\Base\Recipiente\Cartao;
 use Estrutura\Bugigangas\Base\Recipiente\NavItens;
+use Estrutura\Bugigangas\Dialogo\Mensagem;
 use Estrutura\Bugigangas\Embrulho\EmbalaForms;
 use Estrutura\Bugigangas\Embrulho\EmbalaGrupoForm;
 use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Bugigangas\Form\ItensForm;
+use Estrutura\Controle\Acao;
 use Estrutura\Controle\Pagina;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -67,7 +70,7 @@ class FormPessoas3 extends Pagina
         $itens_form_1->adicLinhaForm('col-md-6', array('Nome da mãe', 'form-label'), array('text', 'nome_mae', 'form-control', 'inputMae4'));
         $itens_form_1->adicLinhaForm('col-md-4', array('Estado Civil', 'form-label'), array('select', 'estado_civil', 'form-select', 'inputEstadoCivil'));
         $itens_form_1->adicLinhaForm('col-md-6', array('Email', 'form-label'), array('email', 'email', 'form-control', 'inputEmail4'), 'nome@email.com');
-        $itens_form_1->adicLinhaForm('col-12',   [], array('button', 'enviar', 'btn btn-primary'), 'Enviar');
+        #$itens_form_1->adicLinhaForm('col-12',   [], array('button', 'enviar', 'btn btn-primary'), 'Enviar');
         #
         $itens_form_1->defOpcoesSeleciona('nacionalidade', array('Brasileiro', 'Argentino', 'Norte Americando', 'Chileno'));
         $itens_form_1->defOpcoesSeleciona('uf_expedidor', array('AL', 'BA', 'ES', 'MG', 'SP','RJ', 'SC','RS','TO','AM'));
@@ -159,7 +162,8 @@ class FormPessoas3 extends Pagina
         # O que estava bagunçando a layout das abas era a class 'row g-3'. Para arrumar, basta criar uma div 
         # com essa classe em cada aba, e deixar form sem classe.        
         $parametros_abas = array('id' => 'meuConteudoAba', 'ativo' => 'basico');
-        $abas_conteudo = array('basico' => $cartao_basico, 'endereco' => $cartao_endereco, 'emprego' => $cartao_emprego, 'referencias' => $cartao_refs, 'obs' => $cartao_observacoes);
+        $abas_conteudo = array('basico' => $cartao_basico, 'endereco' => $cartao_endereco, 'emprego' => $cartao_emprego, 
+                               'referencias' => $cartao_refs, 'obs' => $cartao_observacoes);
         $abas_prontas = new AbasConteudo($abas_conteudo, $parametros_abas);
 
         # Abas
@@ -185,8 +189,12 @@ class FormPessoas3 extends Pagina
          * Os itens são criados em uma classe externa (EmbalaGrupoForm)
          * itens_form_1
          */
-        $parametros_form = array('id' => 'form_clientes_abas', 'metodo' => 'post', 'links_abas' => $links_abas);
+        $parametros_cartao = array('titulo_cartao' => " ", 'id' => 'idAbaPessoa', 'role' => 'tablist');
+        $parametros_form = array('id' => 'form_clientes_abas', 'metodo' => 'post', 'links_abas' => $links_abas,
+                                 'params_cartao' => $parametros_cartao);
         $form_abas = new EmbalaForms(new Form('form_cliente'), NULL, NULL, $parametros_form, $abas_prontas);
+        $form_abas->defTitulo("Pessoas");
+        $form_abas->adicAcao('Salvar', new Acao(array($this, 'aoSalvar')));
 
         #echo '<pre>';
             #print_r($la);
@@ -194,5 +202,44 @@ class FormPessoas3 extends Pagina
       
         parent::adic($form_abas);
         parent::adic($conteudo); # Por enquanto, trás apenas o JS
+    }
+
+    /**
+     * Método aoSalvar
+     */
+    public function aoSalvar()
+    {
+        try {
+            # inicia transação com o banco de dados
+            Transacao::abre($this->registroAtivo);
+
+            //Transacao::defHistorico("/tmp/log");
+            $dados = $this->form->obtDados();
+            
+            $idsGrupos = $dados->ids_grupos;
+
+            $this->form->defDados($dados);
+
+            $grupo_pessoa = new GrupoPessoa;
+            $pessoa = new Pessoa;
+
+            $pessoa->apagGrupos();
+            if ($dados->ids_grupos) {
+                foreach ($dados->ids_grupos as $id_grupo) {
+                    $pessoa->adicGrupo(new Grupo($id_grupo));
+                }
+            }
+
+            unset($dados->ids_grupos);
+
+            $pessoa->doArray((array) $dados);
+            $pessoa->grava();
+
+            Transacao::fecha();
+            new Mensagem('info', 'Dados armazenados com sucesso');
+        } catch (Exception $e) {
+            new Mensagem('erro', $e->getMessage());
+            Transacao::desfaz();
+        }
     }
 }

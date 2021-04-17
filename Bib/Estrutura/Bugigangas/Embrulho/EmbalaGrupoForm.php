@@ -6,9 +6,10 @@
  ********************************************************************************************/
 
  # Espaço de nomes
-namespace Estrutura\Bugigangas\Base\Recipiente;
+ namespace Estrutura\Bugigangas\Embrulho;
 
 use Estrutura\Bugigangas\Base\Elemento;
+use Estrutura\Bugigangas\Form\ItensForm;
 
 /**
  * Classe ItensAbasForm

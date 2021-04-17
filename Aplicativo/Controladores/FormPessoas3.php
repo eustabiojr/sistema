@@ -7,11 +7,11 @@
 
 use Estrutura\Bugigangas\Base\Recipiente\AbasConteudo;
 use Estrutura\Bugigangas\Base\Recipiente\Cartao;
-use Estrutura\Bugigangas\Base\Recipiente\EmbalaForms;
-use Estrutura\Bugigangas\Base\Recipiente\EmbalaGrupoForm;
-use Estrutura\Bugigangas\Base\Recipiente\ItensForm;
 use Estrutura\Bugigangas\Base\Recipiente\NavItens;
+use Estrutura\Bugigangas\Embrulho\EmbalaForms;
+use Estrutura\Bugigangas\Embrulho\EmbalaGrupoForm;
 use Estrutura\Bugigangas\Form\Form;
+use Estrutura\Bugigangas\Form\ItensForm;
 use Estrutura\Controle\Pagina;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -158,17 +158,9 @@ class FormPessoas3 extends Pagina
 
         # O que estava bagunçando a layout das abas era a class 'row g-3'. Para arrumar, basta criar uma div 
         # com essa classe em cada aba, e deixar form sem classe.        
-        $parametros = array('id' => 'meuConteudoAba', 'ativo' => 'basico');
-        $abas = array('basico' => $cartao_basico, 'endereco' => $cartao_endereco, 'emprego' => $cartao_emprego, 'referencias' => $cartao_refs, 'obs' => $cartao_observacoes);
-        $aba = new AbasConteudo($abas, $parametros);
-
-        /**
-         * Forms
-         * 
-         * Os itens são criados em uma classe externa (EmbalaGrupoForm)
-         * itens_form_1
-         */
-        $form = new EmbalaForms(new Form('form_cliente'), NULL, new ItensForm(NULL, NULL, []), array('id' => 'form_clientes_abas', 'metodo' => 'post'), $aba);
+        $parametros_abas = array('id' => 'meuConteudoAba', 'ativo' => 'basico');
+        $abas_conteudo = array('basico' => $cartao_basico, 'endereco' => $cartao_endereco, 'emprego' => $cartao_emprego, 'referencias' => $cartao_refs, 'obs' => $cartao_observacoes);
+        $abas_prontas = new AbasConteudo($abas_conteudo, $parametros_abas);
 
         # Abas
         $nav_links = new NavItens;
@@ -182,27 +174,25 @@ class FormPessoas3 extends Pagina
         $nav_links->adicItem('param', 'id', 'minhaAbra');
         $nav_links->adicItem('param', 'role', 'tablist');
         $nav_links->adicItem('param', 'ativo', 0);
-        #$nav_links->adicItem('param', 'desabilitado', 3);
+        $nav_links->adicItem('param', 'desabilitado', NULL);
         $nav_links->adicItem('param', 'modo_link', 'button');
 
         $links_abas = $nav_links->obtItens();
 
-        $la = $links_abas + array('ativo' => 0, 'desabilitado' => NULL);
+        /**
+         * Forms
+         * 
+         * Os itens são criados em uma classe externa (EmbalaGrupoForm)
+         * itens_form_1
+         */
+        $parametros_form = array('id' => 'form_clientes_abas', 'metodo' => 'post', 'links_abas' => $links_abas);
+        $form_abas = new EmbalaForms(new Form('form_cliente'), NULL, NULL, $parametros_form, $abas_prontas);
 
         #echo '<pre>';
             #print_r($la);
         #echo '</pre>';
-
-        # É bem provável que eu resolva colocar esse cartão dentro da classe EmbalaGrupoForm
-        $parametros = array('titulo_cartao' => " ", 'id' => 'idAbaPessoa', 'role' => 'tablist');
-        $cartao_form = new Cartao($parametros, 'div', [], $la);
-        $cartao_form->adic($form);
-
-        $cartao = new Cartao("Pessoas", 'h5', []);
-        $cartao->adic($cartao_form);
-        $cartao->adicRodape('Botao');
       
-        parent::adic($cartao);
-        parent::adic($conteudo);
+        parent::adic($form_abas);
+        parent::adic($conteudo); # Por enquanto, trás apenas o JS
     }
 }

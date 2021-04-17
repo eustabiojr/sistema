@@ -6,7 +6,7 @@
  ********************************************************************************************/
 
  # Espaço de nomes
-namespace Estrutura\Bugigangas\Base\Recipiente;
+namespace Estrutura\Bugigangas\Form;
 
 /**
  * Classe ItensForm

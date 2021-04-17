@@ -89,7 +89,7 @@ class Cartao extends Elemento
                         $vlr = $valor;
                     };
 
-                    if ($links['ativo'] == $chave) {
+                    if ($links['param']['ativo'] == $chave) {
                         $li = new Elemento('li');
                         $li->class = 'nav-item';
 
@@ -102,7 +102,7 @@ class Cartao extends Elemento
                         $li->adic($ancora);         
                         $ul->adic($li);
 
-                    } else if ($links['desabilitado'] == $chave) {
+                    } else if ($links['param']['desabilitado'] == $chave) {
                         $li = new Elemento('li');
                         $li->class = 'nav-item';
 

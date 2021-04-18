@@ -2,19 +2,22 @@
 /************************************************************************************
  * Sistema
  * 
- * Data: 15/03/2021
+ * Data: 02/04/2021
  ************************************************************************************/
 
 use Estrutura\BancoDados\Transacao;
+use Estrutura\Bugigangas\Base\Recipiente\AbasConteudo;
+use Estrutura\Bugigangas\Base\Recipiente\Cartao;
+use Estrutura\Bugigangas\Base\Recipiente\NavItens;
 use Estrutura\Bugigangas\Dialogo\Mensagem;
-use Estrutura\Bugigangas\Embrulho\EmbrulhoForm;
-use Estrutura\Bugigangas\Form\Combo;
-use Estrutura\Bugigangas\Form\Entrada;
+use Estrutura\Bugigangas\Embrulho\EmbalaForms;
+use Estrutura\Bugigangas\Embrulho\EmbalaGrupoForm;
 use Estrutura\Bugigangas\Form\Form;
-use Estrutura\Bugigangas\Form\GrupoCheck;
-use Estrutura\Bugigangas\Form\Texto;
+use Estrutura\Bugigangas\Form\ItensForm;
 use Estrutura\Controle\Acao;
 use Estrutura\Controle\Pagina;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 /**
  * Classe FormPessoas
@@ -35,68 +38,187 @@ class FormPessoas extends Pagina
         $this->conexao = 'exemplo';
         $this->registroAtivo = 'Pessoa';
 
-        # Instância um formulário
-        $this->form = new EmbrulhoForm(new Form('form_pessoas'));
-        $this->form->defTitulo('Pessoa');
+        $carregador = new FilesystemLoader('Aplicativo/Recursos');
+        $twig = new Environment($carregador);
+        $template = $twig->loadTemplate('cadastro_pessoa.html');
 
-        # cria os campos do formulário
-        $codigo   = new Entrada('id');
-        $nome     = new Entrada('nome');
-        $endereco = new Entrada('endereco');
-        $bairro   = new Entrada('bairro');
-        $telefone = new Entrada('telefone');
-        $email    = new Entrada('email');
-        $cidade   = new Combo('id_cidade');
-        $grupo    = new GrupoCheck('ids_grupos');
-        $grupo->defEsboco('horizontal');
+        # vetor de parâmetros para o template
+        $substituicoes = array();
 
-        # carrega as cidades do banco de dados
-        Transacao::abre('exemplo');
+        $conteudo = $template->render($substituicoes);
 
-        $cidades = Cidade::todos();
-        $itens = array();
-        foreach ($cidades as $obj_cidade) {
-            $itens[$obj_cidade->id] = $obj_cidade->nome;
-        }
-        $cidade->adicItens($itens);
+        # Itens da aba 1 (Básico)
+        $itens_form_1 = new ItensForm;
+        # O segundo parâmetro aceita array e string. Caso seja um array vazio, o rótulo não será criado.
+        $itens_form_1->adicLinhaForm('col-md-4', array('CPF', 'form-label'), array('text', 'cpf', 'form-control', 'inputCPF1'));
+        $itens_form_1->adicLinhaForm('col-md-2', array('<br/>', 'form-label'), array('button', 'pesquisar', 'form-control btn btn-primary'), 'Pesquisar');
+        $itens_form_1->adicLinhaForm('col-md-4', array('Código', 'form-label'), array('text', 'id', 'form-control', 'inputCod1', 
+                                     [array('readonly' => NULL/*, 'disabled' => NULL*/)]));
+        $itens_form_1->adicLinhaForm('col-md-8', array('Nome',   'form-label'), array('text', 'nome', 'form-control', 'inputNome4'));
+        $itens_form_1->adicLinhaForm('col-md-2', array('Apelido',   'form-label'), array('text', 'apelido', 'form-control', 'inputApelido4'));
+        $itens_form_1->adicLinhaForm('col-md-2', array('Nascimento',   'form-label'), array('text', 'data_nascimento', 'form-control', 'inputNascimento4'));
+        $itens_form_1->adicLinhaForm('col-md-3', array('Número RG',   'form-label'), array('text', 'identidade', 'form-control', 'inputRG4'));
+        $itens_form_1->adicLinhaForm('col-md-2', array('Orgão Expedidor', 'form-label'), array('text', 'orgao_expedidor', 'form-control', 'inputOrgExp4'));
+        $itens_form_1->adicLinhaForm('col-md-3', array('UF', 'form-label'), array('select', 'uf_expedidor', 'form-select', 'inputUFExpedidor'));
+        $itens_form_1->adicLinhaForm('col-md-2', array('Data Expedição',   'form-label'), array('text', 'data_expedicao', 'form-control', 'inputDataExpedicao4'));
+        $itens_form_1->adicLinhaForm('col-md-3', array('Nacionalidade', 'form-label'), array('select', 'nacionalidade', 'form-select', 'inputNacionalidade'));
+        $itens_form_1->adicLinhaForm('col-md-3', array('Naturalidade',   'form-label'), array('text', 'naturalidade', 'form-control', 'inputNaturalidade4'));
+        $itens_form_1->adicLinhaForm('col-md-2', array('Sexo', 'form-label'), array('select', 'sexo', 'form-select', 'inputSexo'));
+        $itens_form_1->adicLinhaForm('col-md-1', array('DDD',   'form-label'), array('text', 'ddd', 'form-control', 'inputDDD4'));
+        $itens_form_1->adicLinhaForm('col-md-3', array('Celular', 'form-label'), array('text', 'celular', 'form-control', 'inputCelular4'));
+        $itens_form_1->adicLinhaForm('col-md-6', array('Nome do pai', 'form-label'), array('text', 'pai', 'form-control', 'inputPai4'));
+        $itens_form_1->adicLinhaForm('col-md-6', array('Nome da mãe', 'form-label'), array('text', 'mae', 'form-control', 'inputMae4'));
+        $itens_form_1->adicLinhaForm('col-md-4', array('Estado Civil', 'form-label'), array('select', 'estado_civil', 'form-select', 'inputEstadoCivil'));
+        $itens_form_1->adicLinhaForm('col-md-6', array('Email', 'form-label'), array('email', 'email', 'form-control', 'inputEmail4'), 'nome@email.com');
+        #$itens_form_1->adicLinhaForm('col-12',   [], array('button', 'enviar', 'btn btn-primary'), 'Enviar');
+        #
+        $itens_form_1->defOpcoesSeleciona('nacionalidade', array('Brasileiro', 'Argentino', 'Norte Americando', 'Chileno'));
+        $itens_form_1->defOpcoesSeleciona('uf_expedidor', array('AL', 'BA', 'ES', 'MG', 'SP','RJ', 'SC','RS','TO','AM'));
+        $itens_form_1->defOpcoesSeleciona('sexo', array('Masculino', 'Feminino'));
+        $itens_form_1->defOpcoesSeleciona('estado_civil', array('Solteiro(a)', 'Casado(a)','Viúvo(a)', 'Divorciado(a)', 'Outro'));
 
-        $grupos = Grupo::todos();
-        $itens = array();
-        foreach ($grupos as $obj_grupo) {
-            $itens[$obj_grupo->id] = $obj_grupo->nome;
-        }
-        $grupo->adicItens($itens);
+        # Itens da aba 2 (Endereço)
+        $itens_form_2 = new ItensForm;
+        $itens_form_2->adicLinhaForm('col-md-3', array('CEP',   'form-label'), array('text', 'cep', 'form-control', 'inputCEP4'));
+        $itens_form_2->adicLinhaForm('col-md-6', array('Endereço', 'form-label'), array('text', 'endereco', 'form-control', 'inputEndereco', '1234 Main St'));
+        $itens_form_2->adicLinhaForm('col-md-1', array('Número',   'form-label'), array('text', 'numero', 'form-control', 'inputNumero4'));
+        $itens_form_2->adicLinhaForm('col-md-3', array('Complemento', 'form-label'), array('text', 'complemento', 'form-control', 'inputComplemento4'));
+        $itens_form_2->adicLinhaForm('col-md-3', array('Bairro',   'form-label'), array('text', 'bairro', 'form-control', 'inputBairro4'));
+        $itens_form_2->adicLinhaForm('col-md-4', array('Estado', 'form-label'), array('select', 'uf', 'form-select', 'inputEstado'));
+        $itens_form_2->adicLinhaForm('col-md-4', array('Cidade', 'form-label'), array('select', 'cidade', 'form-select', 'inputCidade'));
+        # Este campo precisa ser implementado corretamente (textarea) rows
+        $itens_form_2->adicLinhaForm('col-md-8', array('Ponto de referência', 'form-label'), array('textarea', 'ponto_referencia', 'form-control', 'inputPontoReferencia'));
+        #
+        $itens_form_2->adicLinhaForm('col-md-1', array('DDD',   'form-label'), array('text', 'ddd_end', 'form-control', 'inputDDD4'));
+        $itens_form_2->adicLinhaForm('col-md-2', array('Telefone',   'form-label'), array('text', 'telefone', 'form-control', 'inputTelefone4'));
+        $itens_form_2->adicLinhaForm('col-md-3', array('Tempo de residência',   'form-label'), array('text', 'tempo_residencia', 'form-control', 'inputTempoResidencia4'));
+        $itens_form_2->adicLinhaForm('col-md-4', array('Tipo de imóvel', 'form-label'), array('select', 'tipo_imovel', 'form-select', 'inputTipoImovel'));
 
-        $this->form->adicCampo('Código',   $codigo, '30%');
-        $this->form->adicCampo('Nome',     $nome, '70%');
-        $this->form->adicCampo('Endereço', $endereco, '70%');
-        $this->form->adicCampo('Bairro',   $bairro, '70%');
-        $this->form->adicCampo('Telefone', $telefone, '70%');
-        $this->form->adicCampo('Email',    $email, '70%');
-        $this->form->adicCampo('Cidade',   $cidade, '70%');
-        $this->form->adicCampo('Grupo',    $grupo, '70%');
+        $itens_form_2->defOpcoesSeleciona('uf', array('Alagoas', 'Bahia', 'Espírito Santo', 'Minas Gerais', 'São Paulo'));
+        $itens_form_2->defOpcoesSeleciona('cidades', array('Prado', 'Alcobaça', 'Porto Seguro', 'Caravelas', 'Teixeira de Freitas'));
+        $itens_form_2->defOpcoesSeleciona('tipo_imovel', array('Próprio', 'Alugado', 'Família'));
 
-        $codigo->defEditavel(FALSE);
-        # O parâmetro da classe ação vai um array. Sendo que no índice 0 tem um objeto e no índice 1 possui o método
-        # O objeto ação (Acao) transforma o array em parâmetros enviados pela URL.
-        $this->form->adicAcao('Salvar', new Acao(array($this, 'aoSalvar')));
+        # Itens da aba 3 (Emprego)
+        $itens_form_3 = new ItensForm;
+        $itens_form_3->adicLinhaForm('col-md-6', array('Tipo Atividade', 'form-label'), array('select', 'tipo_atividade', 'form-select', 'inputTipoAtividade'));
+        $itens_form_3->adicLinhaForm('col-md-6', array('Tipo de Organização', 'form-label'), array('select', 'tipo_organizacao', 'form-select', 'inputTipoOrganizacao'));
+        $itens_form_3->adicLinhaForm('col-md-6', array('Cargo', 'form-label'), array('text', 'cargo', 'form-control', 'inputCargo4'));
+        $itens_form_3->adicLinhaForm('col-md-6', array('Empresa', 'form-label'), array('text', 'empresa', 'form-control', 'inputEmpresa4'));
+        $itens_form_3->adicLinhaForm('col-md-3', array('Salário', 'form-label'), array('text', 'salario', 'form-control', 'inputSalario4'));
+        $itens_form_3->adicLinhaForm('col-md-3', array('Outras Rendas', 'form-label'), array('text', 'outras_rendas', 'form-control', 'inputOutrasRendas'));
+        $itens_form_3->adicLinhaForm('col-md-3', array('Número da Matrícula', 'form-label'), array('text', 'numero_matricula', 'form-control', 'inputNumeroMatricula4'));
+        $itens_form_3->adicLinhaForm('col-md-3', array('Documento Apresentado', 'form-label'), array('text', 'documento_apresentado', 'form-control', 'inputDocumentoApresentado'));
+        $itens_form_3->adicLinhaForm('col-md-3', array('Data de Admissão', 'form-label'), array('text', 'data_admissao', 'form-control', 'inputDataAdmissao'));
 
-        # adiciona o formulário à página
-        parent::adic($this->form);
+        $itens_form_3->defOpcoesSeleciona('tipo_atividade', array('Autônomo (Pedreiro, Carpinteiro, Pintor, Etc...)', 'Assalariado', 'Aposentado'));
+        $itens_form_3->defOpcoesSeleciona('tipo_organizacao', array('Vendedora de Confecções', 'Construção Civil'));
+
+        # Itens da aba 4 (Referências)
+        $itens_form_4 = new ItensForm;
+        $itens_form_4->adicLinhaForm('col-md-5', array('Nome',   'form-label'), array('text', 'nome_referencia1', 'form-control', 'inputNomeReferencia1'));
+        $itens_form_4->adicLinhaForm('col-md-1', array('DDD',   'form-label'), array('text', 'ddd_referencia1', 'form-control', 'inputDDDReferencia1'));
+        $itens_form_4->adicLinhaForm('col-md-3', array('Telefone',   'form-label'), array('text', 'telefone_referencia1', 'form-control', 'inputTelefoneReferencia1'));
+        $itens_form_4->adicLinhaForm('col-md-5', array('Nome',   'form-label'), array('text', 'nome_referencia2', 'form-control', 'inputNomeReferencia2'));
+        $itens_form_4->adicLinhaForm('col-md-1', array('DDD',   'form-label'), array('text', 'ddd_referencia2', 'form-control', 'inputDDDReferencia2'));
+        $itens_form_4->adicLinhaForm('col-md-3', array('Telefone',   'form-label'), array('text', 'telefone_referencia2', 'form-control', 'inputTelefoneReferencia2'));
+        $itens_form_4->adicLinhaForm('col-md-5', array('Nome',   'form-label'), array('text', 'nome_referencia3', 'form-control', 'inputNomeReferencia3'));
+        $itens_form_4->adicLinhaForm('col-md-1', array('DDD',   'form-label'), array('text', 'ddd_referencia3', 'form-control', 'inputDDDReferencia3'));
+        $itens_form_4->adicLinhaForm('col-md-3', array('Telefone',   'form-label'), array('text', 'telefone_referencia3', 'form-control', 'inputTelefoneReferencia3'));
+        
+        # Itens da aba 5 (Observações)
+        $itens_form_5 = new ItensForm;
+        $itens_form_5->adicLinhaForm('col-md-12', array('Anotações', 'form-label'), array('textarea', 'observacoes', 'form-control', 'inputObservacoes'));
+        
+        //------------------------------------------------------------------------------------------------------------------------- 
+        /** O formulário com abas funciona assim. Os grupos de itens de formulário são inseridos no objeto abas conteúdo. 
+         * E em seguida o objeto. AbasConteudo é inserido em um formulário.
+         */
+        $itens_aba1 = new EmbalaGrupoForm($itens_form_1, array('id' => 'aba1', 'classe' => 'g-3'));
+        $itens_aba2 = new EmbalaGrupoForm($itens_form_2, array('id' => 'aba2', 'classe' => 'g-3'));
+        $itens_aba3 = new EmbalaGrupoForm($itens_form_3, array('id' => 'aba3', 'classe' => 'g-3'));
+        $itens_aba4 = new EmbalaGrupoForm($itens_form_4, array('id' => 'aba4', 'classe' => 'g-3'));
+        $itens_aba5 = new EmbalaGrupoForm($itens_form_5, array('id' => 'aba5', 'classe' => 'g-3'));
+
+        $params_identificacao = array('titulo_cartao' => "Dados Pessoais", 'id' => 'idAbaIdent', 'role' => 'tablist');
+        $cartao_basico = new Cartao($params_identificacao, 'div', []);
+        $cartao_basico->adic($itens_aba1);
+
+        $params_endereco = array('titulo_cartao' => "Endereço Atual", 'id' => 'idAbaEndereco', 'role' => 'tablist');
+        $cartao_endereco = new Cartao($params_endereco, 'div', []);
+        $cartao_endereco->adic($itens_aba2);
+
+        $params_emprego = array('titulo_cartao' => "Dados da Ocupação", 'id' => 'idAbaEmprego', 'role' => 'tablist');
+        $cartao_emprego = new Cartao($params_emprego, 'div', []);
+        $cartao_emprego->adic($itens_aba3);
+
+        $params_refs = array('titulo_cartao' => "Referências Pessoais", 'id' => 'idAbaRefs', 'role' => 'tablist');
+        $cartao_refs = new Cartao($params_refs, 'div', []);
+        $cartao_refs->adic($itens_aba4);
+
+        $params_observacoes = array('titulo_cartao' => "Observação", 'id' => 'idAbaObs', 'role' => 'tablist');
+        $cartao_observacoes = new Cartao($params_observacoes, 'div', []);
+        $cartao_observacoes->adic($itens_aba5);
+
+        # O que estava bagunçando a layout das abas era a class 'row g-3'. Para arrumar, basta criar uma div 
+        # com essa classe em cada aba, e deixar form sem classe.        
+        $parametros_abas = array('id' => 'meuConteudoAba', 'ativo' => 'basico');
+        $abas_conteudo = array('basico' => $cartao_basico, 'endereco' => $cartao_endereco, 'emprego' => $cartao_emprego, 
+                               'referencias' => $cartao_refs, 'obs' => $cartao_observacoes);
+        $abas_prontas = new AbasConteudo($abas_conteudo, $parametros_abas);
+
+        # Abas
+        $nav_links = new NavItens;
+        $nav_links->adicItem('links', array('basico'      => 'Básico'),     'nav-item active');
+        $nav_links->adicItem('links', array('endereco'    => 'Endereço'),   'nav-item');
+        $nav_links->adicItem('links', array('emprego'     => 'Emprego'),    'nav-item');
+        $nav_links->adicItem('links', array('referencias' => 'Referências'),'nav-item');
+        $nav_links->adicItem('links', array('obs'         => 'Observações'),'nav-item');
+      
+        $nav_links->adicItem('param', 'sub_classe', 'nav-tabs');
+        $nav_links->adicItem('param', 'id', 'minhaAbra');
+        $nav_links->adicItem('param', 'role', 'tablist');
+        $nav_links->adicItem('param', 'ativo', 0);
+        $nav_links->adicItem('param', 'desabilitado', NULL);
+        $nav_links->adicItem('param', 'modo_link', 'button');
+
+        $links_abas = $nav_links->obtItens();
+
+        /**
+         * Forms
+         * 
+         * Os itens são criados em uma classe externa (EmbalaGrupoForm)
+         * itens_form_1
+         */
+        $parametros_cartao = array('titulo_cartao' => " ", 'id' => 'idAbaPessoa', 'role' => 'tablist');
+        $parametros_form = array('id' => 'form_clientes_abas', 'metodo' => 'post', 'links_abas' => $links_abas,
+                                 'params_cartao' => $parametros_cartao);
+        $this->form_abas = new EmbalaForms(new Form('form_cliente'), NULL, NULL, $parametros_form, $abas_prontas);
+        $this->form_abas->defTitulo("Pessoas");
+        $this->form_abas->adicAcao('Salvar', new Acao(array($this, 'aoSalvar')));
+
+        #echo '<pre>';
+            #print_r($la);
+        #echo '</pre>';
+      
+        parent::adic($this->form_abas);
+        parent::adic($conteudo); # Por enquanto, trás apenas o JS
     }
 
+    /**
+     * Método aoSalvar
+     */
     public function aoSalvar()
     {
         try {
             # inicia transação com o banco de dados
-            Transacao::abre($this->registroAtivo);
+            Transacao::abre($this->conexao);
 
             //Transacao::defHistorico("/tmp/log");
-            $dados = $this->form->obtDados();
+            $dados = $this->form_abas->obtDados();
             
             $idsGrupos = $dados->ids_grupos;
 
-            $this->form->defDados($dados);
+            $this->form_abas->defDados($dados);
 
             $grupo_pessoa = new GrupoPessoa;
             $pessoa = new Pessoa;
@@ -121,6 +243,9 @@ class FormPessoas extends Pagina
         }
     }
 
+    /**
+     * Método aoEditar
+     */
     public function aoEditar($param)
     {
         try {
@@ -128,12 +253,12 @@ class FormPessoas extends Pagina
                 $id = $param['id'];
 
                 # inicia transação com o banco de dados
-                Transacao::abre($this->registroAtivo);
+                Transacao::abre($this->conexao);
 
                 $pessoa = Pessoa::localiza($id);
                 if ($pessoa) {
                     $pessoa->ids_grupos = $pessoa->obtIdsGrupos();
-                    $this->form->defDados($pessoa);
+                    $this->form_abas->defDados($pessoa);
                 }
                 Transacao::fecha();
             }

@@ -473,17 +473,47 @@ CREATE TABLE public.pessoa (
     endereco character varying(120),
     telefone character varying(16),
     email character varying(100),
-    id_endereco integer,
     id_telefone integer,
-    id_referencia_pessoa integer,
-    id_ocupacao integer,
     data_cadastro timestamp without time zone NOT NULL,
     data_atualizacao timestamp without time zone NOT NULL,
     cep character varying(10),
     complemento character varying(120),
     numero character varying(5),
-    id_cidade integer,
-    bairro character varying(100)
+    bairro character varying(100),
+    apelido character varying(30),
+    orgao_expedidor character varying(20),
+    uf_expedidor integer,
+    nacionalidade integer,
+    naturalidade character varying(60),
+    sexo integer,
+    ddd character varying(3),
+    celular character varying(10),
+    estado_civil integer,
+    uf integer,
+    ponto_referencia character varying(120),
+    ddd_end integer,
+    tempo_residencia character varying(30),
+    tipo_imovel integer,
+    tipo_atividade integer,
+    tipo_organizacao integer,
+    cidade character varying(80),
+    cargo character varying(80),
+    empresa character varying(80),
+    salario numeric(20,4),
+    outras_rendas numeric(20,4),
+    numero_matricula character varying(30),
+    documento_apresentado character varying(30),
+    data_admissao date,
+    nome_referencia1 character varying(30),
+    nome_referencia2 character varying(30),
+    nome_referencia3 character varying(30),
+    ddd_referencia1 character varying(3),
+    ddd_referencia2 character varying(3),
+    ddd_referencia3 character varying(3),
+    telefone_referencia1 character varying(10),
+    telefone_referencia2 character varying(10),
+    telefone_referencia3 character varying(10),
+    observacoes text
 );
 
 
@@ -561,7 +591,8 @@ CREATE TABLE public.usuario (
     senha character varying(120),
     email character varying(80),
     privilegio character varying(15),
-    validade date
+    validade date,
+    situacao character varying(10)
 );
 
 
@@ -753,6 +784,10 @@ COPY public.grupo (id, nome) FROM stdin;
 COPY public.grupo_pessoa (id, id_pessoa, id_grupo) FROM stdin;
 1	1	1
 2	1	3
+3	\N	2
+4	\N	4
+5	\N	1
+6	\N	4
 \.
 
 
@@ -798,11 +833,11 @@ COPY public.movimento_estoque (id, numero_nota_fiscal, data_movimento, tipo, id_
 -- Data for Name: pessoa; Type: TABLE DATA; Schema: public; Owner: eustabiojr
 --
 
-COPY public.pessoa (id, nome, identidade, cpf, data_nascimento, pai, mae, endereco, telefone, email, id_endereco, id_telefone, id_referencia_pessoa, id_ocupacao, data_cadastro, data_atualizacao, cep, complemento, numero, id_cidade, bairro) FROM stdin;
-1	Eustábio Jesus da Silva Júnior	\N	61519880510	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	2020-04-10 00:00:00	2020-04-10 00:00:00	\N	\N	\N	1	\N
-2	Evanilde Pereira da Silva	\N	03629822776	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	2020-04-10 00:00:00	2020-04-10 00:00:00	\N	\N	\N	1	\N
-3	afdfdf	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	2020-05-03 00:00:00	2020-05-03 00:00:00	\N	\N	\N	1	\N
-4	Eustábio J. Silva Jr.	\N	\N	\N	\N	\N	Avenida Amazonas, 26	São Brás	evanilde@ageueletro.com.br	\N	\N	\N	\N	2020-05-07 00:00:00	2020-05-07 00:00:00	\N	\N	\N	1	São Brás
+COPY public.pessoa (id, nome, identidade, cpf, data_nascimento, pai, mae, endereco, telefone, email, id_telefone, data_cadastro, data_atualizacao, cep, complemento, numero, bairro, apelido, orgao_expedidor, uf_expedidor, nacionalidade, naturalidade, sexo, ddd, celular, estado_civil, uf, ponto_referencia, ddd_end, tempo_residencia, tipo_imovel, tipo_atividade, tipo_organizacao, cidade, cargo, empresa, salario, outras_rendas, numero_matricula, documento_apresentado, data_admissao, nome_referencia1, nome_referencia2, nome_referencia3, ddd_referencia1, ddd_referencia2, ddd_referencia3, telefone_referencia1, telefone_referencia2, telefone_referencia3, observacoes) FROM stdin;
+3	afdfdf	\N	\N	\N	\N	\N	\N	\N	\N	\N	2020-05-03 00:00:00	2020-05-03 00:00:00	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+4	Eustábio J. Silva Jr.	\N	\N	\N	\N	\N	Avenida Amazonas, 26	São Brás	evanilde@ageueletro.com.br	\N	2020-05-07 00:00:00	2020-05-07 00:00:00	\N	\N	\N	São Brás	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+2	Evanilde Pereira da Silva	\N	03629822776	\N	\N	\N	Av. Amazonas, 26 	73-3021-1422	evanilde@ageueletro.com.br	\N	2020-04-10 00:00:00	2020-04-10 00:00:00	\N	\N	\N	São Brás	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1	Eustábio Jesus da Silva Júnior	\N	61519880510	\N	\N	\N	Av. Amazonas, 26	73998515014	eustabiojr@gmail.com	\N	2020-04-10 00:00:00	2020-04-10 00:00:00	\N	\N	\N	São Brás	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 \.
 
 
@@ -814,8 +849,8 @@ COPY public.produto (id, ativacao, mostra_internet, id_unidade, descricao, estoq
 15	\N	\N	\N	Celular Samsung Galaxy A10S Preto	4	\N	\N	\N	\N	\N	\N	880.0000	1150.0000	0.16	\N	\N	\N	\N	\N	\N	\N	2020-05-01 00:00:00	2020-05-01 00:00:00	\N	\N	0.20
 16	\N	\N	\N	Celular Samsung Galaxy A20S Vermelho	4	\N	\N	\N	\N	\N	\N	990.0000	1450.0000	0.16	\N	\N	\N	\N	\N	\N	\N	2020-05-01 00:00:00	2020-05-01 00:00:00	\N	\N	0.20
 13	\N	\N	1	Televisor LED 32 Pol. LG Smart TV	4	2	\N	\N	\N	\N	\N	895.0000	1350.0000	0.16	\N	\N	\N	\N	\N	\N	\N	2020-05-01 00:00:00	2020-05-01 00:00:00	\N	\N	0.20
-14	\N	\N	\N	Televisor LED 43 Pol. Samsung Smart TV	4	\N	\N	\N	\N	\N	\N	1250.0000	1890.0000	0.16	\N	\N	\N	\N	\N	\N	\N	2020-05-01 00:00:00	2020-05-01 00:00:00	\N	\N	0.25
 12	\N	\N	1	Televisor LED 32 Pol. Samsung Smart TV	4	1	\N	\N	\N	\N	\N	895.0000	1350.0000	0.16	\N	\N	\N	\N	\N	\N	\N	2020-05-01 00:00:00	2020-05-01 00:00:00	\N	\N	0.22
+14	\N	\N	1	Televisor LED 43 Pol. Samsung Smart TV	4	1	\N	\N	\N	\N	\N	1250.0000	1890.0000	0.16	\N	\N	\N	\N	\N	\N	\N	2020-05-01 00:00:00	2020-05-01 00:00:00	\N	\N	0.25
 \.
 
 
@@ -843,7 +878,8 @@ COPY public.unidade (id, sigla, nome) FROM stdin;
 -- Data for Name: usuario; Type: TABLE DATA; Schema: public; Owner: eustabiojr
 --
 
-COPY public.usuario (id, nome, senha, email, privilegio, validade) FROM stdin;
+COPY public.usuario (id, nome, senha, email, privilegio, validade, situacao) FROM stdin;
+2	eustabiojr	ae2044df189162d4e82777392ccea146	eustabiojr@gmail.com	admin	\N	\N
 \.
 
 
@@ -956,7 +992,7 @@ SELECT pg_catalog.setval('public.id_unidade', 2, true);
 -- Name: id_usuario; Type: SEQUENCE SET; Schema: public; Owner: eustabiojr
 --
 
-SELECT pg_catalog.setval('public.id_usuario', 1, false);
+SELECT pg_catalog.setval('public.id_usuario', 2, true);
 
 
 --
@@ -1165,14 +1201,6 @@ ALTER TABLE ONLY public.grupo_pessoa
 
 ALTER TABLE ONLY public.grupo_pessoa
     ADD CONSTRAINT pessoa_grupo_id_pessoa_fkey FOREIGN KEY (id_pessoa) REFERENCES public.pessoa(id);
-
-
---
--- Name: pessoa pessoa_id_cidade_fkey; Type: FK CONSTRAINT; Schema: public; Owner: eustabiojr
---
-
-ALTER TABLE ONLY public.pessoa
-    ADD CONSTRAINT pessoa_id_cidade_fkey FOREIGN KEY (id_cidade) REFERENCES public.cidade(id);
 
 
 --

@@ -60,11 +60,16 @@ class Form {
 
     /**
      * Método adicCampo
+     * 
+     * Com a classe EmbalaForms os campos são gravados na classe ItensForm. Vou precisar
+     * fazer uma adaptação aqui. 
      */
     public function adicCampo($rotulo, InterfaceElementoForm $objeto, $tamanho = '100%')
     {
         $objeto->defTamanho($tamanho);
         $objeto->defRotulo($rotulo);
+
+        # Esta propriedade precisa ser trabalhada.
         $this->campos[$objeto->obtNome()] = $objeto;
     }
 

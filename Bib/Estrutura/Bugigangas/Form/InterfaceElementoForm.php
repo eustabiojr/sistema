@@ -19,5 +19,7 @@ interface InterfaceElementoForm {
     public function exibe();
     public function defTamanho($tamanho);
     public function defRotulo($rotulo);
+    # Teste
+    public function defClasseRotulo($classe_rotulo);
 }
 

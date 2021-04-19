@@ -105,6 +105,22 @@ abstract class Campo implements InterfaceElementoForm
     }
 
     /**
+     * Método defClasseRotulo
+     */
+    public function defClasseRotulo($classe_rotulo)
+    {
+        $this->classe_rotulo = $classe_rotulo;
+    }
+
+    /**
+     * Método obtClasseRotulo
+     */
+    public function obtClasseRotulo()
+    {
+        return $this->classe_rotulo;
+    }
+
+    /**
      * Método defValor
      */
     public function defValor($valor)

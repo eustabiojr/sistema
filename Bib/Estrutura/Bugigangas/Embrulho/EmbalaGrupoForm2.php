@@ -9,21 +9,24 @@
  namespace Estrutura\Bugigangas\Embrulho;
 
 use Estrutura\Bugigangas\Base\Elemento;
-use Estrutura\Bugigangas\Form\ItensForm;
+use Estrutura\Bugigangas\Form\ItensForm2;
 
 /**
  * Classe ItensAbasForm
  */
-class EmbalaGrupoForm extends Elemento 
+class EmbalaGrupoForm2 extends Elemento 
 {
     private $opcoes_seleciona;
+	private $div;
 
     /**
      * Método construtor
      */
-    public function __construct(ItensForm $itens_form, array $parametros = array())
+    public function __construct(ItensForm2 $itens_form, array $parametros = array())
     {
         parent::__construct('div');
+
+		#echo "HHHHHHHHHHHHHHHHHH";
 
         if (isset($parametros['classe'])) {
         	$this->class  = 'row ' . $parametros['classe'];
@@ -31,7 +34,7 @@ class EmbalaGrupoForm extends Elemento
 		$this->id  = $parametros['id'] ?? NULL;
 		
         $this->opcoes_seleciona = $itens_form->obtOpcoesSeleciona();
-		$this->itensForm($itens_form->obtLinhasForm());
+		$this->itensForm($itens_form->obtGruposCampo());
     }
 
     /**
@@ -39,7 +42,47 @@ class EmbalaGrupoForm extends Elemento
      */
     public function itensForm($linhaForm)
     {
-		# A variável não está sendo usada
+		echo '<pre>';
+			#print_r($linhaForm);
+	 	echo '</pre>';
+
+		#echo "XXXXXXX";
+		foreach ($linhaForm as $chave => $campos) {
+			#echo "ZZZZZZZZZZZZ--" . $chave;
+
+			#echo '<pre>';
+				#print_r($campos);
+		 	#echo '</pre>';
+
+			#foreach($campos[0] as $valor) {
+
+				#echo "YYYYYYYYYYYY";
+				$this->div = new Elemento('div');
+				$this->div->class = 'class_boot';
+
+				$rotulo = new Elemento('label');
+				$rotulo->class = $campos[1]['classe_rotulo'];
+				$rotulo->adic('Etiqueta');
+
+				# elemento de formulário
+	        	$entrada = new Elemento('input');
+	        	$entrada->class = 'col-md-6'; # $campos[1]['classe_entrada']; # 'col-md-6';
+	        	#$nome = $vl['entrada'][1];
+				$entrada->name = 'JJJJJ'; # $valor->nome;
+	        	#if (isset($nome)) {
+	        		#$entrada->name = $nome;
+	        	#}
+
+				$this->div->adic($rotulo);
+				$this->div->adic($campos[0]);
+				#$this->div->exibe();
+			#}
+			parent::adic($this->div);
+		}
+    }
+
+	/**
+	 * 		# A variável não está sendo usada
         foreach ($linhaForm as $chave => $valor) {
 
         	# Esse laço cria as DIVs externas de cada linha
@@ -163,8 +206,8 @@ class EmbalaGrupoForm extends Elemento
 	        	$div->adic($entrada);
         	} # Fim do foreach interno
 
-			# .
+			# Estou pensando em incluir o resultado em um Cartao.
 			parent::adic($div);
         } # Fim do foreach externo
-    }
+	 */
 }

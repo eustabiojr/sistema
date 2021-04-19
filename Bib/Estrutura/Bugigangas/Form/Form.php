@@ -116,6 +116,10 @@ class Form {
     {
         $objeto = new $classe;
 
+        /**
+         * Aqui pegamos os campos, e o transformamos em propriedade e seu respectivo valor
+         * em um objeto genérico.
+         */
         foreach ($this->campos as $chave => $objetoCampo) {
             $val = $_POST[$chave] ?? '';
             $objeto->$chave = $val;

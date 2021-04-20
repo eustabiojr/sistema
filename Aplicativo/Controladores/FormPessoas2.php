@@ -63,10 +63,10 @@ class FormPessoas2 extends Pagina
         # Itens da aba 1 (Básico)
         $itens_form_1 = new ItensForm2;
         # O segundo parâmetro aceita array e string. Caso seja um array vazio, o rótulo não será criado.
-        $itens_form_1->adicGrupoForm('CPF',  $cpf, array('classe_rotulo' => 'form-label', 'classe_entrada' => 'ssss')); # 'col-md-4'
-        $itens_form_1->adicGrupoForm('Nome', $nome, ['classe_rotulo' => 'form-label', 'classe_entrada' => 'ssss']);
+        $itens_form_1->adicGrupoForm('CPF',  $cpf, array('classe_grupo' => 'col-md-6', 'classe_rotulo' => 'form-label', 'classe_entrada' => 'form-control', 'id' => 'inputCPF1')); # 'col-md-4'
+        $itens_form_1->adicGrupoForm('Nome', $nome, ['classe_grupo' => 'col-md-6', 'classe_rotulo' => 'form-label', 'classe_entrada' => 'form-control', 'id' => 'inputNome1']);
 
-        $itens_form_1->obtGruposCampo();
+        $itens_form_1->obtGrupoCampo();
 
         $itens_aba1 = new EmbalaGrupoForm2($itens_form_1, array('id' => 'aba1', 'classe' => 'g-3'));
 

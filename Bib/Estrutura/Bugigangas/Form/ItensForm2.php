@@ -30,7 +30,7 @@ class ItensForm2
     /**
      * Método obtLinhasForm
      */
-    public function obtGruposCampo()
+    public function obtGrupoCampo()
     {
     	return $this->grupo_campos;
     }

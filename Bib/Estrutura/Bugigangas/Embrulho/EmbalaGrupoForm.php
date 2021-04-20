@@ -39,6 +39,10 @@ class EmbalaGrupoForm extends Elemento
      */
     public function itensForm($linhaForm)
     {
+        echo '<pre>';
+            print_r($linhaForm);
+        echo '</pre>';
+
 		# A variável não está sendo usada
         foreach ($linhaForm as $chave => $valor) {
 
@@ -71,15 +75,15 @@ class EmbalaGrupoForm extends Elemento
 
 				# elemento de formulário
 	        	$entrada = new Elemento($tipo_entrada);
-	        	$entrada->class   	  = $vl['entrada'][2];
+	        	$entrada->class   	  = $vl['entrada'][2]; # nome do campo. Ex.: cpf
 	        	$nome = $vl['entrada'][1];
 	        	if (isset($nome)) {
 	        		$entrada->name = $nome;
 	        	}
 
-	        	switch ($vl['entrada'][0]) {
+	        	switch ($vl['entrada'][0]) { # tipo do campo. Ex.: text
 	        		case 'input': 
-		        		$entrada->type  	 = $vl['entrada'][0] == 'submit' ? 'submit' : $tipo_entrada;
+		        		$entrada->type  	 = $vl['entrada'][0] == 'submit' ? 'submit' : $tipo_entrada; 
 		        		$entrada->value  	 = $vl['valor'] ?? '';
 	        		break;
 					case 'text': 
@@ -120,11 +124,11 @@ class EmbalaGrupoForm extends Elemento
 	        		break;
 	        	}
 
-	        	if (isset($vl['entrada'][3])) {
+	        	if (isset($vl['entrada'][3])) { # classe do campo. Ex.: form-control
 	        		$entrada->id = $vl['entrada'][3];
 	        	}
 	        	if (isset($vl['entrada'][4]) AND ($vl['entrada'][0] == 'text')) {
-	        		$entrada->placeholder = $vl['entrada'][4];
+	        		$entrada->placeholder = $vl['entrada'][4]; # id do campo. Ex.: inputCPF1
 	        	}
 
 				# Definimos aqui as demais propriedades
@@ -138,13 +142,13 @@ class EmbalaGrupoForm extends Elemento
 					}
 				}
 
-		    	$com_rotulo = (count($vl['rotulo']) !== 0) ? true : false;
+		    	$com_rotulo = (count($vl['rotulo']) !== 0) ? true : false; # rótulo do campo. Ex.: CPF
 
 				# Elemento rótulo
 				$rotulo = new Elemento('label');
 
 				if ($com_rotulo) {
-		        	if (!empty($vl['rotulo'][1])) {
+		        	if (!empty($vl['rotulo'][1])) { # classe do rótulo. Ex.: form-label
 		        		$rotulo->class = $vl['rotulo'][1];
 		        	}
 		        	$rotulo->adic($vl['rotulo'][0]);
@@ -155,7 +159,7 @@ class EmbalaGrupoForm extends Elemento
 				} 
 
         		$div = new Elemento('div');
-	        	$div->class = $ch;
+	        	$div->class = $ch; # classe do grupo. Ex.: col-md-4
 
 	        	if ($com_rotulo) { 
 	        		$div->adic($rotulo); 

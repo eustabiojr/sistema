@@ -83,6 +83,6 @@ if(class_exists($classe)) {
 }
 
 $saida = str_replace('{conteudo}', $conteudo, PHP_EOL . '<span>{conteudo}</span>');
-#$saida = str_replace('{conteudo}', $conteudo, $template);
+//$saida = str_replace('{conteudo}', $conteudo, $template);
 $saida = str_replace('{classe}', $classe, $saida);
 echo $saida;

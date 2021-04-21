@@ -15,8 +15,9 @@ use Estrutura\Controle\InterfaceAcao;
  */
 class Form {
     protected $titulo;
-    protected $campos;
+    protected $campos = array();
     protected $acoes;
+    protected $itens_grupo;
 
     /**
      * Método __construct
@@ -79,6 +80,41 @@ class Form {
     public function obtCampos() 
     {
         return $this->campos;
+    }
+
+    /**
+     * Método adicItensGrupo
+     */
+    public function adicItensGrupo(ItensForm2 $itens_grupo)
+    {
+        $this->itens_grupo[$itens_grupo->obtNomeAba()] = $itens_grupo;
+    }
+
+    /**
+     * Método obtItensGrupo
+     */
+    public function obtItensGrupo()
+    {
+        return $this->itens_grupo;
+    }
+
+    public function recuperaCampos2()
+    {
+        $r = $this->obtItensGrupo(); # recuperaCampos1
+ 
+        foreach ($this->obtItensGrupo() as $indice => $obj_grupos) {
+
+            $novos = $obj_grupos->recuperaCampos1();
+            $this->campos = array_merge($this->campos, $novos);
+            #echo '<pre>';
+                #print_r($this->campos); # $r | $this->campos
+            #echo '</pre>';
+        }
+        #$r2 = $r[0];
+        #echo '<pre>';
+            #echo "TST";
+            #print_r($this->campos); # $r | $this->campos
+        #echo '</pre>';
     }
 
     /**

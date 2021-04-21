@@ -167,9 +167,9 @@ class EmbrulhoForm
             default:
                 if($campos) {
 
-                echo '<pre>';
-                    print_r($campos);
-                echo '</pre>';
+                #echo '<pre>';
+                    #print_r($campos);
+                #echo '</pre>';
                     /**
                      * O laço abaixo é repetido para cada campo do formulário
                      */

@@ -166,10 +166,10 @@ class EmbalaGrupoForm2 extends Elemento
         	#if ($com_rotulo) { 
         		$div->adic($rotulo); 
         	#}
+			$campo->class = $param['classe_entrada'];
+			$campo->id = $param['id'];
         	$div->adic($campo);
+			parent::adic($div);
        	} # Fim do foreach interno
-
-		# .
-		parent::adic($div);
     }
 }

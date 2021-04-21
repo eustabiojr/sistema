@@ -39,9 +39,9 @@ class EmbalaGrupoForm extends Elemento
      */
     public function itensForm($linhaForm)
     {
-        echo '<pre>';
-            print_r($linhaForm);
-        echo '</pre>';
+        #echo '<pre>';
+            #print_r($linhaForm);
+        #echo '</pre>';
 
 		# A variável não está sendo usada
         foreach ($linhaForm as $chave => $valor) {

@@ -107,7 +107,7 @@ class Form {
      */
     public function recuperaCampos()
     {
-        foreach ($this->obtItensGrupo() as $indice => $obj_grupos) {
+        foreach ($this->obtItensGrupo() as $obj_grupos) {
 
             $objetos_grupos = $obj_grupos->grupo_campos;
 

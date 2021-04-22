@@ -155,9 +155,9 @@ class EmbalaGrupoForm2 extends Elemento
 	        	#}
 	        	$rotulo->adic($campo->obtRotulo());
 
-				#if (isset($campo['entrada'][3])) {
+				if (isset($param['id'])) {
 					$rotulo->for = $param['id']; # id
-				#}
+				}
 			#} 
 
        		$div = new Elemento('div');
@@ -167,7 +167,9 @@ class EmbalaGrupoForm2 extends Elemento
         		$div->adic($rotulo); 
         	#}
 			$campo->class = $param['classe_entrada'];
-			$campo->id = $param['id'];
+			if (isset($param['id'])) {
+				$campo->id = $param['id']; # id
+			}
         	$div->adic($campo);
 			parent::adic($div);
        	} # Fim do foreach interno

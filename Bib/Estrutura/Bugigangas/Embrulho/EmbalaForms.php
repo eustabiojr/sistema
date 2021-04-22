@@ -13,7 +13,6 @@ use Estrutura\Bugigangas\Base\Recipiente\Cartao;
 use Estrutura\Bugigangas\Form\Botao;
 use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Bugigangas\Form\ItensForm;
-use Estrutura\Controle\InterfaceAcao;
 
 /**
  * Classe Forms

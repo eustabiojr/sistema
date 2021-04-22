@@ -80,7 +80,7 @@ class FormPessoas extends Pagina
         # Itens da aba 2 (Endereço)
         $itens_form_2 = new ItensForm;
         $itens_form_2->adicLinhaForm('col-md-3', array('CEP',   'form-label'), array('text', 'cep', 'form-control', 'inputCEP4'));
-        $itens_form_2->adicLinhaForm('col-md-6', array('Endereço', 'form-label'), array('text', 'endereco', 'form-control', 'inputEndereco', '1234 Main St'));
+        $itens_form_2->adicLinhaForm('col-md-6', array('Endereço', 'form-label'), array('text', 'endereco', 'form-control', 'inputEndereco')); # '1234 Main St'
         $itens_form_2->adicLinhaForm('col-md-1', array('Número',   'form-label'), array('text', 'numero', 'form-control', 'inputNumero4'));
         $itens_form_2->adicLinhaForm('col-md-3', array('Complemento', 'form-label'), array('text', 'complemento', 'form-control', 'inputComplemento4'));
         $itens_form_2->adicLinhaForm('col-md-3', array('Bairro',   'form-label'), array('text', 'bairro', 'form-control', 'inputBairro4'));
@@ -88,7 +88,6 @@ class FormPessoas extends Pagina
         $itens_form_2->adicLinhaForm('col-md-4', array('Cidade', 'form-label'), array('select', 'cidade', 'form-select', 'inputCidade'));
         # Este campo precisa ser implementado corretamente (textarea) rows
         $itens_form_2->adicLinhaForm('col-md-8', array('Ponto de referência', 'form-label'), array('textarea', 'ponto_referencia', 'form-control', 'inputPontoReferencia'));
-        #
         $itens_form_2->adicLinhaForm('col-md-1', array('DDD',   'form-label'), array('text', 'ddd_end', 'form-control', 'inputDDD4'));
         $itens_form_2->adicLinhaForm('col-md-2', array('Telefone',   'form-label'), array('text', 'telefone', 'form-control', 'inputTelefone4'));
         $itens_form_2->adicLinhaForm('col-md-3', array('Tempo de residência',   'form-label'), array('text', 'tempo_residencia', 'form-control', 'inputTempoResidencia4'));

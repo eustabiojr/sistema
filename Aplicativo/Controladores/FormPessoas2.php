@@ -53,7 +53,6 @@ class FormPessoas2 extends Pagina
         # cria os campos do formulário
         $cpf      = new Entrada('cpf');
         $nome     = new Entrada('nome');
-        #$nome  = new GrupoEntradaForm(new Entrada('nome'));
         $cep      = new Entrada('cep');
         $endereco = new Entrada('endereco');
         
@@ -65,23 +64,18 @@ class FormPessoas2 extends Pagina
         # Itens da aba 1 (Básico)
         $itens_form_1 = new ItensForm2('aba1');
         $comuns_grupo = ['classe_rotulo' => 'form-label', 'classe_entrada' => 'form-control'];
+
         # O segundo parâmetro aceita array e string. Caso seja um array vazio, o rótulo não será criado.
         $itens_form_1->adicGrupoForm('CPF',  $cpf, array_merge(['classe_grupo' => 'col-md-4', 'id' => 'inputCPF1'], $comuns_grupo));
         $itens_form_1->adicGrupoForm('Nome', $nome, array_merge(['classe_grupo' => 'col-md-6', 'id' => 'inputNome1'], $comuns_grupo));
 
         //$itens_form_1->obtGrupoCampo();
-        //--------------------------------------------------------- 
-        #$itens_form_1->recuperaCampos1();
 
         # Itens da aba 2 (Endereço)
         $itens_form_2 = new ItensForm2('aba2');
         $itens_form_2->adicGrupoForm('CEP', $cep, array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputCEP4'], $comuns_grupo));
         $itens_form_2->adicGrupoForm('Endereço', $endereco, array_merge(['classe_grupo' => 'col-md-6', 'id' => 'inputEndereco'], $comuns_grupo)); # '1234 Main St'));
    
-        #echo '<pre>';
-           #print_r($itens_aba1);
-        #echo '</pre>';
-
         //$itens_form_1->adicGrupoForm('col-md-4', array('CPF', 'form-label'), array('text', 'cpf', 'form-control', 'inputCPF1'));
         //$itens_form_1->adicGrupoForm('col-md-2', array('<br/>', 'form-label'), array('button', 'pesquisar', 'form-control btn btn-primary'), 'Pesquisar');
 

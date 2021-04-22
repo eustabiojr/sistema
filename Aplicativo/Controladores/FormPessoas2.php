@@ -150,13 +150,6 @@ class FormPessoas2 extends Pagina
 
         $this->form_abas->adicAcao('Salvar', new Acao(array($this, 'aoSalvar')));
 
-        $this->form_abas->recuperaCampos2();
-        $dados = $this->form_abas->obtDados();
-      
-        echo '<pre>';
-            print_r($dados);
-        echo '</pre>';
-
         parent::adic($this->form_abas);
         parent::adic($conteudo); # Por enquanto, trás apenas o JS
     }
@@ -182,13 +175,13 @@ class FormPessoas2 extends Pagina
             $pessoa = new Pessoa;
 
             $pessoa->apagGrupos();
-            if ($dados->ids_grupos) {
+            /*if ($dados->ids_grupos) {
                 foreach ($dados->ids_grupos as $id_grupo) {
                     $pessoa->adicGrupo(new Grupo($id_grupo));
                 }
-            }
+            }*/
 
-            unset($dados->ids_grupos);
+            #unset($dados->ids_grupos);
 
             $pessoa->doArray((array) $dados);
             $pessoa->grava();

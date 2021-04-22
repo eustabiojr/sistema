@@ -88,6 +88,8 @@ class Form {
     public function adicItensGrupo(ItensForm2 $itens_grupo)
     {
         $this->itens_grupo[$itens_grupo->obtNomeAba()] = $itens_grupo;
+
+        $this->recuperaCampos();
     }
 
     /**
@@ -98,23 +100,23 @@ class Form {
         return $this->itens_grupo;
     }
 
-    public function recuperaCampos2()
+    /**
+     * Método recuperaCampos
+     * 
+     * Aqui nós pegamos os campos em ItensForm, e passamos para o Form
+     */
+    public function recuperaCampos()
     {
-        $r = $this->obtItensGrupo(); # recuperaCampos1
- 
         foreach ($this->obtItensGrupo() as $indice => $obj_grupos) {
 
-            $novos = $obj_grupos->recuperaCampos1();
-            $this->campos = array_merge($this->campos, $novos);
-            #echo '<pre>';
-                #print_r($this->campos); # $r | $this->campos
-            #echo '</pre>';
+            $objetos_grupos = $obj_grupos->grupo_campos;
+
+            foreach($objetos_grupos as $indice2 => $obt_itens) {
+                #echo "Indice2: " . $indice2 . "<br>\n";
+                unset($obt_itens[1]);
+                $this->campos[$indice2] = $obt_itens[0];
+            }
         }
-        #$r2 = $r[0];
-        #echo '<pre>';
-            #echo "TST";
-            #print_r($this->campos); # $r | $this->campos
-        #echo '</pre>';
     }
 
     /**

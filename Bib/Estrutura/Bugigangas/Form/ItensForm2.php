@@ -14,8 +14,8 @@ namespace Estrutura\Bugigangas\Form;
 class ItensForm2
 {
     private $nome_aba;
-	private $grupo_campos;
 	private $opcoes;
+    public $grupo_campos;
 
     /**
      * Método construtor
@@ -54,27 +54,6 @@ class ItensForm2
     public function obtGrupoCampo()
     {
     	return $this->grupo_campos;
-    }
-
-    /**
-     * Método recuperaCampos
-     * 
-     * Esse método recupera os objetos em cada linha do array grupo_campos. Elimina o array de 
-     * configuração de HTML e CSS
-     */
-    public function recuperaCampos1()
-    {
-        $r = $this->obtGrupoCampo();
-
-        foreach ($r as $indice => $obj_grupos) {
-            $obj_c[$indice] = $obj_grupos[0];
-            #unset($obj_grupos[1]);
-        }
-        #echo '<pre>';
-        #    print_r($obj_c);
-        #echo '</pre>';
-
-        return $obj_c; 
     }
 
     /**

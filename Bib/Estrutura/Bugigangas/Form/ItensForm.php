@@ -13,26 +13,47 @@ namespace Estrutura\Bugigangas\Form;
  */
 class ItensForm
 {
-	private $linha;
+    private $nome_aba;
 	private $opcoes;
+    public $grupo_campos;
 
     /**
-     * Método adicLinhaForm
+     * Método construtor
      */
-    public function adicLinhaForm($classe_linha, $rotulo, array $entrada, $valor = NULL)
+    public function __construct($nome_aba)
     {
-    	if (is_string($rotulo)) {
-    		$rotulo = array($rotulo, '');
-    	}
-    	$this->linha[][$classe_linha] = array('rotulo' => $rotulo, 'entrada' => $entrada, 'valor' => $valor);
+        $this->defNomeAba($nome_aba);
+    }
+
+    public function defNomeAba($nome_aba)
+    {
+        $this->nome_aba = $nome_aba;
+    }
+
+    public function obtNomeAba()
+    {
+        return $this->nome_aba;
+    }
+
+    /**
+     * Método adicLinhaForm ($classe_linha, $rotulo, array $entrada, $valor = NULL) | $classe_linha, 
+     */
+    public function adicGrupoForm($rotulo, InterfaceElementoForm $objeto, array $parametros = array())
+    {
+        $tamanho = $parametros['tamanho'] ?? '100%';
+        $objeto->defTamanho($tamanho);
+        $objeto->defRotulo($rotulo);
+        #$objeto->defClasseRotulo($parametros['classe_rotulo'] ?? NULL);
+        
+    	$this->grupo_campos[$objeto->obtNome()] = array($objeto, $parametros);
     }
 
     /**
      * Método obtLinhasForm
      */
-    public function obtLinhasForm()
+    public function obtGrupoCampo()
     {
-    	return $this->linha;
+    	return $this->grupo_campos;
     }
 
     /**

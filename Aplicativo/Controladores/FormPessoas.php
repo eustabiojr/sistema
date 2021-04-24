@@ -12,8 +12,12 @@ use Estrutura\Bugigangas\Base\Recipiente\NavItens;
 use Estrutura\Bugigangas\Dialogo\Mensagem;
 use Estrutura\Bugigangas\Embrulho\EmbalaForms;
 use Estrutura\Bugigangas\Embrulho\EmbalaGrupoForm;
+use Estrutura\Bugigangas\Form\Botao;
+use Estrutura\Bugigangas\Form\Combo;
+use Estrutura\Bugigangas\Form\Entrada;
 use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Bugigangas\Form\ItensForm;
+use Estrutura\Bugigangas\Form\Texto;
 use Estrutura\Controle\Acao;
 use Estrutura\Controle\Pagina;
 use Twig\Environment;
@@ -47,96 +51,207 @@ class FormPessoas extends Pagina
 
         $conteudo = $template->render($substituicoes);
 
+        # cria os campos do formulário (Básico)
+        $cpf             = new Entrada('cpf');
+        $pesquisar       = new Botao('pesquisar');
+        $id              = new Entrada('id');
+        $id->readonly = '';
+        $nome            = new Entrada('nome');
+        $apelido         = new Entrada('apelido');
+        $nascimento      = new Entrada('data_nascimento');
+        $identidade      = new Entrada('identidade');
+        $orgao_expedidor = new Entrada('orgao_expedidor');
+        $uf_expedidor    = new Combo('uf_expedidor');
+        $data_expedicao  = new Entrada('data_expedicao');
+        $nacionalidade   = new Combo('nacionalidade');
+        $naturalidade    = new Entrada('naturalidade');
+        $sexo            = new Combo('sexo');
+        $ddd             = new Entrada('ddd');
+        $celular         = new Entrada('celular');
+        $pai             = new Entrada('pai');
+        $mae             = new Entrada('mae');
+        $estado_civil    = new Combo('estado_civil');
+        $email           = new Entrada('email');
+
+        # cria os campos do formulário (Endereço)
+        $cep              = new Entrada('cep');
+        $endereco         = new Entrada('endereco');
+        $numero           = new Entrada('numero');
+        $complemento      = new Entrada('complemento');
+        $bairro           = new Entrada('bairro');
+        $uf               = new Combo('uf');
+        $cidade           = new Combo('id_cidade');
+        $ponto_referencia = new Entrada('ponto_referencia');
+        $ddd_end          = new Entrada('ddd_end');
+        $telefone         = new Entrada('telefone');
+        $tempo_residencia = new Entrada('tempo_residencia');
+        $tipo_imovel      = new Combo('tipo_imovel');
+
+        # cria os campos do formulário (Emprego)
+        $tipo_atividade        = new Combo('tipo_atividade');
+        $tipo_organizacao      = new Combo('tipo_organizacao');
+        $cargo                 = new Entrada('cargo');
+        $empresa               = new Entrada('empresa');
+        $salario               = new Entrada('salario');
+        $outras_rendas         = new Entrada('outras_rendas');
+        $numero_matricula      = new Entrada('numero_matricula');
+        $documento_apresentado = new Entrada('documento_apresentado');
+        $data_admissao         = new Entrada('data_admissao');
+
+        # cria os campos do formulário (Referências)
+        $nome_referencia1      = new Entrada('nome_referencia1');
+        $ddd_referencia1       = new Entrada('ddd_referencia1');
+        $telefone_referencia1  = new Entrada('telefone_referencia1');
+        $nome_referencia2      = new Entrada('nome_referencia2');
+        $ddd_referencia2       = new Entrada('ddd_referencia2');
+        $telefone_referencia2  = new Entrada('telefone_referencia2');
+        $nome_referencia3      = new Entrada('nome_referencia3');
+        $ddd_referencia3       = new Entrada('ddd_referencia3');
+        $telefone_referencia3  = new Entrada('telefone_referencia3');
+
+        # cria os campos do formulário (Observações)
+        $observacoes      = new Texto('observacoes');
+
+        # carrega os fabricantes do banco de dados
+        Transacao::abre($this->conexao);
+
+        # define alguns atributos
+        $ufs_expedidor = Estado::todos();
+        $itens = array();
+        foreach ($ufs_expedidor as $obj_estado) {
+            $itens[$obj_estado->id] = $obj_estado->nome;
+        }
+        $uf_expedidor->adicItens($itens);
+        
+        $nacionalidade->adicItens(array('1' => 'Brasileiro',
+                                        '2' => 'Argentino',
+                                        '3' => 'Uruguaio',
+                                        '4' => 'Peruano',
+                                        '5' => 'Colombiano',
+                                        '6' => 'Chileno'));
+
+        $sexo->adicItens(array('1' => 'Masculino',
+                               '2' => 'Feminino'));
+
+        $estado_civil->adicItens(array( '1' => 'Solteiro(a)',
+                                        '2' => 'Casado(a)',
+                                        '3' => 'Divorciado(a)',
+                                        '4' => 'Outro',
+                                        '5' => 'Solteiro(a)'));   
+                                        
+        $sexo->adicItens(array('1' => 'Masculino',
+                               '2' => 'Feminino'));
+
+        $ufs = Estado::todos();
+        $itens = array();
+        foreach ($ufs as $obj_uf) {
+            $itens[$obj_uf->id] = $obj_uf->nome;
+        }
+        $uf->adicItens($itens);
+
+        $cidades = Cidade::todos();
+        $itens = array();
+        foreach ($cidades as $obj_cidade) {
+            $itens[$obj_cidade->id] = $obj_cidade->nome;
+        }
+        $cidade->adicItens($itens);
+
+        $tipo_imovel->adicItens(array('1' => 'Próprio',
+                                      '2' => 'Alugado',
+                                      '3' => 'Família'));
+
+        $tipo_atividade->adicItens(array('1' => 'Autônomo (Pedreiro, Carpinteiro, Pintor, Etc...)',
+                                         '2' => 'Assalariado(a)',
+                                         '3' => 'Aposentado(a)',
+                                         '4' => 'Empresário(a)'));
+
+        $tipo_organizacao->adicItens(array('1' => 'Vendedora de Confecções',
+                                           '2' => 'Construção Civil',
+                                           '3' => 'Comércio Varejista',
+                                           '4' => 'Família'));    
+     
+               
         # Itens da aba 1 (Básico)
-        $itens_form_1 = new ItensForm;
+        $itens_form_1 = new ItensForm('aba1');
+        $comuns_grupo1 = ['classe_rotulo' => 'form-label', 'classe_entrada' => 'form-control']; # form-select
+        $comuns_grupo2 = ['classe_rotulo' => 'form-label', 'classe_entrada' => 'form-select'];
+        $comuns_grupo3 = ['classe_rotulo' => 'form-label', 'classe_entrada' => 'form-control btn btn-primary'];
+
         # O segundo parâmetro aceita array e string. Caso seja um array vazio, o rótulo não será criado.
-        $itens_form_1->adicLinhaForm('col-md-4', array('CPF', 'form-label'), array('text', 'cpf', 'form-control', 'inputCPF1'));
-        $itens_form_1->adicLinhaForm('col-md-2', array('<br/>', 'form-label'), array('button', 'pesquisar', 'form-control btn btn-primary'), 'Pesquisar');
-        $itens_form_1->adicLinhaForm('col-md-4', array('Código', 'form-label'), array('text', 'id', 'form-control', 'inputCod1', 
-                                     [array('readonly' => NULL/*, 'disabled' => NULL*/)]));
-        $itens_form_1->adicLinhaForm('col-md-8', array('Nome',   'form-label'), array('text', 'nome', 'form-control', 'inputNome4'));
-        $itens_form_1->adicLinhaForm('col-md-2', array('Apelido',   'form-label'), array('text', 'apelido', 'form-control', 'inputApelido4'));
-        $itens_form_1->adicLinhaForm('col-md-2', array('Nascimento',   'form-label'), array('text', 'data_nascimento', 'form-control', 'inputNascimento4'));
-        $itens_form_1->adicLinhaForm('col-md-3', array('Número RG',   'form-label'), array('text', 'identidade', 'form-control', 'inputRG4'));
-        $itens_form_1->adicLinhaForm('col-md-2', array('Orgão Expedidor', 'form-label'), array('text', 'orgao_expedidor', 'form-control', 'inputOrgExp4'));
-        $itens_form_1->adicLinhaForm('col-md-3', array('UF', 'form-label'), array('select', 'uf_expedidor', 'form-select', 'inputUFExpedidor'));
-        $itens_form_1->adicLinhaForm('col-md-2', array('Data Expedição',   'form-label'), array('text', 'data_expedicao', 'form-control', 'inputDataExpedicao4'));
-        $itens_form_1->adicLinhaForm('col-md-3', array('Nacionalidade', 'form-label'), array('select', 'nacionalidade', 'form-select', 'inputNacionalidade'));
-        $itens_form_1->adicLinhaForm('col-md-3', array('Naturalidade',   'form-label'), array('text', 'naturalidade', 'form-control', 'inputNaturalidade4'));
-        $itens_form_1->adicLinhaForm('col-md-2', array('Sexo', 'form-label'), array('select', 'sexo', 'form-select', 'inputSexo'));
-        $itens_form_1->adicLinhaForm('col-md-1', array('DDD',   'form-label'), array('text', 'ddd', 'form-control', 'inputDDD4'));
-        $itens_form_1->adicLinhaForm('col-md-3', array('Celular', 'form-label'), array('text', 'celular', 'form-control', 'inputCelular4'));
-        $itens_form_1->adicLinhaForm('col-md-6', array('Nome do pai', 'form-label'), array('text', 'pai', 'form-control', 'inputPai4'));
-        $itens_form_1->adicLinhaForm('col-md-6', array('Nome da mãe', 'form-label'), array('text', 'mae', 'form-control', 'inputMae4'));
-        $itens_form_1->adicLinhaForm('col-md-4', array('Estado Civil', 'form-label'), array('select', 'estado_civil', 'form-select', 'inputEstadoCivil'));
-        $itens_form_1->adicLinhaForm('col-md-6', array('Email', 'form-label'), array('email', 'email', 'form-control', 'inputEmail4'), 'nome@email.com');
-        #$itens_form_1->adicLinhaForm('col-12',   [], array('button', 'enviar', 'btn btn-primary'), 'Enviar');
-        #
-        $itens_form_1->defOpcoesSeleciona('nacionalidade', array('Brasileiro', 'Argentino', 'Norte Americando', 'Chileno'));
-        $itens_form_1->defOpcoesSeleciona('uf_expedidor', array('AL', 'BA', 'ES', 'MG', 'SP','RJ', 'SC','RS','TO','AM'));
-        $itens_form_1->defOpcoesSeleciona('sexo', array('Masculino', 'Feminino'));
-        $itens_form_1->defOpcoesSeleciona('estado_civil', array('Solteiro(a)', 'Casado(a)','Viúvo(a)', 'Divorciado(a)', 'Outro'));
+        $itens_form_1->adicGrupoForm('CPF',             $cpf,            array_merge(['classe_grupo' => 'col-md-4', 'id' => 'inputCPF1'], $comuns_grupo1));
+        #$itens_form_1->adicGrupoForm('<br/>',           $pesquisar,       array_merge(['classe_grupo' => 'col-md-2'], $comuns_grupo13));
+        $itens_form_1->adicGrupoForm('Código',          $id,              array_merge(['classe_grupo' => 'col-md-4', 'id' => 'inputCod1'], $comuns_grupo1)); #  [array('readonly' => NULL/*, 'disabled' => NULL*/)]
+        $itens_form_1->adicGrupoForm('Nome',            $nome,            array_merge(['classe_grupo' => 'col-md-8', 'id' => 'inputNome1'], $comuns_grupo1));
+        $itens_form_1->adicGrupoForm('Apelido',         $apelido,         array_merge(['classe_grupo' => 'col-md-2', 'id' => 'inputApelido4'], $comuns_grupo1));
+        $itens_form_1->adicGrupoForm('Nascimento',      $nascimento,      array_merge(['classe_grupo' => 'col-md-2', 'id' => 'inputNascimento4'], $comuns_grupo1));
+        $itens_form_1->adicGrupoForm('Número RG',       $identidade,      array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputRG4'], $comuns_grupo1));
+        $itens_form_1->adicGrupoForm('Orgão Expedidor', $orgao_expedidor, array_merge(['classe_grupo' => 'col-md-2', 'id' => 'inputOrgExp4'], $comuns_grupo1));
+        $itens_form_1->adicGrupoForm('UF',              $uf_expedidor,    array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputUFExpedidor'], $comuns_grupo2));
+        $itens_form_1->adicGrupoForm('Data Expedição',  $data_expedicao,  array_merge(['classe_grupo' => 'col-md-2', 'id' => 'inputDataExpedicao4'], $comuns_grupo1));
+        $itens_form_1->adicGrupoForm('Nacionalidade',   $nacionalidade,   array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputNacionalidade'], $comuns_grupo1));
+        $itens_form_1->adicGrupoForm('Naturalidade',    $naturalidade,    array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputNaturalidade4'], $comuns_grupo1));
+        $itens_form_1->adicGrupoForm('Sexo',            $sexo,            array_merge(['classe_grupo' => 'col-md-2', 'id' => 'inputSexo'], $comuns_grupo2));
+        $itens_form_1->adicGrupoForm('DDD',             $ddd,             array_merge(['classe_grupo' => 'col-md-1', 'id' => 'inputDDD4'], $comuns_grupo1));
+        $itens_form_1->adicGrupoForm('Celular',         $celular,         array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputCelular4'], $comuns_grupo1));
+        $itens_form_1->adicGrupoForm('Nome do pai',     $pai,             array_merge(['classe_grupo' => 'col-md-6', 'id' => 'inputPai4'], $comuns_grupo1));
+        $itens_form_1->adicGrupoForm('Nome da mãe',     $mae,             array_merge(['classe_grupo' => 'col-md-6', 'id' => 'inputMae4'], $comuns_grupo1));
+        $itens_form_1->adicGrupoForm('Estado Civil',    $estado_civil,    array_merge(['classe_grupo' => 'col-md-4', 'id' => 'inputEstadoCivil'], $comuns_grupo2));
+        $itens_form_1->adicGrupoForm('Email',           $email,           array_merge(['classe_grupo' => 'col-md-6', 'id' => 'inputEmail4'], $comuns_grupo1));
 
         # Itens da aba 2 (Endereço)
-        $itens_form_2 = new ItensForm;
-        $itens_form_2->adicLinhaForm('col-md-3', array('CEP',   'form-label'), array('text', 'cep', 'form-control', 'inputCEP4'));
-        $itens_form_2->adicLinhaForm('col-md-6', array('Endereço', 'form-label'), array('text', 'endereco', 'form-control', 'inputEndereco')); # '1234 Main St'
-        $itens_form_2->adicLinhaForm('col-md-1', array('Número',   'form-label'), array('text', 'numero', 'form-control', 'inputNumero4'));
-        $itens_form_2->adicLinhaForm('col-md-3', array('Complemento', 'form-label'), array('text', 'complemento', 'form-control', 'inputComplemento4'));
-        $itens_form_2->adicLinhaForm('col-md-3', array('Bairro',   'form-label'), array('text', 'bairro', 'form-control', 'inputBairro4'));
-        $itens_form_2->adicLinhaForm('col-md-4', array('Estado', 'form-label'), array('select', 'uf', 'form-select', 'inputEstado'));
-        $itens_form_2->adicLinhaForm('col-md-4', array('Cidade', 'form-label'), array('select', 'cidade', 'form-select', 'inputCidade'));
+        $itens_form_2 = new ItensForm('aba2');
+        $itens_form_2->adicGrupoForm('CEP',                 $cep,              array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputCEP4'], $comuns_grupo1));
+        $itens_form_2->adicGrupoForm('Endereço',            $endereco,         array_merge(['classe_grupo' => 'col-md-6', 'id' => 'inputEndereco'], $comuns_grupo1)); # '1234 Main St'));
+        $itens_form_2->adicGrupoForm('Número',              $numero,           array_merge(['classe_grupo' => 'col-md-1', 'id' => 'inputNumero4'], $comuns_grupo1));
+        $itens_form_2->adicGrupoForm('Complemento',         $complemento,      array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputComplemento4'], $comuns_grupo1));
+        $itens_form_2->adicGrupoForm('Bairro',              $bairro,           array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputBairro4'], $comuns_grupo1));
+        $itens_form_2->adicGrupoForm('Estado',              $uf,               array_merge(['classe_grupo' => 'col-md-4', 'id' => 'inputEstado'], $comuns_grupo2));
+        $itens_form_2->adicGrupoForm('Cidade',              $cidade,           array_merge(['classe_grupo' => 'col-md-4', 'id' => 'inputCidade'], $comuns_grupo2));
         # Este campo precisa ser implementado corretamente (textarea) rows
-        $itens_form_2->adicLinhaForm('col-md-8', array('Ponto de referência', 'form-label'), array('textarea', 'ponto_referencia', 'form-control', 'inputPontoReferencia'));
-        $itens_form_2->adicLinhaForm('col-md-1', array('DDD',   'form-label'), array('text', 'ddd_end', 'form-control', 'inputDDD4'));
-        $itens_form_2->adicLinhaForm('col-md-2', array('Telefone',   'form-label'), array('text', 'telefone', 'form-control', 'inputTelefone4'));
-        $itens_form_2->adicLinhaForm('col-md-3', array('Tempo de residência',   'form-label'), array('text', 'tempo_residencia', 'form-control', 'inputTempoResidencia4'));
-        $itens_form_2->adicLinhaForm('col-md-4', array('Tipo de imóvel', 'form-label'), array('select', 'tipo_imovel', 'form-select', 'inputTipoImovel'));
+        $itens_form_2->adicGrupoForm('Ponto de referência', $ponto_referencia, array_merge(['classe_grupo' => 'col-md-8', 'id' => 'inputPontoReferencia'], $comuns_grupo1));
+        $itens_form_2->adicGrupoForm('DDD',                 $ddd_end,          array_merge(['classe_grupo' => 'col-md-1', 'id' => 'inputDDD4'], $comuns_grupo1));
+        $itens_form_2->adicGrupoForm('Telefone',            $telefone,         array_merge(['classe_grupo' => 'col-md-2', 'id' => 'inputTelefone4'], $comuns_grupo1));
+        $itens_form_2->adicGrupoForm('Tempo de residência', $tempo_residencia, array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputTempoResidencia4'], $comuns_grupo1));
+        $itens_form_2->adicGrupoForm('Tipo de imóvel',      $tipo_imovel,      array_merge(['classe_grupo' => 'col-md-4', 'id' => 'inputTipoImovel'], $comuns_grupo1));
 
-        $itens_form_2->defOpcoesSeleciona('uf', array('Alagoas', 'Bahia', 'Espírito Santo', 'Minas Gerais', 'São Paulo'));
-        $itens_form_2->defOpcoesSeleciona('cidades', array('Prado', 'Alcobaça', 'Porto Seguro', 'Caravelas', 'Teixeira de Freitas'));
-        $itens_form_2->defOpcoesSeleciona('tipo_imovel', array('Próprio', 'Alugado', 'Família'));
-
-        # Itens da aba 3 (Emprego)
-        $itens_form_3 = new ItensForm;
-        $itens_form_3->adicLinhaForm('col-md-6', array('Tipo Atividade', 'form-label'), array('select', 'tipo_atividade', 'form-select', 'inputTipoAtividade'));
-        $itens_form_3->adicLinhaForm('col-md-6', array('Tipo de Organização', 'form-label'), array('select', 'tipo_organizacao', 'form-select', 'inputTipoOrganizacao'));
-        $itens_form_3->adicLinhaForm('col-md-6', array('Cargo', 'form-label'), array('text', 'cargo', 'form-control', 'inputCargo4'));
-        $itens_form_3->adicLinhaForm('col-md-6', array('Empresa', 'form-label'), array('text', 'empresa', 'form-control', 'inputEmpresa4'));
-        $itens_form_3->adicLinhaForm('col-md-3', array('Salário', 'form-label'), array('text', 'salario', 'form-control', 'inputSalario4'));
-        $itens_form_3->adicLinhaForm('col-md-3', array('Outras Rendas', 'form-label'), array('text', 'outras_rendas', 'form-control', 'inputOutrasRendas'));
-        $itens_form_3->adicLinhaForm('col-md-3', array('Número da Matrícula', 'form-label'), array('text', 'numero_matricula', 'form-control', 'inputNumeroMatricula4'));
-        $itens_form_3->adicLinhaForm('col-md-3', array('Documento Apresentado', 'form-label'), array('text', 'documento_apresentado', 'form-control', 'inputDocumentoApresentado'));
-        $itens_form_3->adicLinhaForm('col-md-3', array('Data de Admissão', 'form-label'), array('text', 'data_admissao', 'form-control', 'inputDataAdmissao'));
-
-        $itens_form_3->defOpcoesSeleciona('tipo_atividade', array('Autônomo (Pedreiro, Carpinteiro, Pintor, Etc...)', 'Assalariado', 'Aposentado'));
-        $itens_form_3->defOpcoesSeleciona('tipo_organizacao', array('Vendedora de Confecções', 'Construção Civil'));
+        # Itens da aba 3 (Ocupação)
+        $itens_form_3 = new ItensForm('aba3');
+        $itens_form_3->adicGrupoForm('Tipo Atividade',        $tipo_atividade,        array_merge(['classe_grupo' => 'col-md-6', 'id' => 'inputTipoAtividade'], $comuns_grupo1));
+        $itens_form_3->adicGrupoForm('Tipo de Organização',   $tipo_organizacao,      array_merge(['classe_grupo' => 'col-md-6', 'id' => 'inputTipoOrganizacao'], $comuns_grupo1));
+        $itens_form_3->adicGrupoForm('Cargo',                 $cargo,                 array_merge(['classe_grupo' => 'col-md-6', 'id' => 'inputCargo4'], $comuns_grupo1));
+        $itens_form_3->adicGrupoForm('Empresa',               $empresa,               array_merge(['classe_grupo' => 'col-md-6', 'id' => 'inputEmpresa4'], $comuns_grupo1));
+        $itens_form_3->adicGrupoForm('Salário',               $salario,               array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputSalario4'], $comuns_grupo1));
+        $itens_form_3->adicGrupoForm('Outras Rendas',         $outras_rendas,         array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputOutrasRendas'], $comuns_grupo1));
+        $itens_form_3->adicGrupoForm('Número da Matrícula',   $numero_matricula,      array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputNumeroMatricula4'], $comuns_grupo1));
+        $itens_form_3->adicGrupoForm('Documento Apresentado', $documento_apresentado, array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputDocumentoApresentado'], $comuns_grupo1));
+        $itens_form_3->adicGrupoForm('Data de Admissão',      $data_admissao,         array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputDataAdmissao'], $comuns_grupo1));
 
         # Itens da aba 4 (Referências)
-        $itens_form_4 = new ItensForm;
-        $itens_form_4->adicLinhaForm('col-md-5', array('Nome',   'form-label'), array('text', 'nome_referencia1', 'form-control', 'inputNomeReferencia1'));
-        $itens_form_4->adicLinhaForm('col-md-1', array('DDD',   'form-label'), array('text', 'ddd_referencia1', 'form-control', 'inputDDDReferencia1'));
-        $itens_form_4->adicLinhaForm('col-md-3', array('Telefone',   'form-label'), array('text', 'telefone_referencia1', 'form-control', 'inputTelefoneReferencia1'));
-        $itens_form_4->adicLinhaForm('col-md-5', array('Nome',   'form-label'), array('text', 'nome_referencia2', 'form-control', 'inputNomeReferencia2'));
-        $itens_form_4->adicLinhaForm('col-md-1', array('DDD',   'form-label'), array('text', 'ddd_referencia2', 'form-control', 'inputDDDReferencia2'));
-        $itens_form_4->adicLinhaForm('col-md-3', array('Telefone',   'form-label'), array('text', 'telefone_referencia2', 'form-control', 'inputTelefoneReferencia2'));
-        $itens_form_4->adicLinhaForm('col-md-5', array('Nome',   'form-label'), array('text', 'nome_referencia3', 'form-control', 'inputNomeReferencia3'));
-        $itens_form_4->adicLinhaForm('col-md-1', array('DDD',   'form-label'), array('text', 'ddd_referencia3', 'form-control', 'inputDDDReferencia3'));
-        $itens_form_4->adicLinhaForm('col-md-3', array('Telefone',   'form-label'), array('text', 'telefone_referencia3', 'form-control', 'inputTelefoneReferencia3'));
+        $itens_form_4 = new ItensForm('aba4');
+        $itens_form_4->adicGrupoForm('Nome',     $nome_referencia1,     array_merge(['classe_grupo' => 'col-md-5', 'id' => 'inputNomeReferencia1'], $comuns_grupo1));
+        $itens_form_4->adicGrupoForm('DDD',      $ddd_referencia1,      array_merge(['classe_grupo' => 'col-md-1', 'id' => 'inputDDDReferencia1'], $comuns_grupo1));
+        $itens_form_4->adicGrupoForm('Telefone', $telefone_referencia1, array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputTelefoneReferencia1'], $comuns_grupo1));
+        $itens_form_4->adicGrupoForm('Nome',     $nome_referencia2,     array_merge(['classe_grupo' => 'col-md-5', 'id' => 'inputNomeReferencia2'], $comuns_grupo1));
+        $itens_form_4->adicGrupoForm('DDD',      $ddd_referencia2,      array_merge(['classe_grupo' => 'col-md-1', 'id' => 'inputDDDReferencia2'], $comuns_grupo1));
+        $itens_form_4->adicGrupoForm('Telefone', $telefone_referencia2, array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputTelefoneReferencia2'], $comuns_grupo1));
+        $itens_form_4->adicGrupoForm('Nome',     $nome_referencia3,     array_merge(['classe_grupo' => 'col-md-5', 'id' => 'inputNomeReferencia3'], $comuns_grupo1));
+        $itens_form_4->adicGrupoForm('DDD',      $ddd_referencia3,      array_merge(['classe_grupo' => 'col-md-1', 'id' => 'inputDDDReferencia3'], $comuns_grupo1));
+        $itens_form_4->adicGrupoForm('Telefone', $telefone_referencia3, array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputTelefoneReferencia3'], $comuns_grupo1));
         
         # Itens da aba 5 (Observações)
-        $itens_form_5 = new ItensForm;
-        $itens_form_5->adicLinhaForm('col-md-12', array('Anotações', 'form-label'), array('textarea', 'observacoes', 'form-control', 'inputObservacoes'));
+        $itens_form_5 = new ItensForm('aba5');
+        $itens_form_5->adicGrupoForm('Anotações', $observacoes, array_merge(['classe_grupo' => 'col-md-12', 'id' => 'inputObservacoes'], $comuns_grupo1));
         
         //------------------------------------------------------------------------------------------------------------------------- 
         /** O formulário com abas funciona assim. Os grupos de itens de formulário são inseridos no objeto abas conteúdo. 
          * E em seguida o objeto. AbasConteudo é inserido em um formulário.
          */
         $itens_aba1 = new EmbalaGrupoForm($itens_form_1, array('id' => 'aba1', 'classe' => 'g-3'));
-        $itens_aba2 = new EmbalaGrupoForm($itens_form_2, array('id' => 'aba2', 'classe' => 'g-3'));
-        $itens_aba3 = new EmbalaGrupoForm($itens_form_3, array('id' => 'aba3', 'classe' => 'g-3'));
-        $itens_aba4 = new EmbalaGrupoForm($itens_form_4, array('id' => 'aba4', 'classe' => 'g-3'));
+        $itens_aba2 = new EmbalaGrupoForm($itens_form_2, array('id' => 'aba1', 'classe' => 'g-3'));
+        $itens_aba3 = new EmbalaGrupoForm($itens_form_3, array('id' => 'aba1', 'classe' => 'g-3'));
+        $itens_aba4 = new EmbalaGrupoForm($itens_form_4, array('id' => 'aba1', 'classe' => 'g-3'));
         $itens_aba5 = new EmbalaGrupoForm($itens_form_5, array('id' => 'aba5', 'classe' => 'g-3'));
+        #parent::adic($itens_aba1);
 
         $params_identificacao = array('titulo_cartao' => "Dados Pessoais", 'id' => 'idAbaIdent', 'role' => 'tablist');
         $cartao_basico = new Cartao($params_identificacao, 'div', []);
@@ -181,7 +296,6 @@ class FormPessoas extends Pagina
         $nav_links->adicItem('param', 'modo_link', 'button');
 
         $links_abas = $nav_links->obtItens();
-
         /**
          * Forms
          * 
@@ -193,16 +307,20 @@ class FormPessoas extends Pagina
                                  'params_cartao' => $parametros_cartao);
         $this->form_abas = new EmbalaForms(new Form('form_cliente'), NULL, NULL, $parametros_form, $abas_prontas);
         $this->form_abas->defTitulo("Pessoas");
+
+        $this->form_abas->adicItensGrupo($itens_form_1);
+        $this->form_abas->adicItensGrupo($itens_form_2);
+        $this->form_abas->adicItensGrupo($itens_form_3);
+        $this->form_abas->adicItensGrupo($itens_form_4);
+        $this->form_abas->adicItensGrupo($itens_form_5);
+
         $this->form_abas->adicAcao('Salvar', new Acao(array($this, 'aoSalvar')));
 
-        #echo '<pre>';
-            #print_r($la);
-        #echo '</pre>';
-      
         parent::adic($this->form_abas);
         parent::adic($conteudo); # Por enquanto, trás apenas o JS
     }
 
+    //-------------------------------------------------------------------------------------------------------------------
     /**
      * Método aoSalvar
      */
@@ -215,7 +333,7 @@ class FormPessoas extends Pagina
             //Transacao::defHistorico("/tmp/log");
             $dados = $this->form_abas->obtDados();
             
-            $idsGrupos = $dados->ids_grupos;
+            #$idsGrupos = $dados->ids_grupos;
 
             $this->form_abas->defDados($dados);
 
@@ -223,13 +341,13 @@ class FormPessoas extends Pagina
             $pessoa = new Pessoa;
 
             $pessoa->apagGrupos();
-            if ($dados->ids_grupos) {
+            /*if ($dados->ids_grupos) {
                 foreach ($dados->ids_grupos as $id_grupo) {
                     $pessoa->adicGrupo(new Grupo($id_grupo));
                 }
-            }
+            }*/
 
-            unset($dados->ids_grupos);
+            #unset($dados->ids_grupos);
 
             $pessoa->doArray((array) $dados);
             $pessoa->grava();

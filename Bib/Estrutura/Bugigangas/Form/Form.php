@@ -85,7 +85,7 @@ class Form {
     /**
      * Método adicItensGrupo
      */
-    public function adicItensGrupo(ItensForm2 $itens_grupo)
+    public function adicItensGrupo(ItensForm $itens_grupo)
     {
         $this->itens_grupo[$itens_grupo->obtNomeAba()] = $itens_grupo;
 

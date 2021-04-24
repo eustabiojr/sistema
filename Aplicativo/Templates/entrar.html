@@ -32,13 +32,19 @@
 
     <!-- Estilos personalizados para este template -->
     <link href="Aplicativo/Templates/entrar.css" rel="stylesheet">
-    <script>
-
-    </script>
     </head>
     <body class="text-center">
         <main class="form-signin">
             {conteudo}
         </main>  
+      <script type="text/javascript">
+        document.addEventListener("keypress", function(e) {
+          if (e.key === 'Enter') {
+            //alert('A tecla \'Enter\' foi pressionada!');
+            var btn = document.querySelector("button.w-100");
+            btn.click();
+          }
+        });
+      </script>
     </body>
 </html>

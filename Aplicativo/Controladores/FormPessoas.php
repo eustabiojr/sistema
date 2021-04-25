@@ -305,7 +305,7 @@ class FormPessoas extends Pagina
         $parametros_cartao = array('titulo_cartao' => " ", 'id' => 'idAbaPessoa', 'role' => 'tablist');
         $parametros_form = array('id' => 'form_clientes_abas', 'metodo' => 'post', 'links_abas' => $links_abas,
                                  'params_cartao' => $parametros_cartao);
-        $this->form_abas = new EmbalaForms(new Form('form_cliente'), NULL, NULL, $parametros_form, $abas_prontas);
+        $this->form_abas = new EmbalaForms(new Form('form_cliente needs-validation'), NULL, NULL, $parametros_form, $abas_prontas);
         $this->form_abas->defTitulo("Pessoas");
 
         $this->form_abas->adicItensGrupo($itens_form_1);
@@ -332,6 +332,24 @@ class FormPessoas extends Pagina
 
             //Transacao::defHistorico("/tmp/log");
             $dados = $this->form_abas->obtDados();
+
+            // Validação
+            if (empty($dados->nome)) {
+                # new Mensagem('erro', 'O campo nome não foi informado!');
+                throw new Exception('O campo nome não foi informado!');
+            }
+
+            if (empty($dados->cpf)) {
+                #new Mensagem('erro', 'O campo CPF não foi informado!');
+                throw new Exception('O campo CPF não foi informado!');
+            }
+
+            // Monta mensagem
+            $mensagem = "Nome: {$dados->nome} <br/>" . PHP_EOL;
+            $mensagem .= "CPF: {$dados->cpf} <br/>" . PHP_EOL;
+            $mensagem .= "Email: {$dados->email} <br/>" . PHP_EOL;
+
+            new Mensagem('info', $mensagem);
             
             #$idsGrupos = $dados->ids_grupos;
 

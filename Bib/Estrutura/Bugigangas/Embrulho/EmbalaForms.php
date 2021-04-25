@@ -65,7 +65,7 @@ class EmbalaForms extends Elemento
             $this->elemento->adic($this->abas);
 		} else {
 			$this->opcoes_seleciona = $itens_form->obtOpcoesSeleciona();
-			$this->campos->itensForm($itens_form->obtLinhasForm());
+			$this->campos->itensForm($itens_form->obtGrupoCampo());
 		}
 
         //---------------------------------------------------------------------------------------------------------------------

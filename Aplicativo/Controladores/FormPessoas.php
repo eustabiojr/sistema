@@ -305,7 +305,7 @@ class FormPessoas extends Pagina
         $parametros_cartao = array('titulo_cartao' => " ", 'id' => 'idAbaPessoa', 'role' => 'tablist');
         $parametros_form = array('id' => 'form_clientes_abas', 'metodo' => 'post', 'links_abas' => $links_abas,
                                  'params_cartao' => $parametros_cartao);
-        $this->form_abas = new EmbalaForms(new Form('form_cliente needs-validation'), NULL, NULL, $parametros_form, $abas_prontas);
+        $this->form_abas = new EmbalaForms(new Form('form_cliente'), NULL, NULL, $parametros_form, $abas_prontas); # needs-validation
         $this->form_abas->defTitulo("Pessoas");
 
         $this->form_abas->adicItensGrupo($itens_form_1);

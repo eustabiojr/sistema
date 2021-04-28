@@ -13,7 +13,8 @@ use Estrutura\Controle\InterfaceAcao;
 /**
  * Class Form
  */
-class Form {
+class Form 
+{
     protected $titulo;
     protected $campos = array();
     protected $acoes;

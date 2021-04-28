@@ -65,9 +65,15 @@ class EmbalaGrupoForm extends Elemento
         	$div->adic($campo);
 
 			$div_valida = new Elemento('div');
-			$div_valida->class = 'valid-feedback'; # invalid-feedback
-			$div_valida->adic('Mensagem de erro');
+			$div_valida->class = 'valid-feedback';
+			$div_valida->adic('Parece bom');
+
+			$div_invalida = new Elemento('div');
+			$div_invalida->class = 'invalid-feedback';
+			$div_invalida->adic('Campo em branco ou inválido');
+
 			$div->adic($div_valida);
+			$div->adic($div_invalida);
 
 			parent::adic($div);
        	} # Fim do foreach interno

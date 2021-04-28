@@ -13,7 +13,7 @@ use Estrutura\Controle\InterfaceAcao;
 /**
  * Classe Botao 
  */
-class Botao extends Campo implements InterfaceElementoForm
+class Submete extends Campo implements InterfaceElementoForm
 {
     private $acao;
     private $rotulo;
@@ -44,12 +44,12 @@ class Botao extends Campo implements InterfaceElementoForm
 
         # define as propriedades do botão
         $tag = new Elemento('button');
+        $tag->type = 'submit';
         $tag->name = $this->nome;
-        $tag->type = 'button';
         $tag->adic($this->rotulo);
 
         # define ação do botão
-        $tag->onclick = "document.{$this->nomeForm}.action='{$url}'; " . "document.{$this->nomeForm}.submit()";
+        $tag->onclick = "document.{$this->nomeForm}.action='{$url}'; "; # . "document.{$this->nomeForm}.submit()"
 
         if ($this->propriedades) {
             foreach ($this->propriedades as $propriedade => $valor) {

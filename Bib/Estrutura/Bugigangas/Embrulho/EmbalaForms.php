@@ -10,9 +10,9 @@
 
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Recipiente\Cartao;
-use Estrutura\Bugigangas\Form\Botao;
 use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Bugigangas\Form\ItensForm;
+use Estrutura\Bugigangas\Form\Submete;
 
 /**
  * Classe Forms
@@ -53,30 +53,24 @@ class EmbalaForms extends Elemento
         } 
 
         $this->elemento = new Elemento('form');
-        $this->elemento->name    = $this->decorado->obtNome();
-        $this->elemento->id      = $this->parametros['id'] ?? NULL;
-        $this->elemento->enctype = $this->parametros['enctype'] ?? "multipart/form-data";
-        $this->elemento->method  = $this->parametros['metodo'] ?? 'post';
+        $this->elemento->name           = $this->decorado->obtNome();
+        $this->elemento->id             = $this->parametros['id'] ?? NULL;
+        $this->elemento->class          = $this->parametros['classe_form'] ?? NULL;
+        if (isset($this->parametros['naovalida'])) {
+            $this->elemento->{'novalidate'} = NULL;
+        }
+        $this->elemento->enctype        = $this->parametros['enctype'] ?? "multipart/form-data";
+        $this->elemento->method         = $this->parametros['metodo'] ?? 'post';
 
         $itens_form = $itens_form ?? new ItensForm(NULL, NULL, []);
 
-		if ($this->abas !== NULL) {
-			#parent::adic($abas);
-            $this->elemento->adic($this->abas);
-		} else {
-			$this->opcoes_seleciona = $itens_form->obtOpcoesSeleciona();
-			$this->campos->itensForm($itens_form->obtGrupoCampo());
-		}
-
-        //---------------------------------------------------------------------------------------------------------------------
-        
 		$grupo = new Elemento('div');
         $i = 0;
 
         # Os botões abaixo 
         foreach ($this->decorado->obtAcoes() as $rotulo => $acao) {
             $nome = strtolower(str_replace(' ', '_', $rotulo));
-            $botao = new Botao($nome);
+            $botao = new Submete($nome);
             $botao->defNomeForm($this->decorado->obtNome());
             $botao->defAcao($acao, $rotulo);
             # 
@@ -85,12 +79,23 @@ class EmbalaForms extends Elemento
             $i++;
         }
 
+		if ($this->abas !== NULL) {
+            $this->elemento->adic($this->abas);
+            $this->elemento->adic($grupo);
+		} else {
+			$this->opcoes_seleciona = $itens_form->obtOpcoesSeleciona();
+			$this->campos->itensForm($itens_form->obtGrupoCampo());
+		}
+
+        //---------------------------------------------------------------------------------------------------------------------
+        
+
         $cartao_form = new Cartao($this->parametros['params_cartao'], 'div', [], $this->parametros['links_abas']); # links_abas
         $cartao_form->adic($this->elemento);
 
         $cartao = new Cartao($this->decorado->obtTitulo(), 'h5', []);
         $cartao->adic($cartao_form);
-        $cartao->adicRodape($grupo);
+        #$cartao->adicRodape($grupo);
         $cartao->exibe();
     }
 

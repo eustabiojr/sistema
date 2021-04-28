@@ -58,9 +58,21 @@ class EmbalaGrupoForm extends Elemento
         	$div->class = $param['classe_grupo']; # classe do grupo. Ex.: col-md-4
         	$div->adic($rotulo); 
 
-			$campo->class = $param['classe_entrada'];
-			if (isset($param['id'])) {
-				$campo->id = $param['id']; # id
+			//$campo->class = $param['classe_entrada'];
+			//if (isset($param['id'])) {
+				//$campo->id = $param['id']; # id
+			//}
+			if (isset($param)) {
+				foreach ($param as $prop => $valor_prop) {
+
+					if ($prop == 'classe_entrada') {
+						$prop = 'class';
+					}
+
+					#if ((!$prop == 'classe_rotulo') || (!$prop == 'classe_grupo')) {
+						$campo->$prop = $valor_prop;
+					#}
+				}
 			}
         	$div->adic($campo);
 

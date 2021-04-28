@@ -55,7 +55,7 @@ class FormPessoas extends Pagina
         $cpf             = new Entrada('cpf');
         $pesquisar       = new Botao('pesquisar');
         $id              = new Entrada('id');
-        $id->readonly = '';
+        $id->readonly = NULL;
         $nome            = new Entrada('nome');
         $apelido         = new Entrada('apelido');
         $nascimento      = new Entrada('data_nascimento');

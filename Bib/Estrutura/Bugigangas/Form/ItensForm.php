@@ -38,12 +38,30 @@ class ItensForm
     /**
      * Método adicLinhaForm ($classe_linha, $rotulo, array $entrada, $valor = NULL) | $classe_linha, 
      */
-    public function adicGrupoForm($rotulo, InterfaceElementoForm $objeto, array $parametros = array())
+    public function adicGrupoForm($rotulo, InterfaceElementoForm $objeto, $props_grupo, array $props_rotulo, array $props_entrada, array $props_validacao = array())
     {
         $tamanho = $parametros['tamanho'] ?? '100%';
         $objeto->defTamanho($tamanho);
         $objeto->defRotulo($rotulo);
-        #$objeto->defClasseRotulo($parametros['classe_rotulo'] ?? NULL);
+
+        $grupo     = array('grupo'   => array('class' => $props_grupo));
+        $rotulo    = array('rotulo'  => array_merge(array('class' => 'form-label'), $props_rotulo));
+        #$validacao = array('validacao'  => array_merge(array('class' => 'valid-feedback'), $props_validacao'));
+
+        # Propriedades entrada
+        if (!key_exists('class', $props_entrada)) {
+            $entrada   = array('entrada' => array_merge(array('class' => 'form-control'), $props_entrada));
+        } else {
+            $entrada   = array('entrada' => $props_entrada);
+        }
+
+        #$validacao = array('validacao' => $props_entrada);
+
+        /*if (isset($validacao)) {
+            $parametros = array_merge($grupo, $rotulo, $entrada, $validacao);
+        } else {*/
+            $parametros = array_merge($grupo, $rotulo, $entrada);
+        #}
         
     	$this->grupo_campos[$objeto->obtNome()] = array($objeto, $parametros);
     }

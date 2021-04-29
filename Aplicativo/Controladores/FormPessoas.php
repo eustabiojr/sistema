@@ -173,74 +173,72 @@ class FormPessoas extends Pagina
                
         # Itens da aba 1 (Básico)
         $itens_form_1 = new ItensForm('aba1');
-        $comuns_grupo1 = ['classe_rotulo' => 'form-label', 'classe_entrada' => 'form-control']; # form-select
-        $comuns_grupo2 = ['classe_rotulo' => 'form-label', 'classe_entrada' => 'form-select'];
-        $comuns_grupo3 = ['classe_rotulo' => 'form-label', 'classe_entrada' => 'form-control btn btn-primary'];
 
+        // , array('rotulo' => $prop_rotulo), array('entrada' => $prop_entrada)
         # O segundo parâmetro aceita array e string. Caso seja um array vazio, o rótulo não será criado.
-        $itens_form_1->adicGrupoForm('CPF',             $cpf,            array_merge(['classe_grupo' => 'col-md-4', 'id' => 'inputCPF1'], $comuns_grupo1));
-        #$itens_form_1->adicGrupoForm('<br/>',           $pesquisar,       array_merge(['classe_grupo' => 'col-md-2'], $comuns_grupo13));
-        $itens_form_1->adicGrupoForm('Código',          $id,              array_merge(['classe_grupo' => 'col-md-4', 'id' => 'inputCod1'], $comuns_grupo1)); #  [array('readonly' => NULL/*, 'disabled' => NULL*/)]
-        $itens_form_1->adicGrupoForm('Nome',            $nome,            array_merge(['classe_grupo' => 'col-md-8', 'id' => 'inputNome1'], $comuns_grupo1));
-        $itens_form_1->adicGrupoForm('Apelido',         $apelido,         array_merge(['classe_grupo' => 'col-md-2', 'id' => 'inputApelido4'], $comuns_grupo1));
-        $itens_form_1->adicGrupoForm('Nascimento',      $nascimento,      array_merge(['classe_grupo' => 'col-md-2', 'id' => 'inputNascimento4'], $comuns_grupo1));
-        $itens_form_1->adicGrupoForm('Número RG',       $identidade,      array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputRG4'], $comuns_grupo1));
-        $itens_form_1->adicGrupoForm('Orgão Expedidor', $orgao_expedidor, array_merge(['classe_grupo' => 'col-md-2', 'id' => 'inputOrgExp4'], $comuns_grupo1));
-        $itens_form_1->adicGrupoForm('UF',              $uf_expedidor,    array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputUFExpedidor'], $comuns_grupo2));
-        $itens_form_1->adicGrupoForm('Data Expedição',  $data_expedicao,  array_merge(['classe_grupo' => 'col-md-2', 'id' => 'inputDataExpedicao4'], $comuns_grupo1));
-        $itens_form_1->adicGrupoForm('Nacionalidade',   $nacionalidade,   array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputNacionalidade'], $comuns_grupo1));
-        $itens_form_1->adicGrupoForm('Naturalidade',    $naturalidade,    array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputNaturalidade4'], $comuns_grupo1));
-        $itens_form_1->adicGrupoForm('Sexo',            $sexo,            array_merge(['classe_grupo' => 'col-md-2', 'id' => 'inputSexo'], $comuns_grupo2));
-        $itens_form_1->adicGrupoForm('DDD',             $ddd,             array_merge(['classe_grupo' => 'col-md-1', 'id' => 'inputDDD4'], $comuns_grupo1));
-        $itens_form_1->adicGrupoForm('Celular',         $celular,         array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputCelular4'], $comuns_grupo1));
-        $itens_form_1->adicGrupoForm('Nome do pai',     $pai,             array_merge(['classe_grupo' => 'col-md-6', 'id' => 'inputPai4'], $comuns_grupo1));
-        $itens_form_1->adicGrupoForm('Nome da mãe',     $mae,             array_merge(['classe_grupo' => 'col-md-6', 'id' => 'inputMae4'], $comuns_grupo1));
-        $itens_form_1->adicGrupoForm('Estado Civil',    $estado_civil,    array_merge(['classe_grupo' => 'col-md-4', 'id' => 'inputEstadoCivil'], $comuns_grupo2));
-        $itens_form_1->adicGrupoForm('Email',           $email,           array_merge(['classe_grupo' => 'col-md-6', 'id' => 'inputEmail4'], $comuns_grupo1));
+        $itens_form_1->adicGrupoForm('CPF',             $cpf,             'col-md-4', array(), array('id' => 'inputCPF1'), array());
+        #$itens_form_1->adicGrupoForm('<br/>',           $pesquisar,       'col-md-4', array(), array('id' => 'inputCPF1'), array());
+        $itens_form_1->adicGrupoForm('Nome',            $nome,            'col-md-8', array(), array('id' => 'inputNome1', 'required' => 'NULO'), array());
+        $itens_form_1->adicGrupoForm('Apelido',         $apelido,         'col-md-2', array(), array('id' => 'inputApelido4'), array());
+        $itens_form_1->adicGrupoForm('Nascimento',      $nascimento,      'col-md-2', array(), array('id' => 'inputNascimento4'), array());
+        $itens_form_1->adicGrupoForm('Número RG',       $identidade,      'col-md-3', array(), array('id' => 'inputRG4'), array());
+        $itens_form_1->adicGrupoForm('Orgão Expedidor', $orgao_expedidor, 'col-md-2', array(), array('id' => 'inputOrgExp4'), array());
+        $itens_form_1->adicGrupoForm('UF',              $uf_expedidor,    'col-md-3', array(), array('id' => 'inputUFExpedidor'), array());
+        $itens_form_1->adicGrupoForm('Data Expedição',  $data_expedicao,  'col-md-2', array(), array('id' => 'inputDataExpedicao4'), array());
+        $itens_form_1->adicGrupoForm('Nacionalidade',   $nacionalidade,   'col-md-3', array(), array('id' => 'inputNacionalidade'), array());
+        $itens_form_1->adicGrupoForm('Naturalidade',    $naturalidade,    'col-md-3', array(), array('id' => 'inputNaturalidade4'), array());
+        $itens_form_1->adicGrupoForm('Sexo',            $sexo,            'col-md-2', array(), array('id' => 'inputSexo'), array());
+        $itens_form_1->adicGrupoForm('DDD',             $ddd,             'col-md-1', array(), array('id' => 'inputDDD4'), array());
+        $itens_form_1->adicGrupoForm('Celular',         $celular,         'col-md-3', array(), array('id' => 'inputCelular4'), array());
+        $itens_form_1->adicGrupoForm('Nome do pai',     $pai,             'col-md-6', array(), array('id' => 'inputPai4'), array());
+        $itens_form_1->adicGrupoForm('Nome da mãe',     $mae,             'col-md-6', array(), array('id' => 'inputMae4'), array());
+        $itens_form_1->adicGrupoForm('Estado Civil',    $estado_civil,    'col-md-2', array(), array('id' => 'inputEstadoCivil'), array());
+        $itens_form_1->adicGrupoForm('Email',           $email,           'col-md-6', array(), array('id' => 'inputEmail4'), array());
 
         # Itens da aba 2 (Endereço)
         $itens_form_2 = new ItensForm('aba2');
-        $itens_form_2->adicGrupoForm('CEP',                 $cep,              array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputCEP4'], $comuns_grupo1));
-        $itens_form_2->adicGrupoForm('Endereço',            $endereco,         array_merge(['classe_grupo' => 'col-md-6', 'id' => 'inputEndereco'], $comuns_grupo1)); # '1234 Main St'));
-        $itens_form_2->adicGrupoForm('Número',              $numero,           array_merge(['classe_grupo' => 'col-md-1', 'id' => 'inputNumero4'], $comuns_grupo1));
-        $itens_form_2->adicGrupoForm('Complemento',         $complemento,      array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputComplemento4'], $comuns_grupo1));
-        $itens_form_2->adicGrupoForm('Bairro',              $bairro,           array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputBairro4'], $comuns_grupo1));
-        $itens_form_2->adicGrupoForm('Estado',              $uf,               array_merge(['classe_grupo' => 'col-md-4', 'id' => 'inputEstado'], $comuns_grupo2));
-        $itens_form_2->adicGrupoForm('Cidade',              $cidade,           array_merge(['classe_grupo' => 'col-md-4', 'id' => 'inputCidade'], $comuns_grupo2));
+        $itens_form_2->adicGrupoForm('CEP',         $cep,         'col-md-3', array(), array('id' => 'inputCEP4'), array());
+        $itens_form_2->adicGrupoForm('Endereço',    $endereco,    'col-md-6', array(), array('id' => 'inputEndereco'), array());
+        $itens_form_2->adicGrupoForm('Número',      $numero,      'col-md-1', array(), array('id' => 'inputNumero4'), array());
+        $itens_form_2->adicGrupoForm('Complemento', $complemento, 'col-md-3', array(), array('id' => 'inputComplemento4'), array());
+        $itens_form_2->adicGrupoForm('Bairro',      $bairro,      'col-md-3', array(), array('id' => 'inputBairro4'), array());
+        $itens_form_2->adicGrupoForm('Estado',      $uf,          'col-md-4', array(), array('id' => 'inputEstado'), array());
+        $itens_form_2->adicGrupoForm('Cidade',      $cidade,      'col-md-4', array(), array('id' => 'inputCidade'), array());
+
         # Este campo precisa ser implementado corretamente (textarea) rows
-        $itens_form_2->adicGrupoForm('Ponto de referência', $ponto_referencia, array_merge(['classe_grupo' => 'col-md-8', 'id' => 'inputPontoReferencia'], $comuns_grupo1));
-        $itens_form_2->adicGrupoForm('DDD',                 $ddd_end,          array_merge(['classe_grupo' => 'col-md-1', 'id' => 'inputDDD4'], $comuns_grupo1));
-        $itens_form_2->adicGrupoForm('Telefone',            $telefone,         array_merge(['classe_grupo' => 'col-md-2', 'id' => 'inputTelefone4'], $comuns_grupo1));
-        $itens_form_2->adicGrupoForm('Tempo de residência', $tempo_residencia, array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputTempoResidencia4'], $comuns_grupo1));
-        $itens_form_2->adicGrupoForm('Tipo de imóvel',      $tipo_imovel,      array_merge(['classe_grupo' => 'col-md-4', 'id' => 'inputTipoImovel'], $comuns_grupo1));
+        $itens_form_2->adicGrupoForm('Ponto de referência', $ponto_referencia, 'col-md-8', array(), array('id' => 'inputPontoReferencia'), array());
+        $itens_form_2->adicGrupoForm('DDD',                 $ddd_end,          'col-md-1', array(), array('id' => 'inputDDD4'), array());
+        $itens_form_2->adicGrupoForm('Telefone',            $telefone,         'col-md-2', array(), array('id' => 'inputTelefone4'), array());
+        $itens_form_2->adicGrupoForm('Tempo de residência', $tempo_residencia, 'col-md-3', array(), array('id' => 'inputTempoResidencia4'), array());
+        $itens_form_2->adicGrupoForm('Tipo de imóvel',      $tipo_imovel,      'col-md-4', array(), array('id' => 'inputTipoImovel'), array());
 
         # Itens da aba 3 (Ocupação)
         $itens_form_3 = new ItensForm('aba3');
-        $itens_form_3->adicGrupoForm('Tipo Atividade',        $tipo_atividade,        array_merge(['classe_grupo' => 'col-md-6', 'id' => 'inputTipoAtividade'], $comuns_grupo1));
-        $itens_form_3->adicGrupoForm('Tipo de Organização',   $tipo_organizacao,      array_merge(['classe_grupo' => 'col-md-6', 'id' => 'inputTipoOrganizacao'], $comuns_grupo1));
-        $itens_form_3->adicGrupoForm('Cargo',                 $cargo,                 array_merge(['classe_grupo' => 'col-md-6', 'id' => 'inputCargo4'], $comuns_grupo1));
-        $itens_form_3->adicGrupoForm('Empresa',               $empresa,               array_merge(['classe_grupo' => 'col-md-6', 'id' => 'inputEmpresa4'], $comuns_grupo1));
-        $itens_form_3->adicGrupoForm('Salário',               $salario,               array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputSalario4'], $comuns_grupo1));
-        $itens_form_3->adicGrupoForm('Outras Rendas',         $outras_rendas,         array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputOutrasRendas'], $comuns_grupo1));
-        $itens_form_3->adicGrupoForm('Número da Matrícula',   $numero_matricula,      array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputNumeroMatricula4'], $comuns_grupo1));
-        $itens_form_3->adicGrupoForm('Documento Apresentado', $documento_apresentado, array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputDocumentoApresentado'], $comuns_grupo1));
-        $itens_form_3->adicGrupoForm('Data de Admissão',      $data_admissao,         array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputDataAdmissao'], $comuns_grupo1));
+        $itens_form_3->adicGrupoForm('Tipo Atividade',        $tipo_atividade,        'col-md-6', array(), array('id' => 'inputTipoAtividade'), array());
+        $itens_form_3->adicGrupoForm('Tipo de Organização',   $tipo_organizacao,      'col-md-6', array(), array('id' => 'inputTipoOrganizacao'), array());
+        $itens_form_3->adicGrupoForm('Cargo',                 $cargo,                 'col-md-6', array(), array('id' => 'inputCargo4'), array());
+        $itens_form_3->adicGrupoForm('Empresa',               $empresa,               'col-md-6', array(), array('id' => 'inputEmpresa4'), array());
+        $itens_form_3->adicGrupoForm('Salário',               $salario,               'col-md-3', array(), array('id' => 'inputSalario4'), array());
+        $itens_form_3->adicGrupoForm('Outras Rendas',         $outras_rendas,         'col-md-3', array(), array('id' => 'inputDDD4'), array());
+        $itens_form_3->adicGrupoForm('Número da Matrícula',   $numero_matricula,      'col-md-3', array(), array('id' => 'inputNumeroMatricula4'), array());
+        $itens_form_3->adicGrupoForm('Documento Apresentado', $documento_apresentado, 'col-md-3', array(), array('id' => 'inputDocumentoApresentado'), array());
+        $itens_form_3->adicGrupoForm('Data de Admissão',      $data_admissao,         'col-md-3', array(), array('id' => 'inputDataAdmissao'), array());
 
         # Itens da aba 4 (Referências)
         $itens_form_4 = new ItensForm('aba4');
-        $itens_form_4->adicGrupoForm('Nome',     $nome_referencia1,     array_merge(['classe_grupo' => 'col-md-5', 'id' => 'inputNomeReferencia1'], $comuns_grupo1));
-        $itens_form_4->adicGrupoForm('DDD',      $ddd_referencia1,      array_merge(['classe_grupo' => 'col-md-1', 'id' => 'inputDDDReferencia1'], $comuns_grupo1));
-        $itens_form_4->adicGrupoForm('Telefone', $telefone_referencia1, array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputTelefoneReferencia1'], $comuns_grupo1));
-        $itens_form_4->adicGrupoForm('Nome',     $nome_referencia2,     array_merge(['classe_grupo' => 'col-md-5', 'id' => 'inputNomeReferencia2'], $comuns_grupo1));
-        $itens_form_4->adicGrupoForm('DDD',      $ddd_referencia2,      array_merge(['classe_grupo' => 'col-md-1', 'id' => 'inputDDDReferencia2'], $comuns_grupo1));
-        $itens_form_4->adicGrupoForm('Telefone', $telefone_referencia2, array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputTelefoneReferencia2'], $comuns_grupo1));
-        $itens_form_4->adicGrupoForm('Nome',     $nome_referencia3,     array_merge(['classe_grupo' => 'col-md-5', 'id' => 'inputNomeReferencia3'], $comuns_grupo1));
-        $itens_form_4->adicGrupoForm('DDD',      $ddd_referencia3,      array_merge(['classe_grupo' => 'col-md-1', 'id' => 'inputDDDReferencia3'], $comuns_grupo1));
-        $itens_form_4->adicGrupoForm('Telefone', $telefone_referencia3, array_merge(['classe_grupo' => 'col-md-3', 'id' => 'inputTelefoneReferencia3'], $comuns_grupo1));
+        $itens_form_4->adicGrupoForm('Nome',     $nome_referencia1,     'col-md-5', array(), array('id' => 'inputNomeReferencia1'), array());
+        $itens_form_4->adicGrupoForm('DDD',      $ddd_referencia1,      'col-md-1', array(), array('id' => 'inputDDDReferencia1'), array());
+        $itens_form_4->adicGrupoForm('Telefone', $telefone_referencia1, 'col-md-3', array(), array('id' => 'inputTelefoneReferencia1'), array());
+        $itens_form_4->adicGrupoForm('Nome',     $nome_referencia2,     'col-md-5', array(), array('id' => 'inputNomeReferencia2'), array());
+        $itens_form_4->adicGrupoForm('DDD',      $ddd_referencia2,      'col-md-1', array(), array('id' => 'inputDDDReferencia2'), array());
+        $itens_form_4->adicGrupoForm('Telefone', $telefone_referencia2, 'col-md-3', array(), array('id' => 'inputTelefoneReferencia2'), array());
+        $itens_form_4->adicGrupoForm('Nome',     $nome_referencia3,     'col-md-5', array(), array('id' => 'inputNomeReferencia3'), array());
+        $itens_form_4->adicGrupoForm('DDD',      $ddd_referencia3,      'col-md-1', array(), array('id' => 'inputDDDReferencia3'), array());
+        $itens_form_4->adicGrupoForm('Telefone', $telefone_referencia3, 'col-md-3', array(), array('id' => 'inputTelefoneReferencia3'), array());
         
         # Itens da aba 5 (Observações)
         $itens_form_5 = new ItensForm('aba5');
-        $itens_form_5->adicGrupoForm('Anotações', $observacoes, array_merge(['classe_grupo' => 'col-md-12', 'id' => 'inputObservacoes'], $comuns_grupo1));
+        $itens_form_5->adicGrupoForm('Anotações', $observacoes, 'col-md-12', array(), array('id' => 'inputObservacoes'), array());
         
         //------------------------------------------------------------------------------------------------------------------------- 
         /** O formulário com abas funciona assim. Os grupos de itens de formulário são inseridos no objeto abas conteúdo. 
@@ -251,7 +249,6 @@ class FormPessoas extends Pagina
         $itens_aba3 = new EmbalaGrupoForm($itens_form_3, array('id' => 'aba1', 'classe' => 'g-3'));
         $itens_aba4 = new EmbalaGrupoForm($itens_form_4, array('id' => 'aba1', 'classe' => 'g-3'));
         $itens_aba5 = new EmbalaGrupoForm($itens_form_5, array('id' => 'aba5', 'classe' => 'g-3'));
-        #parent::adic($itens_aba1);
 
         $params_identificacao = array('titulo_cartao' => "Dados Pessoais", 'id' => 'idAbaIdent', 'role' => 'tablist');
         $cartao_basico = new Cartao($params_identificacao, 'div', []);

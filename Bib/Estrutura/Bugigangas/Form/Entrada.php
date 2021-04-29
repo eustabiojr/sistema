@@ -37,11 +37,7 @@ class Entrada extends Campo implements InterfaceElementoForm
 
         if ($this->propriedades) {
             foreach ($this->propriedades as $propriedade => $valor) {
-                if ($valor === NULL) {
-                    $tag->$propriedade = NULL;
-                } else {
-                    $tag->$propriedade = $valor;
-                }
+                $tag->$propriedade = $valor;
             }
         } 
         $tag->exibe();

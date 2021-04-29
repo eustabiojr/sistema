@@ -48,33 +48,34 @@ class EmbalaGrupoForm extends Elemento
 
 			# Elemento rótulo
 			$rotulo = new Elemento('label');
-	        $rotulo->class = $param['classe_rotulo']; # Classe do rótulo | classe_rotulo
-	        $rotulo->adic($campo->obtRotulo());
-			if (isset($param['id'])) {
-				$rotulo->for = $param['id']; # id
-			}
-
-       		$div = new Elemento('div');
-        	$div->class = $param['classe_grupo']; # classe do grupo. Ex.: col-md-4
-        	$div->adic($rotulo); 
-
-			//$campo->class = $param['classe_entrada'];
-			//if (isset($param['id'])) {
-				//$campo->id = $param['id']; # id
-			//}
-			if (isset($param)) {
-				foreach ($param as $prop => $valor_prop) {
-
-					if ($prop == 'classe_entrada') {
-						$prop = 'class';
-					}
-
-					#if ((!$prop == 'classe_rotulo') || (!$prop == 'classe_grupo')) {
-						$campo->$prop = $valor_prop;
-					#}
+			if (isset($param['rotulo'])) {
+				foreach ($param['rotulo'] as $nome_prop_rotulo => $valor_prop_rotulo) {
+					$rotulo->$nome_prop_rotulo = $valor_prop_rotulo;
 				}
 			}
-        	$div->adic($campo);
+	        $rotulo->adic($campo->obtRotulo());
+			if (isset($param['entrada']['id'])) {
+				$rotulo->for = $param['entrada']['id']; # id
+			}
+
+       		$div_grupo = new Elemento('div');
+			if (isset($param['grupo'])) {
+				foreach ($param['grupo'] as $nome_prop_grupo => $valor_prop_grupo) {
+					$div_grupo->$nome_prop_grupo = $valor_prop_grupo; # classe do grupo. Ex.: col-md-4
+				}
+			}
+        	$div_grupo->adic($rotulo); 
+
+			if (isset($param['entrada'])) {
+				foreach ($param['entrada'] as $prop => $valor_prop) {
+					if ($valor_prop !== NULL) {
+						$campo->$prop = $valor_prop;
+					} else {
+						$campo->$prop = NULL;
+					}
+				}
+			}
+        	$div_grupo->adic($campo);
 
 			$div_valida = new Elemento('div');
 			$div_valida->class = 'valid-feedback';
@@ -84,10 +85,10 @@ class EmbalaGrupoForm extends Elemento
 			$div_invalida->class = 'invalid-feedback';
 			$div_invalida->adic('Campo em branco ou inválido');
 
-			$div->adic($div_valida);
-			$div->adic($div_invalida);
+			$div_grupo->adic($div_valida);
+			$div_grupo->adic($div_invalida);
 
-			parent::adic($div);
+			parent::adic($div_grupo);
        	} # Fim do foreach interno
     }
 }

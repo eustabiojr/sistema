@@ -83,11 +83,15 @@ class Elemento {
     {
         echo "<{$this->nometag}";
         if ($this->propriedades) {
+
             foreach ($this->propriedades as $nome => $valor) {
+
                 if (is_scalar($valor)) {
-                    if (empty($valor)) {
+                    if ($valor === NULL) {
+                        echo " {$nome}";
+                    }  else if (empty($valor))  {
                         echo " {$nome}=\"\"";
-                    }  else {
+                    } else {
                         echo " {$nome}=\"{$valor}\"";
                     }
                 } else if ($valor === NULL) {

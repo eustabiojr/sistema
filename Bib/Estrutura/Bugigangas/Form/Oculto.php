@@ -34,7 +34,7 @@ class Oculto extends Campo implements InterfaceElementoForm
 
         # caso o campo não seja editável
         if (!parent::obtEditavel()) {
-            $tag->readonly = "1";
+            $tag->readonly = "readonly";
         }
 
         if ($this->propriedades) {

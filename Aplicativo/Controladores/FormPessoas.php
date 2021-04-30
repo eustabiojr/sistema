@@ -176,9 +176,9 @@ class FormPessoas extends Pagina
 
         // , array('rotulo' => $prop_rotulo), array('entrada' => $prop_entrada)
         # O segundo parâmetro aceita array e string. Caso seja um array vazio, o rótulo não será criado.
-        $itens_form_1->adicGrupoForm('CPF',             $cpf,             'col-md-4', array(), array('id' => 'inputCPF1'), array());
+        $itens_form_1->adicGrupoForm('CPF',             $cpf,             'col-md-4', array(), array('id' => 'inputCPF1', 'required' => NULL), array());
         #$itens_form_1->adicGrupoForm('<br/>',           $pesquisar,       'col-md-4', array(), array('id' => 'inputCPF1'), array());
-        $itens_form_1->adicGrupoForm('Nome',            $nome,            'col-md-8', array(), array('id' => 'inputNome1', 'required' => 'NULO'), array());
+        $itens_form_1->adicGrupoForm('Nome',            $nome,            'col-md-8', array(), array('id' => 'inputNome1', 'required' => NULL), array());
         $itens_form_1->adicGrupoForm('Apelido',         $apelido,         'col-md-2', array(), array('id' => 'inputApelido4'), array());
         $itens_form_1->adicGrupoForm('Nascimento',      $nascimento,      'col-md-2', array(), array('id' => 'inputNascimento4'), array());
         $itens_form_1->adicGrupoForm('Número RG',       $identidade,      'col-md-3', array(), array('id' => 'inputRG4'), array());

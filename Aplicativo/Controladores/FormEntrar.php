@@ -46,14 +46,14 @@ class FormEntrar extends Pagina
         $usuario  = new Entrada('usuario');
         $usuario->class         = "form-control";
         $usuario->id            = "entradaUsuario"; 
-        $usuario->{'required'}  = '';
-        $usuario->{'autofocus'} = '';
+        $usuario->defPropriedade('required', NULL);
+        $usuario->defPropriedade('autofocus', NULL);
         $usuario->placeholder   = 'usuario';
 
         $senha   = new Senha('senha');
         $senha->class        = "form-control";
         $senha->id           = "entradaSenha";
-        $senha->{'required'} = '';
+        $senha->defPropriedade('required', NULL);
         $senha->placeholder  = 'senha';
 
         $ficha = new Oculto('ficha_sinc'); // Oculto

@@ -75,8 +75,12 @@ class FichaSincronizadora
         $ficha = $this->ficha_form ?? $ficha;
         $ficha_armazenada = Sessao::obtValor('ficha_sinc');
 
-        if ($ficha == $ficha_armazenada[1]) {
-            return true;
+        if (isset($ficha_armazenada[1])) {
+            if ($ficha == $ficha_armazenada[1]) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }

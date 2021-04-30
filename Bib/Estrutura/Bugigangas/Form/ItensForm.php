@@ -38,7 +38,8 @@ class ItensForm
     /**
      * Método adicLinhaForm ($classe_linha, $rotulo, array $entrada, $valor = NULL) | $classe_linha, 
      */
-    public function adicGrupoForm($rotulo, InterfaceElementoForm $objeto, $props_grupo, array $props_rotulo, array $props_entrada, array $props_validacao = array())
+    public function adicGrupoForm($rotulo, InterfaceElementoForm $objeto, $props_grupo, array $props_rotulo, 
+                                  array $props_entrada, array $props_validacao = array())
     {
         $tamanho = $parametros['tamanho'] ?? '100%';
         $objeto->defTamanho($tamanho);

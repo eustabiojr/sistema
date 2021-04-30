@@ -5,8 +5,8 @@
  * Data: 11/04/2021
  ********************************************************************************************/
 
- # Espaço de nomes
- namespace Estrutura\Bugigangas\Embrulho;
+# Espaço de nomes
+namespace Estrutura\Bugigangas\Embrulho;
 
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Form\ItensForm;
@@ -69,9 +69,9 @@ class EmbalaGrupoForm extends Elemento
 			if (isset($param['entrada'])) {
 				foreach ($param['entrada'] as $prop => $valor_prop) {
 					if ($valor_prop !== NULL) {
-						$campo->$prop = $valor_prop;
+						$campo->defPropriedade($prop, $valor_prop);
 					} else {
-						$campo->$prop = NULL;
+						$campo->defPropriedade($prop, NULL);
 					}
 				}
 			}

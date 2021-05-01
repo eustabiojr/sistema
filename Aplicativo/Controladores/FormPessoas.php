@@ -32,6 +32,8 @@ class FormPessoas extends Pagina
     private $conexao;
     private $registroAtivo;
 
+    private $validacao_campos = array();
+
     /**
      * Método Construtor
      */
@@ -63,7 +65,7 @@ class FormPessoas extends Pagina
         $orgao_expedidor = new Entrada('orgao_expedidor');
         $uf_expedidor    = new Combo('uf_expedidor');
         $data_expedicao  = new Entrada('data_expedicao');
-        $nacionalidade   = new Combo('nacionalidade');
+        $nacionalidade   = new Entrada('nacionalidade');
         $naturalidade    = new Entrada('naturalidade');
         $sexo            = new Combo('sexo');
         $ddd             = new Entrada('ddd');
@@ -122,16 +124,6 @@ class FormPessoas extends Pagina
             $itens[$obj_estado->id] = $obj_estado->nome;
         }
         $uf_expedidor->adicItens($itens);
-        
-        $nacionalidade->adicItens(array('1' => 'Brasileiro',
-                                        '2' => 'Argentino',
-                                        '3' => 'Uruguaio',
-                                        '4' => 'Peruano',
-                                        '5' => 'Colombiano',
-                                        '6' => 'Chileno'));
-
-        $sexo->adicItens(array('1' => 'Masculino',
-                               '2' => 'Feminino'));
 
         $estado_civil->adicItens(array( '1' => 'Solteiro(a)',
                                         '2' => 'Casado(a)',
@@ -169,86 +161,99 @@ class FormPessoas extends Pagina
                                            '2' => 'Construção Civil',
                                            '3' => 'Comércio Varejista',
                                            '4' => 'Família'));    
-     
+        //----------------------------------------------------------------------------------------------------------------------------------
+
+        if (empty($_POST['nome'])) {
+            $this->validacao_campos["nome"] = ['class' => 'form-control is-invalid', 'id' => 'inputNome1', 'required' => NULL];
+
+            $campo_nome =  $this->validacao_campos["nome"] ?? ['class' => 'form-control', 'id' => 'inputNome1', 'required' => NULL];
+        } else {
+            #$campo_nome = $this->validacao_campos["nome"] ?? ['class' => 'form-control is-valid', 'id' => 'inputNome1', 'required' => NULL];
+            $campo_nome =  ['class' => 'form-control', 'id' => 'inputNome1', 'required' => NULL];
+        }
+
+        # Mensagens de feedback
+        $validacao = array('feedback_ok' => 'Parece bom', 'feedback_erro' => 'Campo em branco ou inválido');     
                
         # Itens da aba 1 (Básico)
-        $itens_form_1 = new ItensForm('aba1');
+        $if_1 = new ItensForm('aba1');
 
         // , array('rotulo' => $prop_rotulo), array('entrada' => $prop_entrada)
         # O segundo parâmetro aceita array e string. Caso seja um array vazio, o rótulo não será criado.
-        $itens_form_1->adicGrupoForm('CPF',             $cpf,             'col-md-4', array(), array('id' => 'inputCPF1', 'required' => NULL), array());
-        #$itens_form_1->adicGrupoForm('<br/>',           $pesquisar,       'col-md-4', array(), array('id' => 'inputCPF1'), array());
-        $itens_form_1->adicGrupoForm('Nome',            $nome,            'col-md-8', array(), array('id' => 'inputNome1', 'required' => NULL), array());
-        $itens_form_1->adicGrupoForm('Apelido',         $apelido,         'col-md-2', array(), array('id' => 'inputApelido4'), array());
-        $itens_form_1->adicGrupoForm('Nascimento',      $nascimento,      'col-md-2', array(), array('id' => 'inputNascimento4'), array());
-        $itens_form_1->adicGrupoForm('Número RG',       $identidade,      'col-md-3', array(), array('id' => 'inputRG4'), array());
-        $itens_form_1->adicGrupoForm('Orgão Expedidor', $orgao_expedidor, 'col-md-2', array(), array('id' => 'inputOrgExp4'), array());
-        $itens_form_1->adicGrupoForm('UF',              $uf_expedidor,    'col-md-3', array(), array('id' => 'inputUFExpedidor'), array());
-        $itens_form_1->adicGrupoForm('Data Expedição',  $data_expedicao,  'col-md-2', array(), array('id' => 'inputDataExpedicao4'), array());
-        $itens_form_1->adicGrupoForm('Nacionalidade',   $nacionalidade,   'col-md-3', array(), array('id' => 'inputNacionalidade'), array());
-        $itens_form_1->adicGrupoForm('Naturalidade',    $naturalidade,    'col-md-3', array(), array('id' => 'inputNaturalidade4'), array());
-        $itens_form_1->adicGrupoForm('Sexo',            $sexo,            'col-md-2', array(), array('id' => 'inputSexo'), array());
-        $itens_form_1->adicGrupoForm('DDD',             $ddd,             'col-md-1', array(), array('id' => 'inputDDD4'), array());
-        $itens_form_1->adicGrupoForm('Celular',         $celular,         'col-md-3', array(), array('id' => 'inputCelular4'), array());
-        $itens_form_1->adicGrupoForm('Nome do pai',     $pai,             'col-md-6', array(), array('id' => 'inputPai4'), array());
-        $itens_form_1->adicGrupoForm('Nome da mãe',     $mae,             'col-md-6', array(), array('id' => 'inputMae4'), array());
-        $itens_form_1->adicGrupoForm('Estado Civil',    $estado_civil,    'col-md-2', array(), array('id' => 'inputEstadoCivil'), array());
-        $itens_form_1->adicGrupoForm('Email',           $email,           'col-md-6', array(), array('id' => 'inputEmail4'), array());
+        $if_1->adicGrupoForm('CPF',             $cpf,             'col-md-4', [], ['id' => 'inputCPF1', 'required' => NULL], $validacao);
+        #$if_1->adicGrupoForm('<br/>',           $pesquisar,       'col-md-4', [], ['id' => 'inputCPF1'], $validacao);
+        $if_1->adicGrupoForm('Código ',         $id,              'col-md-2', [], ['id' => 'inputCodigo4', 'readonly' => NULL], $validacao);
+        $if_1->adicGrupoForm('Nome',            $nome,            'col-md-8', [], $campo_nome, $validacao);
+        $if_1->adicGrupoForm('Apelido',         $apelido,         'col-md-2', [], ['id' => 'inputApelido4'], $validacao);
+        $if_1->adicGrupoForm('Nascimento',      $nascimento,      'col-md-2', [], ['id' => 'inputNascimento4'], $validacao);
+        $if_1->adicGrupoForm('Número RG',       $identidade,      'col-md-3', [], ['id' => 'inputRG4'], $validacao);
+        $if_1->adicGrupoForm('Orgão Expedidor', $orgao_expedidor, 'col-md-2', [], ['id' => 'inputOrgExp4'], $validacao);
+        $if_1->adicGrupoForm('UF',              $uf_expedidor,    'col-md-3', [], ['class' => 'form-select', 'id' => 'inputUFExpedidor'], $validacao);
+        $if_1->adicGrupoForm('Data Expedição',  $data_expedicao,  'col-md-2', [], ['id' => 'inputDataExpedicao4'], $validacao);
+        $if_1->adicGrupoForm('Nacionalidade',   $nacionalidade,   'col-md-3', [], ['id' => 'inputNacionalidade'], $validacao);
+        $if_1->adicGrupoForm('Naturalidade',    $naturalidade,    'col-md-3', [], ['id' => 'inputNaturalidade4'], $validacao);
+        $if_1->adicGrupoForm('Sexo',            $sexo,            'col-md-2', [], ['class' => 'form-select', 'id' => 'inputSexo'], $validacao);
+        $if_1->adicGrupoForm('DDD',             $ddd,             'col-md-1', [], ['id' => 'inputDDD4'], $validacao);
+        $if_1->adicGrupoForm('Celular',         $celular,         'col-md-3', [], ['id' => 'inputCelular4'], $validacao);
+        $if_1->adicGrupoForm('Nome do pai',     $pai,             'col-md-6', [], ['id' => 'inputPai4'], $validacao);
+        $if_1->adicGrupoForm('Nome da mãe',     $mae,             'col-md-6', [], ['id' => 'inputMae4'], $validacao);
+        $if_1->adicGrupoForm('Estado Civil',    $estado_civil,    'col-md-4', [], ['class' => 'form-select', 'id' => 'inputEstadoCivil'], $validacao);
+        $if_1->adicGrupoForm('Email',           $email,           'col-md-6', [], ['id' => 'inputEmail4'], $validacao);
 
         # Itens da aba 2 (Endereço)
-        $itens_form_2 = new ItensForm('aba2');
-        $itens_form_2->adicGrupoForm('CEP',         $cep,         'col-md-3', array(), array('id' => 'inputCEP4'), array());
-        $itens_form_2->adicGrupoForm('Endereço',    $endereco,    'col-md-6', array(), array('id' => 'inputEndereco'), array());
-        $itens_form_2->adicGrupoForm('Número',      $numero,      'col-md-1', array(), array('id' => 'inputNumero4'), array());
-        $itens_form_2->adicGrupoForm('Complemento', $complemento, 'col-md-3', array(), array('id' => 'inputComplemento4'), array());
-        $itens_form_2->adicGrupoForm('Bairro',      $bairro,      'col-md-3', array(), array('id' => 'inputBairro4'), array());
-        $itens_form_2->adicGrupoForm('Estado',      $uf,          'col-md-4', array(), array('id' => 'inputEstado'), array());
-        $itens_form_2->adicGrupoForm('Cidade',      $cidade,      'col-md-4', array(), array('id' => 'inputCidade'), array());
+        $if_2 = new ItensForm('aba2');
+        $if_2->adicGrupoForm('CEP',         $cep,         'col-md-3', [], ['id' => 'inputCEP4'], $validacao);
+        $if_2->adicGrupoForm('Endereço',    $endereco,    'col-md-6', [], ['id' => 'inputEndereco'], $validacao);
+        $if_2->adicGrupoForm('Número',      $numero,      'col-md-1', [], ['id' => 'inputNumero4'], $validacao);
+        $if_2->adicGrupoForm('Complemento', $complemento, 'col-md-3', [], ['id' => 'inputComplemento4'], $validacao);
+        $if_2->adicGrupoForm('Bairro',      $bairro,      'col-md-3', [], ['id' => 'inputBairro4'], $validacao);
+        $if_2->adicGrupoForm('Estado',      $uf,          'col-md-4', [], ['class' => 'form-select', 'id' => 'inputEstado'], $validacao);
+        $if_2->adicGrupoForm('Cidade',      $cidade,      'col-md-4', [], ['class' => 'form-select', 'id' => 'inputCidade'], $validacao);
 
         # Este campo precisa ser implementado corretamente (textarea) rows
-        $itens_form_2->adicGrupoForm('Ponto de referência', $ponto_referencia, 'col-md-8', array(), array('id' => 'inputPontoReferencia'), array());
-        $itens_form_2->adicGrupoForm('DDD',                 $ddd_end,          'col-md-1', array(), array('id' => 'inputDDD4'), array());
-        $itens_form_2->adicGrupoForm('Telefone',            $telefone,         'col-md-2', array(), array('id' => 'inputTelefone4'), array());
-        $itens_form_2->adicGrupoForm('Tempo de residência', $tempo_residencia, 'col-md-3', array(), array('id' => 'inputTempoResidencia4'), array());
-        $itens_form_2->adicGrupoForm('Tipo de imóvel',      $tipo_imovel,      'col-md-4', array(), array('id' => 'inputTipoImovel'), array());
+        $if_2->adicGrupoForm('Ponto de referência', $ponto_referencia, 'col-md-8', [], ['id' => 'inputPontoReferencia'], $validacao);
+        $if_2->adicGrupoForm('DDD',                 $ddd_end,          'col-md-1', [], ['id' => 'inputDDD4'], $validacao);
+        $if_2->adicGrupoForm('Telefone',            $telefone,         'col-md-2', [], ['id' => 'inputTelefone4'], $validacao);
+        $if_2->adicGrupoForm('Tempo de residência', $tempo_residencia, 'col-md-3', [], ['id' => 'inputTempoResidencia4'], $validacao);
+        $if_2->adicGrupoForm('Tipo de imóvel',      $tipo_imovel,      'col-md-4', [], ['class' => 'form-select', 'id' => 'inputTipoImovel'], $validacao);
 
         # Itens da aba 3 (Ocupação)
-        $itens_form_3 = new ItensForm('aba3');
-        $itens_form_3->adicGrupoForm('Tipo Atividade',        $tipo_atividade,        'col-md-6', array(), array('id' => 'inputTipoAtividade'), array());
-        $itens_form_3->adicGrupoForm('Tipo de Organização',   $tipo_organizacao,      'col-md-6', array(), array('id' => 'inputTipoOrganizacao'), array());
-        $itens_form_3->adicGrupoForm('Cargo',                 $cargo,                 'col-md-6', array(), array('id' => 'inputCargo4'), array());
-        $itens_form_3->adicGrupoForm('Empresa',               $empresa,               'col-md-6', array(), array('id' => 'inputEmpresa4'), array());
-        $itens_form_3->adicGrupoForm('Salário',               $salario,               'col-md-3', array(), array('id' => 'inputSalario4'), array());
-        $itens_form_3->adicGrupoForm('Outras Rendas',         $outras_rendas,         'col-md-3', array(), array('id' => 'inputDDD4'), array());
-        $itens_form_3->adicGrupoForm('Número da Matrícula',   $numero_matricula,      'col-md-3', array(), array('id' => 'inputNumeroMatricula4'), array());
-        $itens_form_3->adicGrupoForm('Documento Apresentado', $documento_apresentado, 'col-md-3', array(), array('id' => 'inputDocumentoApresentado'), array());
-        $itens_form_3->adicGrupoForm('Data de Admissão',      $data_admissao,         'col-md-3', array(), array('id' => 'inputDataAdmissao'), array());
+        $if_3 = new ItensForm('aba3');
+        $if_3->adicGrupoForm('Tipo Atividade',        $tipo_atividade,        'col-md-6', [], ['class' => 'form-select', 'id' => 'inputTipoAtividade'], $validacao);
+        $if_3->adicGrupoForm('Tipo de Organização',   $tipo_organizacao,      'col-md-6', [], ['class' => 'form-select', 'id' => 'inputTipoOrganizacao'], $validacao);
+        $if_3->adicGrupoForm('Cargo',                 $cargo,                 'col-md-6', [], ['id' => 'inputCargo4'], $validacao);
+        $if_3->adicGrupoForm('Empresa',               $empresa,               'col-md-6', [], ['id' => 'inputEmpresa4'], $validacao);
+        $if_3->adicGrupoForm('Salário',               $salario,               'col-md-3', [], ['id' => 'inputSalario4'], $validacao);
+        $if_3->adicGrupoForm('Outras Rendas',         $outras_rendas,         'col-md-3', [], ['id' => 'inputDDD4'], $validacao);
+        $if_3->adicGrupoForm('Número da Matrícula',   $numero_matricula,      'col-md-3', [], ['id' => 'inputNumeroMatricula4'], $validacao);
+        $if_3->adicGrupoForm('Documento Apresentado', $documento_apresentado, 'col-md-3', [], ['id' => 'inputDocumentoApresentado'], $validacao);
+        $if_3->adicGrupoForm('Data de Admissão',      $data_admissao,         'col-md-3', [], ['id' => 'inputDataAdmissao'], $validacao);
 
         # Itens da aba 4 (Referências)
-        $itens_form_4 = new ItensForm('aba4');
-        $itens_form_4->adicGrupoForm('Nome',     $nome_referencia1,     'col-md-5', array(), array('id' => 'inputNomeReferencia1'), array());
-        $itens_form_4->adicGrupoForm('DDD',      $ddd_referencia1,      'col-md-1', array(), array('id' => 'inputDDDReferencia1'), array());
-        $itens_form_4->adicGrupoForm('Telefone', $telefone_referencia1, 'col-md-3', array(), array('id' => 'inputTelefoneReferencia1'), array());
-        $itens_form_4->adicGrupoForm('Nome',     $nome_referencia2,     'col-md-5', array(), array('id' => 'inputNomeReferencia2'), array());
-        $itens_form_4->adicGrupoForm('DDD',      $ddd_referencia2,      'col-md-1', array(), array('id' => 'inputDDDReferencia2'), array());
-        $itens_form_4->adicGrupoForm('Telefone', $telefone_referencia2, 'col-md-3', array(), array('id' => 'inputTelefoneReferencia2'), array());
-        $itens_form_4->adicGrupoForm('Nome',     $nome_referencia3,     'col-md-5', array(), array('id' => 'inputNomeReferencia3'), array());
-        $itens_form_4->adicGrupoForm('DDD',      $ddd_referencia3,      'col-md-1', array(), array('id' => 'inputDDDReferencia3'), array());
-        $itens_form_4->adicGrupoForm('Telefone', $telefone_referencia3, 'col-md-3', array(), array('id' => 'inputTelefoneReferencia3'), array());
+        $if_4 = new ItensForm('aba4');
+        $if_4->adicGrupoForm('Nome',     $nome_referencia1,     'col-md-5', [], ['id' => 'inputNomeReferencia1'], $validacao);
+        $if_4->adicGrupoForm('DDD',      $ddd_referencia1,      'col-md-1', [], ['id' => 'inputDDDReferencia1'], $validacao);
+        $if_4->adicGrupoForm('Telefone', $telefone_referencia1, 'col-md-3', [], ['id' => 'inputTelefoneReferencia1'], $validacao);
+        $if_4->adicGrupoForm('Nome',     $nome_referencia2,     'col-md-5', [], ['id' => 'inputNomeReferencia2'], $validacao);
+        $if_4->adicGrupoForm('DDD',      $ddd_referencia2,      'col-md-1', [], ['id' => 'inputDDDReferencia2'], $validacao);
+        $if_4->adicGrupoForm('Telefone', $telefone_referencia2, 'col-md-3', [], ['id' => 'inputTelefoneReferencia2'], $validacao);
+        $if_4->adicGrupoForm('Nome',     $nome_referencia3,     'col-md-5', [], ['id' => 'inputNomeReferencia3'], $validacao);
+        $if_4->adicGrupoForm('DDD',      $ddd_referencia3,      'col-md-1', [], ['id' => 'inputDDDReferencia3'], $validacao);
+        $if_4->adicGrupoForm('Telefone', $telefone_referencia3, 'col-md-3', [], ['id' => 'inputTelefoneReferencia3'], $validacao);
         
         # Itens da aba 5 (Observações)
-        $itens_form_5 = new ItensForm('aba5');
-        $itens_form_5->adicGrupoForm('Anotações', $observacoes, 'col-md-12', array(), array('id' => 'inputObservacoes'), array());
+        $if_5 = new ItensForm('aba5');
+        $if_5->adicGrupoForm('Anotações', $observacoes, 'col-md-12', [], ['id' => 'inputObservacoes'], $validacao);
         
         //------------------------------------------------------------------------------------------------------------------------- 
         /** O formulário com abas funciona assim. Os grupos de itens de formulário são inseridos no objeto abas conteúdo. 
          * E em seguida o objeto. AbasConteudo é inserido em um formulário.
          */
-        $itens_aba1 = new EmbalaGrupoForm($itens_form_1, array('id' => 'aba1', 'classe' => 'g-3'));
-        $itens_aba2 = new EmbalaGrupoForm($itens_form_2, array('id' => 'aba1', 'classe' => 'g-3'));
-        $itens_aba3 = new EmbalaGrupoForm($itens_form_3, array('id' => 'aba1', 'classe' => 'g-3'));
-        $itens_aba4 = new EmbalaGrupoForm($itens_form_4, array('id' => 'aba1', 'classe' => 'g-3'));
-        $itens_aba5 = new EmbalaGrupoForm($itens_form_5, array('id' => 'aba5', 'classe' => 'g-3'));
+        $itens_aba1 = new EmbalaGrupoForm($if_1, ['id' => 'aba1', 'classe' => 'g-3']);
+        $itens_aba2 = new EmbalaGrupoForm($if_2, ['id' => 'aba1', 'classe' => 'g-3']);
+        $itens_aba3 = new EmbalaGrupoForm($if_3, ['id' => 'aba1', 'classe' => 'g-3']);
+        $itens_aba4 = new EmbalaGrupoForm($if_4, ['id' => 'aba1', 'classe' => 'g-3']);
+        $itens_aba5 = new EmbalaGrupoForm($if_5, ['id' => 'aba5', 'classe' => 'g-3']);
 
         $params_identificacao = array('titulo_cartao' => "Dados Pessoais", 'id' => 'idAbaIdent', 'role' => 'tablist');
         $cartao_basico = new Cartao($params_identificacao, 'div', []);
@@ -297,7 +302,7 @@ class FormPessoas extends Pagina
          * Forms
          * 
          * Os itens são criados em uma classe externa (EmbalaGrupoForm)
-         * itens_form_1
+         * if_1
          */
         $parametros_cartao = array('titulo_cartao' => " ", 'id' => 'idAbaPessoa', 'role' => 'tablist');
         $parametros_form = array('id' => 'form_clientes_abas', 'classe_form' => 'exige-validacao', 'naovalida' => 1,
@@ -306,11 +311,11 @@ class FormPessoas extends Pagina
         $this->form_abas = new EmbalaForms(new Form('form_cliente'), NULL, NULL, $parametros_form, $abas_prontas); 
         $this->form_abas->defTitulo("Pessoas");
 
-        $this->form_abas->adicItensGrupo($itens_form_1);
-        $this->form_abas->adicItensGrupo($itens_form_2);
-        $this->form_abas->adicItensGrupo($itens_form_3);
-        $this->form_abas->adicItensGrupo($itens_form_4);
-        $this->form_abas->adicItensGrupo($itens_form_5);
+        $this->form_abas->adicItensGrupo($if_1);
+        $this->form_abas->adicItensGrupo($if_2);
+        $this->form_abas->adicItensGrupo($if_3);
+        $this->form_abas->adicItensGrupo($if_4);
+        $this->form_abas->adicItensGrupo($if_5);
 
         $this->form_abas->adicAcao('Salvar', new Acao(array($this, 'aoSalvar')));
 
@@ -333,7 +338,6 @@ class FormPessoas extends Pagina
 
             // Validação
             if (empty($dados->nome)) {
-                # new Mensagem('erro', 'O campo nome não foi informado!');
                 throw new Exception('O campo nome não foi informado!');
             }
 

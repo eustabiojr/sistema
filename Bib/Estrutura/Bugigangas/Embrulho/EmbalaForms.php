@@ -10,6 +10,7 @@
 
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Recipiente\Cartao;
+use Estrutura\Bugigangas\Form\Botao;
 use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Bugigangas\Form\ItensForm;
 use Estrutura\Bugigangas\Form\Submete;
@@ -70,7 +71,8 @@ class EmbalaForms extends Elemento
         # Os botões abaixo 
         foreach ($this->decorado->obtAcoes() as $rotulo => $acao) {
             $nome = strtolower(str_replace(' ', '_', $rotulo));
-            $botao = new Submete($nome);
+            $botao = new Botao($nome);
+            #$botao = new Submete($nome);
             $botao->defNomeForm($this->decorado->obtNome());
             $botao->defAcao($acao, $rotulo);
             # 
@@ -81,21 +83,19 @@ class EmbalaForms extends Elemento
 
 		if ($this->abas !== NULL) {
             $this->elemento->adic($this->abas);
-            $this->elemento->adic($grupo);
+            # $this->elemento->adic($grupo);
 		} else {
 			$this->opcoes_seleciona = $itens_form->obtOpcoesSeleciona();
 			$this->campos->itensForm($itens_form->obtGrupoCampo());
 		}
 
-        //---------------------------------------------------------------------------------------------------------------------
-        
-
+        //--------------------------------------------------------------------------------------------------------------------
         $cartao_form = new Cartao($this->parametros['params_cartao'], 'div', [], $this->parametros['links_abas']); # links_abas
         $cartao_form->adic($this->elemento);
 
         $cartao = new Cartao($this->decorado->obtTitulo(), 'h5', []);
         $cartao->adic($cartao_form);
-        #$cartao->adicRodape($grupo);
+        $cartao->adicRodape($grupo);
         $cartao->exibe();
     }
 

@@ -45,9 +45,13 @@ class ItensForm
         $objeto->defTamanho($tamanho);
         $objeto->defRotulo($rotulo);
 
-        $grupo     = array('grupo'   => array('class' => $props_grupo));
-        $rotulo    = array('rotulo'  => array_merge(array('class' => 'form-label'), $props_rotulo));
-        #$validacao = array('validacao'  => array_merge(array('class' => 'valid-feedback'), $props_validacao'));
+        $grupo     = array('grupo'      => array('class' => $props_grupo));
+        $rotulo    = array('rotulo'     => array_merge(array('class' => 'form-label'), $props_rotulo));
+        $validacao = array('validacao'  => $props_validacao);
+
+        #echo '<pre>' . PHP_EOL;
+        #    print_r($validacao);
+        #echo '</pre>' . PHP_EOL;
 
         # Propriedades entrada
         if (!key_exists('class', $props_entrada)) {
@@ -56,13 +60,11 @@ class ItensForm
             $entrada   = array('entrada' => $props_entrada);
         }
 
-        #$validacao = array('validacao' => $props_entrada);
-
-        /*if (isset($validacao)) {
+        if (isset($validacao)) {
             $parametros = array_merge($grupo, $rotulo, $entrada, $validacao);
-        } else {*/
+        } else {
             $parametros = array_merge($grupo, $rotulo, $entrada);
-        #}
+        }
         
     	$this->grupo_campos[$objeto->obtNome()] = array($objeto, $parametros);
     }

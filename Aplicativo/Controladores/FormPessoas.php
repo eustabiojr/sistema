@@ -162,11 +162,13 @@ class FormPessoas extends Pagina
                                            '3' => 'Comércio Varejista',
                                            '4' => 'Família'));    
         //----------------------------------------------------------------------------------------------------------------------------------
-
-        if (empty($_POST['nome'])) {
-            $this->validacao_campos["nome"] = ['class' => 'form-control is-invalid', 'id' => 'inputNome1', 'required' => NULL];
-
-            $campo_nome =  $this->validacao_campos["nome"] ?? ['class' => 'form-control', 'id' => 'inputNome1', 'required' => NULL];
+        $this->validacao_campos["nome"] = ['class' => 'form-control is-invalid', 'id' => 'inputNome1', 'required' => NULL];
+        if ($_POST) {
+            if (empty($_POST['nome'])) {    
+                $campo_nome =  $this->validacao_campos["nome"]; # ?? ['class' => 'form-control', 'id' => 'inputNome1', 'required' => NULL];
+            } else {
+                $campo_nome =  ['class' => 'form-control is-valid', 'id' => 'inputNome1', 'required' => NULL];
+            }
         } else {
             #$campo_nome = $this->validacao_campos["nome"] ?? ['class' => 'form-control is-valid', 'id' => 'inputNome1', 'required' => NULL];
             $campo_nome =  ['class' => 'form-control', 'id' => 'inputNome1', 'required' => NULL];

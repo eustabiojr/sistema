@@ -47,6 +47,18 @@ class EmbalaForms extends Elemento
         $this->abas       = $abas;
 	}
 
+    /**
+     * Liga/Desliga validação de cliente
+     */
+    public function defValidacaoCliente($bool) 
+    {
+        if ($bool) {
+            unset($this->elemento->{'novalidate'});
+        } else {
+            $this->elemento->{'novalidate'}  = '';
+        }
+    }
+
     public function exibe()
     {
         if (isset($this->parametros['classe'])) {
@@ -57,9 +69,7 @@ class EmbalaForms extends Elemento
         $this->elemento->name           = $this->decorado->obtNome();
         $this->elemento->id             = $this->parametros['id'] ?? NULL;
         $this->elemento->class          = $this->parametros['classe_form'] ?? NULL;
-        if (isset($this->parametros['naovalida'])) {
-            $this->elemento->{'novalidate'} = NULL;
-        }
+        $this->elemento->{'novalidate'} = $this->parametros['naovalida'] ?? NULL;
         $this->elemento->enctype        = $this->parametros['enctype'] ?? "multipart/form-data";
         $this->elemento->method         = $this->parametros['metodo'] ?? 'post';
 

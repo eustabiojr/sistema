@@ -5,6 +5,7 @@
  * Data: 02/04/2021
  ************************************************************************************/
 
+use Ageunet\Validacao\ValidadorObrigatorio;
 use Estrutura\BancoDados\Transacao;
 use Estrutura\Bugigangas\Base\Recipiente\AbasConteudo;
 use Estrutura\Bugigangas\Base\Recipiente\Cartao;

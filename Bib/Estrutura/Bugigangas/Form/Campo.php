@@ -23,6 +23,7 @@ abstract class Campo implements InterfaceElementoForm
     protected $tag;
     protected $rotuloForm;
     protected $propriedades;
+    private   $validacoes;
 
     /**
      * Método Construtor

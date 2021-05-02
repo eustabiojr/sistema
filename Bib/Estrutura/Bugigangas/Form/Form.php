@@ -9,6 +9,7 @@
 namespace Estrutura\Bugigangas\Form;
 
 use Estrutura\Controle\InterfaceAcao;
+use Exception;
 
 /**
  * Class Form
@@ -66,13 +67,43 @@ class Form
      * Com a classe EmbalaForms os campos são gravados na classe ItensForm. Vou precisar
      * fazer uma adaptação aqui. 
      */
-    public function adicCampo($rotulo, InterfaceElementoForm $objeto, $tamanho = '100%')
+    public function adicCampo($rotulo, InterfaceElementoForm $objeto_campo, $tamanho = '100%')
     {
-        $objeto->defTamanho($tamanho);
-        $objeto->defRotulo($rotulo);
+        $objeto_campo->defTamanho($tamanho);
+        $objeto_campo->defRotulo($rotulo);
 
+        $nome = $objeto_campo->obtNome();
+        if (isset($this->campos[$nome]) AND substr($nome, -2) !== '[]') {
+            throw new Exception("Você já adicionou o campo {$nome} ao formulário");
+        }
         # Esta propriedade precisa ser trabalhada.
-        $this->campos[$objeto->obtNome()] = $objeto;
+        if ($nome) {
+            $this->campos[$nome] = $objeto_campo;
+        }
+        
+    }
+
+    /**
+     * Remove a form field
+     * @param $field Object
+     */
+    public function apagCampo(InterfaceElementoForm $campo)
+    {
+        if ($this->campos) {
+            foreach($this->campos as $nome => $objeto) {
+                if ($campo === $objeto) {
+                    unset($this->campos[$nome]);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Remove todos os campos formulário
+     */
+    public function apagCampos()
+    {
+        $this->campos = array();
     }
 
     /**
@@ -82,6 +113,50 @@ class Form
     {
         return $this->campos;
     }
+
+    /**
+     * limpa os dados do formulário
+     */
+    public function limpa($mantemPadroes = FALSE)
+    {
+        // itera os campos do formulário
+        foreach ($this->campos as $nome => $campo)
+        {
+            // os rótulos não tem nome
+            if ($nome AND !$mantemPadroes)
+            {
+                $campo->defValor(NULL);
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------------------------- 
+    /**
+     * Método valida
+     * 
+     * Este método está aqui apenas para estudo de como implementar validação
+     * de formulário (pelo menos por enquanto).
+     */
+    public function valida() {
+        # Atribui os dados post antes da validação
+        # a exceção de validação deveria impedir
+        # que o código do usuário execute defDados()
+        $this->defDados($this->obtDados());
+
+        $erros = array();
+        foreach ($this->campos as $objetoCampo) {
+            try {
+                $objetoCampo->valida();
+            } catch (Exception $e) {
+                $erros[] = $e->getMessage() . '.';
+            }
+        }
+
+        if (count($erros) > 0) {
+            throw new Exception(implode("<br>", $erros));
+        }
+    }
+    //--------------------------------------------------------------------------------------------------------------------- 
 
     /**
      * Método adicItensGrupo

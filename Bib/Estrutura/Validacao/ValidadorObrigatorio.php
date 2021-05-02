@@ -18,7 +18,7 @@ class ValidadorObrigatorio extends ValidadorCampo
     /**
      * Validate a given value
      * @param $rotulo Identifies the value to be validated in case of exception
-     * @param $valor Value to be validated
+     * @param $valor O valor do campo a ser validado
      * @param $parametros aditional parameters for validation
      */
     public function valida($rotulo, $valor, $parametros = NULL)

@@ -162,16 +162,21 @@ class FormPessoas extends Pagina
                                            '3' => 'Comércio Varejista',
                                            '4' => 'Família'));    
         //----------------------------------------------------------------------------------------------------------------------------------
-        $this->validacao_campos["nome"] = ['class' => 'form-control is-invalid', 'id' => 'inputNome1', 'required' => NULL];
-        if ($_POST) {
-            if (empty($_POST['nome'])) {    
-                $campo_nome =  $this->validacao_campos["nome"]; # ?? ['class' => 'form-control', 'id' => 'inputNome1', 'required' => NULL];
+
+        if (isset($_GET['metodo'])) {
+
+            if ($_GET['metodo'] === 'aoEditar') {
+                $campo_nome =  ['class' => 'form-control', 'id' => 'inputNome1', 'required' => NULL];
             } else {
-                $campo_nome =  ['class' => 'form-control is-valid', 'id' => 'inputNome1', 'required' => NULL];
+                if (empty($_POST['nome'])) {    
+                    $campo_nome =  ['class' => 'form-control is-invalid', 'id' => 'inputNome1', 'required' => NULL];
+                } else {
+                    $campo_nome =  ['class' => 'form-control is-valid', 'id' => 'inputNome1', 'required' => NULL];
+                }
             }
+
         } else {
-            #$campo_nome = $this->validacao_campos["nome"] ?? ['class' => 'form-control is-valid', 'id' => 'inputNome1', 'required' => NULL];
-            $campo_nome =  ['class' => 'form-control', 'id' => 'inputNome1', 'required' => NULL];
+            $campo_nome = ['class' => 'form-control', 'id' => 'inputNome1', 'required' => NULL];
         }
 
         # Mensagens de feedback
@@ -252,9 +257,9 @@ class FormPessoas extends Pagina
          * E em seguida o objeto. AbasConteudo é inserido em um formulário.
          */
         $itens_aba1 = new EmbalaGrupoForm($if_1, ['id' => 'aba1', 'classe' => 'g-3']);
-        $itens_aba2 = new EmbalaGrupoForm($if_2, ['id' => 'aba1', 'classe' => 'g-3']);
-        $itens_aba3 = new EmbalaGrupoForm($if_3, ['id' => 'aba1', 'classe' => 'g-3']);
-        $itens_aba4 = new EmbalaGrupoForm($if_4, ['id' => 'aba1', 'classe' => 'g-3']);
+        $itens_aba2 = new EmbalaGrupoForm($if_2, ['id' => 'aba2', 'classe' => 'g-3']);
+        $itens_aba3 = new EmbalaGrupoForm($if_3, ['id' => 'aba3', 'classe' => 'g-3']);
+        $itens_aba4 = new EmbalaGrupoForm($if_4, ['id' => 'aba4', 'classe' => 'g-3']);
         $itens_aba5 = new EmbalaGrupoForm($if_5, ['id' => 'aba5', 'classe' => 'g-3']);
 
         $params_identificacao = array('titulo_cartao' => "Dados Pessoais", 'id' => 'idAbaIdent', 'role' => 'tablist');
@@ -307,7 +312,7 @@ class FormPessoas extends Pagina
          * if_1
          */
         $parametros_cartao = array('titulo_cartao' => " ", 'id' => 'idAbaPessoa', 'role' => 'tablist');
-        $parametros_form = array('id' => 'form_clientes_abas', 'classe_form' => 'exige-validacao', 'naovalida' => 1,
+        $parametros_form = array('id' => 'form_clientes_abas', 'classe_form' => 'exige-validacao'/*, 'naovalida' => 1*/,
                                  'metodo' => 'post', 'links_abas' => $links_abas, 'params_cartao' => $parametros_cartao);
 
         $this->form_abas = new EmbalaForms(new Form('form_cliente'), NULL, NULL, $parametros_form, $abas_prontas); 

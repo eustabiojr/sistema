@@ -44,9 +44,6 @@ class Pagina extends Elemento {
                  * do objeto atual. Se for igual retorna para na variável $objeto, o objeto 
                  * atual. Caso contrário retorna uma nova instancia da classe requisitada.
                  */
-                # echo "</p>" . "O nome do parametro classe é: " . $classe . "</p>" . PHP_EOL;
-
-                //echo "</p>" . "O nome da classe é: " . get_class($this) . "</p>" . PHP_EOL;
                 $objeto = $classe == get_class($this) ? $this : new $classe; # 'Sim' : 'Não';
                 
                 if (method_exists($objeto, $metodo)) {

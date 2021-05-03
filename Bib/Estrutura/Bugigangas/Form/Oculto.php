@@ -14,7 +14,7 @@ use Estrutura\Bugigangas\Form\InterfaceElementoForm;
  /**
   * Class Rotulo
   */
-class Oculto extends Campo implements InterfaceElementoForm
+class Oculto extends Campo implements InterfaceBugiganga
 {
     # propriedades
     protected $propriedades;

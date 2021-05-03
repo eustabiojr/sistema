@@ -12,10 +12,16 @@ use Estrutura\Bugigangas\Base\Elemento;
  /**
   * Class Rotulo
   */
-class Entrada extends Campo implements InterfaceElementoForm
+class Entrada extends Campo implements InterfaceBugiganga
 {
     # propriedades
     protected $propriedades;
+
+    public function __construct($nome)
+    {
+        parent::__construct($nome);
+        $this->id   = 'tentry_' . mt_rand(1000000000, 1999999999);
+    }
 
     /**
      * Método exibe

@@ -67,11 +67,8 @@ class Form
      * Com a classe EmbalaForms os campos são gravados na classe ItensForm. Vou precisar
      * fazer uma adaptação aqui. 
      */
-    public function adicCampo($rotulo, InterfaceElementoForm $objeto_campo, $tamanho = '100%')
+    public function adicCampo(InterfaceElementoForm $objeto_campo)
     {
-        $objeto_campo->defTamanho($tamanho);
-        $objeto_campo->defRotulo($rotulo);
-
         $nome = $objeto_campo->obtNome();
         if (isset($this->campos[$nome]) AND substr($nome, -2) !== '[]') {
             throw new Exception("Você já adicionou o campo {$nome} ao formulário");

@@ -60,6 +60,7 @@ class FormPessoas extends Pagina
         $id              = new Entrada('id');
         $id->readonly = NULL;
         $nome            = new Entrada('nome');
+        $nome->adicValidador("nome", new ValidadorObrigatorio);
         $apelido         = new Entrada('apelido');
         $nascimento      = new Entrada('data_nascimento');
         $identidade      = new Entrada('identidade');

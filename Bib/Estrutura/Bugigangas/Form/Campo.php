@@ -8,15 +8,22 @@
  # Espaço de nomes
 namespace Estrutura\Bugigangas\Form;
 
-use Estrutura\Bugigangas\Form\InterfaceElementoForm;
+use Ageunet\Validacao\ValidadorCampo;
+use Ageunet\Validacao\ValidadorComprimentoMin;
+use Ageunet\Validacao\ValidadorEmail;
+use Ageunet\Validacao\ValidadorObrigatorio;
+use Estrutura\Bugigangas\Base\Elemento;
+use Exception;
+use ReflectionClass;
 
 /**
  * Class Abstrata Campo
  */
-abstract class Campo implements InterfaceElementoForm
+abstract class Campo
 {
     # Propriedades
-    protected $nome;
+    protected int $id;
+    protected string $nome;
     protected $tamanho;
     protected $valor;
     protected $editavel;
@@ -30,25 +37,24 @@ abstract class Campo implements InterfaceElementoForm
      */
     public function __construct($nome)
     {
+        $cr = new ReflectionClass($this);
+        $nomeclasse = $cr->getShortName();
+
+        if (empty($nome)) {
+            throw new Exception("O parâmetro nome do construtor de {$nomeclasse} é obrigatório");
+        }
+
         # Talvez seja melhor tornar estes métodos estáticos
         $this->defEditavel(true);
         $this->defNome($nome);
-    }
 
-    /**
-     * Método defPropriedade
-     */
-    public function  defPropriedade($nome, $valor)
-    {
-        $this->propriedades[$nome] = $valor;
-    }
+        # Inicializa array de validações
+        $this->validacoes   = [];
+        $this->propriedades = [];
 
-    /**
-     * Método obtPropriedade
-     */
-    public function  obtPropriedade($nome)
-    {
-        return $this->propriedades[$nome];
+        $this->tag = new Elemento('input');
+        $this->tag->{'class'}  = 'field';
+        $this->tag->{'widget'} = strtolower($nomeclasse);
     }
 
     /**
@@ -74,19 +80,45 @@ abstract class Campo implements InterfaceElementoForm
     }
 
     /**
-     * Método defNome
+     * Retorna se a propriedade está definida
+     * @param $nome Nome propriedade
      */
-    public function defNome($nome)
+    public function __isset($nome)
     {
-        $this->nome = $nome;
+        return isset($this->tag->nome);
     }
 
     /**
-     * Método obtNome
+     * Duplica o objeto
      */
-    public function obtNome()
+    function __clone()
     {
-        return $this->nome;
+        $this->tag = clone $this->tag;
+    }
+
+    /**
+     * Redireciona a função call
+     * 
+     * @param $metodo Nome do método
+     * @param $param Array de parâmetros
+     * 
+     * Nota: É por meio desse método que chamamos os objetos de validação
+     */
+    public function __call($metodo, $param)
+    {
+        if (method_exists($this->tag, $metodo)) {
+            return call_user_func_array( array($this->tag, $metodo), $param);
+        } else {
+            throw new Exception("Método {$metodo} não encontrado");
+        }
+    }
+
+    /**
+     * Define o callback para o método defValor
+     */
+    public function defValorCallback($callback) 
+    {
+        $this->valorCallback = $callback;
     }
 
     /**
@@ -100,25 +132,42 @@ abstract class Campo implements InterfaceElementoForm
     /**
      * Método obtRotulo
      */
-    public function obtRotulo()
+    public function obtRotulo() : string
     {
         return $this->rotuloForm;
     }
 
     /**
-     * Método defClasseRotulo
+     * Método defNome
      */
-    public function defClasseRotulo($classe_rotulo)
+    public function defNome($nome)
     {
-        $this->classe_rotulo = $classe_rotulo;
+        $this->nome = $nome;
     }
 
     /**
-     * Método obtClasseRotulo
+     * Método obtNome
      */
-    public function obtClasseRotulo()
+    public function obtNome() : string
     {
-        return $this->classe_rotulo;
+        return $this->nome;
+    }
+
+    /**
+     * Define o ID do campo
+     * @param $id Uma string contendo o id do campo
+     */
+    public function defId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * Obtém o ID do campo
+     */
+    public function obtId() : int
+    {
+        return $this->id;
     }
 
     /**
@@ -132,9 +181,44 @@ abstract class Campo implements InterfaceElementoForm
     /**
      * Método obtValor
      */
-    public function obtValor()
+    public function obtValor() : string
     {
         return $this->valor;
+    }
+
+    /**
+     * Define o nome do formulário para o qual o campo está anexando
+     * @param $nome Uma string contendo o nome do formulário
+     * @ignore-autocomplete on
+     */
+    public function defNomeForm($nome)
+    {
+        $this->nomeForm = $nome;
+    }
+
+    /**
+     * Retorna o nome do formulário para o qual o campo está anexando
+     */
+    public function obtNomeForm() 
+    {
+        return $this->nomeForm;
+    }
+
+    /**
+     * Define a dica do campo
+     * @param $nome Uma string contendo o dica do campo
+     */
+    public function defDica($dica)
+    {
+        $this->tag->{'title'} = $dica;
+    }
+
+    /**
+     * Retorna os dados postados
+     */
+    public function obtDadosPost() : string
+    {
+        return $_POST[$this->nome] ?? '';
     }
 
     /**
@@ -148,9 +232,55 @@ abstract class Campo implements InterfaceElementoForm
     /**
      * Método obtEditavel
      */
-    public function obtEditavel()
+    public function obtEditavel() : bool
     {
         return $this->editavel;
+    }
+
+    /**
+     * Método defPropriedade
+     */
+    public function defPropriedade($nome, $valor, $substitui = TRUE)
+    {
+        if ($substitui) {
+            # Encarrega a propriedade de atribuição ao objeto composto
+            $this->tag->$nome = $valor;
+        } else {
+            if ($this->tag->$nome) {
+                # Encarrega a propriedade de atribuição ao objeto composto
+                $this->tag->$nome = $this->tag->$nome . ';' . $valor;
+            } else {
+                # Encarrega a propriedade de atribuição ao objeto composto
+                $this->tag->$nome = $valor;
+            }
+        }
+        $this->propriedades[$nome] = $this->tag->$nome;
+    }
+
+    /**
+     * Retorna a propriedade como uma string
+     */
+    public function obtPropriedadesComoString($filtro = null) : string
+    {
+        $conteudo = '';
+
+        if ($this->propriedades) {
+            foreach ($this->propriedades as $nome => $valor) {
+                if (empty($filtro) || ($filtro && strpos($nome, $filtro) !== false)) {
+                    $valor = \str_replace('"', '&quot;', $valor);
+                    $conteudo .= " {$nome}=\"{$valor}\"";
+                }
+            }
+        }
+        return $conteudo;
+    }
+
+    /**
+     * Método obtPropriedade
+     */
+    public function  obtPropriedade($nome) : string
+    {
+        return $this->propriedades[$nome];
     }
 
     /**
@@ -159,5 +289,92 @@ abstract class Campo implements InterfaceElementoForm
     public function defTamanho($largura, $altura = NULL)
     {
         $this->tamanho = $largura;
+    }
+
+    /**
+     * Método defTamanho
+     */
+    public function obtTamanho() : float
+    {
+        return $this->tamanho;
+    }
+
+    /**
+     * Adiciona validador de campo
+     * @param $rotulo Nome do campo
+     * @param $validador Objeto 
+     * @param $parametros Parâmetros adicionais (array)
+     */
+    public function adicValidacao($rotulo, ValidadorCampo $validador, $parametros = NULL) 
+    {
+        $this->validacoes[] = array($rotulo, $validador, $parametros);
+
+        if ($validador instanceof ValidadorObrigatorio) {
+            $this->tag->{'required'} = '';
+        }
+
+        if ($validador instanceof ValidadorEmail) {
+            $this->tag->{'type'} = 'email';
+        }
+
+        if ($validador instanceof ValidadorComprimentoMin) {
+            $this->tag->{'minlength'} = $parametros[0];
+        }
+
+        if ($validador instanceof ValidadorComprimentoMin) {
+            $this->tag->{'maxlength'} = $parametros[0];
+        }
+    }
+
+    /**
+     * Retorna validações de campo
+     */
+    public function obtValidacoes() : array
+    {
+        return $this->validacoes;
+    }
+
+    /**
+     * Retorna se o campo é obrigatório
+     */
+    public function ehObrigatorio()
+    {
+        if ($this->validacoes) {
+            foreach ($this->validacoes as $validacao) {
+                $validador = $validacao[1];
+                if ($validador instanceof ValidadorObrigatorio) {
+                    return TRUE;
+                }
+            }
+        }
+        return FALSE;
+    }
+
+    /**
+     * Valida o campo
+     */
+    public function valida()
+    {
+        if ($this->validacoes) {
+            foreach ($this->validacoes as $validacao) {
+                $rotulo     = $validacao[0];
+                $validador  = $validacao[1];
+                $parametros = $validacao[2];
+
+                $validacao->valida($rotulo, $this->obtValor(), $parametros);
+            }
+        }
+    }
+
+    /**
+     * Retorna o elemento conteúdo como uma string
+     */
+    public function obtConteudos() : string
+    {
+        ob_start();
+        $this->exibe();
+        $conteudo = ob_get_contents();
+        ob_end_clean();
+        return $conteudo;
     }
 }

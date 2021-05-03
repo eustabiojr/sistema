@@ -9,13 +9,19 @@
 
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Form\Campo;
-use Estrutura\Bugigangas\Form\InterfaceElementoForm;
 
  /**
   * Class Rotulo
   */
-class Arquivo extends Campo implements InterfaceElementoForm
-{
+class Arquivo extends Campo implements InterfaceBugiganga
+{   
+    public function __construct($nome)
+    {
+        parent::__construct($nome);
+        $this->id = $this->nome . '_' . mt_rand(1000000000, 1999999999);
+        $this->classeUploader = 'ServicoUploaderAgeu';
+        $this->tratadorArquivo = FALSE;
+    }
     /**
      * Método exibe
      */

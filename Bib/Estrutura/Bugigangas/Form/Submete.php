@@ -13,7 +13,7 @@ use Estrutura\Controle\InterfaceAcao;
 /**
  * Classe Botao 
  */
-class Submete extends Campo implements InterfaceElementoForm
+class Submete extends Campo implements InterfaceBugiganga
 {
     private $acao;
     private $rotulo;

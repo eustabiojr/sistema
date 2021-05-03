@@ -16,7 +16,7 @@ class Elemento {
     protected $nometag;
     protected $propriedades;
     protected $filhos;
-    protected $elementos_simples = array();
+    protected $elementos_vazios = array();
 
     /**
      * Método __construct
@@ -24,7 +24,7 @@ class Elemento {
     public function __construct($nome)
     {
         $this->nometag = $nome;
-        $this->elementos_simples = array('meta', 'link', 'input', 'img', 'hr', 'base', 'area', 'col', 'param', 'track','comand','embed','wbr');
+        $this->elementos_vazios = array('meta', 'link', 'input', 'img', 'hr', 'base', 'area', 'col', 'param', 'track','comand','embed','wbr');
     }
 
     /**
@@ -69,7 +69,7 @@ class Elemento {
                 }
             }
             # caso a tag não esteja no array, fazemos o fechamento
-            if (!in_array($this->nometag, $this->elementos_simples)) {
+            if (!in_array($this->nometag, $this->elementos_vazios)) {
                 # Em elementos vazios esse fechamento não deve acontecer.
                 $this->fecha(); # fecha tag
             }

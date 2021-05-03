@@ -14,7 +14,7 @@ use Estrutura\Bugigangas\Form\InterfaceElementoForm;
  /**
   * Class Rotulo
   */
-class Texto extends Campo implements InterfaceElementoForm
+class Texto extends Campo implements InterfaceBugiganga
 {
     private $largura;
     private $altura = 100;

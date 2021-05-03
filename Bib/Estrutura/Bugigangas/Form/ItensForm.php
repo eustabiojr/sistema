@@ -38,13 +38,8 @@ class ItensForm
     /**
      * Método adicLinhaForm ($classe_linha, $rotulo, array $entrada, $valor = NULL) | $classe_linha, 
      */
-    public function adicGrupoForm($rotulo, InterfaceElementoForm $objeto, $props_grupo, array $props_rotulo, 
-                                  array $props_entrada, array $props_validacao = array())
+    public function adicGrupoForm(InterfaceElementoForm $objeto, $props_grupo, array $props_rotulo, array $props_entrada, array $props_validacao = array())
     {
-        $tamanho = $parametros['tamanho'] ?? '100%';
-        $objeto->defTamanho($tamanho);
-        $objeto->defRotulo($rotulo);
-
         $grupo     = array('grupo'      => array('class' => $props_grupo));
         $rotulo    = array('rotulo'     => array_merge(array('class' => 'form-label'), $props_rotulo));
         $validacao = array('validacao'  => $props_validacao);

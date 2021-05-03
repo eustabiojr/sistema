@@ -12,7 +12,7 @@ use Estrutura\Bugigangas\Base\Elemento;
 /**
  * Classe GrupoRadio 
  */
-class GrupoRadio extends Campo implements InterfaceElementoForm
+class GrupoRadio extends Campo implements InterfaceBugiganga
 {
     private $esboco = "vertical";
     private $itens;

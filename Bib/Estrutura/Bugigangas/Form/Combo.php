@@ -14,7 +14,7 @@ use Estrutura\Bugigangas\Form\InterfaceElementoForm;
 /**
  * Class Combo
  */
-class Combo extends Campo implements InterfaceElementoForm
+class Combo extends Campo implements InterfaceBugiganga
 {
     private $itens;
     protected $propriedades;

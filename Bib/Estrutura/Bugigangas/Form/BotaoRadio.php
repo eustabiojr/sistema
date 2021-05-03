@@ -12,7 +12,7 @@ use Estrutura\Bugigangas\Base\Elemento;
 /**
  * Class Abstrata Campo
  */
-class BotaoRadio extends Campo implements InterfaceElementoForm
+class BotaoRadio extends Campo implements InterfaceBugiganga
 {
     /**
      * Método exibe

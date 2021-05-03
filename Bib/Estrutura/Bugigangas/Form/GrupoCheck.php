@@ -12,7 +12,7 @@ use Estrutura\Bugigangas\Base\Elemento;
 /**
  * Classe GrupoCheck 
  */
-class GrupoCheck extends Campo implements InterfaceElementoForm
+class GrupoCheck extends Campo implements InterfaceBugiganga
 {
     private $esboco = "vertical";
     private $itens;

@@ -12,7 +12,7 @@ use Estrutura\Bugigangas\Base\Elemento;
  /**
   * Class Rotulo
   */
-class Data extends Campo implements InterfaceElementoForm
+class Data extends Campo implements InterfaceBugiganga
 {
     # propriedades
     protected $propriedades;

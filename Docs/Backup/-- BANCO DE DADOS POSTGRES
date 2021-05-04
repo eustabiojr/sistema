@@ -7,3 +7,7 @@
 
 Atenção: Não é necessário entrar no shell do postgres para realizar o backup. Estando no shell do Linux dê o seguinte comando:
 pg_dump -h localhost -U eustabiojr ageubd > 14-03-2021-1-backup.sql
+
+No Windows com a pasta ‘bin’ do PostgreSQL no Path do sistema, dei o seguinte comando para realizar o restore do banco de dados:
+psql.exe -U postgres -d ageubd -f ‘22-04-2021-1-backup.sql’  (sem as aspas)
+psql.exe -U eustabiojr -d ageubd -f 22-04-2021-1-backup.sql

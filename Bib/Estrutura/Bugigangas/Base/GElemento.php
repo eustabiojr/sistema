@@ -10,12 +10,13 @@ namespace Estrutura\Bugigangas\Base;
 /**
  * Classe GElemento
  */
-class GElemento
+class Elemento2
 {
 	private $nometag;
 	private $usaQuebraLinha;
 	private $propriedades;
 	protected $filhos;
+	private $embalado;
 	private static $elementos_vazios;
 	private $oculto;
 
@@ -28,6 +29,7 @@ class GElemento
 		$this->nometag 		   = $nometag;
 		$this->usaQuebraLinha  = TRUE;
 		$this->usaAspasSimples = FALSE;
+		$this->embalado		   = FALSE;
 		$this->propriedades	   = [];
 		$this->oculto		   = FALSE;
 
@@ -36,6 +38,38 @@ class GElemento
             self::$elementos_vazios = array('area', 'base', 'br', 'col', 'command', 'embed', 'hr','img', 'input', 
             								'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr');
         }
+	}
+
+	/**
+	* Método tag
+	*/
+	public static function tag($nome_tag, $valor, $atributos = NULL)
+	{
+		$objeto = new Elemento2($nome_tag);
+
+		if(is_array($valor)) {
+			foreach ($valor as $elemento) {
+				$objeto->adic($elemento);
+			}
+		} else {
+			$objeto->adic($valor);
+		}
+
+		if($atributos) {
+			foreach ($atributos as $atrib_nome => $atrib_valor) {
+				$objeto->$atrib_nome = $atrib_valor;
+			}
+		}
+
+		return $objeto;
+	}
+
+	/**
+	* Oculta objeto
+	*/
+	public function oculta()
+	{
+		$this->oculto = true;
 	}
 
 	/**
@@ -52,6 +86,24 @@ class GElemento
 	public function obtNome()
 	{
 		return $this->nometag;
+	}
+
+	/**
+	* Define se o objeto está embalado dentro de outro
+	*
+	* $param $bool é TRUE se estiver embalado
+	*/
+	public function defEstaEmbalado($bool)
+	{
+		$this->embalado = $bool;
+	}
+
+	/**
+	* Retorna se o objeto está embalado dentro de outro
+	*/
+	public function obtEstaEmbalado()
+	{
+		return $this->embalado;
 	}
 
 	/**
@@ -119,6 +171,85 @@ class GElemento
 		}
 	}
 
+	/**
+	* Retorna se a propriedade está definida ou não
+	* 
+	* @param nome da propriedade
+	*/
+	public function __isset($nome) 
+	{
+		return isset($this->propriedades[$nome]);
+	}
+
+	/**
+	* Adiciona um filho
+	*/
+	public function adic($filho) 
+	{
+		$this->filhos = $filho;
+		if ($filho instanceof Elemento2) {
+			$this->defEstaEmbalado(TRUE);
+		}
+	}
+
+	/**
+	* Define o uso de quebra de linha
+	* @param $quebralinha booleano
+	*/
+	public function defUsaQuebraLinha($quebralinha)
+	{
+		$this->usaQuebraLinha = $quebralinha;
+	}
+
+	/**
+	* Define o uso de aspas simples
+	* @param $aspas_simples booleano
+	*/
+	public function obtUsaQuebraLinha($aspas_simples)
+	{
+		$this->usaAspasSimples = $aspas_simples;
+	}
+
+	/**
+	* Apaga um elemento filho 
+	*
+	* @param $filho Qualquer objeto que implemente o método exibe()
+	*/
+	public function apag($objeto)
+	{
+		foreach ($this->filhos as $chave => $filho) {
+			if ($filho === $objeto) {
+				unset($this->filhos[$chave]);
+			}
+		}
+	}
+
+	/**
+	* Retorna os filhos
+	*/
+	public function obtFilhos()
+	{
+		return $this->filhos;
+	}
+
+	/**
+	* //------------------------ INICIO ---------------------------
+	*/
+	public function localiza($elemento, $propriedades = NULL)
+	{
+		if($this->filhos) {
+			foreach ($this->filhos as $filho) {
+				if ($filho instanceof Elemento2) {
+
+				}
+			}
+		}
+		return [];
+	}
+	
+	/**
+	* Abre a tag
+	*/
 	public function abre()
 	{
 		echo "<{$this->nometag}";
@@ -197,11 +328,32 @@ class GElemento
 			echo PHP_EOL;
 		}
 	}
+
+	/**
+	* Converte o objeto em uma string
+	*/
+	public function __toString()
+	{
+		return $this->obtConteudos();
+	}
+
+	/**
+	* Retorna o conteúdo do elemento como uma string
+	*/
+	public function obtConteudos()
+	{
+		ob_start();
+		$this->exibe();
+		$conteudo = ob_get_contents();
+		ob_end_clean();
+		return $conteudo;
+	}
+
+	/**
+	* Esvazia elemento filhos
+	*/
+	public function limpaFilhos()
+	{
+		$this->filhos = [];
+	}
 }
-
-//--------------------------------------------------------------------------------------------
-
-$e = new GElemento('input');
-$e->defPropriedade("type", "text");
-$e->id = 'id1';
-$e->exibe();

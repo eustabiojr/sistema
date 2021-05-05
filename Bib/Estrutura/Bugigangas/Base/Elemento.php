@@ -44,6 +44,8 @@ class Elemento
 
 	/**
 	* Método tag
+	* 
+	* Cria uma tag html com seus respectivos atributos a a retorna
 	*/
 	public static function tag($nome_tag, $valor, $atributos = NULL)
 	{

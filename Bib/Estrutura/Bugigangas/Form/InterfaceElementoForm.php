@@ -15,7 +15,7 @@ interface InterfaceElementoForm {
     public function defNome($nome);
     public function obtNome();
     public function adicCampo(InterfaceBugiganga $campo);
-    public function apagCampos(InterfaceBugiganga $campo);
+    public function apagCampo(InterfaceBugiganga $campo);
     public function defCampos($campos);
     public function obtCampo($nome);
     public function obtCampos();

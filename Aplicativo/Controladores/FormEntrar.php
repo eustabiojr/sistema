@@ -31,8 +31,8 @@ class FormEntrar extends Pagina
     public function __construct()
     {
         $this->conexao = 'exemplo';
-        $this->fc = new FichaSincronizadora;
-        $this->fc->adicFicha(md5(uniqid('auth')));
+        #$this->fc = new FichaSincronizadora;
+        #$this->fc->adicFicha(md5(uniqid('auth')));
         
         parent::__construct();
 
@@ -60,7 +60,7 @@ class FormEntrar extends Pagina
         $ficha->defEditavel(FALSE);
         
         # obtém a ficha no formulário
-        $ficha->value = $this->fc->obtFichaInterna();
+        //$ficha->value = $this->fc->obtFichaInterna();
         $this->form->adicCampo('Entrar', $usuario, 200);
         $this->form->adicCampo('Senha', $senha, 200);
         $this->form->adicCampo('', $ficha);

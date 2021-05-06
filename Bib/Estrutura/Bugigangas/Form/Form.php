@@ -8,16 +8,24 @@
  # Espaço de nomes
 namespace Estrutura\Bugigangas\Form;
 
+use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Controle\InterfaceAcao;
 use Exception;
+use ReflectionClass;
 
 /**
  * Class Form
  */
-class Form 
+class Form implements InterfaceElementoForm 
 {
     protected $titulo;
-    protected $campos = array();
+    protected $campos;
+    protected $filhos;
+    protected $funcao_js;
+    protected $elemento;
+    protected $campos_silenciosos;
+    static private $forms;
+
     protected $acoes;
     protected $itens_grupo;
 
@@ -26,8 +34,80 @@ class Form
      */
     public function __construct($nome = 'meu_form')
     {
-        $this->defNome($nome);
+        if ($nome) {
+            $this->defNome($nome);
+        }
+        $this->filhos = [];
+        $this->campos_silenciosos = [];
+        $this->elemento = new Elemento('form');
     }
+
+    /**
+     * Intercepta sempre que alguém atribuir uma nova propriedade
+     * 
+     * @param $nome     Nome propriedade
+     * @param $valor    Valor propriedade
+     */
+    public function __set($nome, $valor)
+    {
+        $cr = new ReflectionClass($this);
+        $nomeclasse = $cr->getShortName();
+
+        if (in_array($nomeclasse, array('Form', 'FormRapido'))) {
+            # obbjetos e arrays não são definidos como propriedades
+            if (is_scalar($valor)) {
+                $this->elemento->$nome = $valor;
+            }
+        } else {
+            $this->$nome = $valor;
+        }
+    }
+
+    /**
+     * Campo silencioso
+     */
+    public function campoSilencioso($nome) 
+    {
+        $this->campos_silenciosos[] = $nome;
+    }
+
+    /**
+     * Intercepta sempre que alguém atribuir uma nova propriedade
+     * 
+     * @param $nome     Nome propriedade
+     * @param $valor    Valor propriedade
+     */
+    public function defPropriedade($nome, $valor, $substitui = TRUE)
+    {
+        if ($substitui) {
+            $this->elemento->$nome = $valor;
+        } else {
+            if ($this->elemento->$nome) {
+                $this->elemento->$nome = $this->elemento->$nome ; ';' . $valor;
+            } else {
+                $this->elemento->$nome = $valor;
+            }
+        }
+    }
+
+    /**
+     * Redefine propriedade de formulário
+     */
+    public function redefinePropriedade($nome)
+    {
+        unset($this->elemento->$nome);
+    }
+
+    /**
+     * Retorna o objeto formulário pelo seu nome
+     */
+    public static function obtNomePeloNome($nome)
+    {
+        if (isset(self::$forms[$nome])) {
+            return self::$forms[$nome];
+        }
+    }
+
 
     /**
      * Método defNome
@@ -35,6 +115,9 @@ class Form
     public function defNome($nome)
     {
         $this->nome = $nome;
+
+        # registra o nome do formulário
+        self::$forms[$this->nome] = $this;
     }
 
     /**
@@ -46,20 +129,42 @@ class Form
     }
 
     /**
-     * Método defTitulo
+     * Envia dados para o formulário localizado na janela pai
+     * 
+     * @param $nome_form    Nome do formulário
+     * @param $objeto       Um objeto contendo dados de formulário
      */
-    public function defTitulo($titulo)
+    public static function enviaDados($nome_form, $objeto, $agrega = FALSE, $diparaEventos = TRUE, $expira = 0)
     {
-        $this->titulo = $titulo;
+        $param_dispara = $diparaEventos ? 'true' : 'false';
+
+        if ($objeto) {
+            foreach ($objeto as $campo => $valor) {
+                if (is_array($valor)) {
+                    $valor = implode('|', $valor);
+                }
+
+                $valor = addslashes($valor);
+                # Filtragem que assegura de unicode
+                $valor = str_replace(array("\n", "\r"), array( '\n', '\r'), $valor);
+            }
+        }
     }
 
     /**
-     * Método obtTitulo
+     * Define se o formulário será editável
+     * 
+     * @param $bool Um booleano
      */
-    public function obtTitulo()
+    public function defEditavel($bool)
     {
-        return $this->titulo;
+        if ($this->campos) {
+            foreach ($this->campos as $objeto) {
+                $objeto->defEditavel($bool);
+            }
+        }
     }
+
 
     /**
      * Método adicCampo
@@ -67,7 +172,7 @@ class Form
      * Com a classe EmbalaForms os campos são gravados na classe ItensForm. Vou precisar
      * fazer uma adaptação aqui. 
      */
-    public function adicCampo(InterfaceElementoForm $objeto_campo)
+    public function adicCampo(InterfaceBugiganga $objeto_campo)
     {
         $nome = $objeto_campo->obtNome();
         if (isset($this->campos[$nome]) AND substr($nome, -2) !== '[]') {
@@ -76,6 +181,11 @@ class Form
         # Esta propriedade precisa ser trabalhada.
         if ($nome) {
             $this->campos[$nome] = $objeto_campo;
+            $objeto_campo->defNomeForm($this->nome);
+            
+            if ($objeto_campo instanceof Botao) {
+                $objeto_campo->adicFunction($this->funcao_js);
+            }
         }
         
     }
@@ -101,6 +211,15 @@ class Form
     public function apagCampos()
     {
         $this->campos = array();
+    }
+
+    /**
+     * Método obtCampos
+     */
+    public function obtCampo($nome) 
+    {
+        if (isset($this->campos[$nome]))
+        return $this->campos[$nome];
     }
 
     /**

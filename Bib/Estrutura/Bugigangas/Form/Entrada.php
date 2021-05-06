@@ -16,6 +16,7 @@ class Entrada extends Campo implements InterfaceBugiganga
 {
     # propriedades
     protected $propriedades;
+    protected $id;
 
     public function __construct($nome)
     {
@@ -31,9 +32,9 @@ class Entrada extends Campo implements InterfaceBugiganga
         # atribui as propriedades da tag
         $tag = new Elemento('input'); 
         $tag->class = 'field';
-        $tag->name = $this->nome;
+        $tag->name  = $this->nome;
         $tag->value = $this->valor;
-        $tag->type = 'text';
+        $tag->type  = 'text';
         $tag->style = "width: {$this->tamanho}";
 
         # caso o campo não seja editável

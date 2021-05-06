@@ -12,6 +12,7 @@ use Ageunet\Validacao\ValidadorCampo;
 use Ageunet\Validacao\ValidadorComprimentoMin;
 use Ageunet\Validacao\ValidadorEmail;
 use Ageunet\Validacao\ValidadorObrigatorio;
+use Closure;
 use Estrutura\Bugigangas\Base\Elemento;
 use Exception;
 use ReflectionClass;
@@ -22,13 +23,13 @@ use ReflectionClass;
 abstract class Campo
 {
     # Propriedades
-    protected int $id;
-    protected string $nome;
+    protected $id;
+    protected $nome;
     protected $tamanho;
     protected $valor;
     protected $editavel;
     protected $tag;
-    protected $rotuloForm;
+    protected $rotulo;
     protected $propriedades;
     private   $validacoes;
 
@@ -41,7 +42,7 @@ abstract class Campo
         $nomeclasse = $cr->getShortName();
 
         if (empty($nome)) {
-            throw new Exception("O parâmetro nome do construtor de {$nomeclasse} é obrigatório");
+            throw new Exception("O parâmetro {$nome} do construtor de {$nomeclasse} é obrigatório");
         }
 
         # Talvez seja melhor tornar estes métodos estáticos
@@ -109,7 +110,7 @@ abstract class Campo
         if (method_exists($this->tag, $metodo)) {
             return call_user_func_array( array($this->tag, $metodo), $param);
         } else {
-            throw new Exception("Método {$metodo} não encontrado");
+            throw new Exception("Método {$metodo}() não encontrado");
         }
     }
 
@@ -126,7 +127,7 @@ abstract class Campo
      */
     public function defRotulo($rotulo)
     {
-        $this->rotuloForm = $rotulo;
+        $this->rotulo = $rotulo;
     }
 
     /**
@@ -134,7 +135,7 @@ abstract class Campo
      */
     public function obtRotulo() : string
     {
-        return $this->rotuloForm;
+        return $this->rotulo;
     }
 
     /**
@@ -176,6 +177,12 @@ abstract class Campo
     public function defValor($valor)
     {
         $this->valor = $valor;
+
+        if (!empty($this->valorCallback) && ($this->valorCallback instanceof Closure))
+        {
+            $callback = $this->valorCallback;
+            $callback($this, $valor);
+        }
     }
 
     /**
@@ -231,6 +238,8 @@ abstract class Campo
 
     /**
      * Método obtEditavel
+     * Define se o campo é editável
+     * @param $editavel A booleano
      */
     public function obtEditavel() : bool
     {
@@ -267,7 +276,7 @@ abstract class Campo
         if ($this->propriedades) {
             foreach ($this->propriedades as $nome => $valor) {
                 if (empty($filtro) || ($filtro && strpos($nome, $filtro) !== false)) {
-                    $valor = \str_replace('"', '&quot;', $valor);
+                    $valor = str_replace('"', '&quot;', $valor);
                     $conteudo .= " {$nome}=\"{$valor}\"";
                 }
             }
@@ -361,7 +370,7 @@ abstract class Campo
                 $validador  = $validacao[1];
                 $parametros = $validacao[2];
 
-                $validacao->valida($rotulo, $this->obtValor(), $parametros);
+                $validador->valida($rotulo, $this->obtValor(), $parametros);
             }
         }
     }

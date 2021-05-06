@@ -224,7 +224,7 @@ class Elemento
 	*/
 	public function adic($filho) 
 	{
-		$this->filhos = $filho;
+		$this->filhos[] = $filho;
 		if ($filho instanceof Elemento) {
 			$this->defEstaEmbalado(TRUE);
 		}
@@ -338,7 +338,7 @@ class Elemento
 		}
 
         # caso a tag não esteja no array, fazemos o fechamento
-        if (!in_array($this->nometag, self::$elementos_vazios)) {
+        if (in_array($this->nometag, self::$elementos_vazios)) {
         	echo '/>';
         } else {
         	echo '>';  	

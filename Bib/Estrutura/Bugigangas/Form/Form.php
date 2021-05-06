@@ -16,7 +16,7 @@ use ReflectionClass;
 /**
  * Class Form
  */
-class Form implements InterfaceElementoForm 
+class Form implements InterfaceElementoForm
 {
     protected $titulo;
     protected $campos;
@@ -101,7 +101,7 @@ class Form implements InterfaceElementoForm
     /**
      * Retorna o objeto formulário pelo seu nome
      */
-    public static function obtNomePeloNome($nome)
+    public static function obtFormPeloNome($nome)
     {
         if (isset(self::$forms[$nome])) {
             return self::$forms[$nome];
@@ -172,19 +172,19 @@ class Form implements InterfaceElementoForm
      * Com a classe EmbalaForms os campos são gravados na classe ItensForm. Vou precisar
      * fazer uma adaptação aqui. 
      */
-    public function adicCampo(InterfaceBugiganga $objeto_campo)
+    public function adicCampo(InterfaceBugiganga $campo)
     {
-        $nome = $objeto_campo->obtNome();
+        $nome = $campo->obtNome();
         if (isset($this->campos[$nome]) AND substr($nome, -2) !== '[]') {
             throw new Exception("Você já adicionou o campo {$nome} ao formulário");
         }
         # Esta propriedade precisa ser trabalhada.
         if ($nome) {
-            $this->campos[$nome] = $objeto_campo;
-            $objeto_campo->defNomeForm($this->nome);
+            $this->campos[$nome] = $campo;
+            $campo->defNomeForm($this->nome);
             
-            if ($objeto_campo instanceof Botao) {
-                $objeto_campo->adicFunction($this->funcao_js);
+            if ($campo instanceof Botao) {
+                $campo->adicFunction($this->funcao_js);
             }
         }
         
@@ -194,7 +194,7 @@ class Form implements InterfaceElementoForm
      * Remove a form field
      * @param $field Object
      */
-    public function apagCampo(InterfaceElementoForm $campo)
+    public function apagCampo(InterfaceBugiganga $campo)
     {
         if ($this->campos) {
             foreach($this->campos as $nome => $objeto) {
@@ -211,6 +211,22 @@ class Form implements InterfaceElementoForm
     public function apagCampos()
     {
         $this->campos = array();
+    }
+
+    /**
+     * Remove todos os campos
+     */
+    public function defCampos($campos)
+    {
+        if (is_array($campos)) {
+            $this->campos = array();
+            $this->funcao_js = '';
+            foreach ($campos as $campo) {
+                $this->adicCampo(($campo));
+            }
+        } else {
+            throw new Exception("O método {__METHOD__} deve receber um parâmetro tipo Array");
+        }
     }
 
     /**
@@ -333,17 +349,26 @@ class Form implements InterfaceElementoForm
     public function defDados($objeto)
     {
         foreach($this->campos as $nome => $campo) {
-            if ($nome AND isset($objeto->$nome)) {
-                $campo->defValor($objeto->$nome);
+            if ($nome) {
+                if (isset($objeto->$nome)) {
+                    $campo->defValor($objeto->$nome);
+                }
             }
         }
     }
 
     /**
      * Método obtDados
+     * 
+     * Retorna os dados POST como um objeto
+     * @param $classe A string contendo a classe para o objeto de retorno
      */
     public function obtDados($classe = 'stdClass')
     {
+        if (!class_exists($classe)) {
+            throw new Exception("A classe {$classe} não encontrada em {__METHOD__}");
+        }
+
         $objeto = new $classe;
 
         /**
@@ -351,14 +376,84 @@ class Form implements InterfaceElementoForm
          * em um objeto genérico.
          */
         foreach ($this->campos as $chave => $objetoCampo) {
-            $val = $_POST[$chave] ?? '';
-            $objeto->$chave = $val;
+            $chave = str_replace(['[',']'], ['',''], $chave);
+            if (!$objetoCampo instanceof Botao && !in_array($chave, $this->campos_silenciosos)) {
+                #$val = $_POST[$chave] ?? '';
+                $objeto->$chave = $objetoCampo->obtDadosPost();
+            }
         }
 
         # percorre os arquivos de upload
-        foreach($_FILES as $chave => $conteudo) {
-            $objeto->$chave = $conteudo['nome_tmp'];
+        #foreach($_FILES as $chave => $conteudo) {
+        #    $objeto->$chave = $conteudo['nome_tmp'];
+        #}
+        return $objeto;
+    }
+
+    /**
+     * Método obtValores
+     * 
+     * Retorna os valores iniciais do formulário como um objeto
+     * @param $classe A string contendo a classe para o objeto de retorno
+     */
+    public function obtValores($classe = 'StdClass', $comOpcoes = false)
+    {
+        if (!class_exists($classe)) {
+            throw new Exception("A classe {$classe} não encontrada em {__METHOD__}");
+        }
+
+        $objeto = new $classe;
+        if ($this->campos) {
+            foreach ($this->campos as $chave => $campo) {
+                $chave = str_replace(['[',']'], ['',''], $chave);
+
+                if (!$campo instanceof Botao) {
+                    if ($comOpcoes AND method_exists($campo, 'obtItens')) {
+                        $itens = $campo->obtItens();
+
+                        if (is_array($campo->obtItens())) {
+                            $valor = [];
+                            foreach ($campo->obtValor() as $valor_campo) {
+                                if ($valor_campo) {
+                                    $valor[] = $itens[$valor_campo];
+                                }
+                            }
+                            $objeto->$chave = $valor;
+                        }
+                    } else {
+                        $objeto->$chave = $campo->obtValor();
+                    }
+                }
+            }
         }
         return $objeto;
+    }
+    /**
+     * Retorna o objeto filho
+     */
+    public function obtFilhos()
+    {
+        return $this->filhos[0];
+    }
+
+    /**
+     * Mostra o formulário na tela
+     */
+    public function exibe()
+    {
+        # define propriedades do formulário
+        $this->elemento->{'enctype'} = "multipart/form-data";
+        $this->elemento->{'name'}    = $this->nome;
+        $this->elemento->{'id'}      = $this->nome;
+        $this->elemento->{'method'}  = 'post';
+
+        # adiciona o recipiente ao formulário
+        if (isset($this->filhos)) {
+            foreach ($this->filhos as $filho) {
+                $this->elemento->adic($filho);
+            }
+        }
+        # exibe o formulário
+        $this->elemento->exibe();
     }
 }

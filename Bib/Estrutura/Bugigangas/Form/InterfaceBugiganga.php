@@ -17,5 +17,6 @@ interface InterfaceBugiganga
     public function obtNome();
     public function defValor($valor);
     public function obtValor();
+    public function defNomeForm($nome);
     public function exibe();
 }

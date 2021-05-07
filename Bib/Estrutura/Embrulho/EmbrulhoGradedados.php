@@ -2,10 +2,10 @@
 /********************************************************************************************
  * Sistema Agenet
  * 
- * Data: 09/03/2021
+ * Data: 06/05/2021
  ********************************************************************************************/
  # Espaço de nomes
-namespace Estrutura\Bugigangas\Embrulho;
+namespace Estrutura\Embrulho;
 
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Gradedados\Gradedados;

@@ -19,6 +19,7 @@ use ReflectionClass;
 class Form implements InterfaceElementoForm
 {
     protected $titulo;
+    protected $nome;
     protected $campos;
     protected $filhos;
     protected $funcao_js;
@@ -111,6 +112,7 @@ class Form implements InterfaceElementoForm
 
     /**
      * Método defNome
+     * define o nome do formulário
      */
     public function defNome($nome)
     {
@@ -122,10 +124,11 @@ class Form implements InterfaceElementoForm
 
     /**
      * Método obtNome
+     * retorna o nome do formulário
      */
     public function obtNome()
     {
-        return $this->nome;
+        return $this->name;
     }
 
     /**

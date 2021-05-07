@@ -5,7 +5,7 @@
  * Data: 09/03/2021
  ********************************************************************************************/
  # Espaço de nomes
-namespace Estrutura\Bugigangas\Embrulho;
+namespace Estrutura\Embrulho;
 
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Recipiente\Cartao;

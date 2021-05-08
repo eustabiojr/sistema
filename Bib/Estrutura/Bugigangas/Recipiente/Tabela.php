@@ -3,7 +3,7 @@
  * Sistema Ageunet
  * Data: 09/06/2020
  ********************************************************************************************/
-namespace Ageunet\Widgets\Recipiente;
+namespace Estrutura\Bugigangas\Recipiente;
 
 # Espaço de nomes
 use Estrutura\Bugigangas\Base\Elemento;

@@ -291,6 +291,19 @@ class Form implements InterfaceElementoForm
             throw new Exception(implode("<br>", $erros));
         }
     }
+
+    /**
+     * Adiciona um recipiente ao formulário (geralmente uma tabela ou cartão)
+     * 
+     * @param $objeto Qualquer objeto que implemente o método exibe()
+     */
+    public function adic($objeto) 
+    {
+        if (!in_array($objeto, $this->filhos)) {
+            $this->filhos[] = $objeto;
+        }
+    }
+
     //--------------------------------------------------------------------------------------------------------------------- 
 
     /**

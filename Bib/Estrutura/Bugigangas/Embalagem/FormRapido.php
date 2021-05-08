@@ -7,7 +7,16 @@
 # Espaço de nomes
 namespace Estrutura\Bugigangas\Embalagem;
 
+use Ageunet\Validacao\ValidadorCampo;
+use Ageunet\Validacao\ValidadorObrigatorio;
+use Estrutura\Bugigangas\Base\CaixaH;
+use Estrutura\Bugigangas\Form\Botao;
 use Estrutura\Bugigangas\Form\Form;
+use Estrutura\Bugigangas\Form\GrupoCheck;
+use Estrutura\Bugigangas\Form\GrupoRadio;
+use Estrutura\Bugigangas\Form\InterfaceBugiganga;
+use Estrutura\Bugigangas\Form\Oculto;
+use Estrutura\Bugigangas\Form\Rotulo;
 use Estrutura\Bugigangas\Recipiente\Tabela;
 use Exception;
 
@@ -154,4 +163,111 @@ class FormRapido extends Form
     {
         return $this->linhasEntrada;
     }
+
+    /**
+     * Adiciona um campo ao formulário
+     * 
+     * @param $rotulo Rotulo do campo
+     * @param $objeto Objeto do campo
+     * @param $tamanho Tamanho do campo
+     * @param $validador Validador do campo
+     */
+    public function adicCampoRapido($rotulo, InterfaceBugiganga $objeto, $tamanho = 200, ValidadorCampo $validador = NULL, $tamanho_rotulo = NULL)
+    {
+        if ($tamanho && !$objeto instanceof GrupoRadio && !$objeto instanceof GrupoCheck) {
+            $objeto->defTamanho($tamanho);
+        }
+        parent::adicCampo($tamanho);
+
+        if ($rotulo instanceof Rotulo) {
+            $rotulo_campo = $rotulo;
+            $valor_rotulo = $rotulo->obtValor();
+        } else {
+            $rotulo_campo = new Rotulo($rotulo);
+            $valor_rotulo = $rotulo;
+        }
+
+        $objeto->defRotulo($valor_rotulo);
+
+        if (empty($this->linhaAtual) OR ($this->posicoesCampo % $this->camposPorLinha) == o) {
+            // adiciona o campo ao recipiente
+            $this->linhaAtual = $this->tabela->adicLinha();
+            $this->linhaAtual->{'class'} = 'gformrow'; ###
+        }
+
+        $linha = $this->linhaAtual;
+
+        if ($validador instanceof ValidadorObrigatorio) {
+            $rotulo_campo->defCorFonte('#FF0000'); ###
+        }
+
+        if ($tamanho_rotulo) {
+            $rotulo_campo->defTamanho($tamanho_rotulo);
+        }
+        if ($objeto instanceof Oculto) {
+            $linha->adicCelula(''); ###
+            $linha->{'style'} = 'display: none';
+        } else {
+            $celula = $linha->adicCelula($rotulo_campo);
+            $celula->{'width'} = '30%';
+        }
+
+        $linha->adicCelula($objeto); ###
+
+        if ($validador) {
+            $objeto->adicValidacao($valor_rotulo, $validador);
+        }
+
+        $this->linhasEntrada[] = array($rotulo_campo, array($objeto), $validador instanceof ValidadorObrigatorio, $linha);
+        $this->posicoesCampo++;
+        return $linha;
+    }
+
+    /**
+     * Adiciona um campo ao formulário
+     * 
+     * @param $rotulo Rotulo do campo
+     * @param $objetos Array de bjetos
+     * @param $obrigatorio Booleano TRUE se obrigatório
+     */
+    public function adicCamposRapido($rotulo, $objetos, $obrigatorio = FALSE)
+    {
+        if (empty($this->linhaAtual) OR ($this->posicoesCampo % $this->camposPorLinha) == 0) {
+            // adiciona o campo ao recipiente
+            $this->linhaAtual = $this->tabela->adicLinha();
+            $this->linhaAtual->{'class'} = 'gformrow'; ###         
+        }
+
+        $linha = $this->linhaAtual;
+
+        if ($rotulo instanceof Rotulo) {
+            $rotulo_campo = $rotulo;
+            $valor_rotulo = $rotulo->obtValor();
+        } else {
+            $rotulo_campo = new Rotulo($rotulo);
+            $valor_rotulo = $rotulo;
+        }
+
+        if ($obrigatorio) {
+            $rotulo_campo->defCorFonte('#FF0000'); ###
+        }
+
+        $linha->adicCelula($objeto); ###
+
+        $caixah = new CaixaH;
+        foreach ($objetos as $objeto) {
+            parent::adicCampo($objeto);
+
+            if (!$objeto instanceof Botao) {
+                $objeto->defRotulo($valor_rotulo);
+            }
+            $caixah->adic($objeto);
+        }
+        $linha->adicCelula($caixah);
+
+        $this->posicoesCampo++;
+        $this->linhasEntrada[] = array($rotulo_campo, $objetos, $obrigatorio, $linha);
+        return $linha;
+    }
+
 }

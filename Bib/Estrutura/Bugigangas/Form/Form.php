@@ -128,7 +128,7 @@ class Form implements InterfaceElementoForm
      */
     public function obtNome()
     {
-        return $this->name;
+        return $this->nome;
     }
 
     /**

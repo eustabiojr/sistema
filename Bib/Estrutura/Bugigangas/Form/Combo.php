@@ -221,7 +221,7 @@ class Combo extends Campo implements InterfaceBugiganga
         }
     }
 
-/**
+    /**
      * Exibe o widget
      */
     public function exibe()

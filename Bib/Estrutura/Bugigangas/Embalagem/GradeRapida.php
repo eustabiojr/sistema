@@ -48,6 +48,15 @@ class GradeRapida extends Gradedados
      * Nota: Falta criar a classe GradeDadosAcao
      */
     public function adicAcaoRapida($rotulo, $acao, $campo, $icone = NULL) {
+        $acao->defRotulo($rotulo);
+        if ($icone) {
+            $acao->defImagem($icone);
+        }
 
+        if (is_array($campo)) {
+            $acao->defCampos($campo);
+        } else {
+            $acao->defCampo($campo);
+        }
     }
 }

@@ -7,15 +7,14 @@
 
 use Estrutura\BancoDados\Transacao;
 use Estrutura\Bugigangas\Dialogo\Mensagem;
-use Estrutura\Bugigangas\Embrulho\EmbrulhoForm;
 use Estrutura\Bugigangas\Form\Entrada;
 use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Bugigangas\Form\Oculto;
 use Estrutura\Bugigangas\Form\Senha;
 use Estrutura\Controle\Acao;
 use Estrutura\Controle\Pagina;
+use Estrutura\Embrulho\EmbrulhoForm;
 use Estrutura\Sessao\Sessao;
-use Estrutura\Validacao\FichaSincronizadora;
 
 /**
  * Classe FormEntrar
@@ -38,7 +37,7 @@ class FormEntrar extends Pagina
 
         # Instância um formulário
         $this->form = new EmbrulhoForm(new Form('form_entrar'));
-        $this->form->defTitulo('Entrar');
+        #--$this->form->defTitulo('Entrar');
         $this->form->defTipoLinha(1);
         $this->form->defTituloCabecalho("Identifique-se por favor!");
 
@@ -61,9 +60,9 @@ class FormEntrar extends Pagina
         
         # obtém a ficha no formulário
         //$ficha->value = $this->fc->obtFichaInterna();
-        $this->form->adicCampo('Entrar', $usuario, 200);
-        $this->form->adicCampo('Senha', $senha, 200);
-        $this->form->adicCampo('', $ficha);
+        $this->form->adicCampo($usuario); # 'Entrar'
+        $this->form->adicCampo($senha); # 'Senha', 
+        $this->form->adicCampo($ficha); # '', 
         $this->form->adicAcao('Entrar', new Acao(array($this, 'aoEntrar')));
 
         parent::adic($this->form);

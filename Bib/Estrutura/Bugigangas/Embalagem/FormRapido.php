@@ -18,6 +18,7 @@ use Estrutura\Bugigangas\Form\InterfaceBugiganga;
 use Estrutura\Bugigangas\Form\Oculto;
 use Estrutura\Bugigangas\Form\Rotulo;
 use Estrutura\Bugigangas\Recipiente\Tabela;
+use Estrutura\Controle\Acao;
 use Exception;
 
 /**
@@ -61,7 +62,7 @@ class FormRapido extends Form
     }
 
     /**
-     * Liga/Desliga a validação de cliente (esta valiação se refere a validação nativa do navegador de internet)
+     * Liga/Desliga a validação de cliente (esta validação se refere a validação nativa do navegador de internet)
      */
     public function defValidacaoCliente($bool) 
     {
@@ -270,4 +271,36 @@ class FormRapido extends Form
         return $linha;
     }
 
+    /**
+     * Adiciona um campo ao formulário
+     * 
+     * @param $rotulo Rotulo da ação
+     * @param $acao Objeto ação
+     * @param $icone Ícone da ação
+     */
+    public function adicAaoRapida($rotulo, Acao $acao, $icone = '')
+    {
+        $nome = 'btn_' . strtolower(str_replace(' ', '_', $rotulo));
+        $botao = new Botao($nome);
+        parent::adicCampo($botao);
+
+        # define o botão de ação
+        $botao->defAcao($acao, $rotulo);
+        $botao->defImagem($icone);
+
+        if (!$this->possuiAcao) {
+            $this->acoesRecipiente = new CaixaH;
+
+            $linha = $this->tabela->adicLinha();
+            $linha->{'class'} = 'gacaoform';
+            $this->acaoCelula = $linha->adicCelula($this->acoesRecipiente);
+            $this->acaoCelula->{'colspan'} = 2 * $this->camposPorLinha;
+        }
+
+        # adiciona célula para botão
+        $this->possuiAcao = TRUE;
+        $this->botoesAcao[] = $botao;
+
+        return $botao;
+    }
 }

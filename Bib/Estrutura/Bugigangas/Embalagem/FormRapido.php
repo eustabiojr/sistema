@@ -105,7 +105,7 @@ class FormRapido extends Form
                 $this->acaoCelula->{'colspan'}   = 2 * $this->camposPorLinha;
             }
         } else {
-            throw new Exception("O método {__METHOD__} aceita apenas valores do tipo inteiro entre 1 e 3";)
+            throw new Exception("O método {__METHOD__} aceita apenas valores do tipo inteiro entre 1 e 3");
         }
     }
 
@@ -178,7 +178,7 @@ class FormRapido extends Form
         if ($tamanho && !$objeto instanceof GrupoRadio && !$objeto instanceof GrupoCheck) {
             $objeto->defTamanho($tamanho);
         }
-        parent::adicCampo($tamanho);
+        parent::adicCampo($objeto);
 
         if ($rotulo instanceof Rotulo) {
             $rotulo_campo = $rotulo;
@@ -190,7 +190,7 @@ class FormRapido extends Form
 
         $objeto->defRotulo($valor_rotulo);
 
-        if (empty($this->linhaAtual) OR ($this->posicoesCampo % $this->camposPorLinha) == o) {
+        if (empty($this->linhaAtual) OR ($this->posicoesCampo % $this->camposPorLinha) == 0) {
             // adiciona o campo ao recipiente
             $this->linhaAtual = $this->tabela->adicLinha();
             $this->linhaAtual->{'class'} = 'gformrow'; ###
@@ -253,7 +253,7 @@ class FormRapido extends Form
             $rotulo_campo->defCorFonte('#FF0000'); ###
         }
 
-        $linha->adicCelula($objeto); ###
+        $linha->adicCelula($rotulo_campo); ###
 
         $caixah = new CaixaH;
         foreach ($objetos as $objeto) {

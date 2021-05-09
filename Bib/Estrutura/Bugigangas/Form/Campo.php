@@ -188,7 +188,7 @@ abstract class Campo
     /**
      * Método obtValor
      */
-    public function obtValor() : string
+    public function obtValor()
     {
         return $this->valor;
     }
@@ -301,7 +301,7 @@ abstract class Campo
     }
 
     /**
-     * Método defTamanho
+     * Método obtTamanho
      */
     public function obtTamanho() : float
     {

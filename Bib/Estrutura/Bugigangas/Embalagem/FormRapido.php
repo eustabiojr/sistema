@@ -32,7 +32,7 @@ class FormRapido extends Form
     protected $linhasEntrada;
     protected $linhaAtual;
     protected $tabela;
-    protected $acoesRecipiente;
+    protected $recipienteAcoes;
     protected $possuiAcao;
     protected $camposPorLinha;
     protected $tituloCelula;
@@ -78,7 +78,7 @@ class FormRapido extends Form
      */
     public function obtAcoesRecipiente()
     {
-        return $this->acoesRecipiente;
+        return $this->recipienteAcoes;
     }
 
     /**
@@ -278,7 +278,7 @@ class FormRapido extends Form
      * @param $acao Objeto ação
      * @param $icone Ícone da ação
      */
-    public function adicAaoRapida($rotulo, Acao $acao, $icone = '')
+    public function adicAcaoRapida($rotulo, Acao $acao, $icone = '')
     {
         $nome = 'btn_' . strtolower(str_replace(' ', '_', $rotulo));
         $botao = new Botao($nome);
@@ -289,11 +289,11 @@ class FormRapido extends Form
         $botao->defImagem($icone);
 
         if (!$this->possuiAcao) {
-            $this->acoesRecipiente = new CaixaH;
+            $this->recipienteAcoes = new CaixaH;
 
             $linha = $this->tabela->adicLinha();
             $linha->{'class'} = 'gacaoform';
-            $this->acaoCelula = $linha->adicCelula($this->acoesRecipiente);
+            $this->acaoCelula = $linha->adicCelula($this->recipienteAcoes);
             $this->acaoCelula->{'colspan'} = 2 * $this->camposPorLinha;
         }
 
@@ -302,5 +302,79 @@ class FormRapido extends Form
         $this->botoesAcao[] = $botao;
 
         return $botao;
+    }
+
+    /**
+     * Adiciona um botão ao formulário
+     * 
+     * @param $rotulo Rotulo da ação
+     * @param $acao Ação JS
+     * @param $icone icone da ação
+     */
+    public function adicBotaoRapido($rotulo, $acao, $icone = 'fa:save')
+    {
+        $nome = strtolower(str_replace('','_', $rotulo));
+        $botao = new Botao($nome);
+        parent::adicCampo($botao);
+
+        # define a ação do botão
+        $botao->adicFuncao($acao);
+        $botao->defRotulo($rotulo);
+        $botao->defImagem($icone);
+
+        if (!$this->possuiAcao) {
+            $this->recipienteAcoes = new CaixaH;
+
+            $linha = $this->tabela->adicLinha();
+            $linha->{'class'} = 'gacaoform';
+            $this->acaoCelula = $linha->adicCelula($this->recipienteAcoes);
+            $this->acaoCelula->{'colspan'} = 2 * $this->camposPorLinha;
+        }
+
+        # adiciona célula para botão
+        $this->recipienteAcoes->adicLinha();
+        $this->possuiAcao = TRUE;
+
+        return $botao;
+    }
+
+    /**
+     * Limpar ações linha
+     */
+    public function apagAcoes()
+    {
+        if ($this->recipienteAcoes) {
+            foreach ($this->recipienteAcoes as $chave => $botao) {
+                parent::apagCampo($botao);
+                unset($this->botoesAcao[$chave]);
+            }
+            $this->recipienteAcoes->limparFilhos(); ###
+        }
+    }
+
+    /**
+     * Retorna um array com botões de ação
+     */
+    public function obtBotoesAcao()
+    {
+        return $this->botoesAcao;
+    }
+
+    /**
+     * Desanexa ação de botão
+     */
+    public function desanexaBotoesAcao()
+    {
+        $botoes = $this->obtBotoesAcao();
+        $this->apagAcoes();
+        return $botoes;
+    }
+
+    /**
+     * Adiciona uma linha
+     */
+    public function adicLinha()
+    {
+        return $this->tabela->adicLinha();
     }
 }

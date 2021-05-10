@@ -61,9 +61,9 @@ class ColunaGradedados
     }
     
     /**
-     * Enable column auto hide
+     * Habilita column auto hide
      */
-    public function enableAutoHide($largura)
+    public function habilitaAutoOculta($largura)
     {
         $this->defPropriedade('hiddable', $largura);
         $this->defPropriedadeDados('hiddable', $largura);

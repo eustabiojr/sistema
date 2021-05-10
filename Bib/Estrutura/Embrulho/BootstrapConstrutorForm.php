@@ -31,7 +31,7 @@ use stdClass;
  * @author Pablo Dall'Oglio
  * @license http://www.adianti.com.br/framework-license
  */
-class BootstrapConstrutorFormulario implements InterfaceElementoForm
+class BootstrapConstrutorForm implements InterfaceElementoForm
 {
     private $id;
     private $decorado;

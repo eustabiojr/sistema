@@ -14,7 +14,7 @@ use Ageunet\Widgets\Base\GElemento;
  * @license http://www.adianti.com.br/framework-license
  * @wrapper GCarderno
  */
-class BootstrapEmbalagemCarderno
+class EmbrulhoBootstrapCarderno
 {
     private $decorado;
     private $propriedades;

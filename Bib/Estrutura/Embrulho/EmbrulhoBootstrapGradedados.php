@@ -14,7 +14,7 @@ use Estrutura\Bugigangas\Gradedados\Gradedados;
  * @wrapper GGradeDados
  * @wrapper GGradeRapido
  */
-class BootstrapEmbalgemGradedados
+class EmbrulhoBootstrapGradedados
 {
     private $decorado;
 

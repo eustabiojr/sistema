@@ -18,7 +18,7 @@ use Estrutura\Bugigangas\Form\Rotulo;
  * @license http://www.adianti.com.br/framework-license
  * @wrapper GFormRapido
  */
-class EmbalagemFormBootstrap implements InterfaceElementoForm
+class EmbrulhoBootstrapForm implements InterfaceElementoForm
 {
     private $decorado;
     private $grupoCorrente; 

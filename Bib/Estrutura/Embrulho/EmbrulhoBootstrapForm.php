@@ -18,7 +18,7 @@ use Estrutura\Bugigangas\Form\Rotulo;
  * @license http://www.adianti.com.br/framework-license
  * @wrapper GFormRapido
  */
-class EmbrulhoBootstrapForm implements InterfaceElementoForm
+class BootstrapConstrutorForm implements InterfaceElementoForm
 {
     private $decorado;
     private $grupoCorrente; 
@@ -233,9 +233,9 @@ class EmbrulhoBootstrapForm implements InterfaceElementoForm
                 foreach ($campos as $campo) {
                     if ($this->elemento->{'class'} == 'form-inline') {
                         $rotulo->{'style'} .= ';float: left';
-                        $grupo->adic(BootstrapConstrutorFormulario::embalaCampo($campo, 'inline-block'));
+                        $grupo->adic(BootstrapConstrutorForm::embalaCampo($campo, 'inline-block'));
                     } else {
-                        $col->adic(BootstrapConstrutorFormulario::embalaCampo($campo, 'inline-block'));
+                        $col->adic(BootstrapConstrutorForm::embalaCampo($campo, 'inline-block'));
                     }
                 }
 

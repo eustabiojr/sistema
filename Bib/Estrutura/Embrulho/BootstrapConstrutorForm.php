@@ -5,6 +5,7 @@ namespace Estrutura\Embrulho;
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Script;
 use Estrutura\Bugigangas\Form\Botao;
+use Estrutura\Bugigangas\Form\BotaoBusca;
 use Estrutura\Bugigangas\Form\Campo;
 use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Bugigangas\Form\GrupoCheck;
@@ -13,6 +14,7 @@ use Estrutura\Bugigangas\Form\InterfaceBugiganga;
 use Estrutura\Bugigangas\Form\InterfaceElementoForm;
 use Estrutura\Bugigangas\Form\Oculto;
 use Estrutura\Bugigangas\Form\Rotulo;
+use Estrutura\Bugigangas\Util\LinkAcao;
 use Estrutura\Controle\Acao;
 use Estrutura\Sessao\Sessao;
 use FontLib\Table\Type\name;
@@ -366,7 +368,7 @@ class BootstrapConstrutorForm implements InterfaceElementoForm
                         $this->decorado->adicCampo($conteudo);
                     }
 
-                    if ($conteudo instanceof BootstrapConstrutorFormulario) {
+                    if ($conteudo instanceof BootstrapConstrutorForm) {
                         if ($conteudo->obtCampos()) {
                             foreach ($conteudo->obtCampmos() as $campo) {
                                 $this->decorado->adicCampo($campo);
@@ -401,7 +403,7 @@ class BootstrapConstrutorForm implements InterfaceElementoForm
 
             foreach ($args as $arg) {
                 foreach ($arg as $slot) {
-                    if (!empty($slot) && $slot instanceof BootstrapConstrutorFormulario) {
+                    if (!empty($slot) && $slot instanceof BootstrapConstrutorForm) {
                         if ($slot->obtCampos()) {
                             foreach ($slot->obtCampos() as $campo) {
                                 $this->adicCampo($campo);
@@ -463,7 +465,7 @@ class BootstrapConstrutorForm implements InterfaceElementoForm
     public function adicLinkAcao($rotulo, Acao $acao, $icone = 'fa:save')
     {
         $info_rotulo = ($rotulo instanceof Rotulo) ? $rotulo->obtValor() : $rotulo;
-        $botao = new AcaoLink($info_rotulo, $acao, null, null, null, $icone);
+        $botao = new LinkAcao($info_rotulo, $acao, null, null, null, $icone);
         $botao->{'class'} = 'btn btn-sm btn-default';
         $this->acoes[] = $botao;
         return $botao;
@@ -512,7 +514,7 @@ class BootstrapConstrutorForm implements InterfaceElementoForm
     public function adicLinkAcaoCabecalho($rotulo, Acao $acao, $icone = 'fa:save')
     {
         $info_rotulo = ($rotulo instanceof Rotulo) ? $rotulo->obtValor() : $rotulo;
-        $botao = new AcaoLink($info_rotulo, $acao, null, null, null, $icone);
+        $botao = new LinkAcao($info_rotulo, $acao, null, null, null, $icone);
         $botao->{'class'} = 'btn btn-sm btn-default';
         $this->acoes_cabecalho[] = $botao;
         return $botao;
@@ -751,7 +753,7 @@ class BootstrapConstrutorForm implements InterfaceElementoForm
                             foreach ($slot as $campo) {
                                 $embalagem_campo = self::embalaCampo($campo, 'inline-block', $this->tamanhos_campo);
 
-                                if ( ($contador_campo + 1 < count($slot)) and (!$campo instanceof GBDBotaoBusca) ) { // enchimento menor que o ultimo elemento
+                                if ( ($contador_campo + 1 < count($slot)) and (!$campo instanceof BotaoBusca) ) { // enchimento menor que o ultimo elemento
                                     $embalagem_campo->{'style'} .= ';padding-right: ' . $this->espacamento.'px;';
                                 }
 

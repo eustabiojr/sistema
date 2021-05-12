@@ -1,69 +1,119 @@
 <?php
 /********************************************************************************************
  * Sistema Agenet
- * Data: 18/05/2020
+ * 
+ * Autor: Eustábio J. Silva Jr. 
+ * Data: 03/04/2021
  ********************************************************************************************/
-namespace Estrutura\Bugigangas\Recipiente;
 
-# Espaço de nomes
+ # Espaço de nomes
+namespace Estrutura\Bugigangas\Base\Recipiente;
+
 use Estrutura\Bugigangas\Base\Elemento;
 
+/**
+ * Classe Paginacao
+ */
 class Paginacao extends Elemento
 {
-    private $item;
-
-    public function __construct($links, $rotulo = '')
+    /**
+    * Método Construtor
+    */
+    public function __construct(array $paginas = [], array $params = [])
     {
         parent::__construct('nav');
 
-        $this->{'aria-label'} = $rotulo;
+        $this->{'aria-label'} = $params['classe'] ?? 'Page';
 
-        $paginacao = new Elemento('ul');
-        $paginacao->class = 'pagination';
+	    $ul = new Elemento('ul');
+	    $ul->class = (!isset($params['subclasse'])) ? 'pagination' : 'pagination ' . $params['subclasse'];
 
-        $temp = '';
+        $links_extremidades = $params['links_extremidades'] ?? null;
 
-        foreach ($links as $url => $desc) {
+        $tipo = !isset($params['tipo']) ? 0 : $params['tipo']; 
 
-            $item = new Elemento('li');
-            $item->class = 'page-item';
+        if ($links_extremidades) {
+            $anterior = $tipo === 0 ? 'Anterior' : '&laquo;';
+            $span = new Elemento('span');
+            $span->{'aria-hidden'} = 'true';
+            $span->adic($anterior);
 
-            $link = new Elemento('a');
-            $link->class = 'page-link';
-            $link->href  = $url;
-            $link->adic($desc);
+        	$a = new Elemento('a');
+        	$a->class = 'page-link';
+        	$a->href  = '#';
+        	$a->{'aria-label'} = 'Anterior';
 
-            $item->adic($link);
+            $desativado = false;
+            if (isset($params['item_desativado']) && $params['item_desativado'] == 'anterior') {
+                $desativado = true;
+                $a->tabindex = '-1';
+                $a->{'aria-disabled'} = 'true';
+            }
+            if (isset($params['span'])) {
+                $a->adic($span);
+            } else {
+               $a->adic($anterior);
+            }
 
-            $paginacao->adic($temp);
+        	$li = new Elemento('li'); 
+            if ($desativado) {
+                $li->class = 'page-item disabled'; 
+            } else {
+                $li->class = 'page-item'; 
+            }
+        	$li->adic($a);
+
+        	$ul->adic($li);
         }
 
-        parent::adic($paginacao);
-    }
+        foreach ($paginas as $link => $valor) {
 
-    public function adicLink($nome_link)
-    {
-        $this->item = new Elemento('li');
-        $this->item->class = 'page-item';
+        	$a = new Elemento('a');
+        	$a->class = 'page-link';
+        	$a->href  = '#' . $link;
+        	$a->adic($valor);
 
-        $link = new Elemento('a');
-        $link->class = 'page-link';
-        $link->href  = '#'; # $url;
-        $link->adic($nome_link); # $nome_link
+        	$li = new Elemento('li');
+        	$li->class = 'page-item';
+        	$li->adic($a);
 
-        $this->item->adic($link);
+        	$ul->adic($li);
+        }
+
+        if ($links_extremidades) {
+
+            $anterior = $tipo === 0 ? 'Anterior' : '&laquo;';
+            $span = new Elemento('span');
+            $span->{'aria-hidden'} = 'true';
+            $span->adic($anterior);
+
+        	$a = new Elemento('a');
+        	$a->class = 'page-link';
+        	$a->href  = '#';
+        	$a->{'aria-label'} = 'Anterior';
+            $desativado = false;
+            if (isset($params['item_desativado']) && $params['item_desativado'] == 'posterior') {
+                $desativado = true;
+                $a->tabindex = '-1';
+                $a->{'aria-disabled'} = 'true';
+            }
+            
+            if (isset($params['span'])) {
+                $a->adic($span);
+            } else {
+               $a->adic($anterior);
+            }
+
+        	$li = new Elemento('li');
+            if ($desativado) {
+                $li->class = 'page-item disabled'; 
+            } else {
+                $li->class = 'page-item'; 
+            }
+        	$li->adic($a);
+
+        	$ul->adic($li);
+        }
+	    parent::adic($ul);
     }
 }
-
-/**
- * 
-    function criaLinks($links = Array()) {
-        $temp  = "";
-        $temp .= "<ul>\n";
-        foreach ($links as $ch => $vl) {
-            $temp .= "<li><a href=\"{$ch}.php\">$vl</a></li>\n";
-        }
-        $temp .= "</ul>\n";
-        return $temp;
-    }
- */

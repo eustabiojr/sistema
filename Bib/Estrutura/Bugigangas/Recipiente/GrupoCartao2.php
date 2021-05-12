@@ -11,7 +11,7 @@ namespace Estrutura\Bugigangas\Base\Recipiente;
 /**
  * Classe GrupoCartao (Em desenvolvimento)
  */
-class GrupoCartao
+class GrupoCartao2
 {
     private $itens;
 

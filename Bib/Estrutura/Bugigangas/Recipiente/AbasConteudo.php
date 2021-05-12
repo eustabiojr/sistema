@@ -7,7 +7,7 @@
  ********************************************************************************************/
 
 # Espaço de nomes
-namespace Estrutura\Bugigangas\Base\Recipiente;
+namespace Estrutura\Bugigangas\Recipiente;
 
 use Estrutura\Bugigangas\Base\Elemento;
 

@@ -14,6 +14,8 @@ use Exception;
 /**
  * Recipiente de diálogo JQuery
  * 
+ * Pretendo ajustar essa classe para que ela use JavaScript puro em vez de JQuery
+ * 
  * @version 0.1
  * @package widgets
  * @subpackage recipiente
@@ -21,7 +23,7 @@ use Exception;
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    http://www.adianti.com.br/framework-license
  */
-class DialogoJQuery extends Elemento
+class DialogoJS extends Elemento
 {
     private $acoes;
     private $largura;

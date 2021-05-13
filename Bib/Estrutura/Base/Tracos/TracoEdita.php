@@ -5,27 +5,26 @@
  * Data: 15/03/2021
  ************************************************************************************/
 
-namespace Estrutura\Tracos;
+namespace Estrutura\Base\Tracos;
 
 use Estrutura\BancoDados\Transacao;
 use Estrutura\Bugigangas\Dialogo\Mensagem;
 use Exception;
 
-trait TracoSalva 
+trait TracoEdita 
 {
-    public function aoSalvar()
+    public function aoEditar($param)
     {
         try {
-            Transacao::abre($this->conexao);
-            $classe = $this->registroAtivo;
-            $dados  = $this->form->obtDados();
+            if (isset($param['id'])) {
+                $id = $param['id'];
+                Transacao::abre($this->conexao);
 
-            $objeto = new $classe;
-            $objeto->doArray((array) $dados);
-            $objeto->grava();
-
-            Transacao::fecha();
-            new Mensagem('info', 'Dados armazenados com sucesso');
+                $classe = $this->registroAtivo;
+                $objeto = $classe::localiza($id);
+                $this->form->defDados($objeto);
+                Transacao::fecha();
+            }
         } catch (Exception $e) {
             new Mensagem('erro', $e->getMessage());
         }

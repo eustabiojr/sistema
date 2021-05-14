@@ -1,16 +1,18 @@
 <?php
-namespace Adianti\Widget\Wrapper;
+/********************************************************************************************
+ * Sistema Agenet
+ * 
+ * Data: 06/05/2021
+ ********************************************************************************************/
+# Espaço de nomes
+namespace Estrutura\Bugigangas\Embalagem;
 
-use Adianti\Core\AdiantiCoreTranslator;
-use Adianti\Widget\Form\TRadioGroup;
-use Adianti\Database\TTransaction;
-use Adianti\Database\TRepository;
-use Adianti\Database\TCriteria;
+use Estrutura\Bugigangas\Form\Seleciona;
 
 use Exception;
 
 /**
- * Database Radio Widget
+ * Database Select Widget
  *
  * @version    7.1
  * @package    widget
@@ -19,7 +21,7 @@ use Exception;
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    http://www.adianti.com.br/framework-license
  */
-class TDBRadioGroup extends TRadioGroup
+class SelecionaBD extends Seleciona
 {
     protected $items; // array containing the combobox options
     

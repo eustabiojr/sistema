@@ -223,7 +223,7 @@ abstract class Campo
     /**
      * Retorna os dados postados
      */
-    public function obtDadosPost() : string
+    public function obtDadosPost()
     {
         return $_POST[$this->nome] ?? '';
     }
@@ -303,7 +303,7 @@ abstract class Campo
     /**
      * Método obtTamanho
      */
-    public function obtTamanho() : float
+    public function obtTamanho()
     {
         return $this->tamanho;
     }

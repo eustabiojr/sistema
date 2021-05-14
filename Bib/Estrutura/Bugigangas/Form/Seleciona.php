@@ -8,6 +8,8 @@
  namespace Estrutura\Bugigangas\Form;
 
 use Estrutura\Bugigangas\Base\Elemento;
+use Estrutura\Bugigangas\Base\Script;
+use Estrutura\Controle\Acao;
 use Exception;
 
 /**
@@ -23,27 +25,27 @@ use Exception;
 class Seleciona extends Campo implements InterfaceBugiganga
 {
     protected $id;
-    protected $height;
-    protected $items; // array containing the combobox options
-    protected $formName;
-    protected $changeFunction;
-    protected $changeAction;
-    protected $defaultOption;
-    protected $separator;
-    protected $value;
-    protected $withTitles;
+    protected $altura;
+    protected $itens; // array containing the combobox options
+    protected $nomeForm;
+    protected $mudaFuncao;
+    protected $mudaAcao;
+    protected $opcaoPadrao;
+    protected $separador;
+    protected $valor;
+    protected $comTitulos;
     
     /**
      * Class Constructor
-     * @param  $name widget's name
+     * @param  $nome widget's name
      */
-    public function __construct($name)
+    public function __construct($nome)
     {
         // executes the parent class constructor
-        parent::__construct($name);
+        parent::__construct($nome);
         $this->id   = 'tselect_' . mt_rand(1000000000, 1999999999);
-        $this->defaultOption = '';
-        $this->withTitles = true;
+        $this->opcaoPadrao = '';
+        $this->comTitulos = true;
         
         // creates a <select> tag
         $this->tag = new Elemento('select');
@@ -56,7 +58,7 @@ class Seleciona extends Campo implements InterfaceBugiganga
     /**
      * Disable multiple selection
      */
-    public function disableMultiple()
+    public function desabilitaMultiplo()
     {
         unset($this->tag->{'multiple'});
         $this->tag->{'size'} = 3;
@@ -65,80 +67,80 @@ class Seleciona extends Campo implements InterfaceBugiganga
     /**
      * Disable option titles
      */
-    public function disableTitles()
+    public function desabilitaTitulos()
     {
-        $this->withTitles = false;
+        $this->comTitulos = false;
     }
     
-    public function setDefaultOption($option)
+    public function defOpcaoPadrao($opcao)
     {
-        $this->defaultOption = $option;
+        $this->opcaoPadrao = $opcao;
     }
     
     /**
      * Add items to the select
-     * @param $items An indexed array containing the combo options
+     * @param $itens An indexed array containing the combo options
      */
-    public function addItems($items)
+    public function adicItens($itens)
     {
-        if (is_array($items))
+        if (is_array($itens))
         {
-            $this->items = $items;
+            $this->itens = $itens;
         }
     }
     
     /**
      * Return the items
      */
-    public function getItems()
+    public function obtItens()
     {
-        return $this->items;
+        return $this->itens;
     }
     
     /**
      * Define the Field's width
-     * @param $width Field's width in pixels
-     * @param $height Field's height in pixels
+     * @param $largura Field's width in pixels
+     * @param $altura Field's height in pixels
      */
-    public function setSize($width, $height = NULL)
+    public function setSize($largura, $altura = NULL)
     {
-        $this->size = $width;
-        $this->height = $height;
+        $this->tamanho = $largura;
+        $this->altura = $altura;
     }
     
     /**
      * Returns the size
      * @return array(width, height)
      */
-    public function getSize()
+    public function obtTamanho()
     {
-        return array( $this->size, $this->height );
+        return array( $this->tamanho, $this->altura );
     }
     
     /**
-     * Define the field's separator
-     * @param $sep A string containing the field's separator
+     * Define the field's separador
+     * @param $sep A string containing the field's separador
      */
-    public function setValueSeparator($sep)
+    public function defValorSeparador($sep)
     {
-        $this->separator = $sep;
+        $this->separador = $sep;
     }
     
     /**
      * Define the field's value
-     * @param $value A string containing the field's value
+     * @param $valor A string containing the field's value
      */
-    public function setValue($value)
+    public function defValor($valor)
     {
-        if (empty($this->separator))
+        if (empty($this->separador))
         {
-            $this->value = $value;
+            $this->valor = $valor;
         }
         else
         {
-            if ($value)
+            if ($valor)
             {
-                $this->value = explode($this->separator, $value);
+                $this->valor = explode($this->separador, $valor);
             }
         }
     }
@@ -146,24 +148,24 @@ class Seleciona extends Campo implements InterfaceBugiganga
     /**
      * Return the post data
      */
-    public function getPostData()
+    public function obtDadosPost()
     {
-        if (isset($_POST[$this->name]))
+        if (isset($_POST[$this->nome]))
         {
             if ($this->tag->{'multiple'})
             {
-                if (empty($this->separator))
+                if (empty($this->separador))
                 {
-                    return $_POST[$this->name];
+                    return $_POST[$this->nome];
                 }
                 else
                 {
-                    return implode($this->separator, $_POST[$this->name]);
+                    return implode($this->separador, $_POST[$this->nome]);
                 }
             }
             else
             {
-                return $_POST[$this->name][0];
+                return $_POST[$this->nome][0];
             }
         }
         else
@@ -174,140 +176,140 @@ class Seleciona extends Campo implements InterfaceBugiganga
     
     /**
      * Define the action to be executed when the user changes the combo
-     * @param $action TAction object
+     * @param $acao TAction object
      */
-    public function setChangeAction(TAction $action)
+    public function setChangeAction(Acao $acao)
     {
-        if ($action->isStatic())
+        if ($acao->ehEstatico())
         {
-            $this->changeAction = $action;
+            $this->mudaAcao = $acao;
         }
         else
         {
-            $string_action = $action->toString();
-            throw new Exception(AdiantiCoreTranslator::translate('Action (^1) must be static to be used in ^2', $string_action, __METHOD__));
+            $string_acao = $acao->paraString();
+            throw new Exception("A ação {$string_acao} deve ser estática a ser usada em {__METHOD__}");
         }
     }
     
     /**
      * Set change function
      */
-    public function setChangeFunction($function)
+    public function defMudaFuncao($funcao) 
     {
-        $this->changeFunction = $function;
+        $this->mudaFuncao = $funcao;
     }
     
     /**
-     * Reload combobox items after it is already shown
-     * @param $formname form name (used in gtk version)
-     * @param $name field name
-     * @param $items array with items
-     * @param $startEmpty ...
+     * Reload combobox items after it is already exiben
+     * @param $nomeform form name (used in gtk version)
+     * @param $nome field name
+     * @param $itens array with items
+     * @param $iniciaVazio ...
      */
-    public static function reload($formname, $name, $items, $startEmpty = FALSE)
+    public static function recarrega($nomeform, $nome, $itens, $iniciaVazio = FALSE)
     {
-        $code = "tselect_clear('{$formname}', '{$name}'); ";
-        if ($startEmpty)
+        $codigo = "tselect_clear('{$nomeform}', '{$nome}'); ";
+        if ($iniciaVazio)
         {
-            $code .= "tselect_add_option('{$formname}', '{$name}', '', ''); ";
+            $codigo .= "tselect_add_option('{$nomeform}', '{$nome}', '', ''); ";
         }
         
-        if ($items)
+        if ($itens)
         {
-            foreach ($items as $key => $value)
+            foreach ($itens as $chave => $valor)
             {
-                $code .= "tselect_add_option('{$formname}', '{$name}', '{$key}', '{$value}'); ";
+                $codigo .= "tselect_add_option('{$nomeform}', '{$nome}', '{$chave}', '{$valor}'); ";
             }
         }
-        TScript::create($code);
+        Script::cria($codigo);
     }
     
     /**
      * Enable the field
-     * @param $form_name Form name
-     * @param $field Field name
+     * @param $nome_form Form name
+     * @param $campo Field name
      */
-    public static function enableField($form_name, $field)
+    public static function habilitaCampo($nome_form, $campo)
     {
-        TScript::create( " tselect_enable_field('{$form_name}', '{$field}'); " );
+        Script::cria( " tselect_enable_field('{$nome_form}', '{$campo}'); " );
     }
     
     /**
      * Disable the field
-     * @param $form_name Form name
-     * @param $field Field name
+     * @param $nome_form Form name
+     * @param $campo Field name
      */
-    public static function disableField($form_name, $field)
+    public static function desabilitaCampo($nome_form, $campo)
     {
-        TScript::create( " tselect_disable_field('{$form_name}', '{$field}'); " );
+        Script::cria( " tselect_disable_field('{$nome_form}', '{$campo}'); " );
     }
     
     /**
      * Clear the field
-     * @param $form_name Form name
-     * @param $field Field name
+     * @param $nome_form Form name
+     * @param $campo Field name
      */
-    public static function clearField($form_name, $field)
+    public static function limpaCampo($nome_form, $campo)
     {
-        TScript::create( " tselect_clear_field('{$form_name}', '{$field}'); " );
+        Script::cria( " tselect_clear_field('{$nome_form}', '{$campo}'); " );
     }
     
     /**
      * Render items
      */
-    protected function renderItems( $with_titles = true )
+    protected function renderizaItens( $com_titulos = true )
     {
-        if ($this->defaultOption !== FALSE)
+        if ($this->opcaoPadrao !== FALSE)
         {
             // creates an empty <option> tag
-            $option = new Elemento('option');
+            $opcao = new Elemento('option');
             
-            $option->add( $this->defaultOption );
-            $option->{'value'} = '';   // tag value
+            $opcao->adic( $this->opcaoPadrao );
+            $opcao->{'value'} = '';   // tag value
 
             // add the option tag to the combo
-            $this->tag->add($option);
+            $this->tag->adic($opcao);
         }
         
-        if ($this->items)
+        if ($this->itens)
         {
             // iterate the combobox items
-            foreach ($this->items as $chave => $item)
+            foreach ($this->itens as $chave => $item)
             {
                 if (substr($chave, 0, 3) == '>>>')
                 {
-                    $optgroup = new Elemento('optgroup');
-                    $optgroup->{'label'} = $item;
+                    $opcaogrupo = new Elemento('optgroup');
+                    $opcaogrupo->{'label'} = $item;
                     // add the option to the combo
-                    $this->tag->add($optgroup);
+                    $this->tag->adic($opcaogrupo);
                 }
                 else
                 {
                     // creates an <option> tag
-                    $option = new Elemento('option');
-                    $option->{'value'} = $chave;  // define the index
-                    if ($with_titles)
+                    $opcao = new Elemento('option');
+                    $opcao->{'value'} = $chave;  // define the index
+                    if ($com_titulos)
                     {
-                        $option->{'title'} = $item;  // define the title
+                        $opcao->{'title'} = $item;  // define the title
                     }
-                    $option->{'titside'} = 'left';  // define the title side
-                    $option->add(htmlspecialchars($item));      // add the item label
+                    $opcao->{'titside'} = 'left';  // define the title side
+                    $opcao->adic(htmlspecialchars($item));      // add the item label
                     
                     // verify if this option is selected
-                    if ( (is_array($this->value)  AND @in_array($chave, $this->value)) OR
-                         (is_scalar($this->value) AND strlen( (string) $this->value ) > 0 AND @in_array($chave, (array) $this->value)))
+                    if ( (is_array($this->valor)  AND @in_array($chave, $this->valor)) OR
+                         (is_scalar($this->valor) AND strlen( (string) $this->valor ) > 0 AND @in_array($chave, (array) $this->valor)))
                     {
                         // mark as selected
-                        $option->{'selected'} = 1;
+                        $opcao->{'selected'} = 1;
                     }
                     
-                    if (isset($optgroup))
+                    if (isset($opcaogrupo))
                     {
-                        $optgroup->add($option);
+                        $opcaogrupo->adic($opcao);
                     }
                     else
                     {
-                        $this->tag->add($option);
+                        $this->tag->adic($opcao);
                     }                    
                 }
             }
@@ -317,34 +319,34 @@ class Seleciona extends Campo implements InterfaceBugiganga
     /**
      * Shows the widget
      */
-    public function show()
+    public function exibe()
     {
         // define the tag properties
-        $this->tag->{'name'}  = $this->name.'[]';    // tag name
+        $this->tag->{'name'}  = $this->nome.'[]';    // tag name
         $this->tag->{'id'}    = $this->id;
         
-        $this->setProperty('style', (strstr($this->size, '%') !== FALSE)   ? "width:{$this->size}"    : "width:{$this->size}px",   false); //aggregate style info
-        $this->setProperty('style', (strstr($this->height, '%') !== FALSE) ? "height:{$this->height}" : "height:{$this->height}px", false); //aggregate style info
+        $this->setProperty('style', (strstr($this->tamanho, '%') !== FALSE)   ? "width:{$this->tamanho}"    : "width:{$this->tamanho}px",   false); //aggregate style info
+        $this->setProperty('style', (strstr($this->altura, '%') !== FALSE) ? "height:{$this->altura}" : "height:{$this->altura}px", false); //aggregate style info
         
         // verify whether the widget is editable
         if (parent::getEditable())
         {
-            if (isset($this->changeAction))
+            if (isset($this->mudaAcao))
             {
-                if (!TForm::getFormByName($this->formName) instanceof TForm)
+                if (!Form::obtFormPeloNome($this->nomeForm) instanceof Form)
                 {
-                    throw new Exception(AdiantiCoreTranslator::translate('You must pass the ^1 (^2) as a parameter to ^3', __CLASS__, $this->name, 'TForm::setFields()') );
+                    throw new Exception("Você deve passer a {__CLASS__} ({$this->nome}) como parâmetro para Form::defCampos()");
                 }
                 
-                $string_action = $this->changeAction->serialize(FALSE);
-                $this->setProperty('changeaction', "__adianti_post_lookup('{$this->formName}', '{$string_action}', this, 'callback')");
+                $string_acao = $this->mudaAcao->serialize(FALSE);
+                $this->setProperty('changeaction', "__ageunet_pesquisa_post('{$this->nomeForm}', '{$string_acao}', this, 'callback')");
                 $this->setProperty('onChange', $this->getProperty('changeaction'));
             }
             
-            if (isset($this->changeFunction))
+            if (isset($this->mudaFuncao))
             {
-                $this->setProperty('changeaction', $this->changeFunction, FALSE);
-                $this->setProperty('onChange', $this->changeFunction, FALSE);
+                $this->setProperty('changeaction', $this->mudaFuncao, FALSE);
+                $this->setProperty('onChange', $this->mudaFuncao, FALSE);
             }
         }
         else
@@ -355,8 +357,8 @@ class Seleciona extends Campo implements InterfaceBugiganga
             $this->tag->{'class'}   = 'tselect_disabled'; // CSS
         }
         
-        // shows the widget
-        $this->renderItems( $this->withTitles );
-        $this->tag->show();
+        // exibes the widget
+        $this->renderizaItens( $this->comTitulos );
+        $this->tag->exibe();
     }
 }

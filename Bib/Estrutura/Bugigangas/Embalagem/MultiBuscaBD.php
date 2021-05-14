@@ -9,6 +9,7 @@ namespace Estrutura\Bugigangas\Embalagem;
 
 use Estrutura\BancoDados\Criterio;
 use Estrutura\BancoDados\Transacao;
+use Estrutura\Bugigangas\Form\MultiBusca;
 use Estrutura\Nucleo\ConfigAplicativo;
 use Exception;
 

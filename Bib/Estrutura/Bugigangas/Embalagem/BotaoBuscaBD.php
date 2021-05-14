@@ -25,7 +25,7 @@ use Exception;
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    http://www.adianti.com.br/framework-license
  */
-class BDBotaoBusca extends BotaoBusca
+class BotaoBuscaBD extends BotaoBusca
 {
     /**
      * Class Constructor

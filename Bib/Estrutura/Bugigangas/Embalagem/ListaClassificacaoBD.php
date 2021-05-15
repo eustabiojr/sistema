@@ -43,19 +43,23 @@ class ListaClassificacaoBD extends ListaClassificacao
         // executes the parent class constructor
         parent::__construct($nome);
         
-        if (empty($bancodados)) {
+        if (empty($bancodados)) 
+        {
             throw new Exception("O parâmetro (bancodados) {__CLASS__} é obrigatório");
         }
         
-        if (empty($modelo)) {
+        if (empty($modelo)) 
+        {
             throw new Exception("O parâmetro (modelo) {__CLASS__} é obrigatório");
         }
         
-        if (empty($chave)) {
+        if (empty($chave)) 
+        {
             throw new Exception("O parâmetro (chave) {__CLASS__} é obrigatório");
         }
         
-        if (empty($valor)) {
+        if (empty($valor)) 
+        {
             throw new Exception("O parâmetro (valor) {__CLASS__} é obrigatório");
         }
         

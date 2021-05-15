@@ -9,6 +9,8 @@ namespace Estrutura\Bugigangas\Embalagem;
 
 use Estrutura\BancoDados\Criterio;
 use Estrutura\BancoDados\Transacao;
+use Estrutura\Bugigangas\Base\Script;
+use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Bugigangas\Form\MultiBusca;
 use Estrutura\Nucleo\ConfigAplicativo;
 use Exception;
@@ -66,25 +68,21 @@ class MultiBuscaBD extends MultiBusca
         
         $chave   = trim($chave);
         $valor = trim($valor);
-        
-        if (empty($bancodados))
-        {
+
+        if (empty($bancodados)) {
             throw new Exception("O parâmetro (bancodados) {__CLASS__} é obrigatório");
         }
         
-        if (empty($modelo))
-        {
-            throw new Exception("O parâmetro (bancodados) {__CLASS__} é obrigatório");
+        if (empty($modelo)) {
+            throw new Exception("O parâmetro (modelo) {__CLASS__} é obrigatório");
         }
         
-        if (empty($chave))
-        {
-            throw new Exception("O parâmetro (bancodados) {__CLASS__} é obrigatório");
+        if (empty($chave)) {
+            throw new Exception("O parâmetro (chave) {__CLASS__} é obrigatório");
         }
         
-        if (empty($valor))
-        {
-            throw new Exception("O parâmetro (bancodados) {__CLASS__} é obrigatório");
+        if (empty($valor)) {
+            throw new Exception("O parâmetro (valor) {__CLASS__} é obrigatório");
         }
         
         $ini = ConfigAplicativo::obt();
@@ -97,17 +95,14 @@ class MultiBuscaBD extends MultiBusca
         $this->ordemColuna = isset($ordemColuna) ? $ordemColuna : NULL;
         $this->criterio = $criterio;
         
-        if (strpos($valor,',') !== false)
-        {
+        if (strpos($valor,',') !== false) {
             $colunas = explode(',', $valor);
             $this->mascara = '{'.$colunas[0].'}';
-        }
-        else
-        {
+        } else {
             $this->mascara = '{'.$valor.'}';
         }
         
-        $this->servico = 'AdiantiMultiSearchService';
+        $this->servico = 'AgeunetServicoMultiBusca';
         $this->seed = NOME_APLICATIVO . ( !empty($ini['general']['seed']) ? $ini['general']['seed'] : 's8dkld83kf73kf094' );
         $this->tag->{'widget'} = 'tdbmultisearch';
         $this->idBusca = true;
@@ -118,24 +113,21 @@ class MultiBuscaBD extends MultiBusca
      * Define the search service
      * @param $servico Search service
      */
-    public function setService($servico)
-    {
+    public function defServico($servico) {
         $this->servico = $servico;
     }
     
     /**
      * Disable search by id
      */
-    public function desabilitaIdBusca()
-    {
+    public function desabilitaIdBusca() {
         $this->idBusca = false;
     }
     
     /**
      * Enable Id textual search
      */
-    public function enableIdTextualSearch()
-    {
+    public function habilitaBuscaTextual() {
         $this->idTextoBusca = true;
     }
     
@@ -143,8 +135,7 @@ class MultiBuscaBD extends MultiBusca
      * Define the search operador
      * @param $operador Search operador
      */
-    public function defOperador($operador)
-    {
+    public function defOperador($operador) {
         $this->operador = $operador;
     }
     
@@ -152,8 +143,7 @@ class MultiBuscaBD extends MultiBusca
      * Define the display mascara
      * @param $mascara Show mascara
      */
-    public function defMascara($mascara)
-    {
+    public function defMascara($mascara) {
         $this->mascara = $mascara;
     }
     
@@ -166,47 +156,36 @@ class MultiBuscaBD extends MultiBusca
         $valores_originais = $valores;
         $ini = ConfigAplicativo::obt();
         
-        if (isset($ini['general']['compat']) AND $ini['general']['compat'] ==  '4')
-        {
-            if ($valores)
-            {
+        if (isset($ini['general']['compat']) AND $ini['general']['compat'] ==  '4') {
+            if ($valores) {
                 parent::defValor( $valores );
                 parent::adicItens( $valores );
             }
-        }
-        else
-        {
+        } else {
             $itens = [];
-            if ($valores)
-            {
-                if (!empty($this->separador))
-                {
+            if ($valores) {
+                if (!empty($this->separador)) {
                     $valores = explode($this->separador, $valores);
                 }
                 
                 Transacao::abre($this->bancodados);
                 foreach ($valores as $valor)
                 {
-                    if ($valor)
-                    {
+                    if ($valor) {
                         $modelo = $this->modelo;
                         
                         $pk = constant("{$modelo}::PRIMARYKEY");
                         
-                        if ($pk === $this->chave) // key is the primary key (default)
-                        {
+                        if ($pk === $this->chave) { // key is the primary key (default) 
                             // use find because it uses cache
-                            $object = $modelo::localiza( $valor );
-                        }
-                        else // key is an alternative key (uses where->first)
-                        {
-                            $object = $modelo::where( $this->chave, '=', $valor )->first();
+                            $objeto = $modelo::localiza( $valor );
+                        } else { // key is an alternative key (uses where->first)
+                            $objeto = $modelo::where( $this->chave, '=', $valor )->first();
                         }
                         
-                        if ($object)
-                        {
-                            $description = $object->renderiza($this->mascara);
-                            $itens[$valor] = $description;
+                        if ($objeto) {
+                            $descricao = $objeto->renderiza($this->mascara);
+                            $itens[$valor] = $descricao;
                         }
                     }
                 }
@@ -221,61 +200,46 @@ class MultiBuscaBD extends MultiBusca
     /**
      * Return the post data
      */
-    public function getPostData()
-    {
-        $ini = AdiantiApplicationConfig::get();
+    public function obtDadosPost() {
+        $ini = ConfigAplicativo::obt();
         
-        if (isset($_POST[$this->name]))
-        {
-            $valores = $_POST[$this->name];
+        if (isset($_POST[$this->nome])) {
+            $valores = $_POST[$this->nome];
             
-            if (isset($ini['general']['compat']) AND $ini['general']['compat'] ==  '4')
-            {
-                $return = [];
-                if (is_array($valores))
-                {
-                    TTransaction::open($this->bancodados);
-                    foreach ($valores as $valor)
-                    {
-                        if ($valor)
-                        {
+            if (isset($ini['general']['compat']) AND $ini['general']['compat'] ==  '4') {
+                $retorno = [];
+                if (is_array($valores)) {
+                    Transacao::abre($this->bancodados);
+                    foreach ($valores as $valor) {
+                        if ($valor) {
                             $modelo = $this->modelo;
                             $pk = constant("{$modelo}::PRIMARYKEY");
-                            
-                            if ($pk === $this->chave) // key is the primary key (default)
-                            {
+
+                            // key is the primary key (default)
+                            if ($pk === $this->chave) {
                                 // use find because it uses cache
-                                $object = $modelo::find( $valor );
-                            }
-                            else // key is an alternative key (uses where->first)
-                            {
-                                $object = $modelo::where( $this->chave, '=', $valor )->first();
+                                $objeto = $modelo::find( $valor );
+                            
+                            } else { // key is an alternative key (uses where->first)
+                                $objeto = $modelo::where( $this->chave, '=', $valor )->first();
                             }
                             
-                            if ($object)
-                            {
-                                $description = $object->render($this->mascara);
-                                $return[$valor] = $description;
+                            if ($objeto) {
+                                $descricao = $objeto->render($this->mascara);
+                                $retorno[$valor] = $descricao;
                             }
                         }
                     }
                 }
-                return $return;
-            }
-            else
-            {
-                if (empty($this->separador))
-                {
+                return $retorno;
+            } else {
+                if (empty($this->separador)) {
                     return $valores;
-                }
-                else
-                {
+                } else {
                     return implode($this->separador, $valores);
                 }
             }
-        }
-        else
-        {
+        } else {
             return '';
         }
     }
@@ -283,73 +247,65 @@ class MultiBuscaBD extends MultiBusca
     /**
      * Shows the widget
      */
-    public function show()
+    public function exibe()
     {
         // define the tag properties
         $this->tag->{'id'}    = $this->id; // tag id
         
-        if (empty($this->tag->{'name'})) // may be defined by child classes
-        {
-            $this->tag->{'name'}  = $this->name.'[]';  // tag name
+        // may be defined by child classes
+        if (empty($this->tag->{'name'})) {
+            $this->tag->{'name'}  = $this->nome.'[]';  // tag name
         }
         
-        if (strstr($this->tamanho, '%') !== FALSE)
-        {
-            $this->setProperty('style', "width:{$this->tamanho};", false); //aggregate style info
+        if (strstr($this->tamanho, '%') !== FALSE) {
+            $this->defPropriedade('style', "width:{$this->tamanho};", false); //aggregate style info
             $tamanho  = "{$this->tamanho}";
-        }
-        else
-        {
-            $this->setProperty('style', "width:{$this->tamanho}px;", false); //aggregate style info
+        } else {
+            $this->defPropriedade('style', "width:{$this->tamanho}px;", false); //aggregate style info
             $tamanho  = "{$this->tamanho}px";
         }
         
-        $multiple = $this->tamanhoMax == 1 ? 'false' : 'true';
+        $multiplo = $this->tamanhoMax == 1 ? 'false' : 'true';
         $ordemColuna = isset($this->ordemColuna) ? $this->ordemColuna : $this->coluna;
         $criterio = '';
-        if ($this->criterio)
-        {
+        if ($this->criterio) {
             $criterio = str_replace(array('+', '/'), array('-', '_'), base64_encode(serialize($this->criterio)));
         }
         
         $hash = md5("{$this->seed}{$this->bancodados}{$this->chave}{$this->coluna}{$this->modelo}");
-        $length = $this->tamnhoMin;
+        $comprimento = $this->tamnhoMin;
         
-        $class = $this->servico;
-        $callback = array($class, 'onSearch');
-        $method = $callback[1];
-        $id_search_string = $this->idBusca ? '1' : '0';
-        $id_text_search = $this->idTextoBusca ? '1' : '0';
-        $search_word = !empty($this->getProperty('placeholder'))? $this->getProperty('placeholder') : AdiantiCoreTranslator::translate('Search');
-        $url = "engine.php?class={$class}&method={$method}&static=1&bancodados={$this->bancodados}&key={$this->chave}&coluna={$this->coluna}&model={$this->modelo}&ordemColuna={$ordemColuna}&criterio={$criterio}&operador={$this->operador}&mascara={$this->mascara}&idsearch={$id_search_string}&idtextsearch={$id_text_search}&minlength={$length}";
-        $change_action = 'function() {}';
+        $classe = $this->servico;
+        $callback = array($classe, 'onSearch');
+        $metodo = $callback[1];
+        $id_search_string_busca = $this->idBusca ? '1' : '0';
+        $id_texto_busca = $this->idTextoBusca ? '1' : '0';
+        $busca_palavra = !empty($this->getProperty('placeholder'))? $this->obtPropriedade('placeholder') : 'Busca';
+        $url = "engine.php?class={$classe}&method={$metodo}&static=1&bancodados={$this->bancodados}&key={$this->chave}&coluna={$this->coluna}&model={$this->modelo}&ordemColuna={$ordemColuna}&criterio={$criterio}&operador={$this->operador}&mascara={$this->mascara}&idsearch={$id_search_string_busca}&idtextsearch={$id_texto_busca}&minlength={$comprimento}";
+        $muda_acao = 'function() {}';
         
-        if (isset($this->changeAction))
-        {
-            if (!TForm::getFormByName($this->formName) instanceof TForm)
-            {
-                throw new Exception(AdiantiCoreTranslator::translate('You must pass the ^1 (^2) as a parameter to ^3', __CLASS__, $this->name, 'TForm::setFields()') );
+        if (isset($this->mudaAcao)) {
+            if (!Form::obtFormPeloNome($this->nomeForm) instanceof Form) {
+                throw new Exception("Você deve passar a {__CLASS__} ({$this->nome}) como parâmetro para Form::defCampos()");
             }
             
-            $string_action = $this->changeAction->serialize(FALSE);
-            $change_action = "function() { __adianti_post_lookup('{$this->formName}', '{$string_action}', '{$this->id}', 'callback'); }";
-            $this->setProperty('changeaction', "__adianti_post_lookup('{$this->formName}', '{$string_action}', '{$this->id}', 'callback')");
-        }
-        else if (isset($this->mudaFuncao))
-        {
-            $change_action = "function() { $this->mudaFuncao }";
-            $this->setProperty('changeaction', $this->mudaFuncao, FALSE);
+            $string_acao = $this->mudaAcao->serializa(FALSE);
+            $muda_acao = "function() { __adianti_post_lookup('{$this->nomeForm}', '{$string_acao}', '{$this->id}', 'callback'); }";
+            $this->defPropriedade('changeaction', "__adianti_post_lookup('{$this->nomeForm}', '{$string_acao}', '{$this->id}', 'callback')");
+        } else if (isset($this->mudaFuncao)) {
+            $muda_acao = "function() { $this->mudaFuncao }";
+            $this->defPropriedade('changeaction', $this->mudaFuncao, FALSE);
         }
         
-        // shows the component
-        parent::renderItems( false );
-        $this->tag->show();
+        // exibes the component
+        parent::renderizaItems( false );
+        $this->tag->exibe();
         
-        TScript::create(" tdbmultisearch_start( '{$this->id}', '{$length}', '{$this->tamanhoMax}', '{$search_word}', $multiple, '{$url}', '{$tamanho}', '{$this->altura}px', '{$hash}', {$change_action} ); ");
+        Script::cria(" tdbmultisearch_start( '{$this->id}', '{$comprimento}', '{$this->tamanhoMax}', '{$busca_palavra}', $multiplo, '{$url}', '{$tamanho}', '{$this->altura}px', '{$hash}', {$muda_acao} ); ");
         
         if (!$this->editavel)
         {
-            TScript::create(" tmultisearch_disable_field( '{$this->formName}', '{$this->name}'); ");
+            Script::cria(" tmultisearch_disable_field( '{$this->nomeForm}', '{$this->nome}'); ");
         }
     }
 }

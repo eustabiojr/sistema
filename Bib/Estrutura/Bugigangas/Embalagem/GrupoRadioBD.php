@@ -45,24 +45,24 @@ class GrupoRadioBD extends GrupoRadio
         $chave   = trim($chave);
         $valor = trim($valor);
         
-        if (empty($bancodados))
+        if (empty($bancodados)) 
         {
             throw new Exception("O parâmetro (bancodados) {__CLASS__} é obrigatório");
         }
         
-        if (empty($modelo))
+        if (empty($modelo)) 
         {
-            throw new Exception("O parâmetro (bancodados) {__CLASS__} é obrigatório");
+            throw new Exception("O parâmetro (modelo) {__CLASS__} é obrigatório");
         }
         
-        if (empty($chave))
+        if (empty($chave)) 
         {
-            throw new Exception("O parâmetro (bancodados) {__CLASS__} é obrigatório");
+            throw new Exception("O parâmetro (chave) {__CLASS__} é obrigatório");
         }
         
-        if (empty($valor))
+        if (empty($valor)) 
         {
-            throw new Exception("O parâmetro (bancodados) {__CLASS__} é obrigatório");
+            throw new Exception("O parâmetro (valor) {__CLASS__} é obrigatório");
         }
         
         Transacao::abre($bancodados);

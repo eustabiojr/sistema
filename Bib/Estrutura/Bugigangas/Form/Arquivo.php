@@ -22,7 +22,7 @@ class Arquivo extends Campo implements InterfaceBugiganga
     protected $id;
     protected $altura;
     protected $completaAcao;
-    protected $classUploader;
+    protected $classeUploader;
     protected $placeHolder;
     protected $extensoes;
     protected $modoExibicao;
@@ -43,7 +43,7 @@ class Arquivo extends Campo implements InterfaceBugiganga
     {
         parent::__construct($nome);
         $this->id = $this->nome . '_' . mt_rand(1000000000, 1999999999);
-        $this->classUploader = 'AgeuServicoSubida';
+        $this->classeUploader = 'AgeuServicoSubida';
         $this->manipuladorArquivo = FALSE;
         
         $ini = ConfigAplicativo::obt();
@@ -87,7 +87,7 @@ class Arquivo extends Campo implements InterfaceBugiganga
      */
     public function defServico($servico)
     {
-        $this->classUploader = $servico;
+        $this->classeUploader = $servico;
     }
     
     /**
@@ -266,10 +266,10 @@ class Arquivo extends Campo implements InterfaceBugiganga
         
         if (empty($this->extensoes))
         {
-            $acao = "motor.php?classe={$this->classUploader}";
+            $acao = "motor.php?classe={$this->classeUploader}";
         } else {
             $hash = md5("{$this->semente}{$this->nome}".base64_encode(serialize($this->extensoes)));
-            $acao = "motor.php?classe={$this->classUploader}&nome={$this->nome}&hash={$hash}&extensoes=".base64_encode(serialize($this->extensoes));
+            $acao = "motor.php?classe={$this->classeUploader}&nome={$this->nome}&hash={$hash}&extensoes=".base64_encode(serialize($this->extensoes));
         }
         
         $manipuladorArquivo = $this->manipuladorArquivo ? '1' : '0';

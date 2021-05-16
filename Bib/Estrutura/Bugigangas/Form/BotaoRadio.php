@@ -14,29 +14,40 @@ use Estrutura\Bugigangas\Base\Elemento;
  */
 class BotaoRadio extends Campo implements InterfaceBugiganga
 {
+    private $verificado;
+
+
+    public function __construct($nome) 
+    {
+        parent::__construct($nome);
+        $this->id = 'botaoradio_' . mt_rand(1000000000, 1999999999);
+        $this->tag->{'class'} = '';
+    }
     /**
      * Método exibe
      */
     public function exibe()
     {
-        # atribui as propriedades da tag
-        $tag = new Elemento('input');
-        $tag->class = 'field';
-        $tag->name = $this->nome;
-        $tag->value = $this->valor;
-        $tag->type = 'radio';
-        $tag->style = "width: {$this->tamanho}";
+        // define as propriedades da tag
+        $this->tag->{'name'}  = $this->nome;
+        $this->tag->{'value'} = $this->valor;
+        $this->tag->{'type'}  = 'radio';
 
-        # caso o campo não seja editável
-        if (!parent::obtEditavel()) {
-            $tag->readonly = "1";
+        if ($this->id and empty($this->tag->{'id'})) 
+        {
+            $this->tag->{'id'} = $this->id;
         }
 
-        if ($this->propriedades) {
-            foreach ($this->propriedades as $propriedade => $valor) {
-                $tag->$propriedade = $valor;
-            }
+        // verifica se o campo é não é editável
+        if (!parent::obtEditavel())
+        {
+            # marca a bugiganga como somente leitura
+            $this->tag->{'onclick'}  = 'return false';
+            $this->tag->{'style'}    = 'pointer-events: none';
+            $this->tag->{'tabindex'} = '-1';
+            
         }
-        $tag->exibe();
+        # exibe a tag
+        $this->tag->exibe();
     }
 }

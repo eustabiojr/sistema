@@ -12,10 +12,11 @@ use Ageunet\Validacao\ValidadorCampo;
 use Ageunet\Validacao\ValidadorComprimentoMin;
 use Ageunet\Validacao\ValidadorEmail;
 use Ageunet\Validacao\ValidadorObrigatorio;
-use Closure;
 use Estrutura\Bugigangas\Base\Elemento;
+
 use Exception;
 use ReflectionClass;
+use Closure;
 
 /**
  * Class Abstrata Campo

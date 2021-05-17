@@ -12,7 +12,7 @@ use Estrutura\Bugigangas\Base\Elemento;
 /**
  * Classe GrupoCheck 
  */
-class GrupoVerificacao extends Campo implements InterfaceBugiganga
+class GrupoVerifica extends Campo implements InterfaceBugiganga
 {
     private $esboco = "vertical";
     private $itens;
@@ -41,7 +41,7 @@ class GrupoVerificacao extends Campo implements InterfaceBugiganga
         if ($this->itens) {
             # percorre cada uma das opções de radio
             foreach ($this->itens as $indice => $rotulo) {
-                $botao = new BotaoCheck("{$this->nome}[]");
+                $botao = new BotaoVerifica("{$this->nome}[]");
                 $botao->defValor($indice);
 
                 # verifica se deve ser marcado

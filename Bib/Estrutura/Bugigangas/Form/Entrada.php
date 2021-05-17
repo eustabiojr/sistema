@@ -213,12 +213,12 @@ class Entrada extends Campo implements InterfaceBugiganga
      */
     public static function recarregaComplementacao($campo, $lista, $opcoes = null)
     {
-        $lista_json = \json_encode($lista);
+        $lista_json = json_encode($lista);
         if (is_numeric($opcoes)) {
             $opcoes = [];
         }
 
-        $opcoes_json = \json_encode($opcoes);
+        $opcoes_json = json_encode($opcoes);
         Script::cria(" entrada_autocomplementa_pelo_nome('{$campo}', {$lista_json}, '{$opcoes_json}'); ");
     }
 

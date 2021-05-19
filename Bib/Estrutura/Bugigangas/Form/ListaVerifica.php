@@ -24,7 +24,7 @@ use Estrutura\Embrulho\EmbrulhoBootstrapGradedados;
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    http://www.adianti.com.br/framework-license
  */
-class ListaVerificacao implements InterfaceBugiganga
+class ListaVerifica implements InterfaceBugiganga
 {
     protected $gradedados;
     protected $idColuna;
@@ -46,7 +46,7 @@ class ListaVerificacao implements InterfaceBugiganga
         
         $id = $this->gradedados->{'id'};
         
-        $check = new BotaoCheck('check_all_'.$id);
+        $check = new BotaoVerifica('check_all_'.$id);
         $check->setIndexValue('on');
         $check->{'onclick'} = "tchecklist_select_all(this, '{$id}')";
         $check->{'style'} = 'cursor:pointer';
@@ -154,7 +154,7 @@ class ListaVerificacao implements InterfaceBugiganga
     public function adicItem($objeto)
     {
         $id_coluna = $this->idColuna;
-        $objeto->{'check'} = new BotaoCheck('check_' . $this->nome . '_' . base64_encode($objeto->$id_coluna));
+        $objeto->{'check'} = new BotaoVerifica('check_' . $this->nome . '_' . base64_encode($objeto->$id_coluna));
         $objeto->{'check'}->setIndexValue('on');
         $objeto->{'check'}->setProperty('class', 'filled-in');
         $objeto->{'check'}->{'style'} = 'cursor:pointer';

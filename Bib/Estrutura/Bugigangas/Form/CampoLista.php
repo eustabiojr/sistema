@@ -30,16 +30,16 @@ class CampoLista extends Tabela
     private $rotulos;
     private $corpo_criado;
     private $detalhe_linha;
-    private $funcao_remove;
+    private $remove_funcao;
     private $funcao_clone;
     private $acao_ordena;
     private $ordenacao;
-    private $campos_propriedades;
-    private $linha_funcoes;
+    private $propriedades_campo;
+    private $funcoes_linha;
     private $aria_automatica;
     private $resumir;
     private $totais;
-    private $total_functions;
+    private $funcoes_total;
     
     /**
      * Class Constructor
@@ -59,8 +59,8 @@ class CampoLista extends Tabela
         $this->aria_automatica = false;
         $this->remove_funcao = 'ttable_remove_row(this)';
         $this->funcao_clone  = 'ttable_clone_previous_row(this)';
-        $this->retoma = false;
-        $this->funcao_total = null;
+        $this->resumir = false;
+        $this->funcoes_total = null;
     }
     
     /**
@@ -144,7 +144,7 @@ class CampoLista extends Tabela
             
             if (isset($propriedades['sum']) && $propriedades['sum'] == true)
             {
-                $this->retoma = true;
+                $this->resumir = true;
             }
             
             if ($rotulo instanceof Rotulo)
@@ -263,7 +263,7 @@ class CampoLista extends Tabela
                     $campo->{'exitaction'} = "tfieldlist_update_sum('{$nome}', 'callback')";
                     $campo->{'onBlur'}     = "tfieldlist_update_sum('{$nome}', 'callback')";
                     
-                    $this->funcao_total .= $campo->{'exitaction'} . ';';
+                    $this->funcoes_total .= $campo->{'exitaction'} . ';';
                     
                     $valor = isset($item->$nome) ? $item->$nome : 0;
                     
@@ -330,7 +330,7 @@ class CampoLista extends Tabela
             $del = new Elemento('div');
             $del->{'class'} = 'btn btn-default btn-sm';
             //$del->{'style'} = 'padding:3px 7px';
-            $del->{'onclick'} = $this->funcao_total . $this->remove_funcao;
+            $del->{'onclick'} = $this->funcoes_total . $this->remove_funcao;
             //------------------------------------------------------------------------------------------------------------------------------------
             $del->{'title'} = _t('Delete');
             $del->adic('<i class="fa fa-times red"></i>');

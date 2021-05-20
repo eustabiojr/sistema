@@ -16,6 +16,9 @@ use Estrutura\Bugigangas\Form\Campo;
 class Rotulo extends Campo implements InterfaceBugiganga
 {
     protected $estiloEmbutido;
+    private $estiloFonte;
+    protected $valor;
+    protected $tamanho;
     protected $id;
 
     /**
@@ -44,6 +47,15 @@ class Rotulo extends Campo implements InterfaceBugiganga
 
         # Cria um elemento novo
         $this->tag = new Elemento('label');
+    }
+
+    /**
+     * Clona o objeto
+     */
+    public function __clone()
+    {
+        parent::__clone();
+        $this->estiloEmbutido = clone $this->estiloEmbutido;
     }
 
     /**
@@ -93,9 +105,22 @@ class Rotulo extends Campo implements InterfaceBugiganga
     /**
      * Método adic
      */
-    public function adic($filho)
+    public function adic($conteudo)
     {
-        $this->tag->adic($filho);
+        $this->tag->adic($conteudo);
+
+        if (is_string($conteudo))
+        {
+            $this->valor .= $conteudo;
+        }
+    }
+
+    /**
+     * Obtém valor
+     */
+    public function obtValor()
+    {
+        return $this->valor;
     }
 
     /**
@@ -103,6 +128,23 @@ class Rotulo extends Campo implements InterfaceBugiganga
      */
     public function exibe()
     {
+        if ($this->tamanho) 
+        {
+            if (strstr($this->tamanho, '%') !== FALSE)
+            {
+                $this->estiloEmbutido->{'width'} = $this->tamanho;
+            } else {
+                $this->estiloEmbutido->{'width'} = $this->tamanho . 'px';
+            }
+
+            if ($this->estiloEmbutido->possuiConteudo()) 
+            {
+                $this->defPropriedade('style', $this->estiloEmbutido->obtEmLinha() . $this->obtPropriedade('style'), TRUE);
+            }
+        }
+        
+        $this->tag->{'id'} = $this->id;
+
         $this->tag->adic($this->valor);
         $this->tag->exibe();
     }

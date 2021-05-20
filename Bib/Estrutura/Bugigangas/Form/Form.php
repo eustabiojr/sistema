@@ -265,100 +265,6 @@ class Form implements InterfaceElementoForm
         }
     }
 
-    //--------------------------------------------------------------------------------------------------------------------- 
-    /**
-     * Método valida
-     * 
-     * Este método está aqui apenas para estudo de como implementar validação
-     * de formulário (pelo menos por enquanto).
-     */
-    public function valida() {
-        # Atribui os dados post antes da validação
-        # a exceção de validação deveria impedir
-        # que o código do usuário execute defDados()
-        $this->defDados($this->obtDados());
-
-        $erros = array();
-        foreach ($this->campos as $objetoCampo) {
-            try {
-                $objetoCampo->valida();
-            } catch (Exception $e) {
-                $erros[] = $e->getMessage() . '.';
-            }
-        }
-
-        if (count($erros) > 0) {
-            throw new Exception(implode("<br>", $erros));
-        }
-    }
-
-    /**
-     * Adiciona um recipiente ao formulário (geralmente uma tabela ou cartão)
-     * 
-     * @param $objeto Qualquer objeto que implemente o método exibe()
-     */
-    public function adic($objeto) 
-    {
-        if (!in_array($objeto, $this->filhos)) {
-            $this->filhos[] = $objeto;
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------------------------- 
-
-    /**
-     * Método adicItensGrupo
-     */
-    public function adicItensGrupo(ItensForm $itens_grupo)
-    {
-        $this->itens_grupo[$itens_grupo->obtNomeAba()] = $itens_grupo;
-
-        $this->recuperaCampos();
-    }
-
-    /**
-     * Método obtItensGrupo
-     */
-    public function obtItensGrupo()
-    {
-        return $this->itens_grupo;
-    }
-
-    /**
-     * Método recuperaCampos
-     * 
-     * Aqui nós pegamos os campos em ItensForm, e passamos para o Form
-     */
-    public function recuperaCampos()
-    {
-        foreach ($this->obtItensGrupo() as $obj_grupos) {
-
-            $objetos_grupos = $obj_grupos->grupo_campos;
-
-            foreach($objetos_grupos as $indice2 => $obt_itens) {
-                #echo "Indice2: " . $indice2 . "<br>\n";
-                unset($obt_itens[1]);
-                $this->campos[$indice2] = $obt_itens[0];
-            }
-        }
-    }
-
-    /**
-     * Método adicAcao
-     */
-    public function adicAcao($rotulo, InterfaceAcao $acao)
-    {
-        $this->acoes[$rotulo] = $acao;
-    }
-
-    /**
-     * Método obtAcoes
-     */
-    public function obtAcoes()
-    {
-        return $this->acoes;
-    }
-
     /**
      * Método defDados
      */
@@ -444,6 +350,110 @@ class Form implements InterfaceElementoForm
         }
         return $objeto;
     }
+
+    //--------------------------------------------------------------------------------------------------------------------- 
+    /**
+     * Método valida
+     * 
+     * Este método está aqui apenas para estudo de como implementar validação
+     * de formulário (pelo menos por enquanto).
+     */
+    public function valida() {
+        # Atribui os dados post antes da validação
+        # a exceção de validação deveria impedir
+        # que o código do usuário execute defDados()
+        $this->defDados($this->obtDados());
+
+        $erros = array();
+        foreach ($this->campos as $objetoCampo) {
+            try {
+                $objetoCampo->valida();
+            } catch (Exception $e) {
+                $erros[] = $e->getMessage() . '.';
+            }
+        }
+
+        if (count($erros) > 0) {
+            throw new Exception(implode("<br>", $erros));
+        }
+    }
+
+    /**
+     * Adiciona um recipiente ao formulário (geralmente uma tabela ou cartão)
+     * 
+     * @param $objeto Qualquer objeto que implemente o método exibe()
+     */
+    public function adic($objeto) 
+    {
+        if (!in_array($objeto, $this->filhos)) {
+            $this->filhos[] = $objeto;
+        }
+    }
+
+    /**
+     * Embala um recipiente para um formulário (geralmente uma tabela ou cartão)
+     * @param mixed $objeto, Qualquer objeto que implemente o método exibe()
+     */
+    public function pacote()
+    {
+        $this->filhos = func_get_args();
+    }
+
+    //--------------------------------------------------------------------------------------------------------------------- 
+
+    /**
+     * Método adicItensGrupo
+     */
+    public function adicItensGrupo(ItensForm $itens_grupo)
+    {
+        $this->itens_grupo[$itens_grupo->obtNomeAba()] = $itens_grupo;
+
+        $this->recuperaCampos();
+    }
+
+    /**
+     * Método obtItensGrupo
+     */
+    public function obtItensGrupo()
+    {
+        return $this->itens_grupo;
+    }
+
+    /**
+     * Método recuperaCampos
+     * 
+     * Aqui nós pegamos os campos em ItensForm, e passamos para o Form
+     */
+    public function recuperaCampos()
+    {
+        foreach ($this->obtItensGrupo() as $obj_grupos) {
+
+            $objetos_grupos = $obj_grupos->grupo_campos;
+
+            foreach($objetos_grupos as $indice2 => $obt_itens) {
+                #echo "Indice2: " . $indice2 . "<br>\n";
+                unset($obt_itens[1]);
+                $this->campos[$indice2] = $obt_itens[0];
+            }
+        }
+    }
+
+    /**
+     * Método adicAcao
+     */
+    public function adicAcao($rotulo, InterfaceAcao $acao)
+    {
+        $this->acoes[$rotulo] = $acao;
+    }
+
+    /**
+     * Método obtAcoes
+     */
+    public function obtAcoes()
+    {
+        return $this->acoes;
+    }
+
     /**
      * Retorna o objeto filho
      */

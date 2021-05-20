@@ -2,46 +2,66 @@
 /********************************************************************************************
  * Sistema Agenet
  * 
- * Data: 10/03/2021
+ * Data: 09/03/2021
  ********************************************************************************************/
- # Espaço de nomes
- namespace Estrutura\Bugigangas\Form;
+# Espaço de nomes
+namespace Estrutura\Bugigangas\Form;
 
-use Estrutura\Bugigangas\Base\Elemento;
-use Estrutura\Bugigangas\Form\Campo;
-use Estrutura\Bugigangas\Form\InterfaceElementoForm;
 
- /**
-  * Class Rotulo
-  */
+
+/**
+ * Campo Oculto
+ *
+ * @version    7.1
+ * @package    widget
+ * @subpackage form
+ * @author     Pablo Dall'Oglio
+ * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
+ * @license    http://www.adianti.com.br/framework-license
+ */
 class Oculto extends Campo implements InterfaceBugiganga
 {
-    # propriedades
-    protected $propriedades;
-
+    protected $id;
+    
     /**
-     * Método exibe
+     * Return the post data
+     */
+    public function obtDadosPost()
+    {
+        $nome = str_replace(['[',']'], ['',''], $this->nome);
+        
+        if (isset($_POST[$nome]))
+        {
+            return $_POST[$nome];
+        }
+        else
+        {
+            return '';
+        }
+    }
+    
+    /**
+     * Show the widget at the screen
      */
     public function exibe()
     {
-        # atribui as propriedades da tag
-        $tag = new Elemento('input'); 
-        $tag->class = 'field';
-        $tag->name = $this->nome;
-        $tag->value = $this->valor;
-        $tag->type = 'hidden';
-        $tag->style = "width: {$this->tamanho}";
-
-        # caso o campo não seja editável
-        if (!parent::obtEditavel()) {
-            $tag->readonly = "readonly";
+        // set the tag properties
+        $this->tag->{'name'}   = $this->nome;  // tag name
+        $this->tag->{'value'}  = $this->valor; // tag value
+        $this->tag->{'type'}   = 'hidden';     // input type
+        $this->tag->{'widget'} = 'thidden';
+        $this->tag->{'style'}  = "width:{$this->tamanho}";
+        
+        if ($this->id and empty($this->tag->{'id'}))
+        {
+            $this->tag->{'id'} = $this->id;
         }
-
-        if ($this->propriedades) {
-            foreach ($this->propriedades as $propriedade => $valor) {
-                $tag->$propriedade = $valor;
-            }
+        else
+        {
+            $this->tag->{'id'} = 'thidden_' . mt_rand(1000000000, 1999999999);
         }
-        $tag->exibe();
+        
+        // shows the widget
+        $this->tag->exibe();
     }
 }

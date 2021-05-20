@@ -7,8 +7,6 @@
 # Espaço de nomes
 namespace Estrutura\Bugigangas\Form;
 
-
-
 /**
  * Campo Oculto
  *

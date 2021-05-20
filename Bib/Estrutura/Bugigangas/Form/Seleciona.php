@@ -102,7 +102,7 @@ class Seleciona extends Campo implements InterfaceBugiganga
      * @param $largura Field's width in pixels
      * @param $altura Field's height in pixels
      */
-    public function setSize($largura, $altura = NULL)
+    public function defTamanho($largura, $altura = NULL)
     {
         $this->tamanho = $largura;
         $this->altura = $altura;
@@ -178,7 +178,7 @@ class Seleciona extends Campo implements InterfaceBugiganga
      * Define the action to be executed when the user changes the combo
      * @param $acao TAction object
      */
-    public function setChangeAction(Acao $acao)
+    public function defAcaoMudar(Acao $acao)
     {
         if ($acao->ehEstatico())
         {

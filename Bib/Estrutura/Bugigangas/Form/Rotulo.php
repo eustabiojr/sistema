@@ -27,6 +27,8 @@ class Rotulo extends Campo implements InterfaceBugiganga
     public function __construct($valor, $cor = null, $tamanhofonte = null, $decoracao = null, $tamanho = null)
     {
         $this->id        = 'rotulo_' . \mt_rand(1000000000, 1999999999);
+        $nome_estilo = 'estilo_rotulo_' . $this->id;
+
         $this->defValor($valor);
 
         if (!empty($cor)) {

@@ -1,5 +1,10 @@
 <?php
-
+/********************************************************************************************
+ * Sistema Agenet
+ * 
+ * Data: 09/03/2021
+ ********************************************************************************************/
+ # Espaço de nomes
 namespace Estrutura\Embrulho;
 
 use Estrutura\Bugigangas\Base\Elemento;
@@ -7,9 +12,12 @@ use Estrutura\Bugigangas\Base\Script;
 use Estrutura\Bugigangas\Form\Botao;
 use Estrutura\Bugigangas\Form\BotaoBusca;
 use Estrutura\Bugigangas\Form\Campo;
+use Estrutura\Bugigangas\Form\Deslizante;
+use Estrutura\Bugigangas\Form\EditorHtml;
 use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Bugigangas\Form\GrupoCheck;
 use Estrutura\Bugigangas\Form\GrupoRadio;
+use Estrutura\Bugigangas\Form\GrupoVerifica;
 use Estrutura\Bugigangas\Form\InterfaceBugiganga;
 use Estrutura\Bugigangas\Form\InterfaceElementoForm;
 use Estrutura\Bugigangas\Form\Oculto;
@@ -829,8 +837,8 @@ class BootstrapConstrutorForm implements InterfaceElementoForm
     {
         $objeto = $campo; // Compatibilidade BC (Backend)
         $tamanho_campo = (is_object($objeto) && method_exists($objeto, 'obtTamanho')) ? $campo->obtTamanho() : null;
-        $tem_sublinhado = (!$campo instanceof Rotulo && !$campo instanceof GrupoRadio && !$campo instanceof GrupoCheck && !$campo instanceof Botao && !$campo
-            instanceof Oculto && !$campo instanceof GDeslizante);
+        $tem_sublinhado = (!$campo instanceof Rotulo && !$campo instanceof GrupoRadio && !$campo instanceof GrupoVerifica && !$campo instanceof Botao && !$campo
+            instanceof Oculto && !$campo instanceof Deslizante);
         $embalagem_campo = new Elemento('div');
         $embalagem_campo->{'class'} = 'fb-inline-field-container ' . ((($campo instanceof Campo) and ($tem_sublinhado)) ? 'form-line' : '');
         $embalagem_campo->{'style'} = "display: {$exibe}; vertical-align:top;" . ($exibe == 'inline-block'? 'float:left' : '');
@@ -852,12 +860,12 @@ class BootstrapConstrutorForm implements InterfaceElementoForm
                     $embalagem_campo->{'style'} .= ( (strpos($largura, '%') !== FALSE) ? ';width: ' . $largura : ';width: ' . $largura.'px');
                 }
 
-                if (!$objeto instanceof GEditorHtml) {
+                if (!$objeto instanceof EditorHtml) {
                     if ($altura) {
                         $embalagem_campo->{'style'} .= ( (strpos($altura, '%') !== FALSE) ? ';height: ' . $altura : ';height: ' . $altura.'px');
                     }
                 }
-            } else if ($tamanho_campo && !$objeto instanceof GGrupoRadio AND !$objeto instanceof GGrupoCheca AND (!$objeto instanceof BotaoBusca OR 
+            } else if ($tamanho_campo && !$objeto instanceof GrupoRadio AND !$objeto instanceof GrupoVerifica AND (!$objeto instanceof BotaoBusca OR 
                 !empty($tamanho_campo_padrao))) {
                 $embalagem_campo->{'style'} .= ( (strpos($tamanho_campo, '%') !== FALSE) ? ';width: ' . $tamanho_campo : ';width: ' . $tamanho_campo.'px');
             }
@@ -887,7 +895,7 @@ class BootstrapConstrutorForm implements InterfaceElementoForm
                 }
             } else if (in_array($objeto->obtPropriedade('widget'), ['tmultisearch', 'tdbmultisearch', 'thtmleditor', 'tmultientry'])) {
                 $objeto->defTamanho('100%', $tamanho_campo[1] - 3);
-            } else if ( ($tamanho_campo) AND !($objeto instanceof GGrupoRadio OR $objeto instanceof GGrupoCheca)) {
+            } else if ( ($tamanho_campo) AND !($objeto instanceof GrupoRadio OR $objeto instanceof GrupoVerifica)) {
                 $objeto->defTamanho('100%', '100%');
             }
         }

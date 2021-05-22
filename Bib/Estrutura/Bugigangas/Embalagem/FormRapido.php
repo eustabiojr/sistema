@@ -9,14 +9,14 @@ namespace Estrutura\Bugigangas\Embalagem;
 
 use Ageunet\Validacao\ValidadorCampo;
 use Ageunet\Validacao\ValidadorObrigatorio;
-use Estrutura\Bugigangas\Base\CaixaH;
 use Estrutura\Bugigangas\Form\Botao;
 use Estrutura\Bugigangas\Form\Form;
-use Estrutura\Bugigangas\Form\GrupoCheck;
+use Estrutura\Bugigangas\Form\GrupoVerifica;
 use Estrutura\Bugigangas\Form\GrupoRadio;
 use Estrutura\Bugigangas\Form\InterfaceBugiganga;
 use Estrutura\Bugigangas\Form\Oculto;
 use Estrutura\Bugigangas\Form\Rotulo;
+use Estrutura\Bugigangas\Recipiente\CaixaH;
 use Estrutura\Bugigangas\Recipiente\Tabela;
 use Estrutura\Controle\Acao;
 use Exception;
@@ -175,7 +175,7 @@ class FormRapido extends Form
      */
     public function adicCampoRapido($rotulo, InterfaceBugiganga $objeto, $tamanho = 200, ValidadorCampo $validador = NULL, $tamanho_rotulo = NULL)
     {
-        if ($tamanho && !$objeto instanceof GrupoRadio && !$objeto instanceof GrupoCheck) {
+        if ($tamanho && !$objeto instanceof GrupoRadio && !$objeto instanceof GrupoVerifica) {
             $objeto->defTamanho($tamanho);
         }
         parent::adicCampo($objeto);

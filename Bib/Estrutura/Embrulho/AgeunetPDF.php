@@ -1,5 +1,11 @@
-<?php 
-namespace Estrutura\Embrulho;
+<?php
+/********************************************************************************************
+ * Sistema Agenet
+ * 
+ * Data: 09/03/2021
+ ********************************************************************************************/
+ # Espaço de nomes
+namespace Estrutura\Embrulho;s
 
 use FPDF;
 use Exception;

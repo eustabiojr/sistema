@@ -235,7 +235,7 @@ class ListaClassificacao extends Campo implements InterfaceBugiganga
     /**
      * Clear the field
      */
-    public static function clearField($nome_form, $campo)
+    public static function limpaCampo($nome_form, $campo)
     {
         Script::cria( " tsortlist_clear_field('{$nome_form}', '{$campo}'); " );
     }

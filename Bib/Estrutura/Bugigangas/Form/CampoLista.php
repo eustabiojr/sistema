@@ -133,7 +133,8 @@ class CampoLista extends Tabela
             
             if (isset($this->campos[$nome]) AND substr($nome,-2) !== '[]')
             {
-                throw new Exception("You have already added a field called {$nome} inside the form");
+                throw new Exception("Você já adicionou o campo nomeado {$nome} no formulário");
+
             }
             
             if ($nome)

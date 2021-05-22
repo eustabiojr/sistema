@@ -325,8 +325,8 @@ class Seleciona extends Campo implements InterfaceBugiganga
         $this->tag->{'name'}  = $this->nome.'[]';    // tag name
         $this->tag->{'id'}    = $this->id;
         
-        $this->setProperty('style', (strstr($this->tamanho, '%') !== FALSE)   ? "width:{$this->tamanho}"    : "width:{$this->tamanho}px",   false); //aggregate style info
-        $this->setProperty('style', (strstr($this->altura, '%') !== FALSE) ? "height:{$this->altura}" : "height:{$this->altura}px", false); //aggregate style info
+        $this->defPropriedade('style', (strstr($this->tamanho, '%') !== FALSE)   ? "width:{$this->tamanho}"    : "width:{$this->tamanho}px",   false); //aggregate style info
+        $this->defPropriedade('style', (strstr($this->altura, '%') !== FALSE) ? "height:{$this->altura}" : "height:{$this->altura}px", false); //aggregate style info
         
         // verify whether the widget is editable
         if (parent::getEditable())
@@ -338,15 +338,15 @@ class Seleciona extends Campo implements InterfaceBugiganga
                     throw new Exception("Você deve passer a {__CLASS__} ({$this->nome}) como parâmetro para Form::defCampos()");
                 }
                 
-                $string_acao = $this->mudaAcao->serialize(FALSE);
-                $this->setProperty('changeaction', "__ageunet_pesquisa_post('{$this->nomeForm}', '{$string_acao}', this, 'callback')");
-                $this->setProperty('onChange', $this->getProperty('changeaction'));
+                $string_acao = $this->mudaAcao->serializa(FALSE);
+                $this->defPropriedade('changeaction', "__ageunet_pesquisa_post('{$this->nomeForm}', '{$string_acao}', this, 'callback')");
+                $this->defPropriedade('onChange', $this->obtPropriedade('changeaction'));
             }
             
             if (isset($this->mudaFuncao))
             {
-                $this->setProperty('changeaction', $this->mudaFuncao, FALSE);
-                $this->setProperty('onChange', $this->mudaFuncao, FALSE);
+                $this->defPropriedade('changeaction', $this->mudaFuncao, FALSE);
+                $this->defPropriedade('onChange', $this->mudaFuncao, FALSE);
             }
         }
         else

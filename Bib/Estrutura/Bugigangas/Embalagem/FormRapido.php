@@ -94,7 +94,7 @@ class FormRapido extends Form
      * 
      * @param $quantidade Quantidade de campos
      */
-    public function defCamposPorLinha($quantidade)
+    public function defCamposPorLinha($quantidade) 
     {
         if (is_int($quantidade) AND $quantidade >= 1 AND $quantidade <=3) {
             $this->camposPorLinha = $quantidade;

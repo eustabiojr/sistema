@@ -38,7 +38,7 @@ class BootstrapConstrutorForm implements InterfaceElementoForm
         $this->elemento->{'method'}    = 'post';
         $this->elemento->{'name'}      = $this->decorado->obtNome();
         $this->elemento->{'id'}        = $this->decorado->obtNome();
-        $this->elemento->{'naovalida'} = '';
+        $this->elemento->{'novalidate'} = '';
     }
 
     /**
@@ -47,9 +47,9 @@ class BootstrapConstrutorForm implements InterfaceElementoForm
     public function defValidacaoCliente($bool)
     {
         if($bool) {
-            unset($this->elemento->{'naovalida'});
+            unset($this->elemento->{'novalidate'});
         } else {
-                $this->elemento->{'naovalida'} = '';
+                $this->elemento->{'novalidate'} = '';
         }
     }
 
@@ -67,6 +67,14 @@ class BootstrapConstrutorForm implements InterfaceElementoForm
     public function __call($metodo, $parametros)
     {
         return call_user_func_array(array($this->decorado, $metodo), $parametros);
+    }
+
+    /**
+     * Redireciona atribuições ao objeto decorado
+     */
+    public function __set($propriedade, $valor)
+    {
+        return $this->elemento->$propriedade = $valor;
     }
 
     /**

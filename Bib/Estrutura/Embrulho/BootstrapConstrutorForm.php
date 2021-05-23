@@ -15,7 +15,6 @@ use Estrutura\Bugigangas\Form\Campo;
 use Estrutura\Bugigangas\Form\Deslizante;
 use Estrutura\Bugigangas\Form\EditorHtml;
 use Estrutura\Bugigangas\Form\Form;
-use Estrutura\Bugigangas\Form\GrupoCheck;
 use Estrutura\Bugigangas\Form\GrupoRadio;
 use Estrutura\Bugigangas\Form\GrupoVerifica;
 use Estrutura\Bugigangas\Form\InterfaceBugiganga;

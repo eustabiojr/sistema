@@ -21,8 +21,8 @@ interface InterfaceBugiganga
     public function exibe();
     
     # Testar se os protótipos abaixo são necessários (22-Mai-2021)
-    public function defTamanho($tamanho);
-    public function defRotulo($rotulo);
-    public function adicValidacao($valor_rotulo, $validador);
+    //public function defTamanho($tamanho);
+    //public function defRotulo($rotulo);
+    //public function adicValidacao($valor_rotulo, $validador);
 
 }

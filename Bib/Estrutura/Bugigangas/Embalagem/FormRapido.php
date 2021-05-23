@@ -9,6 +9,7 @@ namespace Estrutura\Bugigangas\Embalagem;
 
 use Ageunet\Validacao\ValidadorCampo;
 use Ageunet\Validacao\ValidadorObrigatorio;
+use Estrutura\Bugigangas\Base\Script;
 use Estrutura\Bugigangas\Form\Botao;
 use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Bugigangas\Form\GrupoVerifica;
@@ -376,5 +377,21 @@ class FormRapido extends Form
     public function adicLinha()
     {
         return $this->tabela->adicLinha();
+    }
+
+    /** 
+     * 
+     */
+    public static function exibeCampo($form, $campo, $velocidade = 0)
+    {
+        Script::cria("form_exibe_campo('{$form}', '{$campo}', '{$velocidade}')");
+    }
+
+    /** 
+     * 
+     */
+    public static function ocultaCampo($form, $campo, $velocidade = 0)
+    {
+        Script::cria("form_oculta_campo('{$form}', '{$campo}', '{$velocidade}')");
     }
 }

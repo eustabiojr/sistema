@@ -118,7 +118,7 @@ class FormularioComAbas extends Pagina
             if (isset($param['cidade_estado_pais_id']) && $param['cidade_estado_pais_id'])
             { 
                 $criteria = Criterio::cria(['pais_id' => (int) $param['cidade_estado_pais_id']]); 
-                ComboBD::reloadFromModel(self::$nomeForm, 'cidade_estado_id', 'exemplos', 'Estado', 'id', '{nome}', 'nome asc', $criteria, TRUE); 
+                ComboBD::recarregaDoModelo(self::$nomeForm, 'cidade_estado_id', 'exemplos', 'Estado', 'id', '{nome}', 'nome asc', $criteria, TRUE); 
             } 
             else 
             { 
@@ -128,7 +128,7 @@ class FormularioComAbas extends Pagina
         }
         catch (Exception $e)
         {
-            new Mensagem('error', $e->getMessage());
+            new Mensagem('erro', $e->getMessage());
         }
     } 
 
@@ -139,7 +139,7 @@ class FormularioComAbas extends Pagina
             if (isset($param['cidade_estado_id']) && $param['cidade_estado_id'])
             { 
                 $criteria = Criterio::cria(['estado_id' => (int) $param['cidade_estado_id']]); 
-                ComboBD::reloadFromModel(self::$nomeForm, 'cidade_id', 'exemplos', 'Cidade', 'id', '{nome}', 'nome asc', $criteria, TRUE); 
+                ComboBD::recarregaDoModelo(self::$nomeForm, 'cidade_id', 'exemplos', 'Cidade', 'id', '{nome}', 'nome asc', $criteria, TRUE); 
             } 
             else 
             { 
@@ -149,7 +149,7 @@ class FormularioComAbas extends Pagina
         }
         catch (Exception $e)
         {
-            new Mensagem('error', $e->getMessage());
+            new Mensagem('erro', $e->getMessage());
         }
     } 
 
@@ -169,16 +169,16 @@ class FormularioComAbas extends Pagina
 
             $this->form->validate(); // validate form data
 
-            $object = new Funcionario(); // create an empty object 
+            $objeto = new Funcionario(); // create an empty object 
 
-            $data = $this->form->getData(); // get form data as array
-            $object->doArray( (array) $data); // load the object with data
+            $data = $this->form->obtDados(); // get form data as array
+            $objeto->doArray( (array) $data); // load the object with data
 
-            $object->grava(); // save the object 
+            $objeto->grava(); // save the object 
 
-            $this->fireEvents($object);
+            $this->disparaEventos($objeto);
 
-            $repository = HabilidadesFuncionario::where('funcionario_id', '=', $object->id);
+            $repository = HabilidadesFuncionario::where('funcionario_id', '=', $objeto->id);
             $repository->delete(); 
 
             if ($data->habilidades) 
@@ -188,13 +188,13 @@ class FormularioComAbas extends Pagina
                     $habilidades_funcionario = new HabilidadesFuncionario;
 
                     $habilidades_funcionario->habilidades_id = $habilidades;
-                    $habilidades_funcionario->funcionario_id = $object->id;
+                    $habilidades_funcionario->funcionario_id = $objeto->id;
                     $habilidades_funcionario->grava();
                 }
             }
 
             // get the generated {PRIMARY_KEY}
-            $data->id = $object->id; 
+            $data->id = $objeto->id; 
 
             $this->form->setData($data); // fill form data
             Transacao::fecha(); // close the transaction
@@ -204,13 +204,13 @@ class FormularioComAbas extends Pagina
             $messageAction = new Acao(['className', 'methodName']);
             **/
 
-            new Mensagem('info', AdiantiCoreTranslator::translate('Record saved'), $messageAction);
+            new Mensagem('info', 'Record saved', $messageAction);
 
         }
         catch (Exception $e) // in case of exception
         {
-            new Mensagem('error', $e->getMessage()); // shows the exception error message
-            $this->form->setData( $this->form->getData() ); // keep form data
+            new Mensagem('erro', $e->getMessage()); // shows the exception error message
+            $this->form->setData( $this->form->obtDados() ); // keep form data
             Transacao::desfaz(); // undo all pending operations
         }
     }
@@ -234,17 +234,17 @@ class FormularioComAbas extends Pagina
                 $key = $param['key'];  // get the parameter $key
                 Transacao::abre(self::$bancodados); // open a transaction
 
-                $object = new Funcionario($key); // instantiates the Active Record 
+                $objeto = new Funcionario($key); // instantiates the Active Record 
 
-                $object->cidade_estado_pais_id = $object->cidade->estado->pais->id;
-    $object->cidade_estado_id = $object->cidade->estado->id;
+                $objeto->cidade_estado_pais_id = $objeto->cidade->estado->pais->id;
+    $objeto->cidade_estado_id = $objeto->cidade->estado->id;
 
-                $criteria = Criterio::cria(['funcionario_id'=>$object->id]);
-                $object->habilidades = HabilidadesFuncionario::getIndexedArray('habilidades_id', 'habilidades_id', $criteria);
+                $criteria = Criterio::cria(['funcionario_id'=>$objeto->id]);
+                $objeto->habilidades = HabilidadesFuncionario::getIndexedArray('habilidades_id', 'habilidades_id', $criteria);
 
-                $this->form->setData($object); // fill the form 
+                $this->form->setData($objeto); // fill the form 
 
-                $this->fireEvents($object);
+                $this->disparaEventos($objeto);
 
                 Transacao::fecha(); // close the transaction 
             }
@@ -255,47 +255,47 @@ class FormularioComAbas extends Pagina
         }
         catch (Exception $e) // in case of exception
         {
-            new Mensagem('error', $e->getMessage()); // shows the exception error message
+            new Mensagem('erro', $e->getMessage()); // shows the exception error message
             Transacao::desfaz(); // undo all pending operations
         }
     }
 
-    public function onShow()
+    public function aoExibir()
     {
 
     } 
 
-    public function fireEvents( $object )
+    public function disparaEventos( $objeto )
     {
         $obj = new stdClass;
-        if(get_class($object) == 'stdClass')
+        if(get_class($objeto) == 'stdClass')
         {
-            if(isset($object->cidade_estado_pais_id))
+            if(isset($objeto->cidade_estado_pais_id))
             {
-                $obj->cidade_estado_pais_id = $object->cidade_estado_pais_id;
+                $obj->cidade_estado_pais_id = $objeto->cidade_estado_pais_id;
             }
-            if(isset($object->cidade_estado_id))
+            if(isset($objeto->cidade_estado_id))
             {
-                $obj->cidade_estado_id = $object->cidade_estado_id;
+                $obj->cidade_estado_id = $objeto->cidade_estado_id;
             }
-            if(isset($object->cidade_id))
+            if(isset($objeto->cidade_id))
             {
-                $obj->cidade_id = $object->cidade_id;
+                $obj->cidade_id = $objeto->cidade_id;
             }
         }
         else
         {
-            if(isset($object->cidade->estado->pais->id))
+            if(isset($objeto->cidade->estado->pais->id))
             {
-                $obj->cidade_estado_pais_id = $object->cidade->estado->pais->id;
+                $obj->cidade_estado_pais_id = $objeto->cidade->estado->pais->id;
             }
-            if(isset($object->cidade->estado->id))
+            if(isset($objeto->cidade->estado->id))
             {
-                $obj->cidade_estado_id = $object->cidade->estado->id;
+                $obj->cidade_estado_id = $objeto->cidade->estado->id;
             }
-            if(isset($object->cidade_id))
+            if(isset($objeto->cidade_id))
             {
-                $obj->cidade_id = $object->cidade_id;
+                $obj->cidade_id = $objeto->cidade_id;
             }
         }
         Form::enviaDados(self::$nomeForm, $obj);

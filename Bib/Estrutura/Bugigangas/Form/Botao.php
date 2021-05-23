@@ -1,13 +1,14 @@
 <?php
 /********************************************************************************************
- * Sistema Agenet
- * 
- * Data: 10/03/2021
- ********************************************************************************************/
- # Espaço de nomes
- namespace Estrutura\Bugigangas\Form;
+* Sistema Agenet
+* 
+* Data: 10/03/2021
+********************************************************************************************/
+# Espaço de nomes
+namespace Estrutura\Bugigangas\Form;
 
 use Estrutura\Bugigangas\Base\Elemento;
+use Estrutura\Bugigangas\Base\Script;
 use Estrutura\Bugigangas\Util\Imagem;
 use Estrutura\Controle\Acao;
 use Exception;
@@ -18,8 +19,12 @@ use Exception;
 class Botao extends Campo implements InterfaceBugiganga
 {
     private $acao;
-    private $rotulo;
-    private $nomeForm;
+    private $imagem;
+    private $funcoes;
+    private $nomeTag;
+    protected $propriedades;
+    protected $rotulo;
+    protected $nomeForm;
 
     /**
      *  Cria um botão com ícone e ação
@@ -33,11 +38,22 @@ class Botao extends Campo implements InterfaceBugiganga
     }
 
     /**
-     * Método defNomeForm
+     * Adiciona uma classe
      */
-    public function defNomeForm($nome)
+    public function adicClasseEstilo($classe)
     {
-        $this->nomeForm = $nome;
+        $classes = ['btn-primary', 'btn-secondary', 'btn-success', 'btn-danger', 'btn-warning', 'btn-info', 'btn-light', 'btn-dark', 'btn-link', 'btn-default'];
+        $encontrado = false;
+
+        foreach ($classes as $classeBtn) 
+        {
+            if (strpos($classe, $classeBtn) !== false)
+            {
+                $encontrado = true;
+            }
+        }
+
+        $this->{'class'} = 'btn ' . ($encontrado ? '' : 'btn-default') . $classe;
     }
 
     /**
@@ -49,6 +65,14 @@ class Botao extends Campo implements InterfaceBugiganga
     {
         $this->acao   = $acao;
         $this->rotulo = $rotulo;
+    }
+
+    /**
+     * Retorna a ação do botão
+     */
+    public function obtAcao()
+    {
+        return $this->acao;
     }
 
     /**
@@ -80,11 +104,25 @@ class Botao extends Campo implements InterfaceBugiganga
     /**
      * Retorna a ação do botão
      */
-    public function obtRotulo() : string
+    public function obtRotulo()
     {
         return $this->rotulo;
     }
 
+    /**
+     * Adiciona uma função Javascript a ser executada pelo botão
+     * 
+     * @param $funcao Um pedaço de código javascript
+     * @ignore-autocomplete ons
+     */
+    public function adicFuncao($funcao)
+    {
+        if ($funcao) 
+        {
+            $this->funcoes = $funcao . ';';
+        }
+    }
+    
     /**
      * Define a propriedade de campo
      * @param $nome Nome da propriedade
@@ -104,11 +142,25 @@ class Botao extends Campo implements InterfaceBugiganga
     }
 
     /**
-     * Retorna a ação do botão
+     * Habilita campo
+     * 
+     * @param $nome_form Nome do formulário
+     * @param $campo Nome do campo
      */
-    public function obtAcao()
+    public function habilitaCampo($nome_form, $campo)
     {
-        return $this->acao;
+        Script::cria(" botao_habilita_campo('{$nome_form}', '{$campo}'); ");
+    }
+
+    /**
+     * Desabilita campo
+     * 
+     * @param $nome_form Nome do formulário
+     * @param $campo Nome do campo
+     */
+    public function desabilitaCampo($nome_form, $campo)
+    {
+        Script::cria(" botao_desabilita_campo('{$nome_form}', '{$campo}'); ");
     }
 
     /**

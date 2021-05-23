@@ -134,7 +134,7 @@ abstract class Campo
     /**
      * Método obtRotulo
      */
-    public function obtRotulo() : string
+    public function obtRotulo()
     {
         return $this->rotulo;
     }
@@ -150,7 +150,7 @@ abstract class Campo
     /**
      * Método obtNome
      */
-    public function obtNome() : string
+    public function obtNome()
     {
         return $this->nome;
     }

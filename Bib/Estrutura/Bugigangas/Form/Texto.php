@@ -21,7 +21,7 @@ use Exception;
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    http://www.adianti.com.br/framework-license
  */
-class TText extends Campo implements InterfaceBugiganga
+class Texto extends Campo implements InterfaceBugiganga
 {
     private   $acaoSair;
     private   $funcaoSair;

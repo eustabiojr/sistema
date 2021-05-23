@@ -10,9 +10,11 @@ namespace Estrutura\BancoDados;
 /**
  * Classe Criterio
  */
-class Criterio {
+class Criterio extends Expressao
+{
     # propriedades da classe
-    private $filtros;
+    private $expressoes;
+    private $operadores;
     private $propriedades;
 
     /**
@@ -20,63 +22,119 @@ class Criterio {
      */
     public function __construct()
     {
-        $this->filtros = array();
+        $this->expressoes = [];
+        $this->filtros    = array();
+
+        $this->propriedades['order']     = '';
+        $this->propriedades['offset']    = 0;
+        $this->propriedades['direction'] = '';
+        $this->propriedades['group']     = '';
+    }
+
+    /**
+     * Cria criterio do array de filtros
+     */
+    public static function cria($filtros_simples, $propriedades = null)
+    {
+        $criterio = new Criterio;
+        if ($filtros_simples)
+        {
+            foreach ($filtros_simples as $operador_esquerdo => $operador_direito)
+            {
+                $criterio->adic(new Filtro($operador_esquerdo, '=', $operador_direito));
+            }
+        }
+
+        if ($propriedades)
+        {
+            foreach ($propriedades as $propriedade => $valor)
+            {
+                if (!empty($valor))
+                {
+                    $criterio->defPropriedade($propriedade, $valor);
+                }
+            }
+        }
+    }
+
+    /**
+     * Quando clonar critério
+     */
+    public function __clone()
+    {
+        $expressoesNovas = [];
+        foreach ($this->expressoes as $chave => $valor)
+        {
+            $expressoesNovas[$chave] = clone $valor;
+        }
+        $this->expressoes = $expressoesNovas;
     }
 
     /**
      * Método adic
      */
-    public function adic($variavel, $operador_comparacao, $valor, $operador_logico = 'AND')
+    public function adic(Expressao $expressao, $operador = self::OPERATOR_E)
     {
         # na primeira vez não precisamos concatenar
-        if (empty($this->filtros)) {
+        if (empty($this->expressoes)) {
             $operador_logico = NULL;
         }
 
-        $this->filtros[] = [$variavel, $operador_comparacao, $this->transformador($valor), $operador_logico];
+        $this->expressoes[] = $expressao;
+        $this->operadores[] = $operador;
+    }
+
+    /** 
+    * Retorna se o critério está vazio 
+    * 
+    */
+    public function estaVazio()
+    {
+        return count($this->expressoes) == 0;
     }
 
     /**
-     * Método transformador
+     * Retorna as variáveis preparadas
      */
-    private function transformador($valor) 
+    public function obtVarsPreparadas()
     {
-        # no caso de array
-        if (is_array($valor)) {
-            foreach($valor as $x) {
-                if (is_integer($x)) {
-                    $bobagem[] = $x;
-                } else if (is_string($x)) {
-                    $bobagem[] = "'$x'";
+        $varsPreparadas = [];
+        if (is_array($this->expressoes))
+        {
+            if (count($this->expressoes) > 0)
+            {
+                foreach ($this->expressoes as $expressao)
+                {
+                    $varsPreparadas = array_merge($varsPreparadas, (array) $expressao->obtVarsPreparadas());
                 }
+                return $varsPreparadas;
             }
-            # converte o array em string separada por ","
-            $resultado = '(' . implode(',', $bobagem) . ')';
-        } else if(is_string($valor)) {
-            $resultado = "'$valor'";
-        } else if(is_null($valor)) {
-            $resultado = 'NULL';
-        } else if(is_bool($valor)) {
-            $resultado = $valor ? 'TRUE' : 'FALSE';
-        } else {
-            $resultado = $valor;
         }
-        return $resultado;
     }
 
     /**
      * Método despeja
      */
-    public function despeja() 
+    public function despeja($preparado = FALSE) 
     {
         # concatena a lista de expressões
-        if (is_array($this->filtros) AND count($this->filtros) > 0) {
-            $resultado = '';
-            foreach ($this->filtros as $filtro) {
-                $resultado .= $filtro[3] . ' ' . $filtro[0] . ' ' . $filtro[1] . ' ' . $filtro[2] . ' ';
+        if (is_array($this->expressoes))
+        {
+            if (count($this->expressoes) > 0)
+            {
+                $resultado = '';
+                foreach ($this->expressoes as $i => $expressao)
+                {
+                    $operador = $this->operadores[$i];
+                    # concatena o operador com sua respectiva expressão
+                    $resultado .= $operador . $expressao->despeja($preparado) . ' ';
+                }
             }
             $resultado = trim($resultado);
-            return "({$resultado})";
+            if ($resultado) 
+            {
+                return "({$resultado})";
+            }
         }
     }
 
@@ -91,6 +149,36 @@ class Criterio {
             $this->propriedades[$propriedade] = NULL;
         }
     }
+
+    /**
+     * redefine propriedades de critério
+     */
+    public function redefinePropriedades()
+    {
+        $this->propriedades['limit'] = NULL;
+        $this->propriedades['order'] = NULL;
+        $this->propriedades['offset'] = NULL;
+        $this->propriedades['group'] = NULL;
+    }
+
+    /**
+     * define propriedades apartir de array
+     */
+    public function defPropriedades($propriedades)
+    {
+        if (isset($propriedades['order']) AND $propriedades['order'])
+        {
+            $this->propriedades['order'] = addslashes($propriedades['order']);
+        }
+        if (isset($propriedades['offset']) AND $propriedades['offset'])
+        {
+            $this->propriedades['offset'] = addslashes($propriedades['offset']);
+        }
+        if (isset($propriedades['direction']) AND $propriedades['direction'])
+        {
+            $this->propriedades['direction'] = addslashes($propriedades['direction']);
+        }
+    }    
 
     /**
      * Método obtPropriedade

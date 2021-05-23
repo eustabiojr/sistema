@@ -116,7 +116,7 @@ class ComboBD extends Combo
      * @param  $iniciaVazio  if the combo will have an empty first item
      * @param  $dispara_eventos  if change action will be fired
      */
-    public static function reloadFromModel($nomeform, $campo, $bancodados, $modelo, $chave, $valor, $ordemColuna = NULL, $criterio = NULL, $iniciaVazio = FALSE, $dispara_eventos = TRUE)
+    public static function recarregaDoModelo($nomeform, $campo, $bancodados, $modelo, $chave, $valor, $ordemColuna = NULL, $criterio = NULL, $iniciaVazio = FALSE, $dispara_eventos = TRUE)
     {
         Transacao::abre($bancodados);
         

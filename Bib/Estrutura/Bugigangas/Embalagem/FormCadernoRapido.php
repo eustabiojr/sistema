@@ -57,7 +57,7 @@ class FormCadernoRapido extends FormRapido
      * Add a form title
      * @param $titulo     Form title
      */
-    public function setFormTitle($titulo)
+    public function defTituloForm($titulo) 
     {
         parent::defTituloForm($titulo);
         $this->caixa_vertical->adic($this->tabela);

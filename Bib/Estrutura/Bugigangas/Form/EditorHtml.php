@@ -50,9 +50,9 @@ class EditorHtml extends Campo implements InterfaceBugiganga
     /**
      * Set extra calendar opcoes
      */
-    public function setOption($option, $value)
+    public function defOpcao($opcao, $valor)
     {
-        $this->opcoes[$option] = $value;
+        $this->opcoes[$opcao] = $valor;
     }
     
     /**

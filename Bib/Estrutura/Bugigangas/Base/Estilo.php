@@ -19,7 +19,7 @@ use Estrutura\Controle\Pagina;
  * @copyright  ??
  * @license    ??
  */
-class GEstilo
+class Estilo
 {
     private $nome;           // stylesheet name
     private $propriedades;     // propriedades
@@ -102,7 +102,7 @@ class GEstilo
     /**
      * Retorna se o estilo possui alguma conteúdo
      */
-    public function temConteudo()
+    public function possuiConteudo()
     {
         return count($this->propriedades) > 0;
     }

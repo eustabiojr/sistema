@@ -21,12 +21,11 @@ class Combo extends Campo implements InterfaceBugiganga
 {
     protected $id;
     protected $itens;
-    protected $propriedades;
     protected $nomeForm;
     private $pesquisavel;
     private $mudaAcao;
     protected $opcaoPadrao;
-    protected $mudaFuncao;
+    protected $mudaFuncao;    
     protected $eh_booleano;
 
     /**
@@ -166,6 +165,34 @@ class Combo extends Campo implements InterfaceBugiganga
         $this->mudaFuncao = $funcao;
     }
 
+    public static function recarrega($nomeform, $nome, $itens, $iniciaVazio = FALSE, $dispara_eventos = TRUE)
+    {
+        $param_dispara = $dispara_eventos ? 'true' : 'false';
+        $codigo = "combo_limpar('{$nomeform}', '{$nome}', $param_dispara); ";
+        if ($iniciaVazio)
+        {
+            $codigo .= "combo_adic_opcao('{$nomeform}', '{$nome}', '', ''); ";
+        }
+
+        if ($itens)
+        {
+            foreach ($itens as $chave => $valor)
+            {
+                if(substr($chave, 0, 3) == '>>>')
+                {
+                    $codigo .= "combo_cria_opc_grupo('{$nomeform}', '{$nome}', '{$valor}'); ";
+                } 
+                else
+                {
+                    # caso exista opcaogrupo
+                    $valor = addslashes($valor);
+                    $codigo .= "combo_cria_opc_grupo('{$nomeform}', '{$nome}', '{$chave}', '{$valor}'); ";
+                }
+            }
+        }
+        Script::cria($codigo);
+    }
+
     /**
      * Define a opção padrão do combo
      * @param $opcao valor da opção
@@ -173,6 +200,40 @@ class Combo extends Campo implements InterfaceBugiganga
     public function defOpcaoPadrao($opcao)
     {
         $this->opcaoPadrao = $opcao;
+    }
+
+    /**
+     * Habilita o campos
+     * 
+     * @param $nomeform O nome do formulário
+     * @param $campo O nome do campo
+     */
+    public static function habilitaCampo($nomeform, $campo)
+    {
+        Script::cria( " combo_habilita_campo('{$nomeform}', '{$campo}'); " );
+    }
+
+    /**
+     * Desabilita o campos
+     * 
+     * @param $nomeform O nome do formulário
+     * @param $campo O nome do campo
+     */
+    public static function desabilitaCampo($nomeform, $campo)
+    {
+        Script::cria( " combo_desabilita_campo('{$nomeform}', '{$campo}'); " );
+    }
+
+    /**
+     * Limpa o campo
+     * 
+     * @param $nomeform O nome do formulário
+     * @param $campo O nome do campo
+     */
+    public static function limpaCampo($nomeform, $campo, $dispara_eventos = TRUE)
+    {
+        $param_dispara = $dispara_eventos ? 'true' : 'false';
+        Script::cria( " combo_limpa('{$nomeform}', '{$campo}', $dispara_eventos); " );
     }
 
     /**
@@ -260,7 +321,7 @@ class Combo extends Campo implements InterfaceBugiganga
             $this->tag->{'onclick'}  = "return false;";
             $this->tag->{'style'}    = ';pointer-events: none';
             $this->tag->{'tabindex'} = '-1';
-            $this->tag->{'class'}    = 'combo combo_disabled'; # Provalvelmente terei que alterar esta regra
+            $this->tag->{'class'}    = 'combo combo_desabilitado'; # Provalvelmente terei que alterar esta regra
         }
 
         if ($this->pesquisavel) {

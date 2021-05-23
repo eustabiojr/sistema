@@ -5,7 +5,6 @@
  * Autor: Eustábio J. Silva Jr. 
  * Data: 30/03/2021
  ********************************************************************************************/
-
  # Espaço de nomes
  namespace Estrutura\Bugigangas\Recipiente;
 

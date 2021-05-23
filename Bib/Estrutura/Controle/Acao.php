@@ -217,10 +217,10 @@ class Acao implements InterfaceAcao {
     public function ehEstatico()
     {
         if (is_callable($this->acao) AND is_array($this->acao)) {
-            $classe = is_string($this->acao[0] ? $this->acao[0] : \get_class($this->acao[0]));
+            $classe = is_string($this->acao[0]) ? $this->acao[0] : get_class($this->acao[0]);
             $metodo = $this->acao[1];
 
-            if (\method_exists($classe, $metodo)) {
+            if (method_exists($classe, $metodo)) {
                 $rm = new ReflectionMethod($classe, $metodo);
                 return $rm->isStatic() || (isset($this->param['estatico']) && $this->param['estatico'] == '1');
             } else { 

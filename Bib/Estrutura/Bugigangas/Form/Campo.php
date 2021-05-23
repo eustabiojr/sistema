@@ -55,7 +55,7 @@ abstract class Campo
         $this->propriedades = [];
 
         $this->tag = new Elemento('input');
-        $this->tag->{'class'}  = 'field';
+        $this->tag->{'class'}  = 'campo';
         $this->tag->{'widget'} = strtolower($nomeclasse);
     }
 

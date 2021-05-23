@@ -180,9 +180,9 @@ class Botao extends Campo implements InterfaceBugiganga
                 $url .= '&static=1';
             }
             $url = htmlspecialchars($url);
-            $aguarda_mensagem = 'Carregando';
+            $mensagem_aguarde = 'Carregando';
             # Define a ação do botão (post Ajax)
-            $acao  = "Ageunet.aguardaMensagem = '$aguarda_mensagem';";
+            $acao  = "Ageunet.mensagemAguarde = '$mensagem_aguarde';";
             $acao .= "{$this->funcoes}";
             $acao .= "__ageunet_dados_post('{$this->nomeForm}', '{$url}');";
             $acao .= "return false;";

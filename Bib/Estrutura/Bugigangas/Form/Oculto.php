@@ -47,7 +47,7 @@ class Oculto extends Campo implements InterfaceBugiganga
         $this->tag->{'name'}   = $this->nome;  // tag name
         $this->tag->{'value'}  = $this->valor; // tag value
         $this->tag->{'type'}   = 'hidden';     // input type
-        $this->tag->{'widget'} = 'thidden';
+        $this->tag->{'widget'} = 'goculto';
         $this->tag->{'style'}  = "width:{$this->tamanho}";
         
         if ($this->id and empty($this->tag->{'id'}))
@@ -56,7 +56,7 @@ class Oculto extends Campo implements InterfaceBugiganga
         }
         else
         {
-            $this->tag->{'id'} = 'thidden_' . mt_rand(1000000000, 1999999999);
+            $this->tag->{'id'} = 'oculto_' . mt_rand(1000000000, 1999999999);
         }
         
         // shows the widget

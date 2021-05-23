@@ -185,7 +185,7 @@ class BootstrapConstrutorForm implements InterfaceElementoForm
             foreach ($linhas_entrada as $linha_entrada) {
                 $rotulo_campo   = $linha_entrada[0];
                 $campos         = $linha_entrada[1];
-                $obrigatorio    = $linha_entrada[2];
+                $obrigatorio    = $linha_entrada[2]; # Não está sendo usado.
                 $linha_original = $linha_entrada[3];
 
                 # formulário vertical não agrupa elementos, apenas altera a classe de grade agrupamento de formulário

@@ -1,8 +1,13 @@
 <?php
+/********************************************************************************************
+ * Sistema Agenet
+ * 
+ * Data: 09/03/2021
+ ********************************************************************************************/
+ # Espaço de nomes
 namespace Estrutura\Embrulho;
 
-use Ageunet\Widgets\Recipiente\GCaderno;
-use Ageunet\Widgets\Base\GElemento;
+use Estrutura\Bugigangas\Recipiente\Caderno;
 
 /**
  * Decorador de grade de dados bootstrap para Ageunet Framework

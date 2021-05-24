@@ -41,7 +41,7 @@ class FormFuncionario2 extends Pagina
      * Form constructor
      * @param $param Request
      */
-    public function __construct( $param )
+    public function __construct($param)
     {
         parent::__construct();
         // creates the form

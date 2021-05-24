@@ -7,29 +7,21 @@
  ********************************************************************************************/
 
 require_once 'inic.php';
+#$tema = $ini['geral']['tema'];
+
+new Sessao;
 //------------------------------------------------------------------------------------------- 
 
-$template = file_get_contents('Aplicativo/Templates/painelcontrole.html');
-$conteudo = '';
-$classe    = 'Inicio';
+$conteudo = file_get_contents('Aplicativo/Templates/painelcontrole.html');
+$conteudo = str_replace('{template}', $tema, $conteudo);
+$css      = Pagina::obtCSSCarregado();
+$js       = Pagina::obtJSCarregado();
+$conteudo = str_replace('{CABECALHO}', $css . $js . $conteudo);
 
-if ($_GET) {
-    $classe = $_GET['classe'];
-    if(class_exists($classe)) {
-        try {
-            $pagina = new $classe;
-            ob_start();
-            $pagina->exibe();
-            $conteudo = ob_get_contents();
-            ob_end_clean();
-        } catch (Exception $e) {
-            $conteudo = $e->getMessage() . '<br/>' . $e->getTraceAsString();
-        }
-    } else {
-        $conteudo = "Classe <b>{$classe} não encontrada";
-    }
+echo $conteudo;
+
+if (isset($_REQUEST['classe']))
+{
+    $metodo = isset($_REQUEST['metodo']) ?? NULL;
+    NucleoAplicativo::carregaPagina($_REQUEST['classe'], $metodo, $_REQUEST);
 }
-
-$saida = str_replace('{conteudo}', $conteudo, $template);
-$saida = str_replace('{classe}', $classe, $saida);
-echo $saida;

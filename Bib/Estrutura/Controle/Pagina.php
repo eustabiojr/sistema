@@ -36,6 +36,14 @@ class Pagina extends Elemento {
     }
 
     /**
+     * Define o recipiente alvo para o conteúdo da pagina
+     */
+    public function defRecipienteAlvo($recipiente)
+    {
+        $this->{'ageunet_recipiente_alvo'} = $recipiente;
+    }
+
+    /**
      * Método executa
      */
     public function executa() {
@@ -56,14 +64,15 @@ class Pagina extends Elemento {
                  */
                 $objeto = $classe == get_class($this) ? $this : new $classe; # 'Sim' : 'Não';
                 
-                if (method_exists($objeto, $metodo)) {
+                if (is_callable(array($objeto, $metodo))) 
+                {
 
                     /**
 					 * Essa função é interessante. Pois com ela podemos chamar o método classe
 					 * por meio de parametros enviados pela URL. Ou seja, chamamos aquela 
                      * classe que herda a classe 'Pagina', e seus métodos.
 					 */
-                    call_user_func(array($objeto, $metodo), $_GET);
+                    call_user_func(array($objeto, $metodo), $_REQUEST);
                 }
             } else if (function_exists($metodo)) {
                 call_user_func($metodo, $_REQUEST);

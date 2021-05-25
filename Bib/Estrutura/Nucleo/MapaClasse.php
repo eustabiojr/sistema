@@ -5,7 +5,7 @@
  * Data: 06/05/2021
  ********************************************************************************************/
  # Espaço de nomes
-namespace Estrutura\Bugigangas\Util;
+ namespace Estrutura\Nucleo;
 
 /**
  * Class map
@@ -21,9 +21,21 @@ class MapaClasse
     public static function obtMapa()
     {
         $caminhoClasse = array();
-        $caminhoClasse['TStandardForm']              = 'lib/adianti/base/TStandardForm.php';
-        $caminhoClasse['TStandardFormList']          = 'lib/adianti/base/TStandardFormList.php';
-        $caminhoClasse['TStandardList']              = 'lib/adianti/base/TStandardList.php';
+        $caminhoClasse['Autenticador']              = 'Bib/Estrutura/Autenticacao/Autenticador.php';
+        $caminhoClasse['Conexao']              = 'Bib/Estrutura/BancoDados/Conexao.php';
+        $caminhoClasse['Criterio']              = 'Bib/Estrutura/BancoDados/Criterio.php';
+        $caminhoClasse['DeclaracaoSql']              = 'Bib/Estrutura/BancoDados/DeclaracaoSql.php';
+        $caminhoClasse['Expressao']              = 'Bib/Estrutura/BancoDados/Expressao.php';
+        $caminhoClasse['Filtro']              = 'Bib/Estrutura/BancoDados/Filtro.php';
+        $caminhoClasse['Gravacao']              = 'Bib/Estrutura/BancoDados/Gravacao.php';
+        $caminhoClasse['InterfaceGravacao']              = 'Bib/Estrutura/BancoDados/InterfaceGravacao.php';
+        $caminhoClasse['Repositorio']              = 'Bib/Estrutura/BancoDados/Repositorio.php';
+        $caminhoClasse['Transacao']              = 'Bib/Estrutura/BancoDados/Transacao.php';
+        $caminhoClasse['BuscaPadrao']              = 'Bib/Estrutura/Base/BuscaPadrao.php';
+        $caminhoClasse['ListaPadrao']              = 'Bib/Estrutura/Base/ListaPadrao.php';
+        $caminhoClasse['TracoColecaoPadrao']              = 'Bib/Estrutura/Base/TracoColecaoPadrao.php';
+        $caminhoClasse['TracoListaPadrao']              = 'Bib/Estrutura/Base/TracoListaPadrao.php';
+        $caminhoClasse['xxxxxx']              = 'Bib/Estrutura/Base/Conexao.php';
 
         
         return $caminhoClasse;

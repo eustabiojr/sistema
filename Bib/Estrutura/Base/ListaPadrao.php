@@ -1,5 +1,12 @@
 <?php
-namespace Estrutura\Bugigangas\Embalagem;
+/********************************************************************************************
+ * Sistema Agenet
+ * 
+ * Data: 22/03/2021
+ ********************************************************************************************/
+
+# Espaço de nomes
+namespace Estrutura\Base;
 
 use Estrutura\Base\TracoListaPadrao;
 use Estrutura\Controle\Pagina;

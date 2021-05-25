@@ -8,12 +8,8 @@
 # Espaço de nomes
 namespace Estrutura\Base;
 
-use Adianti\Base\TracoColecaoPadrao;
+use Estrutura\Base\TracoColecaoPadrao;
 use Estrutura\Bugigangas\Base\Elemento;
-
-use Exception;
-use DomDocument;
-use Dompdf\Dompdf;
 use Estrutura\BancoDados\Transacao;
 use Estrutura\Bugigangas\Dialogo\Mensagem;
 use Estrutura\Bugigangas\Dialogo\Pergunta;
@@ -21,6 +17,9 @@ use Estrutura\Controle\Acao;
 use Estrutura\Controle\Janela;
 use Estrutura\Controle\Pagina;
 
+use Exception;
+use DomDocument;
+use Dompdf\Dompdf;
 /**
  * Standard List Trait
  *
@@ -51,7 +50,7 @@ trait TracoListaPadrao
             $linha->{'style'} = 'height: 30px';
             $celula = new Elemento('td');
             $celula->adic( $informacao['count'] . ' ' . 'Records');
-            $celula->{'colspan'} = $gradedados->getTotalColumns();
+            $celula->{'colspan'} = $gradedados->obtTotalColunas();
             $celula->{'style'} = 'text-align:center';
             
             $linha->adic($celula);
@@ -69,9 +68,9 @@ trait TracoListaPadrao
     {
         try {
             // get the parameter $chave
-            $campo = $param['field'];
-            $chave   = $param['key'];
-            $valor = $param['value'];
+            $campo = $param['campo'];
+            $chave = $param['chave'];
+            $valor = $param['valor'];
             
             // open a transaction with bancodados
             Transacao::abre($this->bancodados);
@@ -92,7 +91,7 @@ trait TracoListaPadrao
             // reload the listing
             $this->aoRecarregar($param);
             // shows the success message
-            new Mensagem('info', 'Record updated');
+            new Mensagem('info', 'Registro atualizado');
         }
         catch (Exception $e) { // in case of exception
             // shows the exception error message
@@ -107,7 +106,7 @@ trait TracoListaPadrao
      */
     public function aoApagarColecao( $param ) 
     {
-        $dados = $this->formgrid->getData(); // get selected records from gradedados
+        $dados = $this->formgrid->obtDados(); // get selected records from gradedados
         $this->formgrid->setData($dados); // keep form filled
         
         if ($dados) {
@@ -125,7 +124,7 @@ trait TracoListaPadrao
                 $param['selected'] = json_encode($selecionado);
                 
                 // define the delete action
-                $acao = new Acao(array($this, 'deleteCollection'));
+                $acao = new Acao(array($this, 'apagaColecao'));
                 $acao->defParametros($param); // pass the key parameter ahead
                 
                 // shows a dialog to the user
@@ -135,7 +134,7 @@ trait TracoListaPadrao
     }
     
     /**
-     * method deleteCollection()
+     * method apagaColecao()
      * Delete many records
      */
     public function apagaColecao($param) 
@@ -180,13 +179,13 @@ trait TracoListaPadrao
             {
                 foreach ($objetos as $objeto) {
                     $linha = [];
-                    foreach ($this->gradedados->getColumns() as $coluna) {
-                        $nome_coluna = $coluna->getName();
+                    foreach ($this->gradedados->obtColunas() as $coluna) {
+                        $nome_coluna = $coluna->obtNome();
                         
                         if (isset($objeto->$nome_coluna)) {
                             $linha[] = is_scalar($objeto->$nome_coluna) ? $objeto->$nome_coluna : '';
                         } else if (method_exists($objeto, 'render')) {
-                            $linha[] = $objeto->render($nome_coluna);
+                            $linha[] = $objeto->renderiza($nome_coluna);
                         }
                     }
                     
@@ -223,8 +222,8 @@ trait TracoListaPadrao
                 foreach ($objetos as $objeto) {
                     $linha = $dadosset->appendChild( $dom->createElement( $this->registroAtivo ) );
                     
-                    foreach ($this->gradedados->getColumns() as $coluna) {
-                        $nome_coluna = $coluna->getName();
+                    foreach ($this->gradedados->obtColunas() as $coluna) {
+                        $nome_coluna = $coluna->obtNome();
                         $nome_coluna_cru = str_replace(['(','{','->', '-','>','}',')', ' '], ['','','_','','','','','_'], $nome_coluna);
                         
                         if (isset($objeto->$nome_coluna))
@@ -232,7 +231,7 @@ trait TracoListaPadrao
                             $valor = is_scalar($objeto->$nome_coluna) ? $objeto->$nome_coluna : '';
                             $linha->appendChild($dom->createElement($nome_coluna_cru, $valor)); 
                         } else if (method_exists($objeto, 'render')) {
-                            $valor = $objeto->render($nome_coluna);
+                            $valor = $objeto->renderiza($nome_coluna);
                             $linha->appendChild($dom->createElement($nome_coluna_cru, $valor));
                         }
                     }
@@ -285,7 +284,7 @@ trait TracoListaPadrao
     {
         try
         {
-            $saida = 'app/output/'.uniqid().'.csv';
+            $saida = 'Aplic/Saida/'.uniqid().'.csv';
             $this->exportaParaCSV( $saida );
             Pagina::abreArquivo( $saida );
         }
@@ -302,7 +301,7 @@ trait TracoListaPadrao
     {
         try
         {
-            $saida = 'app/output/'.uniqid().'.xml';
+            $saida = 'Aplic/Saida/'.uniqid().'.xml';
             $this->exportaParaXML( $saida );
             Pagina::abreArquivo( $saida );
         }
@@ -319,7 +318,7 @@ trait TracoListaPadrao
     {
         try
         {
-            $saida = 'app/output/'.uniqid().'.pdf';
+            $saida = 'Aplic/Saida/'.uniqid().'.pdf';
             $this->exportaParaPDF($saida);
             
             $janela = Janela::cria('Export', 0.8, 0.8);

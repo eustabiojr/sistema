@@ -11,6 +11,16 @@ namespace Estrutura\Base;
 
 use Exception;
 use DomDocument;
+use Estrutura\BancoDados\Criterio;
+use Estrutura\BancoDados\Expressao;
+use Estrutura\BancoDados\Filtro;
+use Estrutura\BancoDados\Repositorio;
+use Estrutura\BancoDados\Transacao;
+use Estrutura\Bugigangas\Dialogo\Mensagem;
+use Estrutura\Bugigangas\Dialogo\Pergunta;
+use Estrutura\Controle\Acao;
+use Estrutura\Nucleo\NucleoAplicativo;
+use Estrutura\Sessao\Sessao;
 
 /**
  * Standard Collection Trait
@@ -23,210 +33,210 @@ use DomDocument;
  */
 trait TracoColecaoPadrao
 {
-    protected $filterFields;
-    protected $formFilters;
-    protected $filterTransformers;
-    protected $loaded;
-    protected $limit;
-    protected $operators;
-    protected $logic_operators;
-    protected $order;
-    protected $direction;
-    protected $criteria;
+    protected $camposFiltro;
+    protected $filtrosForm;
+    protected $TransformadoresFiltro;
+    protected $carregado;
+    protected $limite;
+    protected $operadores;
+    protected $operadores_logico;
+    protected $ordem;
+    protected $direcao;
+    protected $criterio;
     protected $transformCallback;
-    protected $afterLoadCallback;
-    protected $orderCommands;
+    protected $aposCarregarCallback;
+    protected $ordemComandos;
     
-    use AdiantiStandardControlTrait;
+    use TracoColecaoPadrao;
     
     /**
-     * method setLimit()
-     * Define the record limit
+     * metodo defLimite()
+     * Define the record limite
      */
-    public function setLimit($limit)
+    public function defLimite($limite)
     {
-        $this->limit = $limit;
+        $this->limite = $limite;
     }
     
     /**
      * Set list widget
      */
-    public function setCollectionObject($object)
+    public function defColecaoObjeto($objeto) 
     {
-        $this->datagrid = $object;
+        $this->gradedados = $objeto;
     }
     
     /**
      * Set order command
      */
-    public function setOrderCommand($order_column, $order_command)
+    public function defOrdemComando($ordem_coluna, $ordem_comando)
     {
-        if (empty($this->orderCommands))
+        if (empty($this->ordemComandos))
         {
-            $this->orderCommands = [];
+            $this->ordemComandos = [];
         }
         
-        $this->orderCommands[$order_column] = $order_command;
+        $this->ordemComandos[$ordem_coluna] = $ordem_comando;
     }
     
     /**
      * Define the default order
-     * @param $order The order field
-     * @param $directiont the order direction (asc, desc)
+     * @param $ordem The order field
+     * @param $direcaot the order direction (asc, desc)
      */
-    public function setDefaultOrder($order, $direction = 'asc')
+    public function defOrdemPadrao($ordem, $direcao = 'asc')
     {
-        $this->order = $order;
-        $this->direction = $direction;
+        $this->ordem = $ordem;
+        $this->direcao = $direcao;
     }
     
     /**
-     * method setFilterField()
+     * metodo defCampoFiltro()
      * Define wich field will be used for filtering
      * PS: Just for Backwards compatibility
      */
-    public function setFilterField($filterField)
+    public function defCampoFiltro($campoFiltro) 
     {
-        $this->addFilterField($filterField);
+        $this->adicCampoFiltro($campoFiltro);
     }
     
     /**
-     * method setOperator()
+     * metodo defOperador()
      * Define the filtering operator
      * PS: Just for Backwards compatibility
      */
-    public function setOperator($operator)
+    public function defOperador($operador)
     {
-        $this->operators[] = $operator;
+        $this->operadores[] = $operador;
     }
     
     /**
-     * method addFilterField()
+     * metodo adicCampoFiltro()
      * Add a field that will be used for filtering
-     * @param $filterField Field name
-     * @param $operator Comparison operator
+     * @param $campoFiltro Field name
+     * @param $operador Comparison operator
      */
-    public function addFilterField($filterField, $operator = 'like', $formFilter = NULL, $filterTransformer = NULL, $logic_operator = TExpression::AND_OPERATOR)
+    public function adicCampoFiltro($campoFiltro, $operador = 'like', $filtroForm = NULL, $transformadorFiltro = NULL, $logic_operator = Expressao::OPERATOR_E)
     {
-        $this->filterFields[] = $filterField;
-        $this->operators[] = $operator;
-        $this->logic_operators[] = $logic_operator;
-        $this->formFilters[] = isset($formFilter) ? $formFilter : $filterField;
-        $this->filterTransformers[] = $filterTransformer;
+        $this->camposFiltro[] = $campoFiltro;
+        $this->operadores[] = $operador;
+        $this->operadores_logico[] = $logic_operator;
+        $this->filtrosForm[] = isset($filtroForm) ? $filtroForm : $campoFiltro;
+        $this->TransformadoresFiltro[] = $transformadorFiltro;
     }
     
     /**
-     * method setCriteria()
+     * metodo defCriterio()
      * Define the criteria
      */
-    public function setCriteria($criteria)
+    public function defCriterio($criterio)
     {
-        $this->criteria = $criteria;
+        $this->criteria = $criterio;
     }
 
     /**
-     * Define a callback method to transform objects
+     * Define a callback metodo to transform objects
      * before load them into datagrid
      */
-    public function setTransformer($callback)
+    public function defTransformador($callback)
     {
         $this->transformCallback = $callback;
     }
     
     /**
-     * Define a callback method to transform objects
+     * Define a callback metodo to transform objects
      * before load them into datagrid
      */
-    public function setAfterLoadCallback($callback)
+    public function defAposCarregarCallback($callback)
     {
-        $this->afterLoadCallback = $callback;
+        $this->aposCarregarCallback = $callback;
     }
     
     /**
      * Register the filter in the session
      */
-    public function onSearch( $param = null )
+    public function aoBuscar( $param = null )
     {
         // get the search form data
-        $data = $this->form->getData();
+        $dados = $this->form->obtDados();
         
-        if ($this->formFilters)
+        if ($this->filtrosForm)
         {
-            foreach ($this->formFilters as $filterKey => $formFilter)
+            foreach ($this->filtrosForm as $chaveFiltro => $filtroForm)
             {
-                $operator       = isset($this->operators[$filterKey]) ? $this->operators[$filterKey] : 'like';
-                $filterField    = isset($this->filterFields[$filterKey]) ? $this->filterFields[$filterKey] : $formFilter;
-                $filterFunction = isset($this->filterTransformers[$filterKey]) ? $this->filterTransformers[$filterKey] : null;
+                $operador       = isset($this->operadores[$chaveFiltro]) ? $this->operadores[$chaveFiltro] : 'like';
+                $campoFiltro    = isset($this->camposFiltro[$chaveFiltro]) ? $this->camposFiltro[$chaveFiltro] : $filtroForm;
+                $funcaoFiltro   = isset($this->TransformadoresFiltro[$chaveFiltro]) ? $this->TransformadoresFiltro[$chaveFiltro] : null;
                 
                 // check if the user has filled the form
-                if (!empty($data->{$formFilter}) OR (isset($data->{$formFilter}) AND $data->{$formFilter} == '0'))
+                if (!empty($dados->{$filtroForm}) OR (isset($dados->{$filtroForm}) AND $dados->{$filtroForm} == '0'))
                 {
-                    // $this->filterTransformers
-                    if ($filterFunction)
+                    // $this->TransformadoresFiltro
+                    if ($funcaoFiltro  )
                     {
-                        $fieldData = $filterFunction($data->{$formFilter});
+                        $fieldData = $funcaoFiltro  ($dados->{$filtroForm});
                     }
                     else
                     {
-                        $fieldData = $data->{$formFilter};
+                        $fieldData = $dados->{$filtroForm};
                     }
                     
                     // creates a filter using what the user has typed
-                    if (stristr($operator, 'like'))
+                    if (stristr($operador, 'like'))
                     {
-                        $filter = new TFilter($filterField, $operator, "%{$fieldData}%");
+                        $filter = new Filtro($campoFiltro, $operador, "%{$fieldData}%");
                     }
                     else
                     {
-                        $filter = new TFilter($filterField, $operator, $fieldData);
+                        $filter = new Filtro($campoFiltro, $operador, $fieldData);
                     }
                     
                     // stores the filter in the session
-                    TSession::setValue($this->activeRecord.'_filter', $filter); // BC compatibility
-                    TSession::setValue($this->activeRecord.'_filter_'.$formFilter, $filter);
-                    TSession::setValue($this->activeRecord.'_'.$formFilter, $data->{$formFilter});
+                    Sessao::defValor($this->registroAtivo.'_filter', $filter); // BC compatibility
+                    Sessao::defValor($this->registroAtivo.'_filter_'.$filtroForm, $filter);
+                    Sessao::defValor($this->registroAtivo.'_'.$filtroForm, $dados->{$filtroForm});
                 }
                 else
                 {
-                    TSession::setValue($this->activeRecord.'_filter', NULL); // BC compatibility
-                    TSession::setValue($this->activeRecord.'_filter_'.$formFilter, NULL);
-                    TSession::setValue($this->activeRecord.'_'.$formFilter, '');
+                    Sessao::defValor($this->registroAtivo.'_filter', NULL); // BC compatibility
+                    Sessao::defValor($this->registroAtivo.'_filter_'.$filtroForm, NULL);
+                    Sessao::defValor($this->registroAtivo.'_'.$filtroForm, '');
                 }
             }
         }
         
-        TSession::setValue($this->activeRecord.'_filter_data', $data);
-        TSession::setValue(get_class($this).'_filter_data', $data);
+        Sessao::defValor($this->registroAtivo.'_filter_data', $dados);
+        Sessao::defValor(get_class($this).'_filter_data', $dados);
         
         // fill the form with data again
-        $this->form->setData($data);
+        $this->form->defDados($dados);
         
-        if (isset($param['static']) && ($param['static'] == '1') )
+        if (isset($param['estatico']) && ($param['estatico'] == '1') )
         {
-            AdiantiCoreApplication::loadPage(get_class($this), 'onReload', ['offset'=>0, 'first_page'=>1] );
+            NucleoAplicativo::carregaPagina(get_class($this), 'aoCarregar', ['offset'=> 0, 'first_page'=> 1] );
         }
         else
         {
-            $this->onReload( ['offset'=>0, 'first_page'=>1] );
+            $this->aoCarregar( ['offset'=>0, 'first_page'=>1] );
         }
     }
     
     /**
-     * clear Filters
+     * limpa Filters
      */
-    public function clearFilters()
+    public function limpaFiltros()
     {
-        TSession::setValue($this->activeRecord.'_filter_data', null);
-        TSession::setValue(get_class($this).'_filter_data', null);
-        $this->form->clear();
+        Sessao::defValor($this->registroAtivo.'_filter_data', null);
+        Sessao::defValor(get_class($this).'_filter_data', null);
+        $this->form->limpa();
         
-        if ($this->formFilters)
+        if ($this->filtrosForm)
         {
-            foreach ($this->formFilters as $filterKey => $formFilter)
+            foreach ($this->filtrosForm as $chaveFiltro => $filtroForm)
             {
-                TSession::setValue($this->activeRecord.'_filter', NULL); // BC compatibility
-                TSession::setValue($this->activeRecord.'_filter_'.$formFilter, NULL);
-                TSession::setValue($this->activeRecord.'_'.$formFilter, '');
+                Sessao::defValor($this->registroAtivo.'_filter', NULL); // BC compatibility
+                Sessao::defValor($this->registroAtivo.'_filter_'.$filtroForm, NULL);
+                Sessao::defValor($this->registroAtivo.'_'.$filtroForm, '');
             }
         }
     }
@@ -234,182 +244,182 @@ trait TracoColecaoPadrao
     /**
      * Load the datagrid with the database objects
      */
-    public function onReload($param = NULL)
+    public function aoCarregar($param = NULL)
     {
-        if (!isset($this->datagrid))
+        if (!isset($this->gradedados))
         {
             return;
         }
         
         try
         {
-            if (empty($this->database))
+            if (empty($this->bancodados))
             {
-                throw new Exception(AdiantiCoreTranslator::translate('^1 was not defined. You must call ^2 in ^3', AdiantiCoreTranslator::translate('Database'), 'setDatabase()', AdiantiCoreTranslator::translate('Constructor')));
+                throw new Exception('O Banco de dados não foi definido. Você deve chamar defBancodados() no Construtor');
             }
             
-            if (empty($this->activeRecord))
+            if (empty($this->registroAtivo))
             {
-                throw new Exception(AdiantiCoreTranslator::translate('^1 was not defined. You must call ^2 in ^3', 'Active Record', 'setActiveRecord()', AdiantiCoreTranslator::translate('Constructor')));
+                throw new Exception('O Registro ativo não foi definido. Você deve chamar defRegistroAtivo() no Construtor');
             }
             
             // open a transaction with database
-            TTransaction::open($this->database);
+            Transacao::abre($this->bancodados);
             
             // instancia um repositório
-            $repository = new TRepository($this->activeRecord);
-            $limit = isset($this->limit) ? ( $this->limit > 0 ? $this->limit : NULL) : 10;
+            $repositorio = new Repositorio($this->registroAtivo);
+            $limite = isset($this->limite) ? ( $this->limite > 0 ? $this->limite : NULL) : 10;
             
             // creates a criteria
-            $criteria = isset($this->criteria) ? clone $this->criteria : new TCriteria;
-            if ($this->order)
+            $criterio = isset($this->criteria) ? clone $this->criteria : new Criterio;
+            if ($this->ordem)
             {
-                $criteria->setProperty('order',     $this->order);
-                $criteria->setProperty('direction', $this->direction);
+                $criterio->defPropriedade('order',     $this->ordem);
+                $criterio->defPropriedade('direction', $this->direcao);
             }
             
 
-            if (is_array($this->orderCommands) && !empty($param['order']) && !empty($this->orderCommands[$param['order']]))
+            if (is_array($this->ordemComandos) && !empty($param['order']) && !empty($this->ordemComandos[$param['order']]))
             {
-                $param['order'] = $this->orderCommands[$param['order']];
+                $param['order'] = $this->ordemComandos[$param['order']];
             }
             
-            $criteria->setProperties($param); // order, offset
-            $criteria->setProperty('limit', $limit);
+            $criterio->defPropriedades($param); // order, offset
+            $criterio->defPropriedade('limite', $limite);
             
-            if ($this->formFilters)
+            if ($this->filtrosForm)
             {
-                foreach ($this->formFilters as $filterKey => $filterField)
+                foreach ($this->filtrosForm as $chaveFiltro => $campoFiltro)
                 {
-                    $logic_operator = isset($this->logic_operators[$filterKey]) ? $this->logic_operators[$filterKey] : TExpression::AND_OPERATOR;
+                    $logic_operator = isset($this->operadores_logico[$chaveFiltro]) ? $this->operadores_logico[$chaveFiltro] : Expressao::OPERATOR_E;
                     
-                    if (TSession::getValue($this->activeRecord.'_filter_'.$filterField))
+                    if (Sessao::obtValor($this->registroAtivo.'_filter_'.$campoFiltro))
                     {
                         // add the filter stored in the session to the criteria
-                        $criteria->add(TSession::getValue($this->activeRecord.'_filter_'.$filterField), $logic_operator);
+                        $criterio->adic(Sessao::obtValor($this->registroAtivo.'_filter_'.$campoFiltro), $logic_operator);
                     }
                 }
             }
             
             // load the objects according to criteria
-            $objects = $repository->load($criteria, FALSE);
+            $objetos = $repositorio->carrega($criterio, FALSE);
             
             if (is_callable($this->transformCallback))
             {
-                call_user_func($this->transformCallback, $objects, $param);
+                call_user_func($this->transformCallback, $objetos, $param);
             }
             
-            $this->datagrid->clear();
-            if ($objects)
+            $this->gradedados->limpa();
+            if ($objetos)
             {
                 // iterate the collection of active records
-                foreach ($objects as $object)
+                foreach ($objetos as $objeto)
                 {
                     // add the object inside the datagrid
-                    $this->datagrid->addItem($object);
+                    $this->gradedados->adicItem($objeto);
                 }
             }
             
             // reset the criteria for record count
-            $criteria->resetProperties();
-            $count = $repository->count($criteria);
+            $criterio->redefPropriedades();
+            $count = $repositorio->conta($criterio);
             
             if (isset($this->pageNavigation))
             {
-                $this->pageNavigation->setCount($count); // count of records
-                $this->pageNavigation->setProperties($param); // order, page
-                $this->pageNavigation->setLimit($limit); // limit
+                $this->pageNavigation->defContador($count); // count of records
+                $this->pageNavigation->defPropriedades($param); // order, page
+                $this->pageNavigation->defLimite($limite); // limite
             }
             
-            if (is_callable($this->afterLoadCallback))
+            if (is_callable($this->aposCarregarCallback))
             {
-                $information = ['count' => $count];
-                call_user_func($this->afterLoadCallback, $this->datagrid, $information);
+                $informacao = ['count' => $count];
+                call_user_func($this->aposCarregarCallback, $this->gradedados, $informacao);
             }
             
             // close the transaction
-            TTransaction::close();
-            $this->loaded = true;
+            Transacao::fecha();
+            $this->carregado = true;
             
-            return $objects;
+            return $objetos;
         }
         catch (Exception $e) // in case of exception
         {
-            // shows the exception error message
-            new TMessage('error', $e->getMessage());
+            // exibes the exception error message
+            new Mensagem('erro', $e->getMessage());
             // undo all pending operations
-            TTransaction::rollback();
+            Transacao::desfaz();
         }
     }
     
     /**
      * Ask before deletion
      */
-    public function onDelete($param)
+    public function aoApagar($param)
     {
         // define the delete action
-        $action = new TAction(array($this, 'Delete'));
-        $action->setParameters($param); // pass the key parameter ahead
+        $acao = new Acao(array($this, 'Apaga'));
+        $acao->defParametros($param); // pass the key parameter ahead
         
-        // shows a dialog to the user
-        new TQuestion(AdiantiCoreTranslator::translate('Do you really want to delete ?'), $action);
+        // exibes a dialog to the user
+        new Pergunta('Você deseja realmente apagar ?', $acao);
     }
     
     /**
-     * Delete a record
+     * Apaga a record
      */
-    public function Delete($param)
+    public function Apaga($param)
     {
         try
         {
-            // get the parameter $key
-            $key=$param['key'];
+            // get the parameter $chave
+            $chave=$param['key'];
             // open a transaction with database
-            TTransaction::open($this->database);
+            Transacao::abre($this->bancodados);
             
-            $class = $this->activeRecord;
+            $classe = $this->registroAtivo;
             
             // instantiates object
-            $object = new $class($key, FALSE);
+            $objeto = new $classe($chave, FALSE);
             
             // deletes the object from the database
-            $object->delete();
+            $objeto->apaga();
             
             // close the transaction
-            TTransaction::close();
+            Transacao::fecha();
             
             // reload the listing
-            $this->onReload( $param );
-            // shows the success message
-            new TMessage('info', AdiantiCoreTranslator::translate('Record deleted'));
+            $this->aoCarregar( $param );
+            // exibes the success message
+            new Mensagem('info', 'Registro apagado');
         }
         catch (Exception $e) // in case of exception
         {
-            // shows the exception error message
-            new TMessage('error', $e->getMessage());
+            // exibes the exception error message
+            new Mensagem('erro', $e->getMessage());
             // undo all pending operations
-            TTransaction::rollback();
+            Transacao::desfaz();
         }
     }
     
     /**
-     * method show()
+     * metodo exibe()
      * Shows the page
      */
-    public function show()
+    public function exibe()
     {
-        // check if the datagrid is already loaded
-        if (!$this->loaded AND (!isset($_GET['method']) OR !(in_array($_GET['method'],  array('onReload', 'onSearch')))) )
+        // check if the datagrid is already carregado
+        if (!$this->carregado AND (!isset($_GET['metodo']) OR !(in_array($_GET['metodo'],  array('aoCarregar', 'aoBuscar')))) )
         {
             if (func_num_args() > 0)
             {
-                $this->onReload( func_get_arg(0) );
+                $this->aoCarregar( func_get_arg(0) );
             }
             else
             {
-                $this->onReload();
+                $this->aoCarregar();
             }
         }
-        parent::show();
+        parent::exibe();
     }
 }

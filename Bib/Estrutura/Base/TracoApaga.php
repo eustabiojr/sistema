@@ -5,7 +5,7 @@
  * Data: 15/03/2021
  ************************************************************************************/
 
-namespace Estrutura\Base\Tracos;
+namespace Estrutura\Base;
 
 use Estrutura\BancoDados\Transacao;
 use Estrutura\Bugigangas\Dialogo\Mensagem;

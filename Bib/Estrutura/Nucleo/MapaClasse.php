@@ -22,21 +22,41 @@ class MapaClasse
     {
         $caminhoClasse = array();
         $caminhoClasse['Autenticador']              = 'Bib/Estrutura/Autenticacao/Autenticador.php';
-        $caminhoClasse['Conexao']              = 'Bib/Estrutura/BancoDados/Conexao.php';
-        $caminhoClasse['Criterio']              = 'Bib/Estrutura/BancoDados/Criterio.php';
-        $caminhoClasse['DeclaracaoSql']              = 'Bib/Estrutura/BancoDados/DeclaracaoSql.php';
-        $caminhoClasse['Expressao']              = 'Bib/Estrutura/BancoDados/Expressao.php';
-        $caminhoClasse['Filtro']              = 'Bib/Estrutura/BancoDados/Filtro.php';
-        $caminhoClasse['Gravacao']              = 'Bib/Estrutura/BancoDados/Gravacao.php';
-        $caminhoClasse['InterfaceGravacao']              = 'Bib/Estrutura/BancoDados/InterfaceGravacao.php';
-        $caminhoClasse['Repositorio']              = 'Bib/Estrutura/BancoDados/Repositorio.php';
-        $caminhoClasse['Transacao']              = 'Bib/Estrutura/BancoDados/Transacao.php';
-        $caminhoClasse['BuscaPadrao']              = 'Bib/Estrutura/Base/BuscaPadrao.php';
-        $caminhoClasse['ListaPadrao']              = 'Bib/Estrutura/Base/ListaPadrao.php';
-        $caminhoClasse['TracoColecaoPadrao']              = 'Bib/Estrutura/Base/TracoColecaoPadrao.php';
-        $caminhoClasse['TracoListaPadrao']              = 'Bib/Estrutura/Base/TracoListaPadrao.php';
-        $caminhoClasse['xxxxxx']              = 'Bib/Estrutura/Base/Conexao.php';
+        $caminhoClasse['Conexao']                   = 'Bib/Estrutura/BancoDados/Conexao.php';
+        $caminhoClasse['Criterio']                  = 'Bib/Estrutura/BancoDados/Criterio.php';
+        $caminhoClasse['DeclaracaoSql']             = 'Bib/Estrutura/BancoDados/DeclaracaoSql.php';
+        $caminhoClasse['Expressao']                 = 'Bib/Estrutura/BancoDados/Expressao.php';
+        $caminhoClasse['Filtro']                    = 'Bib/Estrutura/BancoDados/Filtro.php';
+        $caminhoClasse['Gravacao']                  = 'Bib/Estrutura/BancoDados/Gravacao.php';
+        $caminhoClasse['InterfaceGravacao']         = 'Bib/Estrutura/BancoDados/InterfaceGravacao.php';
+        $caminhoClasse['Repositorio']               = 'Bib/Estrutura/BancoDados/Repositorio.php';
+        $caminhoClasse['Transacao']                 = 'Bib/Estrutura/BancoDados/Transacao.php';
+        $caminhoClasse['BuscaPadrao']               = 'Bib/Estrutura/Base/BuscaPadrao.php';
+        $caminhoClasse['ListaPadrao']               = 'Bib/Estrutura/Base/ListaPadrao.php';
+        $caminhoClasse['TracoColecaoPadrao']        = 'Bib/Estrutura/Base/TracoColecaoPadrao.php';
+        $caminhoClasse['TracoListaPadrao']          = 'Bib/Estrutura/Base/TracoListaPadrao.php';
+        $caminhoClasse['Acao']                      = 'Bib/Estrutura/Controle/Acao.php';
+        $caminhoClasse['InterfaceAcao']             = 'Bib/Estrutura/Controle/InterfaceAcao.php';
+        $caminhoClasse['Janela']                    = 'Bib/Estrutura/Controle/Janela.php';
+        $caminhoClasse['Pagina']                    = 'Bib/Estrutura/Controle/Pagina.php';
+        $caminhoClasse['ApagaSql']                  = 'Bib/Estrutura/BancoDados/ApagaSql.php';
+        $caminhoClasse['AtualizaSql']               = 'Bib/Estrutura/BancoDados/AtualizaSql.php';
+        $caminhoClasse['Conexao']                   = 'Bib/Estrutura/BancoDados/Conexao.php';
+        $caminhoClasse['DeclaracaoSql']             = 'Bib/Estrutura/BancoDados/DeclaracaoSql.php';
+        $caminhoClasse['Expressao']                 = 'Bib/Estrutura/BancoDados/Expressao.php';
+        $caminhoClasse['Filtro']                    = 'Bib/Estrutura/BancoDados/Filtro.php';
+        $caminhoClasse['Gravacao']                  = 'Bib/Estrutura/BancoDados/Gravacao.php';
+        $caminhoClasse['InsereSql']                 = 'Bib/Estrutura/BancoDados/InsereSql.php';
+        $caminhoClasse['InterfaceGravacao']         = 'Bib/Estrutura/BancoDados/InterfaceGravacao.php';
+        $caminhoClasse['MultiInsereSql']            = 'Bib/Estrutura/BancoDados/MultiInsereSql.php';
+        $caminhoClasse['Repositorio']               = 'Bib/Estrutura/BancoDados/Repositorio.php';
+        $caminhoClasse['Transacao']                 = 'Bib/Estrutura/BancoDados/Transacao.php';
+        $caminhoClasse['Historico']                 = 'Bib/Estrutura/Historico/Historico.php';
+        $caminhoClasse['HistoricoHTML']             = 'Bib/Estrutura/Historico/HistoricoHTML.php';
+        $caminhoClasse['HistoricoTXT']              = 'Bib/Estrutura/Historico/HistoricoTXT.php';
+        $caminhoClasse['HistoricoXML']              = 'Bib/Estrutura/Historico/HistoricoXML.php';
 
+        $caminhoClasse['Historico']                  = 'Bib/Estrutura/Historico/Historico.php';
         
         return $caminhoClasse;
     }

@@ -1,23 +1,9 @@
 <?php
-
 //------------------------------------------------------------------------------------------- 
-/**
- * Proximo passo: carregar classe dinamicamente (ou seja com parametro passado pelo URI)
- */
-# Carregamento automático das classes da estrutura do sistema
-include_once "Bib/Estrutura/Nucleo/AutoCarregadorEstrutura.php";
-$ce = new Estrutura\Nucleo\AutoCarregadorEstrutura();
-#Primeiro argumento: prefixo no espaço de nomes
-#Segundo argumento: Diretório (Nota: A barra deve ser informado de acordo com o sistema hospedeiro)
-$ce->adicEspacoNome('Estrutura','Bib/Estrutura');
-$ce->registra();
+require_once 'Bib/Estrutura/Nucleo/CarregadorNucleo.php';
+spl_autoload_register(array('Estrutura\Nucleo\CarregadorNucleo', 'autocarrega'));
+Estrutura\Nucleo\CarregadorNucleo::carregaMapaClasse();
 
-# Carregamento automático do aplicativo
-include_once "Bib/Estrutura/Nucleo/AutoCarregadorAplic.php";
-$ca = new Estrutura\Nucleo\AutoCarregadorAplic();
-$ca->adicPasta('Aplicativo/Controladores');
-$ca->adicPasta('Aplicativo/Modelos');
-$ca->registra();
 //-------------------------------------------------------------------------------------------
 
 # Vendor
@@ -26,7 +12,6 @@ $carregador->register();
 
 # lê as configurações
 $ini = parse_ini_file('Aplicativo/Config/aplicativo.ini', true);
-
 # definição do fuso-horário padrão
 date_default_timezone_set($ini['geral']['fuso-horario']); 
 

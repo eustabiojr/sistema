@@ -53,7 +53,7 @@ abstract class DeclaracaoSql
     /**
      * Returns a random parameter
      */
-    protected function obtParametroAleatorio()
+    protected static function obtParametroAleatorio()
     {
         return mt_rand(1000000000, 1999999999);
     }

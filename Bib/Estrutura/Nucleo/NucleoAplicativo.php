@@ -17,7 +17,6 @@ use Exception;
 use ReflectionMethod;
 use ErrorException;
 
-
 /**
  * Classe NucleoAplicativo
  * 
@@ -38,10 +37,10 @@ class NucleoAplicativo
         self::$id_solicitacao = uniqid();
         
         $ini = ConfigAplicativo::obt();
-        $servico = isset($ini['geral']['servico_hist_solicitacao']) ? $ini['geral']['servico_hist_solicitacao'] : '\SistemaServicoHistSolicitacao';
-        $classee   = isset($_REQUEST['classe'])    ? $_REQUEST['classe']   : ''; 
-        $estatico  = isset($_REQUEST['estatico'])   ? $_REQUEST['estatico']  : '';
-        $metodo  = isset($_REQUEST['metodo'])   ? $_REQUEST['metodo']  : '';
+        $servico  = isset($ini['geral']['servico_hist_solicitacao']) ? $ini['geral']['servico_hist_solicitacao'] : '\SistemaServicoHistSolicitacao';
+        $classee  = isset($_REQUEST['classe'])    ? $_REQUEST['classe']   : ''; 
+        $estatico = isset($_REQUEST['estatico'])   ? $_REQUEST['estatico']  : '';
+        $metodo   = isset($_REQUEST['metodo'])   ? $_REQUEST['metodo']  : '';
         
         $conteudo = '';
         set_error_handler(array('AdiantiCoreApplication', 'tratadorErro'));

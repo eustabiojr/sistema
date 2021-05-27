@@ -5,21 +5,35 @@
  * Data: 16/03/2021
  **************************************************************************************/
 # Espaço de nomes
-namespace Estrutura\Sessao;
+namespace Estrutura\Registro;
+
+use SessionHandlerInterface;
 
 /**
  * Classe Sessao 
  */
-class Sessao 
+class Sessao implements InterfaceRegistro
 {
     private static $agora;
 
     /**
      * Método Construtor
      */
-    public function __construct()
+    public function __construct(SessionHandlerInterface $tratador = NULL, $caminho = NULL)
     {
-        if (!session_id()) {
+        if ($caminho)
+        {
+            session_save_path($caminho);
+        }
+
+        if ($tratador)
+        {
+            session_set_save_handler($tratador, true);
+        }
+
+        // caso não exista sessão aberta
+        if (!session_id()) 
+        {
             session_start();
         }
     }

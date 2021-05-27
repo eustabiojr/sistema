@@ -29,7 +29,7 @@ class ConfigAplicativo
      */
     public static function aplica()
     {
-        if (!empty(self::$config['gerais']['depuracao']) && self::$config['gerais']['depuracao'] == '1') {
+        if (!empty(self::$config['geral']['depuracao']) && self::$config['geral']['depuracao'] == '1') {
             ini_set('display_errors', '1');
             ini_set('error_reporting', E_ALL);
             ini_set('html_errors', 1);

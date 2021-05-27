@@ -56,7 +56,7 @@ class MapaClasse
         $caminhoClasse['HistoricoTXT']              = 'Bib/Estrutura/Historico/HistoricoTXT.php';
         $caminhoClasse['HistoricoXML']              = 'Bib/Estrutura/Historico/HistoricoXML.php';
 
-        $caminhoClasse['Historico']                  = 'Bib/Estrutura/Historico/Historico.php';
+        #$caminhoClasse['Historico']                  = 'Bib/Estrutura/Historico/Historico.php';
         
         return $caminhoClasse;
     }

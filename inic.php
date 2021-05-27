@@ -15,6 +15,11 @@ $ini = parse_ini_file('Aplicativo/Config/aplicativo.ini', true);
 # definição do fuso-horário padrão
 date_default_timezone_set($ini['geral']['fuso-horario']); 
 
+# 
+ConfigAplicativo::carrega($ini);
+ConfigAplicativo::aplica();
+
+
 # define constantes
 define('NOME_APLICATIVO', $ini['geral']['idioma']);
 define('CAMINHO', dirname(__FILE__));

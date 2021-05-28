@@ -39,21 +39,81 @@ class Sessao implements InterfaceRegistro
     }
 
     /**
-     * Método defValor
+     * Retorna se o serviço está ativo
      */
-    public static function defValor($var, $valor) 
+    public static function ativado()
+    {   
+        if (!session_id())
+        {
+            return session_start();
+        }
+        return TRUE;
+    }
+
+    /**
+     * Define o valor para a variável
+     * @param $var Nome da variável
+     * @param $valor Valor da variável
+     */
+    public static function defValor($var, $valor)
     {
-        $_SESSION[$var] = $valor;
+        if (defined('NOME_APLICATIVO'))
+        {
+            $_SESSION[NOME_APLICATIVO][$var] = $valor;
+        } else {
+            $_SESSION[$var] = $valor;
+        }
     }
 
     /**
      * Método obtValor
+     * 
+     * Retorna o valor para uma variável
+     * @param $var Nome variável
      */
     public static function obtValor($var)
     {
-        if (isset($_SESSION[$var])) {
-            return $_SESSION[$var];
+        if (defined('NOME_APLICATIVO'))
+        {
+            if (isset($_SESSION[NOME_APLICATIVO][$var]))
+            {
+                return $_SESSION[NOME_APLICATIVO][$var];
+            } 
+        } else {
+            if (isset($_SESSION[$var])) {
+                return $_SESSION[$var];
+            }
         }
+    }
+
+    /**
+     * Limpa o valor para uma variável
+     * @param $var Nome variável
+     */
+    public static function apagValor($var)
+    {
+        if (defined('NOME_APLICATIVO'))
+        {
+            unset($_SESSION[NOME_APLICATIVO][$var]);
+        } else {
+            unset($_SESSION[$var]);
+        }
+    }
+
+    /**
+     * Regenera id
+     */
+    public static function regenera()
+    {
+        session_regenerate_id();
+    }
+
+    /*********
+     * Limpa sessão
+     */
+    public static function limpa()
+    {
+        self::liberaSessao();
     }
 
     /**
@@ -61,10 +121,15 @@ class Sessao implements InterfaceRegistro
      */
     public static function liberaSessao()
     {
-        $_SESSION = array();
-        session_destroy();
+        if (defined('NOME_APLICATIVO'))
+        {
+            $_SESSION[NOME_APLICATIVO] = array();
+        } else {
+            $_SESSION[] = array();
+        }       
     }
 
+    //------------------------------------------------------------------------------------------------------------------
     /**
      * Método atualizaAtividade
      * 

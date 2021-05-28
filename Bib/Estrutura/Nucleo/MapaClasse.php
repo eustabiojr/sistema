@@ -55,8 +55,26 @@ class MapaClasse
         $caminhoClasse['HistoricoHTML']             = 'Bib/Estrutura/Historico/HistoricoHTML.php';
         $caminhoClasse['HistoricoTXT']              = 'Bib/Estrutura/Historico/HistoricoTXT.php';
         $caminhoClasse['HistoricoXML']              = 'Bib/Estrutura/Historico/HistoricoXML.php';
+        $caminhoClasse['Elemento']                  = 'Bib/Bugigangas/Base/Elemento.php';
+        $caminhoClasse['Estilo']                    = 'Bib/Bugigangas/Base/Estilo.php';
+        $caminhoClasse['Script']                    = 'Bib/Bugigangas/Base/Script.php';
+        $caminhoClasse['Alerta']                    = 'Bib/Bugigangas/Dialogo/Alerta.php';
+        $caminhoClasse['Mensagem']                  = 'Bib/Bugigangas/Dialogo/Mensagem.php';
+        $caminhoClasse['Pergunta']                  = 'Bib/Bugigangas/Dialogo/Pergunta.php';
+        $caminhoClasse['BotaoBuscaBD']              = 'Bib/Bugigangas/Embalagem/BotaoBuscaBD.php';
+        $caminhoClasse['ComboBD']                   = 'Bib/Bugigangas/Embalagem/ComboBD.php';
+        $caminhoClasse['EntradaBD']                 = 'Bib/Bugigangas/Embalagem/EntradaBD.php';
+        $caminhoClasse['FormCadernoRapido']         = 'Bib/Bugigangas/Embalagem/FormCadernoRapido.php';
+        $caminhoClasse['FormRapido']                = 'Bib/Bugigangas/Embalagem/FormRapido.php';
+        $caminhoClasse['GradeRapida']               = 'Bib/Bugigangas/Embalagem/GradeRapida.php';
+        $caminhoClasse['GrupoRadioBD']              = 'Bib/Bugigangas/Embalagem/GrupoRadioBD.php';
+        $caminhoClasse['GrupoVerificacaoBD']        = 'Bib/Bugigangas/Embalagem/GrupoVerificacaoBD.php';
+        $caminhoClasse['ListaClassificacaoBD']      = 'Bib/Bugigangas/Embalagem/ListaClassificacaoBD.php';
+        $caminhoClasse['ListaVerificacaoBD']        = 'Bib/Bugigangas/Embalagem/ListaVerificacaoBD.php';
+        $caminhoClasse['MultiBuscaBD']              = 'Bib/Bugigangas/Embalagem/MultiBuscaBD.php';
+        $caminhoClasse['SelecionaBD']               = 'Bib/Bugigangas/Embalagem/SelecionaBD.php';
 
-        #$caminhoClasse['Historico']                  = 'Bib/Estrutura/Historico/Historico.php';
+        $caminhoClasse['Historico']                  = 'Bib/Bugigangas/Embalagem/Historico.php';
         
         return $caminhoClasse;
     }

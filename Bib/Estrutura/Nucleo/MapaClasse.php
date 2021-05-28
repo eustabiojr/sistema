@@ -73,8 +73,44 @@ class MapaClasse
         $caminhoClasse['ListaVerificacaoBD']        = 'Bib/Bugigangas/Embalagem/ListaVerificacaoBD.php';
         $caminhoClasse['MultiBuscaBD']              = 'Bib/Bugigangas/Embalagem/MultiBuscaBD.php';
         $caminhoClasse['SelecionaBD']               = 'Bib/Bugigangas/Embalagem/SelecionaBD.php';
+        $caminhoClasse['Arquivo']                   = 'Bib/Bugigangas/Form/Arquivo.php';
+        $caminhoClasse['Botao']                     = 'Bib/Bugigangas/Form/Botao.php';
+        $caminhoClasse['BotaoBusca']                = 'Bib/Bugigangas/Form/BotaoBusca.php';
+        $caminhoClasse['BotaoRadio']                = 'Bib/Bugigangas/Form/BotaoRadio.php';
+        $caminhoClasse['BotaoVerifica']             = 'Bib/Bugigangas/Form/BotaoVerifica.php';
+        $caminhoClasse['BuscaUnica']                = 'Bib/Bugigangas/Form/BuscaUnica.php';
+        $caminhoClasse['Campo']                     = 'Bib/Bugigangas/Form/Campo.php';
+        $caminhoClasse['CampoLista']                = 'Bib/Bugigangas/Form/CampoLista.php';
+        $caminhoClasse['Combo']                     = 'Bib/Bugigangas/Form/Combo.php';
+        $caminhoClasse['Cor']                       = 'Bib/Bugigangas/Form/Cor.php';
+        $caminhoClasse['Data']                      = 'Bib/Bugigangas/Form/Data.php';
+        $caminhoClasse['DataTempo']                 = 'Bib/Bugigangas/Form/DataTempo.php';
+        $caminhoClasse['Deslizante']                = 'Bib/Bugigangas/Form/Deslizante.php';
+        $caminhoClasse['EditorHtml']                = 'Bib/Bugigangas/Form/EditorHtml.php';
+        $caminhoClasse['Entrada']                   = 'Bib/Bugigangas/Form/Entrada.php';
+        $caminhoClasse['Form']                      = 'Bib/Bugigangas/Form/Form.php';
+        $caminhoClasse['GrupoRadio']                = 'Bib/Bugigangas/Form/GrupoRadio.php';
+        $caminhoClasse['GrupoVerifica']             = 'Bib/Bugigangas/Form/GrupoVerifica.php';
+        $caminhoClasse['Icone']                     = 'Bib/Bugigangas/Form/Icone.php';
+        $caminhoClasse['InterfaceBugiganga']        = 'Bib/Bugigangas/Form/InterfaceBugiganga.php';
+        $caminhoClasse['InterfaceElementoForm']     = 'Bib/Bugigangas/Form/InterfaceElementoForm.php';
+        $caminhoClasse['ListaClassificacao']        = 'Bib/Bugigangas/Form/ListaClassificacao.php';
+        $caminhoClasse['ListaClassificacao']        = 'Bib/Bugigangas/Form/ListaClassificacao.php';
+        $caminhoClasse['MultiArquivo']              = 'Bib/Bugigangas/Form/MultiArquivo.php';
+        $caminhoClasse['MultiBusca']                = 'Bib/Bugigangas/Form/MultiBusca.php';
+        $caminhoClasse['MultiEntrada']              = 'Bib/Bugigangas/Form/MultiEntrada.php';
+        $caminhoClasse['Numerico']                  = 'Bib/Bugigangas/Form/Numerico.php';
+        $caminhoClasse['Oculto']                    = 'Bib/Bugigangas/Form/Oculto.php';
+        $caminhoClasse['Rotulo']                    = 'Bib/Bugigangas/Form/Rotulo.php';
+        $caminhoClasse['Seleciona']                 = 'Bib/Bugigangas/Form/Seleciona.php';
+        $caminhoClasse['Senha']                     = 'Bib/Bugigangas/Form/Senha.php';
+        $caminhoClasse['SeparadorForm']             = 'Bib/Bugigangas/Form/SeparadorForm.php';
+        $caminhoClasse['Submete']                   = 'Bib/Bugigangas/Form/Submete.php';
+        $caminhoClasse['Tempo']                     = 'Bib/Bugigangas/Form/Tempo.php';
+        $caminhoClasse['Texto']                     = 'Bib/Bugigangas/Form/Texto.php';
 
-        $caminhoClasse['Historico']                  = 'Bib/Bugigangas/Embalagem/Historico.php';
+        $caminhoClasse['Historico']                 = 'Bib/Bugigangas/Form/Historico.php';
+        $caminhoClasse['Historico']                 = 'Bib/Bugigangas/Form/Historico.php';
         
         return $caminhoClasse;
     }

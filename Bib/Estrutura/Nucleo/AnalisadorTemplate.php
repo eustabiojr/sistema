@@ -8,7 +8,7 @@
  namespace Estrutura\Nucleo;
 
 use Estrutura\Controle\Pagina;
-use Estrutura\Sessao\Sessao;
+use Estrutura\Registro\Sessao;
 use Exception;
 
 /**

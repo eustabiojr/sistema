@@ -1,10 +1,20 @@
 <?php
 //------------------------------------------------------------------------------------------- 
+
 require_once 'Bib/Estrutura/Nucleo/CarregadorNucleo.php';
+
+/*spl_autoload_register(function($nomeClasse) { 
+    include 'Bib/classes/' . $nomeClasse . '.php';
+});*/
+
+#$c = new Estrutura\Nucleo\CarregadorNucleo;
+#s$c->autocarrega('Estrutura/Nucleo/MapaClasse');
+
 spl_autoload_register(array('Estrutura\Nucleo\CarregadorNucleo', 'autocarrega'));
 Estrutura\Nucleo\CarregadorNucleo::carregaMapaClasse();
 
 //-------------------------------------------------------------------------------------------
+#(new ClasseTeste);
 
 # Vendor
 $carregador = require 'vendor/autoload.php';
@@ -14,7 +24,6 @@ $carregador->register();
 $ini = parse_ini_file('Aplicativo/Config/aplicativo.ini', true);
 # definição do fuso-horário padrão
 date_default_timezone_set($ini['geral']['fuso-horario']); 
-
 # 
 ConfigAplicativo::carrega($ini);
 ConfigAplicativo::aplica();

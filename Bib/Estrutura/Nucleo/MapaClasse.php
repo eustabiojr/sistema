@@ -151,10 +151,10 @@ class MapaClasse
         $caminhoClasse['HistoricoHTML']               = 'Bib/Estrutura/Historico/HistoricoHTML.php';
         $caminhoClasse['HistoricoTXT']                = 'Bib/Estrutura/Historico/HistoricoTXT.php';
         $caminhoClasse['HistoricoXML']                = 'Bib/Estrutura/Historico/HistoricoXML.php';
-        $caminhoClasse['HistoricoXML']                = 'Bib/Estrutura/Http/ClienteHttp.php';
+        $caminhoClasse['ClienteHttp']                 = 'Bib/Estrutura/Http/ClienteHttp.php';
         $caminhoClasse['AnalisadorTemplate']          = 'Bib/Estrutura/Nucleo/AnalisadorTemplate.php';
-        $caminhoClasse['AutoCarregadorAplic']         = 'Bib/Estrutura/Nucleo/AutoCarregadorAplic.php';
-        $caminhoClasse['AutoCarregadorEstrutura']     = 'Bib/Estrutura/Nucleo/AutoCarregadorEstrutura.php';
+        #$caminhoClasse['AutoCarregadorAplic']         = 'Bib/Estrutura/Nucleo/AutoCarregadorAplic.php';
+        #$caminhoClasse['AutoCarregadorEstrutura']     = 'Bib/Estrutura/Nucleo/AutoCarregadorEstrutura.php';
         $caminhoClasse['CarregadorAplicativo']        = 'Bib/Estrutura/Nucleo/CarregadorAplicativo.php';
         $caminhoClasse['CarregadorNucleo']            = 'Bib/Estrutura/Nucleo/CarregadorNucleo.php';
         $caminhoClasse['ConfigAplicativo']            = 'Bib/Estrutura/Nucleo/ConfigAplicativo.php';
@@ -185,7 +185,7 @@ class MapaClasse
      */
     public static function obtClassesPermitidas() 
     {
-        return array('AdiantiAutocompleteService', 'AdiantiMultiSearchService', 'AdiantiUploaderService', 'TStandardSeek');
+        return array('ServicoAutocompletar', 'ServicoMultiBusca', 'ServicoUploader', 'BuscaPadrao');
     }
     
     /**
@@ -202,9 +202,9 @@ class MapaClasse
     public static function obtApelidos()
     {
         $apelidoClasse = array();
-        $apelidoClasse['TAdiantiCoreTranslator'] = 'AdiantiCoreTranslator';
-        $apelidoClasse['TUIBuilder']             = 'AdiantiUIBuilder';
-        $apelidoClasse['TPDFDesigner']           = 'AdiantiPDFDesigner';
+        $apelidoClasse['GNucleoTradutor'] = 'NucleoTradutor';
+        $apelidoClasse['GIUConstrutor']   = 'IUConstrutor';
+        $apelidoClasse['GDesenhadorPDF']  = 'DesenhadorPDF';
         return $apelidoClasse;
     }
 }

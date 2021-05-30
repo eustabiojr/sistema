@@ -7,6 +7,8 @@
 # Espaço de nomes
 namespace Estrutura\Nucleo;
 
+use Estrutura\Nucleo\MapaClasse;
+
 /**
  * Framework class autocarregaer
  *
@@ -26,15 +28,20 @@ class CarregadorNucleo
     public static function carregaMapaClasse() 
     {
         self::$mapaClasse = MapaClasse::obtMapa();
+        /*
+        echo '<pre>';
+            print_r(self::$mapaClasse);
+        echo '</pre>';
+        */
         $apelidos = MapaClasse::obtApelidos();
         
         if ($apelidos)
         {
-            foreach ($apelidos as $classee_antiga => $classee_nova)
+            foreach ($apelidos as $classe_antiga => $nova_classe)
             {
-                if (class_exists($classee_nova))
+                if (class_exists($nova_classe))
                 {
-                    class_alias($classee_nova, $classee_antiga);
+                    class_alias($nova_classe, $classe_antiga);
                 }
             }
         }
@@ -56,6 +63,8 @@ class CarregadorNucleo
      */
     public static function autocarrega($nomeClasse)
     {
+        #echo "<p> Carregando a classe " . $nomeClasse . "</p>" . PHP_EOL;
+        
         $nomeClasse = ltrim($nomeClasse, '\\');
         $nomeArquivo  = '';
         $namespace = '';
@@ -65,12 +74,13 @@ class CarregadorNucleo
             $nomeClasse = array_pop($pedacos);
             $namespace = implode('\\', $pedacos);
         }
-        $nomeArquivo = 'Bibs'.'\\'.strtolower($namespace).'\\'.$nomeClasse.'.php';
+        #$nomeArquivo = 'Bib'.'\\'.strtolower($namespace).'\\'.$nomeClasse.'.php';
+        $nomeArquivo = 'Bib'.'\\'. $namespace .'\\'.$nomeClasse.'.php';
         $nomeArquivo = str_replace('\\', DIRECTORY_SEPARATOR, $nomeArquivo);
         
         if (file_exists($nomeArquivo))
         {
-            //echo "PSR: $nomeClasse <br>";
+            #echo "PSR: $nomeClasse <br>";
             require_once $nomeArquivo;
             self::escopoGlobal($nomeClasse);
         }
@@ -78,7 +88,7 @@ class CarregadorNucleo
         {
             if (!self::AutocarregadorLegado($nomeClasse))
             {
-                if (!CarregadorAplicativo::autocarregador($nomeClasse))
+                if (!CarregadorAplicativo::autocarrega($nomeClasse))
                 {
                     if (file_exists('vendor/autocarrega_extras.php'))
                     {
@@ -109,7 +119,7 @@ class CarregadorNucleo
     }
     
     /**
-     * make a class global
+     * Torna a classe global
      */
     public static function escopoGlobal($classe)
     {

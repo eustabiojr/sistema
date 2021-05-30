@@ -24,7 +24,7 @@ use Exception;
  */
 class CarregadorAplicativo
 {
-    public static function autocarregador($classe)
+    public static function autocarrega($classe)
     {
         // echo "&nbsp;&nbsp;App loader $classe<br>";
         $pastas = array();

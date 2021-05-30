@@ -1,14 +1,6 @@
 <?php
 //------------------------------------------------------------------------------------------- 
-
 require_once 'Bib/Estrutura/Nucleo/CarregadorNucleo.php';
-
-/*spl_autoload_register(function($nomeClasse) { 
-    include 'Bib/classes/' . $nomeClasse . '.php';
-});*/
-
-#$c = new Estrutura\Nucleo\CarregadorNucleo;
-#s$c->autocarrega('Estrutura/Nucleo/MapaClasse');
 
 spl_autoload_register(array('Estrutura\Nucleo\CarregadorNucleo', 'autocarrega'));
 Estrutura\Nucleo\CarregadorNucleo::carregaMapaClasse();

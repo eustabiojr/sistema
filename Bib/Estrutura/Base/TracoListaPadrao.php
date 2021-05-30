@@ -31,7 +31,7 @@ use Dompdf\Dompdf;
  */
 trait TracoListaPadrao
 {
-    protected $totalRow;
+    protected $totalLinha;
     
     use TracoColecaoPadrao;
     

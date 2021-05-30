@@ -38,7 +38,7 @@ class NucleoAplicativo
         
         $ini = ConfigAplicativo::obt();
         $servico  = isset($ini['geral']['servico_hist_solicitacao']) ? $ini['geral']['servico_hist_solicitacao'] : '\SistemaServicoHistSolicitacao';
-        $classee  = isset($_REQUEST['classe'])    ? $_REQUEST['classe']   : ''; 
+        $classe  = isset($_REQUEST['classe'])    ? $_REQUEST['classe']   : ''; 
         $estatico = isset($_REQUEST['estatico'])   ? $_REQUEST['estatico']  : '';
         $metodo   = isset($_REQUEST['metodo'])   ? $_REQUEST['metodo']  : '';
         
@@ -55,32 +55,32 @@ class NucleoAplicativo
         
         self::filtraEntrada();
         
-        if (in_array(strtolower($classee), array_map('strtolower', MapaClasse::obtClassesInternas()) ))
+        if (in_array(strtolower($classe), array_map('strtolower', MapaClasse::obtClassesInternas()) ))
         {
             ob_start();
-            new Mensagem( 'erro', "A classe interna <b><i><u>{$classee}</u></i></b> não pode ser executada");
+            new Mensagem( 'erro', "A classe interna <b><i><u>{$classe}</u></i></b> não pode ser executada");
             $conteudo = ob_get_contents();
             ob_end_clean();
         }
-        else if (class_exists($classee))
+        else if (class_exists($classe))
         {
             if ($estatico)
             {
-                $rf = new ReflectionMethod($classee, $metodo);
+                $rf = new ReflectionMethod($classe, $metodo);
                 if ($rf-> isStatic ())
                 {
-                    call_user_func(array($classee, $metodo), $_REQUEST);
+                    call_user_func(array($classe, $metodo), $_REQUEST);
                 }
                 else
                 {
-                    call_user_func(array(new $classee($_REQUEST), $metodo), $_REQUEST);
+                    call_user_func(array(new $classe($_REQUEST), $metodo), $_REQUEST);
                 }
             }
             else
             {
                 try
                 {
-                    $pagina = new $classee( $_REQUEST );
+                    $pagina = new $classe( $_REQUEST );
                     ob_start();
                     $pagina->exibe( $_REQUEST );
 	                $conteudo = ob_get_contents();
@@ -107,9 +107,9 @@ class NucleoAplicativo
         {
             call_user_func($metodo, $_REQUEST);
         }
-        else if (!empty($classee))
+        else if (!empty($classe))
         {
-            new Mensagem('erro', "Classe <b><i><u>{$classee}</u></i></b> não encontrada " . '.<br>' . "Verifique a classe ou o nome do arquivo.".'.');
+            new Mensagem('erro', "Classe <b><i><u>{$classe}</u></i></b> não encontrada " . '.<br>' . "Verifique a classe ou o nome do arquivo.".'.');
         }
         
         if (!$estatico)
@@ -124,7 +124,7 @@ class NucleoAplicativo
     /**
      * Execute internal method
      */
-    public static function executa($classee, $metodo, $solicitacao, $pontofinal = null)
+    public static function executa($classe, $metodo, $solicitacao, $pontofinal = null)
     {
         self::$id_solicitacao = uniqid();
         
@@ -139,29 +139,29 @@ class NucleoAplicativo
             }
         }
         
-        if (class_exists($classee))
+        if (class_exists($classe))
         {
-            if (method_exists($classee, $metodo))
+            if (method_exists($classe, $metodo))
             {
-                $rf = new ReflectionMethod($classee, $metodo);
+                $rf = new ReflectionMethod($classe, $metodo);
                 if ($rf->isStatic())
                 {
-                    $response = call_user_func(array($classee, $metodo), $solicitacao);
+                    $response = call_user_func(array($classe, $metodo), $solicitacao);
                 }
                 else
                 {
-                    $response = call_user_func(array(new $classee($solicitacao), $metodo), $solicitacao);
+                    $response = call_user_func(array(new $classe($solicitacao), $metodo), $solicitacao);
                 }
                 return $response;
             }
             else
             {
-                throw new Exception("O método {\"$classee::$metodo\"} não foi encontrado"); 
+                throw new Exception("O método {\"$classe::$metodo\"} não foi encontrado"); 
             }
         }
         else
         {
-            throw new Exception("A classe {$classee} não foi encontrado");
+            throw new Exception("A classe {$classe} não foi encontrado");
         }
     }
 

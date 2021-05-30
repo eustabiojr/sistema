@@ -25,7 +25,7 @@ use Estrutura\Controle\Acao;
 use Estrutura\Controle\Janela;
 use Estrutura\Embrulho\EmbrulhoBootstrapGradedados;
 use Estrutura\Nucleo\ConfigAplicativo;
-use Estrutura\Sessao\Sessao;
+use Estrutura\Registro\Sessao;
 use Exception;
 use StdClass;
 
@@ -92,7 +92,7 @@ class BuscaPadrao extends Janela
         $this->gradedados->{'style'} = 'width: 100%';
         
         // creates the paginator
-        $this->navegacaoPagina = new TPageNavigation;
+        $this->navegacaoPagina = new NavigacaoPagina;
         $this->navegacaoPagina->defAcao(new Acao(array($this, 'aoRecarregar')));
         $this->navegacaoPagina->setWidth($this->gradedados->getWidth());
         

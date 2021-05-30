@@ -20,7 +20,7 @@ use Estrutura\Bugigangas\Dialogo\Mensagem;
 use Estrutura\Bugigangas\Dialogo\Pergunta;
 use Estrutura\Controle\Acao;
 use Estrutura\Nucleo\NucleoAplicativo;
-use Estrutura\Sessao\Sessao;
+use Estrutura\Registro\Sessao;
 
 /**
  * Standard Collection Trait

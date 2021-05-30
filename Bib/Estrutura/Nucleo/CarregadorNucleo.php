@@ -28,11 +28,7 @@ class CarregadorNucleo
     public static function carregaMapaClasse() 
     {
         self::$mapaClasse = MapaClasse::obtMapa();
-        /*
-        echo '<pre>';
-            print_r(self::$mapaClasse);
-        echo '</pre>';
-        */
+
         $apelidos = MapaClasse::obtApelidos();
         
         if ($apelidos)

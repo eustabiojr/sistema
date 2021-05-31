@@ -1,0 +1,36 @@
+<menu>
+    <item_menu label="Inicio">
+        <icone>fa: home fa-fw</icone>
+        <menu>
+            <item_menu label="Inicio">
+                <icone>fa: home fa-fw</icone>
+                <acao>VisaoBemvindo</acao>
+            </item_menu>
+            <item_menu label="Aprenda">
+                <icone>fa: home fa-fw</icone>
+                <acao>VisaoAprenda</acao>
+            </item_menu>
+            <item_menu label="Template">
+                <icone>fa: home fa-fw</icone>
+                <acao>VisaoTemplate</acao>
+            </item_menu>
+            <item_menu label="Construa">
+                <icone>fa: home fa-fw</icone>
+                <acao>VisaoConstroe</acao>
+            </item_menu>
+        </menu>
+    </item_menu>
+    <item_menu label="Configuração">
+        <icone>fa: home fa-fw</icone>
+        <menu>
+            <item_menu label="Ver módulos">
+                <icone>fa: home fa-fw</icone>
+                <acao>VisaoVerificaModulosSistema</acao>
+            </item_menu>
+            <item_menu label="Configuração PHP">
+                <icone>fa: home fa-fw</icone>
+                <acao>VisaoInfoPHPSistema</acao>
+            </item_menu>
+        </menu>
+    </item_menu>
+</menu>

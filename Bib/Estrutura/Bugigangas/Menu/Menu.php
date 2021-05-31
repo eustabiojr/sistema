@@ -53,14 +53,14 @@ class Menu extends Elemento
 
     /**
      * Adiciona um ItemMenu
-     * @param $itemmenu - Um objeto ItemMenu
+     * @param $item_menu - Um objeto ItemMenu
      */
-    public function adicItemMenu(ItemMenu $itemmenu)
+    public function adicItemMenu(ItemMenu $item_menu)
     {
         if (!empty($this->transformador_item)) {
-            \call_user_func($this->transformador_item, $itemmenu);
+            call_user_func($this->transformador_item, $item_menu);
         }
-        $this->itens[] = $itemmenu;
+        $this->itens[] = $item_menu;
     }
 
     /**
@@ -109,7 +109,7 @@ class Menu extends Elemento
                     # Verifica permissão
                     $partes = explode('#', $acao);
                     $nomeClasse = $partes[0];
-                    if (\call_user_func($callback_permissao, $nomeClasse)) {
+                    if (call_user_func($callback_permissao, $nomeClasse)) {
                         $this->adicItemMenu($itemMenu);
                     }
                 } else {

@@ -64,20 +64,20 @@ class Janela extends Pagina
     
     /**
      * Set Dialog class
-     * @param $class Class name
+     * @param $classe Class name
      */
-    public function defClasseDialogo($class)
+    public function defClasseDialogo($classe)
     {
-        $this->embrulho->defClasseDialogo($class);
+        $this->embrulho->defClasseDialogo($classe);
     }
     
     /**
      * Define the stack order (zIndex)
-     * @param $order Stack order
+     * @param $ordem Stack order
      */
-    public function defOrdemPilha($order)
+    public function defOrdemPilha($ordem)
     {
-        $this->embrulho->defOrdemPilha($order);
+        $this->embrulho->defOrdemPilha($ordem);
     }
     
     /**

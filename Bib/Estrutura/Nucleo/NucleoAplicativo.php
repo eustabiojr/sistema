@@ -38,12 +38,12 @@ class NucleoAplicativo
         
         $ini = ConfigAplicativo::obt();
         $servico  = isset($ini['geral']['servico_hist_solicitacao']) ? $ini['geral']['servico_hist_solicitacao'] : '\SistemaServicoHistSolicitacao';
-        $classe  = isset($_REQUEST['classe'])    ? $_REQUEST['classe']   : ''; 
-        $estatico = isset($_REQUEST['estatico'])   ? $_REQUEST['estatico']  : '';
+        $classe   = isset($_REQUEST['classe'])   ? $_REQUEST['classe']   : ''; 
+        $estatico = isset($_REQUEST['estatico']) ? $_REQUEST['estatico']  : '';
         $metodo   = isset($_REQUEST['metodo'])   ? $_REQUEST['metodo']  : '';
         
         $conteudo = '';
-        set_error_handler(array('AdiantiCoreApplication', 'tratadorErro'));
+        set_error_handler(array('NucleoAplicativo', 'tratadorErro'));
         
         if (!empty($ini['geral']['request_log']) && $ini['geral']['request_log'] == '1')
         {
@@ -80,9 +80,9 @@ class NucleoAplicativo
             {
                 try
                 {
-                    $pagina = new $classe( $_REQUEST );
+                    $pagina = new $classe($_REQUEST);
                     ob_start();
-                    $pagina->exibe( $_REQUEST );
+                    $pagina->exibe($_REQUEST);
 	                $conteudo = ob_get_contents();
 	                ob_end_clean();
                 }
@@ -222,9 +222,9 @@ class NucleoAplicativo
     /**
      * Execute a specific method of a class with parameters
      *
-     * @param $classe class name
-     * @param $metodo method name
-     * @param $parametros array of parameters
+     * @param $classe nome da classe
+     * @param $metodo nome do método
+     * @param $parametros array de parametros
      */
     public static function executaMetodo($classe, $metodo = NULL, $parametros = NULL)
     {
@@ -249,9 +249,9 @@ class NucleoAplicativo
     /**
      * Goto a page
      *
-     * @param $classe class name
-     * @param $metodo method name
-     * @param $parametros array of parameters
+     * @param $classe nome da classe
+     * @param $metodo nome do método
+     * @param $parametros array de parametros
      */
     public static function vaiParaPagina($classe, $metodo = NULL, $parametros = NULL, $callback = NULL)
     {
@@ -262,11 +262,11 @@ class NucleoAplicativo
     }
     
     /**
-     * Load a page
+     * Carrega a página
      *
-     * @param $classe class name
-     * @param $metodo method name
-     * @param $parametros array of parameters
+     * @param $classe nome da classe
+     * @param $metodo nome do método
+     * @param $parametros array de parametros
      */
     public static function carregaPagina($classe, $metodo = NULL, $parametros = NULL)
     {
@@ -276,11 +276,11 @@ class NucleoAplicativo
     }
     
     /**
-     * Load a page url
+     * Carrega a url da página
      *
-     * @param $classe class name
-     * @param $metodo method name
-     * @param $parametros array of parameters
+     * @param $classe nome da classe
+     * @param $metodo nome do método
+     * @param $parametros array de parametros
      */
     public static function carregaURLPagina($consulta)
     {
@@ -290,9 +290,9 @@ class NucleoAplicativo
     /**
      * Post data
      *
-     * @param $classe class name
-     * @param $metodo method name
-     * @param $parametros array of parameters
+     * @param $classe nome da classe
+     * @param $metodo nome do método
+     * @param $parametros array de parametros
      */
     public static function postaDados($nomeForm, $classe, $metodo = NULL, $parametros = NULL)
     {
@@ -309,9 +309,9 @@ class NucleoAplicativo
     /**
      * Build HTTP Query
      *
-     * @param $classe class name
-     * @param $metodo method name
-     * @param $parametros array of parameters
+     * @param $classe nome da classe
+     * @param $metodo nome do método
+     * @param $parametros array de parametros
      */
     public static function constroiConsultaHttp($classe, $metodo = NULL, $parametros = NULL)
     {
@@ -338,16 +338,16 @@ class NucleoAplicativo
         
         if (strpos($consulta, '?') !== FALSE)
         {
-            return $consulta . ( (is_array($parametros) && count($parametros)>0) ? '&'.http_build_query($parametros) : '' );
+            return $consulta . ( (is_array($parametros) && count($parametros) > 0) ? '&'.http_build_query($parametros) : '' );
         }
         else
         {
-            return $consulta . ( (is_array($parametros) && count($parametros)>0) ? '?'.http_build_query($parametros) : '' );
+            return $consulta . ( (is_array($parametros) && count($parametros) > 0) ? '?'.http_build_query($parametros) : '' );
         }
     }
     
     /**
-     * Reload application
+     * Recarrega o aplicativo
      */
     public static function recarrega()
     {

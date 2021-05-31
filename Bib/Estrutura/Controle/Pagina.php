@@ -187,7 +187,7 @@ class Pagina extends Elemento {
         );
 
         foreach ($navegadoresCelular as $nc) {
-            if (strpos(\strtolower($_SERVER['HTTP_USER_AGENT']), $nc) !== FALSE) {
+            if (strpos(strtolower($_SERVER['HTTP_USER_AGENT']), $nc) !== FALSE) {
                 $ehCelular = TRUE;
             }
         }

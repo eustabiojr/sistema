@@ -7,8 +7,6 @@
 # Espaço de nomes
 namespace Estrutura\Nucleo;
 
-use Estrutura\Nucleo\MapaClasse;
-
 /**
  * Framework class autocarregaer
  *
@@ -28,6 +26,10 @@ class CarregadorNucleo
     public static function carregaMapaClasse() 
     {
         self::$mapaClasse = MapaClasse::obtMapa();
+
+        #echo '<pre>' . PHP_EOL;
+            #print_r(self::$mapaClasse); # echo "<p>Classe: {$classe}</p>" . PHP_EOL;
+        #echo '</pre>' . PHP_EOL;
 
         $apelidos = MapaClasse::obtApelidos();
         
@@ -59,7 +61,7 @@ class CarregadorNucleo
      */
     public static function autocarrega($nomeClasse)
     {
-        #echo "<p> Carregando a classe " . $nomeClasse . "</p>" . PHP_EOL;
+        echo "<p> Carregando a classe: " . $nomeClasse . "</p>" . PHP_EOL;
         
         $nomeClasse = ltrim($nomeClasse, '\\');
         $nomeArquivo  = '';
@@ -68,12 +70,15 @@ class CarregadorNucleo
         {
             $pedacos    = explode('\\', $nomeClasse);
             $nomeClasse = array_pop($pedacos);
-            $namespace = implode('\\', $pedacos);
+            $namespace  = implode('\\', $pedacos);
         }
+
+        ///echo "<p> A classe é: {$namespace}|<b>" . $nomeClasse . "</b></p>" . PHP_EOL;
         #$nomeArquivo = 'Bib'.'\\'.strtolower($namespace).'\\'.$nomeClasse.'.php';
         $nomeArquivo = 'Bib'.'\\'. $namespace .'\\'.$nomeClasse.'.php';
         $nomeArquivo = str_replace('\\', DIRECTORY_SEPARATOR, $nomeArquivo);
         
+        ///echo "<p> O caminho completo e o arquivo é: " . $nomeArquivo . "</p>" . PHP_EOL;
         if (file_exists($nomeArquivo))
         {
             #echo "PSR: $nomeClasse <br>";
@@ -98,14 +103,17 @@ class CarregadorNucleo
     /**
      * autocarregaer
      * @param $classe classname
+     * 
+     * Pelo visto este autocarregador é apenas para scripts PHP mais antigo.
      */
     public static function AutocarregadorLegado($classe)
     {
+        # Caso esteja definido com base na classe informada.
         if (isset(self::$mapaClasse[$classe]))
         {
             if (file_exists(self::$mapaClasse[$classe]))
             {
-                //echo 'Classmap '.self::$mapaClasse[$classe] . '<br>';
+                echo '<b> >>>>> Mapa da classe: '.self::$mapaClasse[$classe] . '</b><br>';
                 require_once self::$mapaClasse[$classe];
                 
                 self::escopoGlobal($classe);

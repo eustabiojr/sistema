@@ -4,8 +4,8 @@
  * 
  * Data: 06/05/2021
  ********************************************************************************************/
- # Espaço de nomes
- namespace Estrutura\Nucleo;
+# Espaço de nomes
+namespace Estrutura\Nucleo;
 
 /**
  * Class map
@@ -197,9 +197,9 @@ class MapaClasse
     public static function obtApelidos()
     {
         $apelidoClasse = array();
-        $apelidoClasse['GNucleoTradutor'] = 'NucleoTradutor';
-        $apelidoClasse['GIUConstrutor']   = 'IUConstrutor';
-        $apelidoClasse['GDesenhadorPDF']  = 'DesenhadorPDF';
+        #$apelidoClasse['GNucleoTradutor'] = 'NucleoTradutor';
+        #$apelidoClasse['GIUConstrutor']   = 'IUConstrutor';
+        #$apelidoClasse['GDesenhadorPDF']  = 'DesenhadorPDF';
         return $apelidoClasse;
     }
 }

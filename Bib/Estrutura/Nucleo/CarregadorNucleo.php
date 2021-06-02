@@ -68,9 +68,9 @@ class CarregadorNucleo
         $namespace = '';
         if (strrpos($nomeClasse, '\\') !== FALSE)
         {
-            $pedacos    = explode('\\', $nomeClasse);
-            $nomeClasse = array_pop($pedacos);
-            $namespace  = implode('\\', $pedacos);
+            $partes     = explode('\\', $nomeClasse);
+            $nomeClasse = array_pop($partes);
+            $namespace  = implode('\\', $partes);
         }
 
         ///echo "<p> A classe é: {$namespace}|<b>" . $nomeClasse . "</b></p>" . PHP_EOL;
@@ -113,7 +113,7 @@ class CarregadorNucleo
         {
             if (file_exists(self::$mapaClasse[$classe]))
             {
-                echo '<b> >>>>> Mapa da classe: '.self::$mapaClasse[$classe] . '</b><br>';
+                ///echo '<b> >>>>> Mapa da classe: '.self::$mapaClasse[$classe] . '</b><br>';
                 require_once self::$mapaClasse[$classe];
                 
                 self::escopoGlobal($classe);

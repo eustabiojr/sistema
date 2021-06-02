@@ -180,7 +180,7 @@ class MapaClasse
      */
     public static function obtClassesPermitidas() 
     {
-        return array('ServicoAutocompletar', 'ServicoMultiBusca', 'ServicoUploader', 'BuscaPadrao');
+        return array('ServicoAutocompletar', 'ServicoMultiBusca', 'ServicoSubidaArquivo', 'BuscaPadrao');
     }
     
     /**

@@ -46,9 +46,9 @@ class CarregadorNucleo
     }
     
     /**
-     * Define the class path
-     * @param $classe Class name
-     * @param $caminho  Class path
+     * Define o caminho da classa
+     * @param $classe Nome da classe
+     * @param $caminho  Caminho da classe
      */
     public static function defCaminhoClasse($classe, $caminho)
     {
@@ -57,7 +57,7 @@ class CarregadorNucleo
     
     /**
      * Core autloader
-     * @param $nomeClasse Class name
+     * @param $nomeClasse Nome da classe
      */
     public static function autocarrega($nomeClasse)
     {
@@ -113,7 +113,7 @@ class CarregadorNucleo
         {
             if (file_exists(self::$mapaClasse[$classe]))
             {
-                ///echo '<b> >>>>> Mapa da classe: '.self::$mapaClasse[$classe] . '</b><br>';
+                echo '<b> >>>>> Mapa da classe: '.self::$mapaClasse[$classe] . '</b><br>';
                 require_once self::$mapaClasse[$classe];
                 
                 self::escopoGlobal($classe);

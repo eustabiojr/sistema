@@ -5,7 +5,6 @@ require_once 'Bib/Estrutura/Nucleo/CarregadorNucleo.php';
 
 spl_autoload_register(array('Estrutura\Nucleo\CarregadorNucleo', 'autocarrega'));
 Estrutura\Nucleo\CarregadorNucleo::carregaMapaClasse();
-
 //-------------------------------------------------------------------------------------------
 #(new ClasseTeste);
 

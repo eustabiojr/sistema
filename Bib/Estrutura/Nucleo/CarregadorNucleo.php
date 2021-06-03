@@ -61,7 +61,7 @@ class CarregadorNucleo
      */
     public static function autocarrega($nomeClasse)
     {
-        echo "<p> Carregando a classe: " . $nomeClasse . "</p>" . PHP_EOL;
+        ///echo "<p> Carregando a classe: " . $nomeClasse . "</p>" . PHP_EOL;
         
         $nomeClasse = ltrim($nomeClasse, '\\');
         $nomeArquivo  = '';
@@ -73,10 +73,18 @@ class CarregadorNucleo
             $namespace  = implode('\\', $partes);
         }
 
-        ///echo "<p> A classe é: {$namespace}|<b>" . $nomeClasse . "</b></p>" . PHP_EOL;
+        ///echo "<p> O namespace e a classe são: {$namespace} | <b>" . $nomeClasse . "</b></p>" . PHP_EOL;
         #$nomeArquivo = 'Bib'.'\\'.strtolower($namespace).'\\'.$nomeClasse.'.php';
         $nomeArquivo = 'Bib'.'\\'. $namespace .'\\'.$nomeClasse.'.php';
         $nomeArquivo = str_replace('\\', DIRECTORY_SEPARATOR, $nomeArquivo);
+
+        /**********
+         * Como a Classe Menu não possui namespace, o arquivo não é localizado.
+         */
+        /*if ($nomeClasse == 'Menu') {
+            echo "<p>MENU1 MENU1 MENU1</p>" . PHP_EOL;
+            echo "<p>Caminho: " . $nomeArquivo . "</p>" . PHP_EOL;
+        }*/
         
         ///echo "<p> O caminho completo e o arquivo é: " . $nomeArquivo . "</p>" . PHP_EOL;
         if (file_exists($nomeArquivo))
@@ -87,8 +95,13 @@ class CarregadorNucleo
         }
         else
         {
+
             if (!self::AutocarregadorLegado($nomeClasse))
             {
+                if ($nomeClasse == 'Menu') {
+                    ///echo "<p>MENU2 MENU2 MENU2</p>" . PHP_EOL;
+                }
+
                 if (!CarregadorAplicativo::autocarrega($nomeClasse))
                 {
                     if (file_exists('vendor/autocarrega_extras.php'))
@@ -110,14 +123,16 @@ class CarregadorNucleo
     {
         # Caso esteja definido com base na classe informada.
         if (isset(self::$mapaClasse[$classe]))
-        {
+        { 
             if (file_exists(self::$mapaClasse[$classe]))
             {
-                echo '<b> >>>>> Mapa da classe: '.self::$mapaClasse[$classe] . '</b><br>';
+                ///echo '<p> >>>>> Mapa da classe (LEGADO)>>>>><b>: ' . self::$mapaClasse[$classe] . '</b></p><br>';
                 require_once self::$mapaClasse[$classe];
                 
                 self::escopoGlobal($classe);
                 return TRUE;
+            } else {
+                ///echo '<p>Arquivo: <b>' . self::$mapaClasse[$classe] . '</b> não existe.</p><br>';
             }
         }
     }
@@ -137,7 +152,7 @@ class CarregadorNucleo
                 $ns = str_replace('.class.php', '', $ns);
                 $ns = str_replace('.php', '', $ns);
                 
-                //echo "&nbsp;&nbsp;&nbsp;&nbsp;Mapping: $ns, $classe<br>";
+                ///echo "&nbsp;&nbsp;&nbsp;&nbsp;Mapeamento: $ns, $classe<br>";
                 if (class_exists($ns) OR interface_exists($ns))
                 {
                     class_alias($ns, $classe, FALSE);

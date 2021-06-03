@@ -9,3 +9,6 @@
 # Para informar o nome de classes em PHP de forma dinâmica em ambientes que usam espaço de nomes (Ou seja, namespace),
 é necessário informar o nome do namespace antes do nome da classe, e jogar o retorno em uma variável intermediária,
 para só então instanciá-la com new.
+
+Anotação: Não estava conseguindo carregar a classe 'Menu'. O arquivo 'Menu.php' estava localizada no seguinte caminho:
+sistema/Bib/Estrutura/Bugigangas/Menu/. Descobri que o motivo era que não tinha permissão de leitura para a pasta 'Menu'.

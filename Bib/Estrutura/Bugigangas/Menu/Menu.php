@@ -79,7 +79,7 @@ class Menu extends Elemento
     {
         $i = 0; 
         foreach ($xml as $elementoXml) {
-            $atrib      = $elementoXml->atributos();
+            $atrib      = $elementoXml->attributes();
             $rotulo     = (string) $atrib['rotulo'];
             $acao       = (string) $elementoXml->acao;
             $icone      = (string) $elementoXml->icone;

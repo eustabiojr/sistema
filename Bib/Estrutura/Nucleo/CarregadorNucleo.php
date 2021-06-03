@@ -98,10 +98,6 @@ class CarregadorNucleo
 
             if (!self::AutocarregadorLegado($nomeClasse))
             {
-                if ($nomeClasse == 'Menu') {
-                    ///echo "<p>MENU2 MENU2 MENU2</p>" . PHP_EOL;
-                }
-
                 if (!CarregadorAplicativo::autocarrega($nomeClasse))
                 {
                     if (file_exists('vendor/autocarrega_extras.php'))

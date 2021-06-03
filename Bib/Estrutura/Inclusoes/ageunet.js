@@ -1,20 +1,20 @@
-function Adianti(){}
+function Ageunet(){}
 function Template(){}
 
-function __adianti_set_language(lang)
+function __ageunet_def_idioma(idioma)
 {
-    Adianti.language = lang;
+    Ageunet.language = idioma;
 }
 
-function __adianti_set_debug(debug)
+function __ageunet_def_depuracao(depuracao)
 {
-    Adianti.debug = debug;
+    Ageunet.depuracao = depuracao;
 }
 
-function __adianti_run_after_loads(url, data)
+function __ageunet_run_after_loads(url, data)
 {
-    if (typeof Adianti.onAfterLoad == "function") {
-        Adianti.onAfterLoad(url, data);
+    if (typeof Ageunet.onAfterLoad == "function") {
+        Ageunet.onAfterLoad(url, data);
     }
     
     if (typeof Template.onAfterLoad == "function") {
@@ -22,10 +22,10 @@ function __adianti_run_after_loads(url, data)
     }
 }
 
-function __adianti_run_after_posts(url, data)
+function __ageunet_run_after_posts(url, data)
 {
-    if (typeof Adianti.onAfterPost == "function") {
-        Adianti.onAfterPost(url, data);
+    if (typeof Ageunet.onAfterPost == "function") {
+        Ageunet.onAfterPost(url, data);
     }
     
     if (typeof Template.onAfterPost == "function") {
@@ -33,10 +33,10 @@ function __adianti_run_after_posts(url, data)
     }
 }
 
-function __adianti_run_before_loads(url)
+function __ageunet_run_before_loads(url)
 {
-    if (typeof Adianti.onBeforeLoad == "function") {
-        Adianti.onBeforeLoad(url);
+    if (typeof Ageunet.onBeforeLoad == "function") {
+        Ageunet.onBeforeLoad(url);
     }
     
     if (typeof Template.onBeforeLoad == "function") {
@@ -44,10 +44,10 @@ function __adianti_run_before_loads(url)
     }
 }
 
-function __adianti_run_before_posts(url)
+function __ageunet_run_before_posts(url)
 {
-    if (typeof Adianti.onBeforePost == "function") {
-        Adianti.onBeforePost(url);
+    if (typeof Ageunet.onBeforePost == "function") {
+        Ageunet.onBeforePost(url);
     }
     
     if (typeof Template.onBeforePost == "function") {
@@ -55,17 +55,17 @@ function __adianti_run_before_posts(url)
     }
 }
 
-function __adianti_failure_message()
+function __ageunet_failure_message()
 {
-    if (Adianti.debug == 1) {
-        if (Adianti.language == 'pt') {
+    if (Ageunet.depuracao == 1) {
+        if (Ageunet.language == 'pt') {
             return 'Requisição falhou. Verifique a conexão com internet e os logs do servidor de aplicação';
         }
         return 'Request failed. Check the internet connection and the application server logs';
     }
     else
     {
-        if (Adianti.language == 'pt') {
+        if (Ageunet.language == 'pt') {
             return 'Requisição falhou';
         }
         return 'Request failed';
@@ -75,7 +75,7 @@ function __adianti_failure_message()
 /**
  * Goto a given page
  */
-function __adianti_goto_page(page)
+function __ageunet_goto_page(page)
 {
     window.location = page;
 }
@@ -83,7 +83,7 @@ function __adianti_goto_page(page)
 /**
  * Returns the URL Base
  */
-function __adianti_base_url()
+function __ageunet_base_url()
 {
    return window.location.protocol +'//'+ window.location.host + window.location.pathname.split( '/' ).slice(0,-1).join('/');
 }
@@ -91,7 +91,7 @@ function __adianti_base_url()
 /**
  * Returns the query string
  */
-function __adianti_query_string()
+function __ageunet_query_string()
 {
     var query_string = {};
     var query = window.location.search.substring(1);
@@ -120,7 +120,7 @@ function __adianti_query_string()
 /**
  * Converts query string into json object
  */
-function __adianti_query_to_json(query)
+function __ageunet_query_to_json(query)
 {
     var pieces = query.split('&');
     var params = Object();
@@ -154,7 +154,7 @@ function __adianti_query_to_json(query)
 /**
  * Loads an HTML content
  */
-function __adianti_load_html(content, afterCallback, url)
+function __ageunet_load_html(content, afterCallback, url)
 {
     var url_container   = url.match('target_container=([0-z-]*)');
     var match_container = content.match('adianti_target_container\\s?=\\s?"([0-z-]*)"');
@@ -175,7 +175,7 @@ function __adianti_load_html(content, afterCallback, url)
     {
         $('[widget="TWindow"]').attr('remove', 'yes');
         $('#adianti_online_content').empty();
-        content = content.replace(new RegExp('__adianti_append_page', 'g'), '__adianti_append_page2'); // chamadas presentes em botões seekbutton em window, abrem em outra janela
+        content = content.replace(new RegExp('__ageunet_append_page', 'g'), '__ageunet_append_page2'); // chamadas presentes em botões seekbutton em window, abrem em outra janela
         $('#adianti_online_content').html(content);
         $('[widget="TWindow"][remove="yes"]').remove();
     }
@@ -183,14 +183,14 @@ function __adianti_load_html(content, afterCallback, url)
     {
         if (content.indexOf('widget="TWindow"') > 0)
         {
-            content = content.replace(new RegExp('__adianti_append_page', 'g'), '__adianti_append_page2'); // chamadas presentes em botões seekbutton em window, abrem em outra janela
+            content = content.replace(new RegExp('__ageunet_append_page', 'g'), '__ageunet_append_page2'); // chamadas presentes em botões seekbutton em window, abrem em outra janela
             $('#adianti_online_content').html(content);
         }
         else
         {
-            if (typeof Adianti.onClearDOM == "function")
+            if (typeof Ageunet.onClearDOM == "function")
             {
-                Adianti.onClearDOM();
+                Ageunet.onClearDOM();
             }
             
             $('[widget="TWindow"]').remove();
@@ -207,15 +207,15 @@ function __adianti_load_html(content, afterCallback, url)
 /**
  * Loads an HTML content. This function is called if there is an window opened.
  */
-function __adianti_load_html2(content)
+function __ageunet_load_html2(content)
 {
    if ($('[widget="TWindow2"]').length > 0)
    {
        $('[widget="TWindow2"]').attr('remove', 'yes');
        $('#adianti_online_content2').hide();
-       content = content.replace(new RegExp('__adianti_load_html', 'g'), '__adianti_load_html2'); // se tem um botão de buscar, ele está conectado a __adianti_load_html
-       content = content.replace(new RegExp('__adianti_load_page', 'g'), '__adianti_load_page2'); // se tem um botão de buscar, ele está conectado a __adianti_load_html
-       content = content.replace(new RegExp('__adianti_post_data', 'g'), '__adianti_post_data2'); // se tem um botão de buscar, ele está conectado a __adianti_load_html
+       content = content.replace(new RegExp('__ageunet_load_html', 'g'), '__ageunet_load_html2'); // se tem um botão de buscar, ele está conectado a __ageunet_load_html
+       content = content.replace(new RegExp('__ageunet_load_page', 'g'), '__ageunet_load_page2'); // se tem um botão de buscar, ele está conectado a __ageunet_load_html
+       content = content.replace(new RegExp('__ageunet_post_data', 'g'), '__ageunet_post_data2'); // se tem um botão de buscar, ele está conectado a __ageunet_load_html
        content = content.replace(new RegExp('TWindow','g'), 'TWindow2'); // quando submeto botão de busca, é destruído tudo que tem TWindow2 e recarregado
        content = content.replace(new RegExp('generator="adianti"', 'g'), 'generator="adianti2"'); // links também são alterados
        $('#adianti_online_content2').html(content);
@@ -239,33 +239,33 @@ function __adianti_load_html2(content)
    }
 }
 
-function __adianti_load_page_no_register(page)
+function __ageunet_load_page_no_register(page)
 {
     $.get(page)
     .done(function(data) {
-        __adianti_load_html(data, null, page);
+        __ageunet_load_html(data, null, page);
     }).fail(function(jqxhr, textStatus, exception) {
-       __adianti_error('Error', textStatus + ': ' + __adianti_failure_message());
+       __ageunet_error('Error', textStatus + ': ' + __ageunet_failure_message());
     });
 }
 
-function __adianti_load_page_no_register2(page)
+function __ageunet_load_page_no_register2(page)
 {
     $.get(page)
     .done(function(data) {
-        __adianti_load_html2(data);
+        __ageunet_load_html2(data);
     }).fail(function(jqxhr, textStatus, exception) {
-       __adianti_error('Error', textStatus + ': ' + __adianti_failure_message());
+       __ageunet_error('Error', textStatus + ': ' + __ageunet_failure_message());
     });
 }
 
 /**
  * Called by Seekbutton. Add the page content. 
  */
-function __adianti_append_page(page, callback)
+function __ageunet_append_page(page, callback)
 {
     page = page.replace('engine.php?','');
-    params_json = __adianti_query_to_json(page);
+    params_json = __ageunet_query_to_json(page);
 
     uri = 'engine.php?' 
         + 'class=' + params_json.class
@@ -274,7 +274,7 @@ function __adianti_append_page(page, callback)
 
     $.post(uri, params_json)
     .done(function(data){
-        data = data.replace(new RegExp('__adianti_append_page', 'g'), '__adianti_append_page2'); // chamadas presentes em botões seekbutton em window, abrem em outra janela
+        data = data.replace(new RegExp('__ageunet_append_page', 'g'), '__ageunet_append_page2'); // chamadas presentes em botões seekbutton em window, abrem em outra janela
         $('#adianti_online_content').after('<div></div>').html(data);
         
         if (typeof callback == "function")
@@ -282,17 +282,17 @@ function __adianti_append_page(page, callback)
             callback();
         }
     }).fail(function(jqxhr, textStatus, exception) {
-       __adianti_error('Error', textStatus + ': ' + __adianti_failure_message());
+       __ageunet_error('Error', textStatus + ': ' + __ageunet_failure_message());
     });
 }
 
 /**
  * Called by Seekbutton from opened windows. 
  */
-function __adianti_append_page2(page)
+function __ageunet_append_page2(page)
 {
     page = page.replace('engine.php?','');
-    params_json = __adianti_query_to_json(page);
+    params_json = __ageunet_query_to_json(page);
 
     uri = 'engine.php?' 
         + 'class=' + params_json.class
@@ -301,21 +301,21 @@ function __adianti_append_page2(page)
 
     $.post(uri, params_json)
     .done(function(data) {
-        data = data.replace(new RegExp('__adianti_load_html', 'g'), '__adianti_load_html2'); // se tem um botão de buscar, ele está conectado a __adianti_load_html
-        data = data.replace(new RegExp('__adianti_load_page', 'g'), '__adianti_load_page2'); // se tem um botão de buscar, ele está conectado a __adianti_load_html
-        data = data.replace(new RegExp('__adianti_post_data', 'g'), '__adianti_post_data2'); // se tem um botão de buscar, ele está conectado a __adianti_load_html
+        data = data.replace(new RegExp('__ageunet_load_html', 'g'), '__ageunet_load_html2'); // se tem um botão de buscar, ele está conectado a __ageunet_load_html
+        data = data.replace(new RegExp('__ageunet_load_page', 'g'), '__ageunet_load_page2'); // se tem um botão de buscar, ele está conectado a __ageunet_load_html
+        data = data.replace(new RegExp('__ageunet_post_data', 'g'), '__ageunet_post_data2'); // se tem um botão de buscar, ele está conectado a __ageunet_load_html
         data = data.replace(new RegExp('TWindow', 'g'),             'TWindow2'); // quando submeto botão de busca, é destruído tudo que tem TWindow2 e recarregado
         data = data.replace(new RegExp('generator="adianti"', 'g'), 'generator="adianti2"'); // links também são alterados
         $('#adianti_online_content2').after('<div></div>').html(data);
     }).fail(function(jqxhr, textStatus, exception) {
-       __adianti_error('Error', textStatus + ': ' + __adianti_failure_message());
+       __ageunet_error('Error', textStatus + ': ' + __ageunet_failure_message());
     });
 }
 
 /**
  * Open a page using ajax
  */
-function __adianti_load_page(page, callback)
+function __ageunet_load_page(page, callback)
 {
     if (typeof page !== 'undefined')
     {
@@ -327,26 +327,26 @@ function __adianti_load_page(page, callback)
             url = 'xhr-'+url;
         }
         
-        __adianti_run_before_loads(url);
+        __ageunet_run_before_loads(url);
         
         if (url.indexOf('&static=1') > 0)
         {
             $.get(url)
             .done(function(data) {
-                __adianti_parse_html(data);
+                __ageunet_parse_html(data);
                 
-                Adianti.requestURL  = url;
-                Adianti.requestData = null;
+                Ageunet.requestURL  = url;
+                Ageunet.requestData = null;
                 
                 if (typeof callback == "function")
                 {
                     callback();
                 }
                 
-                __adianti_run_after_loads(url, data);
+                __ageunet_run_after_loads(url, data);
                 
             }).fail(function(jqxhr, textStatus, exception) {
-               __adianti_error('Error', textStatus + ': ' + __adianti_failure_message());
+               __ageunet_error('Error', textStatus + ': ' + __ageunet_failure_message());
                loading = false;
             });
         }
@@ -354,10 +354,10 @@ function __adianti_load_page(page, callback)
         {
             $.get(url)
             .done(function(data) {
-                Adianti.requestURL  = url;
-                Adianti.requestData = null;
+                Ageunet.requestURL  = url;
+                Ageunet.requestData = null;
                 
-                __adianti_load_html(data, __adianti_run_after_loads, url);
+                __ageunet_load_html(data, __ageunet_run_after_loads, url);
                 
                 if (typeof callback == "function")
                 {
@@ -366,11 +366,11 @@ function __adianti_load_page(page, callback)
                 
                 if ( url.indexOf('register_state=false') < 0 && history.pushState && (data.indexOf('widget="TWindow"') < 0) )
                 {
-                    __adianti_register_state(url, 'adianti');
-                    Adianti.currentURL = url;
+                    __ageunet_register_state(url, 'adianti');
+                    Ageunet.currentURL = url;
                 }
             }).fail(function(jqxhr, textStatus, exception) {
-               __adianti_error('Error', textStatus + ': ' + __adianti_failure_message());
+               __ageunet_error('Error', textStatus + ': ' + __ageunet_failure_message());
                loading = false;
             });
         }
@@ -380,31 +380,31 @@ function __adianti_load_page(page, callback)
 /**
  * Used by all links inside a window (generator=adianti)
  */
-function __adianti_load_page2(page)
+function __ageunet_load_page2(page)
 {
     url = page;
     url = url.replace('index.php', 'engine.php');
-    __adianti_load_page_no_register2(url);
+    __ageunet_load_page_no_register2(url);
     
-    Adianti.requestURL  = url;
-    Adianti.requestData = null;
+    Ageunet.requestURL  = url;
+    Ageunet.requestData = null;
 }
 
 /**
  * Start blockUI dialog
  */
-function __adianti_block_ui(wait_message)
+function __ageunet_block_ui(wait_message)
 {
     if (typeof $.blockUI == 'function')
     {
-        if (typeof Adianti.blockUIConter == 'undefined')
+        if (typeof Ageunet.blockUIConter == 'undefined')
         {
-            Adianti.blockUIConter = 0;
+            Ageunet.blockUIConter = 0;
         }
-        Adianti.blockUIConter = Adianti.blockUIConter + 1;
+        Ageunet.blockUIConter = Ageunet.blockUIConter + 1;
         if (typeof wait_message == 'undefined')
         {
-            wait_message = Adianti.waitMessage;
+            wait_message = Ageunet.waitMessage;
         }
         
         $.blockUI({ 
@@ -432,7 +432,7 @@ function __adianti_block_ui(wait_message)
 /**
  * Open a window
  */
-function __adianti_window(title, width, height, content)
+function __ageunet_window(title, width, height, content)
 {
     $('<div />').html(content).dialog({
         modal: true,
@@ -446,7 +446,7 @@ function __adianti_window(title, width, height, content)
     });
 }
 
-function __adianti_window_page(title, width, height, page)
+function __ageunet_window_page(title, width, height, page)
 {
     if (width<2)
     {
@@ -472,7 +472,7 @@ function __adianti_window_page(title, width, height, page)
 /**
  * Show standard dialog
  */
-function __adianti_dialog( options )
+function __ageunet_dialog( options )
 {
     if (options.type == 'info') {
         var icon = (options.icon ? options.icon : 'fa fa-info-circle fa-4x blue');
@@ -526,31 +526,31 @@ function __adianti_dialog( options )
 /**
  * Show message error dialog
  */
-function __adianti_error(title, message, callback)
+function __ageunet_error(title, message, callback)
 {
-    __adianti_dialog( { type: 'error', title: title, message: message, callback: callback} );
+    __ageunet_dialog( { type: 'error', title: title, message: message, callback: callback} );
 }
 
 /**
  * Show message info dialog
  */
-function __adianti_message(title, message, callback)
+function __ageunet_message(title, message, callback)
 {
-    __adianti_dialog( { type: 'info', title: title, message: message, callback: callback} );
+    __ageunet_dialog( { type: 'info', title: title, message: message, callback: callback} );
 }
 
 /**
  * Show message warning dialog
  */
-function __adianti_warning(title, message, callback)
+function __ageunet_warning(title, message, callback)
 {
-    __adianti_dialog( { type: 'warning', title: title, message: message, callback: callback} );
+    __ageunet_dialog( { type: 'warning', title: title, message: message, callback: callback} );
 }
 
 /**
  * Show question dialog
  */
-function __adianti_question(title, message, callback_yes, callback_no, label_yes, label_no)
+function __ageunet_question(title, message, callback_yes, callback_no, label_yes, label_no)
 {
     if (typeof bootbox == 'object')
     {
@@ -602,7 +602,7 @@ function __adianti_question(title, message, callback_yes, callback_no, label_yes
 /**
  * Show input dialog
  */
-function __adianti_input(question, callback)
+function __ageunet_input(question, callback)
 {
     if (typeof bootbox == 'object')
     {
@@ -619,12 +619,12 @@ function __adianti_input(question, callback)
     }
 }
 
-function __adianti_show_toast64(type, message64, place, icon)
+function __ageunet_show_toast64(type, message64, place, icon)
 {
-    __adianti_show_toast(type, atob(message64), place, icon)
+    __ageunet_show_toast(type, atob(message64), place, icon)
 }
 
-function __adianti_show_toast(type, message, place, icon)
+function __ageunet_show_toast(type, message, place, icon)
 {
     var place = place.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
             if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
@@ -651,15 +651,15 @@ function __adianti_show_toast(type, message, place, icon)
 /**
  * Closes blockUI dialog
  */
-function __adianti_unblock_ui()
+function __ageunet_unblock_ui()
 {
     if (typeof $.blockUI == 'function')
     {
-        Adianti.blockUIConter = Adianti.blockUIConter -1;
-        if (Adianti.blockUIConter <= 0)
+        Ageunet.blockUIConter = Ageunet.blockUIConter -1;
+        if (Ageunet.blockUIConter <= 0)
         {
             $.unblockUI( { fadeIn: 0, fadeOut: 0 } );
-            Adianti.blockUIConter = 0;
+            Ageunet.blockUIConter = 0;
         }
     }
 }
@@ -667,7 +667,7 @@ function __adianti_unblock_ui()
 /**
  * Post form data
  */
-function __adianti_post_data(form, action)
+function __ageunet_post_data(form, action)
 {
     if (action.substring(0,4) == 'xhr-')
     {
@@ -688,27 +688,27 @@ function __adianti_post_data(form, action)
         }
     }
     
-    __adianti_block_ui();
+    __ageunet_block_ui();
     
     data = $('#'+form).serialize();
     
-    __adianti_run_before_posts(url);
+    __ageunet_run_before_posts(url);
     
     if (url.indexOf('&static=1') > 0 || (action.substring(0,4) == 'xhr-'))
     {
         $.post(url, data)
         .done(function(result) {
-            __adianti_parse_html(result);
-            __adianti_unblock_ui();
+            __ageunet_parse_html(result);
+            __ageunet_unblock_ui();
             
-            Adianti.requestURL  = url;
-            Adianti.requestData = data;
+            Ageunet.requestURL  = url;
+            Ageunet.requestData = data;
             
-            __adianti_run_after_posts(url, data);
+            __ageunet_run_after_posts(url, data);
             
         }).fail(function(jqxhr, textStatus, exception) {
-            __adianti_unblock_ui();
-            __adianti_error('Error', textStatus + ': ' + __adianti_failure_message());
+            __ageunet_unblock_ui();
+            __ageunet_error('Error', textStatus + ': ' + __ageunet_failure_message());
             loading = false;
         });
     }
@@ -716,16 +716,16 @@ function __adianti_post_data(form, action)
     {
         $.post(url, data)
         .done(function(result) {
-            Adianti.currentURL  = url;
-            Adianti.requestURL  = url;
-            Adianti.requestData = data;
+            Ageunet.currentURL  = url;
+            Ageunet.requestURL  = url;
+            Ageunet.requestData = data;
             
-            __adianti_load_html(result, __adianti_run_after_posts, url);
-            __adianti_unblock_ui();
+            __ageunet_load_html(result, __ageunet_run_after_posts, url);
+            __ageunet_unblock_ui();
             
         }).fail(function(jqxhr, textStatus, exception) {
-            __adianti_unblock_ui();
-            __adianti_error('Error', textStatus + ': ' + __adianti_failure_message());
+            __ageunet_unblock_ui();
+            __ageunet_error('Error', textStatus + ': ' + __ageunet_failure_message());
             loading = false;
         });
     }
@@ -734,7 +734,7 @@ function __adianti_post_data(form, action)
 /**
  * Post form data over window
  */
-function __adianti_post_data2(form, url)
+function __ageunet_post_data2(form, url)
 {
     url = 'index.php?'+url;
     url = url.replace('index.php', 'engine.php');
@@ -743,24 +743,24 @@ function __adianti_post_data2(form, url)
     $.post(url, data)
     .done(function(result)
     {
-        __adianti_load_html2(result);
-        __adianti_unblock_ui();
+        __ageunet_load_html2(result);
+        __ageunet_unblock_ui();
         
-        Adianti.requestURL  = url;
-        Adianti.requestData = data;
+        Ageunet.requestURL  = url;
+        Ageunet.requestData = data;
         
     }).fail(function(jqxhr, textStatus, exception) {
-        __adianti_unblock_ui();
-        __adianti_error('Error', textStatus + ': ' + __adianti_failure_message());
+        __ageunet_unblock_ui();
+        __ageunet_error('Error', textStatus + ': ' + __ageunet_failure_message());
     });
 }
 
 /**
  * Register URL state
  */
-function __adianti_register_state(url, origin)
+function __ageunet_register_state(url, origin)
 {
-    if (Adianti.registerState !== false || origin == 'user')
+    if (Ageunet.registerState !== false || origin == 'user')
     {
         var stateObj = { url: url };
         if (typeof history.pushState != 'undefined') {
@@ -772,16 +772,16 @@ function __adianti_register_state(url, origin)
 /**
  * Ajax lookup
  */
-function __adianti_ajax_lookup(action, field)
+function __ageunet_ajax_lookup(action, field)
 {
     var value = field.value;
-    __adianti_ajax_exec(action +'&key='+value+'&ajax_lookup=1', null);
+    __ageunet_ajax_exec(action +'&key='+value+'&ajax_lookup=1', null);
 }
 
 /**
  * Execute an Ajax action
  */
-function __adianti_ajax_exec(action, callback, automatic_output)
+function __ageunet_ajax_exec(action, callback, automatic_output)
 {
     var uri = 'engine.php?' + action +'&static=1';
     var automatic_output = (typeof automatic_output === "undefined") ? true : automatic_output;
@@ -789,20 +789,20 @@ function __adianti_ajax_exec(action, callback, automatic_output)
     $.ajax({url: uri})
     .done(function( data ) {
         if (automatic_output) {
-            __adianti_parse_html(data, callback);
+            __ageunet_parse_html(data, callback);
         }
         else {
             callback(data);
         }
     }).fail(function(jqxhr, textStatus, exception) {
-       __adianti_error('Error', textStatus + ': ' + __adianti_failure_message());
+       __ageunet_error('Error', textStatus + ': ' + __ageunet_failure_message());
     });
 }
 
 /**
  * Get remote content
  */
-function __adianti_get_page(action, callback, postdata)
+function __ageunet_get_page(action, callback, postdata)
 {
     var uri = 'engine.php?' + action +'&static=1';
     
@@ -818,11 +818,11 @@ function __adianti_get_page(action, callback, postdata)
       }).done(function( data ) {
           return callback(data);
       }).fail(function(jqxhr, textStatus, exception) {
-         __adianti_error('Error', textStatus + ': ' + __adianti_failure_message());
+         __ageunet_error('Error', textStatus + ': ' + __ageunet_failure_message());
       });
 }
 
-function __adianti_post_lookup(form, action, field, callback) {
+function __ageunet_post_lookup(form, action, field, callback) {
     if (typeof field == 'string') {
         field_obj = $('#'+field);
     }
@@ -846,16 +846,16 @@ function __adianti_post_lookup(form, action, field, callback) {
       url: uri,
       data: formdata
       }).done(function( data ) {
-          __adianti_parse_html(data, callback);
+          __ageunet_parse_html(data, callback);
       }).fail(function(jqxhr, textStatus, exception) {
-         __adianti_error('Error', textStatus + ': ' + __adianti_failure_message());
+         __ageunet_error('Error', textStatus + ': ' + __ageunet_failure_message());
       });
 }
 
 /**
  * Parse returning HTML
  */
-function __adianti_parse_html(data, callback)
+function __ageunet_parse_html(data, callback)
 {
     tmp = data;
     tmp = new String(tmp.replace(/window\.opener\./g, ''));
@@ -901,7 +901,7 @@ function __adianti_parse_html(data, callback)
 /**
  * Download a file
  */
-function __adianti_download_file(file)
+function __ageunet_download_file(file)
 {
     extension = file.split('.').pop();
     screenWidth  = screen.width;
@@ -921,7 +921,7 @@ function __adianti_download_file(file)
 /**
  * Open page in new tab
  */
-function __adianti_open_page(page)
+function __ageunet_open_page(page)
 {
     var win = window.open(page, '_blank');
     if (win)
@@ -937,7 +937,7 @@ function __adianti_open_page(page)
 /**
  * Process popovers
  */
-function __adianti_process_popover()
+function __ageunet_process_popover()
 {
     var get_placement = function (tip, element) {
         $element = $(element);
@@ -969,7 +969,7 @@ function __adianti_process_popover()
         }
         else {
             var inst = $(this);
-            __adianti_get_page($(this).attr('popaction'), function(data) {
+            __ageunet_get_page($(this).attr('popaction'), function(data) {
                 var popover = inst.attr('data-content',data).data('bs.popover');
                 popover.setContent();
                 popover.show();
@@ -1009,7 +1009,7 @@ function __adianti_process_popover()
     }).on('shown.bs.popover', function (e) {
         if (typeof $(this).attr('popaction') !== "undefined") {
             var inst = $(this);
-            __adianti_get_page($(this).attr('popaction'), function(data) {
+            __ageunet_get_page($(this).attr('popaction'), function(data) {
                 var popover = inst.attr('data-content',data).data('bs.popover');
                 popover.setContent();
                 // popover.$tip.addClass( $(e.target).attr('popside') );
@@ -1031,7 +1031,7 @@ function __adianti_process_popover()
 /**
  * Show popover nearby element
  */
-function __adianti_show_popover(element, title, message, placement, custom_options)
+function __ageunet_show_popover(element, title, message, placement, custom_options)
 {
     var standard_options = {trigger:"manual", title:title, html: true, content:message, placement:placement, sanitizeFn : function(d) { return d }};
     var options = standard_options;
@@ -1049,7 +1049,7 @@ function __adianti_show_popover(element, title, message, placement, custom_optio
  * Start actions
  */
 $(function() {
-    Adianti.blockUIConter = 0;
+    Ageunet.blockUIConter = 0;
     
     if (typeof $().tooltip == 'function')
     {
@@ -1086,7 +1086,7 @@ $(function() {
     if (typeof $().popover == 'function')
     {
         $( document ).on( "dialogopen", function(){
-            __adianti_process_popover();
+            __ageunet_process_popover();
         });
     }
     
@@ -1103,7 +1103,7 @@ $(document).ajaxComplete(function ()
 {
     if (typeof $().popover == 'function')
     {
-        __adianti_process_popover();
+        __ageunet_process_popover();
     }
     
     if (typeof $().DataTable == 'function')
@@ -1123,7 +1123,7 @@ $(document).ajaxComplete(function ()
  */
 $( document ).on( 'click', '[generator="adianti"]', function()
 {
-   __adianti_load_page($(this).attr('href'));
+   __ageunet_load_page($(this).attr('href'));
    return false;
 });
 
@@ -1132,7 +1132,7 @@ $( document ).on( 'click', '[generator="adianti"]', function()
  */
 $( document ).on( 'click', '[generator="adianti2"]', function()
 {
-   __adianti_load_page2($(this).attr('href'));
+   __ageunet_load_page2($(this).attr('href'));
    return false;
 });
 
@@ -1143,7 +1143,7 @@ window.onpopstate = function(stackstate)
 {
     if (stackstate.state)
     {
-        __adianti_load_page_no_register(stackstate.state.url);
+        __ageunet_load_page_no_register(stackstate.state.url);
     }
 };
 

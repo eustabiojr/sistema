@@ -79,7 +79,7 @@ class BuscaPadrao extends Janela
         $acao_localiza = new Acao(array($this, 'aoBuscar'));
         $acao_localiza->defParametro('register_state', 'false');
         $botao_localiza->defAcao($acao_localiza, 'Search');
-        $botao_localiza->setImage('fa:search blue');
+        $botao_localiza->defImagem('fa:search blue');
         
         // add a row for the filter field
         $tabela->adicGrupoLinha( new Rotulo(_t('Busca').': '), $campo_exibe, $botao_localiza);
@@ -164,20 +164,20 @@ class BuscaPadrao extends Janela
     public function aoBuscar()
     {
         // get the form data
-        $data = $this->form->obtDados();
+        $dados = $this->form->obtDados();
         
         // check if the user has filled the form
-        if (isset($data-> campo_exibe) AND ($data-> campo_exibe))
+        if (isset($dados->campo_exibe) AND ($dados->campo_exibe))
         {
             $operador = Sessao::obtValor('standard_seek_operator');
             
             // creates a filter using the form content
             $campo_exibe = Sessao::obtValor('standard_seek_campo_exibe');
-            $filter = new Filtro($campo_exibe, $operador, "%{$data-> campo_exibe}%");
+            $filtro = new Filtro($campo_exibe, $operador, "%{$dados->campo_exibe}%");
             
             // store the filter in section
-            Sessao::defValor('tstandardseek_filter',        $filter);
-            Sessao::defValor('tstandardseek_exibe_value', $data-> campo_exibe);
+            Sessao::defValor('tstandardseek_filter',        $filtro);
+            Sessao::defValor('tstandardseek_exibe_value', $dados->campo_exibe);
         }
         else
         {
@@ -185,10 +185,10 @@ class BuscaPadrao extends Janela
             Sessao::defValor('tstandardseek_exibe_value', '');
         }
         
-        Sessao::defValor('tstandardseek_filter_data', $data);
+        Sessao::defValor('tstandardseek_filter_data', $dados);
         
         // set the data back to the form
-        $this->form->defDados($data);
+        $this->form->defDados($dados);
         
         $param = array();
         $param['offset']    =0;
@@ -203,17 +203,17 @@ class BuscaPadrao extends Janela
     {
         try
         {
-            $model    = Sessao::obtValor('standard_seek_model');
-            $bancodados = Sessao::obtValor('standard_seek_database');
+            $modelo      = Sessao::obtValor('standard_seek_model');
+            $bancodados  = Sessao::obtValor('standard_seek_database');
             $campo_exibe = Sessao::obtValor('standard_seek_campo_exibe');
             
-            $pk   = constant("{$model}::PRIMARYKEY");
+            $pk   = constant("{$modelo}::PRIMARYKEY");
             
             // begins the transaction with database
             Transacao::abre($bancodados);
             
             // creates a repository for the model
-            $repositorio = new Repositorio($model);
+            $repositorio = new Repositorio($modelo);
             $limite = 10;
             
             // creates a criteria
@@ -296,7 +296,7 @@ class BuscaPadrao extends Janela
     public function onSetup($param=NULL)
     {
         $ini  = ConfigAplicativo::obt();
-        $seed = NOME_APLICATIVO . ( !empty($ini['general']['seed']) ? $ini['general']['seed'] : 's8dkld83kf73kf094' );
+        $seed = NOME_APLICATIVO . ( !empty($ini['geral']['semente']) ? $ini['geral']['semente'] : 's8dkld83kf73kf094' );
         
         if (isset($param['hash']) AND $param['hash'] == md5($seed.$param['bancodados'].$param['modelo'].$param['campo_exibe']))
         {
@@ -311,7 +311,7 @@ class BuscaPadrao extends Janela
             Sessao::defValor('standard_seek_parent',        $param['pai']);
             Sessao::defValor('standard_seek_operator',      ($param['operator'] ?? null) );
             Sessao::defValor('standard_busca_mascara',          ($param['mascara']  ?? null) );
-            Sessao::defValor('standard_seek_label',         ($param['label']  ?? null) );
+            Sessao::defValor('standard_seek_label',         ($param['rotulo']  ?? null) );
             
             if (isset($param['criteria']) AND $param['criteria'])
             {
@@ -339,8 +339,8 @@ class BuscaPadrao extends Janela
             Transacao::abre($bancodados);
             
             // load the active record
-            $model = isset($param['modelo']) ? $param['modelo'] : Sessao::obtValor('standard_seek_model');
-            $pk = constant("{$model}::PRIMARYKEY");
+            $modelo = isset($param['modelo']) ? $param['modelo'] : Sessao::obtValor('standard_seek_model');
+            $pk = constant("{$modelo}::PRIMARYKEY");
             
             // creates a criteria
             if (Sessao::obtValor('standard_seek_criteria'))
@@ -354,7 +354,7 @@ class BuscaPadrao extends Janela
             
             $criterio->adic(new Filtro( $pk, '=', $chave));
             $criterio->defPropriedade('limit', 1);
-            $repositorio = new Repositorio($model);
+            $repositorio = new Repositorio($modelo);
             $objetos = $repositorio->carrega($criterio);
             
             if ($objetos)

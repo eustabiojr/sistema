@@ -45,7 +45,7 @@ class NucleoAplicativo
         $conteudo = '';
         set_error_handler(array('NucleoAplicativo', 'tratadorErro'));
         
-        if (!empty($ini['geral']['request_log']) && $ini['geral']['request_log'] == '1')
+        if (!empty($ini['geral']['solicita_historico']) && $ini['geral']['solicita_historico'] == '1')
         {
             if (empty($ini['geral']['tipos_hist_solicitacao']) || strpos($ini['geral']['tipos_hist_solicitacao'], 'web') !== false)
             {
@@ -131,7 +131,7 @@ class NucleoAplicativo
         $ini = ConfigAplicativo::obt();
         $servico = isset($ini['geral']['servico_hist_solicitacao']) ? $ini['geral']['servico_hist_solicitacao'] : '\SystemRequestLogService'; 
         
-        if (!empty($ini['geral']['request_log']) && $ini['geral']['request_log'] == '1')
+        if (!empty($ini['geral']['solicita_historico']) && $ini['geral']['solicita_historico'] == '1')
         {
             if (empty($pontofinal) || empty($ini['geral']['tipos_hist_solicitacao']) || strpos($ini['geral']['tipos_hist_solicitacao'], $pontofinal) !== false)
             {

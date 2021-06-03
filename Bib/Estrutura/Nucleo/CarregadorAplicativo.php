@@ -49,11 +49,6 @@ class CarregadorAplicativo
             return TRUE;
         }
 
-        /*echo '<pre>' . PHP_EOL;
-            echo "<p>Classe: {$classe}</p>" . PHP_EOL;
-            print_r($pastas);
-        echo '</pre>' . PHP_EOL;*/
-
         foreach ($pastas as $pasta)
         {
             if (file_exists("{$pasta}/{$classe}.class.php"))
@@ -73,7 +68,6 @@ class CarregadorAplicativo
             }
             else
             {
-                ///echo "<p>YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY {$pasta}</p>" . PHP_EOL;
                 try
                 {
                     if (file_exists($pasta))
@@ -90,7 +84,6 @@ class CarregadorAplicativo
                                 }
                                 else if (file_exists("{$entrada}/{$classe}.php"))
                                 {
-                                    ///echo "<p>YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY {$entrada}/{$classe}</p>" . PHP_EOL;
                                     require_once "{$entrada}/{$classe}.php";
                                     return TRUE;
                                 }

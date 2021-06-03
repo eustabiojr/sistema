@@ -41,11 +41,11 @@ use StdClass;
 class BuscaPadrao extends Janela
 {
     private $form;      // search form
-    private $datagrid;  // listing
+    private $gradedados;  // listing
     private $navegacaoPagina;
     private $paiForm;
-    private $loaded;
-    private $items;
+    private $carregado;
+    private $itens;
     
     /**
      * Constructor Method
@@ -71,23 +71,23 @@ class BuscaPadrao extends Janela
         $campo_exibe->defTamanho('90%');
         
         // keeps the field's value
-        $campo_exibe->defValor( Sessao::obtValor('tstandardseek_display_value') );
+        $campo_exibe->defValor( Sessao::obtValor('tstandardseek_exibe_value') );
         
         // create the action button
-        $find_button = new Botao('busca');
+        $botao_localiza = new Botao('busca');
         // define the button action
-        $find_action = new Acao(array($this, 'aoBuscar'));
-        $find_action->defParametro('register_state', 'false');
-        $find_button->defAcao($find_action, 'Search');
-        $find_button->setImage('fa:search blue');
+        $acao_localiza = new Acao(array($this, 'aoBuscar'));
+        $acao_localiza->defParametro('register_state', 'false');
+        $botao_localiza->defAcao($acao_localiza, 'Search');
+        $botao_localiza->setImage('fa:search blue');
         
         // add a row for the filter field
-        $tabela->adicGrupoLinha( new Rotulo(_t('Busca').': '), $campo_exibe, $find_button);
+        $tabela->adicGrupoLinha( new Rotulo(_t('Busca').': '), $campo_exibe, $botao_localiza);
         
         // define wich are the form fields
-        $this->form->defCampos(array($campo_exibe, $find_button));
+        $this->form->defCampos(array($campo_exibe, $botao_localiza));
         
-        // creates a new datagrid
+        // creates a new gradedados
         $this->gradedados = new EmbrulhoBootstrapGradedados(new Gradedados);
         $this->gradedados->{'style'} = 'width: 100%';
         
@@ -106,29 +106,29 @@ class BuscaPadrao extends Janela
     }
     
     /**
-     * Render datagrid
+     * Render gradedados
      */
     public function renderiza()
     {
-        // create two datagrid columns
-        $id      = new ColunaGradedados('id',            'Id',    'center', '50');
-        $display = new ColunaGradedados('campo_exibe', Sessao::obtValor('standard_seek_label'), 'left');
+        // create two gradedados columns
+        $id    = new ColunaGradedados('id',            'Id',    'center', '50');
+        $exibe = new ColunaGradedados('campo_exibe', Sessao::obtValor('standard_seek_label'), 'left');
         
-        // add the columns to the datagrid
+        // add the columns to the gradedados
         $this->gradedados->adicColuna($id);
-        $this->gradedados->adicColuna($display);
+        $this->gradedados->adicColuna($exibe);
         
         // order by PK
-        $order_id = new Acao( [$this, 'aoRecarregar'] );
-        $order_id->defParametro('order', 'id');
-        $id->defAcao($order_id);
+        $id_ordem = new Acao( [$this, 'aoRecarregar'] );
+        $id_ordem->defParametro('order', 'id');
+        $id->defAcao($id_ordem);
         
         // order by Display field
-        $order_display = new Acao( [$this, 'aoRecarregar'] );
-        $order_display->defParametro('order', 'campo_exibe');
-        $display->defAcao($order_display);
+        $order_exibe = new Acao( [$this, 'aoRecarregar'] );
+        $order_exibe->defParametro('order', 'campo_exibe');
+        $exibe->defAcao($order_exibe);
         
-        // create a datagrid action
+        // create a gradedados action
         $acao1 = new GradeDadosAcao(array($this, 'onSelect'));
         $acao1->defRotulo('');
         $acao1->defImagem('far:hand-pointer green');
@@ -136,17 +136,17 @@ class BuscaPadrao extends Janela
         $acao1->defClasseBotao('nopadding');
         $acao1->defCampo('id');
         
-        // add the actions to the datagrid
+        // add the actions to the gradedados
         $this->gradedados->adicAcao($acao1);
         
-        // create the datagrid model
+        // create the gradedados model
         $this->gradedados->criaModelo();
     }
     
     /**
-     * Fill datagrid
+     * Fill gradedados
      */
-    public function fill()
+    public function preenche()
     {
         $this->gradedados->limpa();
         if ($this->itens)
@@ -159,7 +159,7 @@ class BuscaPadrao extends Janela
     }
     
     /**
-     * Search datagrid
+     * Search gradedados
      */
     public function aoBuscar()
     {
@@ -177,12 +177,12 @@ class BuscaPadrao extends Janela
             
             // store the filter in section
             Sessao::defValor('tstandardseek_filter',        $filter);
-            Sessao::defValor('tstandardseek_display_value', $data-> campo_exibe);
+            Sessao::defValor('tstandardseek_exibe_value', $data-> campo_exibe);
         }
         else
         {
             Sessao::defValor('tstandardseek_filter',        NULL);
-            Sessao::defValor('tstandardseek_display_value', '');
+            Sessao::defValor('tstandardseek_exibe_value', '');
         }
         
         Sessao::defValor('tstandardseek_filter_data', $data);
@@ -197,7 +197,7 @@ class BuscaPadrao extends Janela
     }
     
     /**
-     * Load the datagrid with objects
+     * Load the gradedados with objects
      */
     public function aoRecarregar($param = NULL)
     {
@@ -302,7 +302,7 @@ class BuscaPadrao extends Janela
         {
             // store the parameters in the section
             Sessao::defValor('tstandardseek_filter', NULL);
-            Sessao::defValor('tstandardseek_display_value', NULL);
+            Sessao::defValor('tstandardseek_exibe_value', NULL);
             Sessao::defValor('standard_seek_chave_receptor',   $param['chave_receptor']);
             Sessao::defValor('standard_seek_campo_receptor', $param['campo_receptor']);
             Sessao::defValor('standard_seek_campo_exibe', $param['campo_exibe']);
@@ -404,7 +404,7 @@ class BuscaPadrao extends Janela
         parent::defEstaEmbalado(true);
         $this->executa();
         $this->renderiza();
-        $this->fill();
+        $this->preenche();
         parent::exibe();
     }
 }

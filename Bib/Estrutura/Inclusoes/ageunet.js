@@ -11,7 +11,7 @@ function __ageunet_def_depuracao(depuracao)
     Ageunet.depuracao = depuracao;
 }
 
-function __ageunet_run_after_loads(url, dados)
+function __ageunet_roda_apos_carregamentos(url, dados)
 {
     if (typeof Ageunet.aoAposCarregar == "function") {
         Ageunet.aoAposCarregar(url, dados);
@@ -83,7 +83,7 @@ function __ageunet_vaipara_pagina(pagina)
 /**
  * Returns the URL Base
  */
-function __ageunet_base_url()
+function __ageunet_url_base()
 {
    return window.location.protocol +'//'+ window.location.host + window.location.pathname.split( '/' ).slice(0,-1).join('/');
 }
@@ -98,20 +98,20 @@ function __ageunet_string_consulta()
     var vars = consulta.split("&");
     for (var i=0; i<vars.length; i++)
     {
-        var pair = vars[i].split("=");
-        if (typeof string_consulta[pair[0]] === "undefined")
+        var dupla = vars[i].split("=");
+        if (typeof string_consulta[dupla[0]] === "undefined")
         {
-            string_consulta[pair[0]] = pair[1];
+            string_consulta[dupla[0]] = dupla[1];
             // If second entry with this name
         }
-        else if (typeof string_consulta[pair[0]] === "string")
+        else if (typeof string_consulta[dupla[0]] === "string")
         {
-            var arr = [ string_consulta[pair[0]], pair[1] ];
-            string_consulta[pair[0]] = arr;
+            var arr = [ string_consulta[dupla[0]], dupla[1] ];
+            string_consulta[dupla[0]] = arr;
         }
         else
         {
-            string_consulta[pair[0]].push(pair[1]);
+            string_consulta[dupla[0]].push(dupla[1]);
         }
     } 
     return string_consulta;
@@ -152,39 +152,39 @@ function __ageunet_consulta_para_json(consulta)
 }
 
 /**
- * Loads an HTML content
+ * Loads an HTML conteudo
  */
-function __ageunet_carrega_html(content, afterCallback, url)
+function __ageunet_carrega_html(conteudo, aposCallback, url)
 {
-    var url_container   = url.match('target_container=([0-z-]*)');
-    var match_container = content.match('adianti_target_container\\s?=\\s?"([0-z-]*)"');
+    var url_container   = url.match('recipiente_alvo=([0-z-]*)');
+    var combina_recipiente = conteudo.match('ageunet_recipiente_alvo\\s?=\\s?"([0-z-]*)"');
     
     if (url_container !== null)
     {
-        var target_container = url_container[1];
-        $('#'+target_container).empty();
-        $('#'+target_container).html(content);
+        var recipiente_alvo = url_container[1];
+        $('#'+recipiente_alvo).empty();
+        $('#'+recipiente_alvo).html(conteudo);
     }
-    else if ( match_container !== null)
+    else if ( combina_recipiente !== null)
     {
-        var target_container = match_container[1];
-        $('#'+target_container).empty();
-        $('#'+target_container).html(content);
+        var recipiente_alvo = combina_recipiente[1];
+        $('#'+recipiente_alvo).empty();
+        $('#'+recipiente_alvo).html(conteudo);
     }
-    else if ($('[widget="TWindow"]').length > 0 && (content.indexOf('widget="TWindow"') > 0))
+    else if ($('[widget="TWindow"]').length > 0 && (conteudo.indexOf('widget="TWindow"') > 0))
     {
         $('[widget="TWindow"]').attr('remove', 'yes');
-        $('#adianti_online_content').empty();
-        content = content.replace(new RegExp('__ageunet_append_pagina', 'g'), '__ageunet_append_pagina2'); // chamadas presentes em botões seekbutton em window, abrem em outra janela
-        $('#adianti_online_content').html(content);
+        $('#ageunet_conteudo_online').empty();
+        conteudo = conteudo.replace(new RegExp('__ageunet_anexa_pagina', 'g'), '__ageunet_anexa_pagina2'); // chamadas presentes em botões seekbutton em window, abrem em outra janela
+        $('#ageunet_conteudo_online').html(conteudo);
         $('[widget="TWindow"][remove="yes"]').remove();
     }
     else
     {
-        if (content.indexOf('widget="TWindow"') > 0)
+        if (conteudo.indexOf('widget="TWindow"') > 0)
         {
-            content = content.replace(new RegExp('__ageunet_append_pagina', 'g'), '__ageunet_append_pagina2'); // chamadas presentes em botões seekbutton em window, abrem em outra janela
-            $('#adianti_online_content').html(content);
+            conteudo = conteudo.replace(new RegExp('__ageunet_anexa_pagina', 'g'), '__ageunet_anexa_pagina2'); // chamadas presentes em botões seekbutton em window, abrem em outra janela
+            $('#ageunet_conteudo_online').html(conteudo);
         }
         else
         {
@@ -194,136 +194,136 @@ function __ageunet_carrega_html(content, afterCallback, url)
             }
             
             $('[widget="TWindow"]').remove();
-            $('#adianti_div_content').html(content);
+            $('#ageunet_conteudo_div').html(conteudo);
         }
     }
     
-    if (typeof afterCallback == "function")
+    if (typeof aposCallback == "function")
     {
-        afterCallback(url, content);
+        aposCallback(url, conteudo);
     }
 }
 
 /**
- * Loads an HTML content. This function is called if there is an window opened.
+ * Loads an HTML conteudo. This function is called if there is an window opened.
  */
-function __ageunet_carrega_html2(content)
+function __ageunet_carrega_html2(conteudo)
 {
    if ($('[widget="TWindow2"]').length > 0)
    {
        $('[widget="TWindow2"]').attr('remove', 'yes');
-       $('#adianti_online_content2').hide();
-       content = content.replace(new RegExp('__ageunet_carrega_html', 'g'), '__ageunet_carrega_html2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
-       content = content.replace(new RegExp('__ageunet_load_pagina', 'g'), '__ageunet_load_pagina2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
-       content = content.replace(new RegExp('__ageunet_post_dados', 'g'), '__ageunet_post_dados2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
-       content = content.replace(new RegExp('TWindow','g'), 'TWindow2'); // quando submeto botão de busca, é destruído tudo que tem TWindow2 e recarregado
-       content = content.replace(new RegExp('generator="adianti"', 'g'), 'generator="adianti2"'); // links também são alterados
-       $('#adianti_online_content2').html(content);
+       $('#ageunet_conteudo_online2').hide();
+       conteudo = conteudo.replace(new RegExp('__ageunet_carrega_html', 'g'), '__ageunet_carrega_html2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
+       conteudo = conteudo.replace(new RegExp('__ageunet_carrega_pagina', 'g'), '__ageunet_carrega_pagina2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
+       conteudo = conteudo.replace(new RegExp('__ageunet_dados_post', 'g'), '__ageunet_dados_post2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
+       conteudo = conteudo.replace(new RegExp('TWindow','g'), 'TWindow2'); // quando submeto botão de busca, é destruído tudo que tem TWindow2 e recarregado
+       conteudo = conteudo.replace(new RegExp('generator="ageunet"', 'g'), 'generator="ageunet2"'); // links também são alterados
+       $('#ageunet_conteudo_online2').html(conteudo);
        $('[widget="TWindow2"][remove="yes"]').remove();
-       $('#adianti_online_content2').show();
+       $('#ageunet_conteudo_online2').show();
    }
    else
    {
-       if (content.indexOf('widget="TWindow2"') > 0)
+       if (conteudo.indexOf('widget="TWindow2"') > 0)
        {
-           $('#adianti_online_content2').html(content);
+           $('#ageunet_conteudo_online2').html(conteudo);
        }
-       else if (content.indexOf('widget="TWindow"') > 0)
+       else if (conteudo.indexOf('widget="TWindow"') > 0)
        {
-           $('#adianti_online_content').html(content);
+           $('#ageunet_conteudo_online').html(conteudo);
        }
        else
        {
-           $('#adianti_div_content').html(content);
+           $('#ageunet_conteudo_div').html(conteudo);
        }
    }
 }
 
-function __ageunet_load_pagina_no_register(pagina)
+function __carrega_pagina_nao_registra(pagina)
 {
     $.get(pagina)
     .done(function(dados) {
         __ageunet_carrega_html(dados, null, pagina);
-    }).fail(function(jqxhr, textStatus, exception) {
-       __ageunet_error('Error', textStatus + ': ' + __ageunet_mensagem_falha());
+    }).fail(function(jqxhr, textoStatus, exception) {
+       __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
     });
 }
 
-function __ageunet_load_pagina_no_register2(pagina)
+function __carrega_pagina_nao_registra2(pagina)
 {
     $.get(pagina)
     .done(function(dados) {
         __ageunet_carrega_html2(dados);
-    }).fail(function(jqxhr, textStatus, exception) {
-       __ageunet_error('Error', textStatus + ': ' + __ageunet_mensagem_falha());
+    }).fail(function(jqxhr, textoStatus, exception) {
+       __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
     });
 }
 
 /**
- * Called by Seekbutton. Add the pagina content. 
+ * Called by Seekbutton. Add the pagina conteudo. 
  */
-function __ageunet_append_pagina(pagina, callback)
+function __ageunet_anexa_pagina(pagina, callback)
 {
-    pagina = pagina.replace('engine.php?','');
+    pagina = pagina.replace('motor.php?','');
     params_json = __ageunet_consulta_para_json(pagina);
 
-    uri = 'engine.php?' 
-        + 'class=' + params_json.class
-        + '&method=' + params_json.method
-        + '&static=' + (params_json.static == '1' ? '1' : '0');
+    uri = 'motor.php?' 
+        + 'classe=' + params_json.classe
+        + '&metodo=' + params_json.metodo
+        + '&estatico=' + (params_json.estatico == '1' ? '1' : '0');
 
     $.post(uri, params_json)
     .done(function(dados){
-        dados = dados.replace(new RegExp('__ageunet_append_pagina', 'g'), '__ageunet_append_pagina2'); // chamadas presentes em botões seekbutton em window, abrem em outra janela
-        $('#adianti_online_content').after('<div></div>').html(dados);
+        dados = dados.replace(new RegExp('__ageunet_anexa_pagina', 'g'), '__ageunet_anexa_pagina2'); // chamadas presentes em botões seekbutton em window, abrem em outra janela
+        $('#ageunet_conteudo_online').after('<div></div>').html(dados);
         
         if (typeof callback == "function")
         {
             callback();
         }
-    }).fail(function(jqxhr, textStatus, exception) {
-       __ageunet_error('Error', textStatus + ': ' + __ageunet_mensagem_falha());
+    }).fail(function(jqxhr, textoStatus, exception) {
+       __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
     });
 }
 
 /**
  * Called by Seekbutton from opened windows. 
  */
-function __ageunet_append_pagina2(pagina)
+function __ageunet_anexa_pagina2(pagina)
 {
-    pagina = pagina.replace('engine.php?','');
+    pagina = pagina.replace('motor.php?','');
     params_json = __ageunet_consulta_para_json(pagina);
 
-    uri = 'engine.php?' 
-        + 'class=' + params_json.class
-        + '&method=' + params_json.method
-        + '&static=' + (params_json.static == '1' ? '1' : '0');
+    uri = 'motor.php?' 
+        + 'classe=' + params_json.classe
+        + '&metodo=' + params_json.metodo
+        + '&estatico=' + (params_json.estatico == '1' ? '1' : '0');
 
     $.post(uri, params_json)
     .done(function(dados) {
         dados = dados.replace(new RegExp('__ageunet_carrega_html', 'g'), '__ageunet_carrega_html2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
-        dados = dados.replace(new RegExp('__ageunet_load_pagina', 'g'), '__ageunet_load_pagina2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
-        dados = dados.replace(new RegExp('__ageunet_post_dados', 'g'), '__ageunet_post_dados2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
+        dados = dados.replace(new RegExp('__ageunet_carrega_pagina', 'g'), '__ageunet_carrega_pagina2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
+        dados = dados.replace(new RegExp('__ageunet_dados_post', 'g'), '__ageunet_dados_post2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
         dados = dados.replace(new RegExp('TWindow', 'g'),             'TWindow2'); // quando submeto botão de busca, é destruído tudo que tem TWindow2 e recarregado
-        dados = dados.replace(new RegExp('generator="adianti"', 'g'), 'generator="adianti2"'); // links também são alterados
-        $('#adianti_online_content2').after('<div></div>').html(dados);
-    }).fail(function(jqxhr, textStatus, exception) {
-       __ageunet_error('Error', textStatus + ': ' + __ageunet_mensagem_falha());
+        dados = dados.replace(new RegExp('generator="ageunet"', 'g'), 'generator="ageunet2"'); // links também são alterados
+        $('#ageunet_conteudo_online2').after('<div></div>').html(dados);
+    }).fail(function(jqxhr, textoStatus, exception) {
+       __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
     });
 }
 
 /**
  * Open a pagina using ajax
  */
-function __ageunet_load_pagina(pagina, callback)
+function __ageunet_carrega_pagina(pagina, callback)
 {
     if (typeof pagina !== 'undefined')
     {
         $( '.modal-backdrop' ).remove();
         var url = pagina;
-        url = url.replace('index.php', 'engine.php');
+        url = url.replace('inicio.php', 'motor.php');
         
-        if(url.indexOf('engine.php') == -1) {
+        if(url.indexOf('motor.php') == -1) {
             url = 'xhr-'+url;
         }
         
@@ -333,20 +333,20 @@ function __ageunet_load_pagina(pagina, callback)
         {
             $.get(url)
             .done(function(dados) {
-                __ageunet_parse_html(dados);
+                __ageunet_analisa_html(dados);
                 
-                Ageunet.requestURL  = url;
-                Ageunet.requestData = null;
+                Ageunet.solicitaURL  = url;
+                Ageunet.solicitaDados = null;
                 
                 if (typeof callback == "function")
                 {
                     callback();
                 }
                 
-                __ageunet_run_after_loads(url, dados);
+                __ageunet_roda_apos_carregamentos(url, dados);
                 
-            }).fail(function(jqxhr, textStatus, exception) {
-               __ageunet_error('Error', textStatus + ': ' + __ageunet_mensagem_falha());
+            }).fail(function(jqxhr, textoStatus, exception) {
+               __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
                loading = false;
             });
         }
@@ -354,10 +354,10 @@ function __ageunet_load_pagina(pagina, callback)
         {
             $.get(url)
             .done(function(dados) {
-                Ageunet.requestURL  = url;
-                Ageunet.requestData = null;
+                Ageunet.solicitaURL  = url;
+                Ageunet.solicitaDados = null;
                 
-                __ageunet_carrega_html(dados, __ageunet_run_after_loads, url);
+                __ageunet_carrega_html(dados, __ageunet_roda_apos_carregamentos, url);
                 
                 if (typeof callback == "function")
                 {
@@ -366,11 +366,11 @@ function __ageunet_load_pagina(pagina, callback)
                 
                 if ( url.indexOf('register_state=false') < 0 && history.pushState && (dados.indexOf('widget="TWindow"') < 0) )
                 {
-                    __ageunet_register_state(url, 'adianti');
+                    __ageunet_registra_estado(url, 'ageunet');
                     Ageunet.currentURL = url;
                 }
-            }).fail(function(jqxhr, textStatus, exception) {
-               __ageunet_error('Error', textStatus + ': ' + __ageunet_mensagem_falha());
+            }).fail(function(jqxhr, textoStatus, exception) {
+               __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
                loading = false;
             });
         }
@@ -378,22 +378,22 @@ function __ageunet_load_pagina(pagina, callback)
 }
 
 /**
- * Used by all links inside a window (generator=adianti)
+ * Used by all links inside a window (generator=ageunet)
  */
-function __ageunet_load_pagina2(pagina)
+function __ageunet_carrega_pagina2(pagina)
 {
     url = pagina;
-    url = url.replace('index.php', 'engine.php');
-    __ageunet_load_pagina_no_register2(url);
+    url = url.replace('inicio.php', 'motor.php');
+    __ageunet_carrega_pagina_no_register2(url);
     
-    Ageunet.requestURL  = url;
-    Ageunet.requestData = null;
+    Ageunet.solicitaURL  = url;
+    Ageunet.solicitaDados = null;
 }
 
 /**
  * Start blockUI dialog
  */
-function __ageunet_block_ui(wait_message)
+function __ageunet_bloqueia_ui(mensagem_aguarde)
 {
     if (typeof $.blockUI == 'function')
     {
@@ -402,13 +402,13 @@ function __ageunet_block_ui(wait_message)
             Ageunet.blockUIConter = 0;
         }
         Ageunet.blockUIConter = Ageunet.blockUIConter + 1;
-        if (typeof wait_message == 'undefined')
+        if (typeof mensagem_aguarde == 'undefined')
         {
-            wait_message = Ageunet.waitMessage;
+            mensagem_aguarde = Ageunet.waitMessage;
         }
         
         $.blockUI({ 
-           message: '<h1><i class="fa fa-spinner fa-pulse"></i> '+wait_message+'</h1>',
+           message: '<h1><i class="fa fa-spinner fa-pulse"></i> '+mensagem_aguarde+'</h1>',
            fadeIn: 0,
            fadeOut: 0,
            css: { 
@@ -432,13 +432,13 @@ function __ageunet_block_ui(wait_message)
 /**
  * Open a window
  */
-function __ageunet_window(title, width, height, content)
+function __ageunet_window(titulo, largura, altura, conteudo)
 {
-    $('<div />').html(content).dialog({
+    $('<div />').html(conteudo).dialog({
         modal: true,
-        title: title,
-        width : width,
-        height : height,
+        title: titulo,
+        width : largura,
+        height : altura,
         resizable: true,
         closeOnEscape:true,
         close: function(ev, ui) { $(this).remove(); },
@@ -446,22 +446,22 @@ function __ageunet_window(title, width, height, content)
     });
 }
 
-function __ageunet_window_pagina(title, width, height, pagina)
+function __ageunet_window_pagina(titulo, largura, altura, pagina)
 {
     if (width<2)
     {
-        width = $(window).width() * width;
+        largura = $(window).width() * largura;
     }
     if (height<2)
     {
-        height = $(window).height() * height;
+        altura = $(window).height() * altura;
     }
     
     $('<div />').append($("<iframe style='width:100%;height:97%' />").attr("src", pagina)).dialog({
         modal: true,
-        title: title,
-        width : width,
-        height : height,
+        title: titulo,
+        width : largura,
+        height : altura,
         resizable: false,
         closeOnEscape:true,
         close: function(ev, ui) { $(this).remove(); },
@@ -472,42 +472,42 @@ function __ageunet_window_pagina(title, width, height, pagina)
 /**
  * Show standard dialog
  */
-function __ageunet_dialog( options )
+function __ageunet_dialogo( opcoces )
 {
-    if (options.type == 'info') {
-        var icon = (options.icon ? options.icon : 'fa fa-info-circle fa-4x blue');
+    if (opcoces.type == 'info') {
+        var icon = (opcoces.icon ? opcoces.icon : 'fa fa-info-circle fa-4x blue');
     }
-    else if (options.type == 'warning') {
-        var icon = (options.icon ? options.icon : 'fa fa-exclamation-triangle fa-4x orange');
+    else if (opcoces.type == 'warning') {
+        var icon = (opcoces.icon ? opcoces.icon : 'fa fa-exclamation-triangle fa-4x orange');
     }
-    else if (options.type == 'error') {
-        var icon = (options.icon ? options.icon : 'fa fa-exclamation-circle fa-4x red');
+    else if (opcoces.type == 'erro') {
+        var icon = (opcoces.icon ? opcoces.icon : 'fa fa-exclamation-circle fa-4x red');
     }
     
     if (typeof bootbox == 'object')
     {
         bootbox.dialog({
-          title: options.title,
+          title: opcoces.title,
           animate: false,
           backdrop: true,
           onEscape: function() {
-            if (typeof options.callback != 'undefined')
+            if (typeof opcoces.callback != 'undefined')
             { 
-                options.callback();
+                opcoces.callback();
             }
           },
           message: '<div>'+
                     '<span class="'+icon+'" style="float:left"></span>'+
-                    '<span style="margin-left:70px;display:block;max-height:500px">'+options.message+'</span>'+
+                    '<span style="margin-left:70px;display:block;max-height:500px">'+opcoces.message+'</span>'+
                     '</div>',
           buttons: {
             success: {
               label: "OK",
               className: "btn-default",
               callback: function() {
-                if (typeof options.callback != 'undefined')
+                if (typeof opcoces.callback != 'undefined')
                 { 
-                    options.callback();
+                    opcoces.callback();
                 }
               }
             }
@@ -516,9 +516,9 @@ function __ageunet_dialog( options )
     }
     else {
         // fallback mode
-        alert(options.message);
-        if (typeof options.callback != 'undefined') {
-            options.callback();
+        alert(opcoces.message);
+        if (typeof opcoces.callback != 'undefined') {
+            opcoces.callback();
         }
     }
 }
@@ -526,31 +526,31 @@ function __ageunet_dialog( options )
 /**
  * Show message error dialog
  */
-function __ageunet_error(title, message, callback)
+function __ageunet_erro(titulo, mensagem, callback)
 {
-    __ageunet_dialog( { type: 'error', title: title, message: message, callback: callback} );
+    __ageunet_dialogo( { type: 'erro', title: titulo, message: mensagem, callback: callback} );
 }
 
 /**
  * Show message info dialog
  */
-function __ageunet_message(title, message, callback)
+function __ageunet_message(titulo, mensagem, callback)
 {
-    __ageunet_dialog( { type: 'info', title: title, message: message, callback: callback} );
+    __ageunet_dialogo( { type: 'info', title: titulo, message: mensagem, callback: callback} );
 }
 
 /**
  * Show message warning dialog
  */
-function __ageunet_warning(title, message, callback)
+function __ageunet_warning(titulo, mensagem, callback)
 {
-    __ageunet_dialog( { type: 'warning', title: title, message: message, callback: callback} );
+    __ageunet_dialogo( { type: 'warning', title: titulo, message: mensagem, callback: callback} );
 }
 
 /**
- * Show question dialog
+ * Show pergunta dialog
  */
-function __ageunet_question(title, message, callback_yes, callback_no, label_yes, label_no)
+function __ageunet_pergunta(titulo, mensagem, callback_yes, callback_no, rotulo_sim, rotulo_nao)
 {
     if (typeof bootbox == 'object')
     {
@@ -558,12 +558,12 @@ function __ageunet_question(title, message, callback_yes, callback_no, label_yes
           title: title,
           animate: false,
           message: '<div>'+
-                    '<span class="fa fa-question-circle fa-4x blue" style="float:left"></span>'+
-                    '<span style="margin-left:70px;display:block;max-height:500px">'+message+'</span>'+
+                    '<span class="fa fa-pergunta-circle fa-4x blue" style="float:left"></span>'+
+                    '<span style="margin-left:70px;display:block;max-height:500px">'+mensagem+'</span>'+
                     '</div>',
           buttons: {
             yes: {
-              label: label_yes,
+              label: rotulo_sim,
               className: "btn-default",
               callback: function() {
                 if (typeof callback_yes != 'undefined') {
@@ -572,7 +572,7 @@ function __ageunet_question(title, message, callback_yes, callback_no, label_yes
               }
             },
             no: {
-              label: label_no,
+              label: rotulo_nao,
               className: "btn-default",
               callback: function() {
                 if (typeof callback_no != 'undefined') {
@@ -602,56 +602,56 @@ function __ageunet_question(title, message, callback_yes, callback_no, label_yes
 /**
  * Show input dialog
  */
-function __ageunet_input(question, callback)
+function __ageunet_entrada(pergunta, callback)
 {
     if (typeof bootbox == 'object')
     {
-        bootbox.prompt(question, function(result) {
-          if (result !== null) {
-            callback(result);
+        bootbox.prompt(pergunta, function(resultado) {
+          if (resultado !== null) {
+            callback(resultado);
           }
         });
     }
     else
     {
-        var result = prompt(question, '');
-        callback(result);
+        var resultado = prompt(pergunta, '');
+        callback(resultado);
     }
 }
 
-function __ageunet_show_toast64(type, message64, place, icon)
+function __ageunet_show_toast64(tipo, mensagem64, lugar, icon)
 {
-    __ageunet_show_toast(type, atob(message64), place, icon)
+    __ageunet_show_toast(tipo, atob(mensagem64), lugar, icon)
 }
 
-function __ageunet_show_toast(type, message, place, icon)
+function __ageunet_show_toast(tipo, mensagem, lugar, icon)
 {
-    var place = place.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+    var lugar = lugar.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
             if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
             return index == 0 ? match.toLowerCase() : match.toUpperCase();
           });
     
-    var options = {
-        message: message,
-        position: place
+    var opcoces = {
+        message: mensagem,
+        position: lugar
     };
     
     if (type == 'show') {
-        options['progressBarColor'] = 'rgb(0, 255, 184)';
-        options['theme'] = 'dark';
+        opcoces['progressBarColor'] = 'rgb(0, 255, 184)';
+        opcoces['theme'] = 'dark';
     }
     
     if (typeof icon !== 'undefined') {
-        options['icon'] = 'fa ' + icon.replace(':', '-');
+        opcoces['icon'] = 'fa ' + icon.replace(':', '-');
     }
     
-    iziToast[type]( options );
+    iziToast[type]( opcoces );
 }
 
 /**
  * Closes blockUI dialog
  */
-function __ageunet_unblock_ui()
+function __ageunet_desbloqueia_ui()
 {
     if (typeof $.blockUI == 'function')
     {
@@ -667,16 +667,16 @@ function __ageunet_unblock_ui()
 /**
  * Post form dados
  */
-function __ageunet_post_dados(form, action)
+function __ageunet_dados_post(form, acao)
 {
-    if (action.substring(0,4) == 'xhr-')
+    if (acao.substring(0,4) == 'xhr-')
     {
-        url = action;
+        url = acao;
     }
     else
     {
-        url = 'index.php?'+action;
-        url = url.replace('index.php', 'engine.php');
+        url = 'inicio.php?'+acao;
+        url = url.replace('inicio.php', 'motor.php');
     }
     
     if (document.querySelector('#'+form) instanceof Node)
@@ -688,44 +688,44 @@ function __ageunet_post_dados(form, action)
         }
     }
     
-    __ageunet_block_ui();
+    __ageunet_bloqueia_ui();
     
     dados = $('#'+form).serialize();
     
     __ageunet_rodar_antes_posts(url);
     
-    if (url.indexOf('&static=1') > 0 || (action.substring(0,4) == 'xhr-'))
+    if (url.indexOf('&static=1') > 0 || (acao.substring(0,4) == 'xhr-'))
     {
         $.post(url, dados)
-        .done(function(result) {
-            __ageunet_parse_html(result);
-            __ageunet_unblock_ui();
+        .done(function(resultado) {
+            __ageunet_analisa_html(resultado);
+            __ageunet_desbloqueia_ui();
             
-            Ageunet.requestURL  = url;
-            Ageunet.requestData = dados;
+            Ageunet.solicitaURL  = url;
+            Ageunet.solicitaDados = dados;
             
             __ageunet_rodar_apos_posts(url, dados);
             
-        }).fail(function(jqxhr, textStatus, exception) {
-            __ageunet_unblock_ui();
-            __ageunet_error('Error', textStatus + ': ' + __ageunet_mensagem_falha());
+        }).fail(function(jqxhr, textoStatus, exception) {
+            __ageunet_desbloqueia_ui();
+            __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
             loading = false;
         });
     }
     else
     {
         $.post(url, dados)
-        .done(function(result) {
+        .done(function(resultado) {
             Ageunet.currentURL  = url;
-            Ageunet.requestURL  = url;
-            Ageunet.requestData = dados;
+            Ageunet.solicitaURL  = url;
+            Ageunet.solicitaDados = dados;
             
-            __ageunet_carrega_html(result, __ageunet_rodar_apos_posts, url);
-            __ageunet_unblock_ui();
+            __ageunet_carrega_html(resultado, __ageunet_rodar_apos_posts, url);
+            __ageunet_desbloqueia_ui();
             
-        }).fail(function(jqxhr, textStatus, exception) {
-            __ageunet_unblock_ui();
-            __ageunet_error('Error', textStatus + ': ' + __ageunet_mensagem_falha());
+        }).fail(function(jqxhr, textoStatus, exception) {
+            __ageunet_desbloqueia_ui();
+            __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
             loading = false;
         });
     }
@@ -734,37 +734,37 @@ function __ageunet_post_dados(form, action)
 /**
  * Post form dados over window
  */
-function __ageunet_post_dados2(form, url)
+function __ageunet_dados_post2(form, url)
 {
-    url = 'index.php?'+url;
-    url = url.replace('index.php', 'engine.php');
+    url = 'inicio.php?'+url;
+    url = url.replace('inicio.php', 'motor.php');
     dados = $('#'+form).serialize();
     
     $.post(url, dados)
-    .done(function(result)
+    .done(function(resultado)
     {
-        __ageunet_carrega_html2(result);
-        __ageunet_unblock_ui();
+        __ageunet_carrega_html2(resultado);
+        __ageunet_desbloqueia_ui();
         
-        Ageunet.requestURL  = url;
-        Ageunet.requestData = dados;
+        Ageunet.solicitaURL  = url;
+        Ageunet.solicitaDados = dados;
         
-    }).fail(function(jqxhr, textStatus, exception) {
-        __ageunet_unblock_ui();
-        __ageunet_error('Error', textStatus + ': ' + __ageunet_mensagem_falha());
+    }).fail(function(jqxhr, textoStatus, exception) {
+        __ageunet_desbloqueia_ui();
+        __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
     });
 }
 
 /**
  * Register URL state
  */
-function __ageunet_register_state(url, origin)
+function __ageunet_registra_estado(url, origem)
 {
-    if (Ageunet.registerState !== false || origin == 'user')
+    if (Ageunet.registerState !== false || origem == 'user')
     {
-        var stateObj = { url: url };
+        var estadoObj = { url: url };
         if (typeof history.pushState != 'undefined') {
-            history.pushState(stateObj, "", url.replace('engine.php', 'index.php').replace('xhr-', ''));
+            history.pushState(estadoObj, "", url.replace('motor.php', 'inicio.php').replace('xhr-', ''));
         }
     }
 }
@@ -772,71 +772,71 @@ function __ageunet_register_state(url, origin)
 /**
  * Ajax lookup
  */
-function __ageunet_ajax_lookup(action, field)
+function __ageunet_ajax_lookup(acao, campo)
 {
-    var value = field.value;
-    __ageunet_ajax_exec(action +'&key='+value+'&ajax_lookup=1', null);
+    var value = campo.value;
+    __ageunet_ajax_exec(acao +'&key='+value+'&ajax_lookup=1', null);
 }
 
 /**
- * Execute an Ajax action
+ * Execute an Ajax acao
  */
-function __ageunet_ajax_exec(action, callback, automatic_output)
+function __ageunet_exec_ajax(acao, callback, saida_automatica)
 {
-    var uri = 'engine.php?' + action +'&static=1';
-    var automatic_output = (typeof automatic_output === "undefined") ? true : automatic_output;
+    var uri = 'motor.php?' + acao +'&static=1';
+    var saida_automatica = (typeof saida_automatica === "undefined") ? true : saida_automatica;
     
     $.ajax({url: uri})
     .done(function( dados ) {
-        if (automatic_output) {
-            __ageunet_parse_html(dados, callback);
+        if (saida_automatica) {
+            __ageunet_analisa_html(dados, callback);
         }
         else {
             callback(dados);
         }
-    }).fail(function(jqxhr, textStatus, exception) {
-       __ageunet_error('Error', textStatus + ': ' + __ageunet_mensagem_falha());
+    }).fail(function(jqxhr, textoStatus, exception) {
+       __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
     });
 }
 
 /**
- * Get remote content
+ * Get remote conteudo
  */
-function __ageunet_get_pagina(action, callback, postdados)
+function __ageunet_obt_pagina(acao, callback, dadospost)
 {
-    var uri = 'engine.php?' + action +'&static=1';
+    var uri = 'motor.php?' + acao +'&static=1';
     
-    if (typeof postdados !== "undefined") {
-        if (typeof postdados.static !== "undefined") {
-            var uri = 'engine.php?' + action +'&static='+postdados.static;
+    if (typeof dadospost !== "undefined") {
+        if (typeof dadospost.static !== "undefined") {
+            var uri = 'motor.php?' + acao +'&estatico='+dadospost.static;
         }
     }
     
     $.ajax({
       url: uri,
-      dados: postdados
+      dados: dadospost
       }).done(function( dados ) {
           return callback(dados);
-      }).fail(function(jqxhr, textStatus, exception) {
-         __ageunet_error('Error', textStatus + ': ' + __ageunet_mensagem_falha());
+      }).fail(function(jqxhr, textoStatus, exception) {
+         __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
       });
 }
 
-function __ageunet_post_lookup(form, action, field, callback) {
-    if (typeof field == 'string') {
-        field_obj = $('#'+field);
+function __ageunet_pesquisa_post(form, acao, campo, callback) {
+    if (typeof campo == 'string') {
+        field_obj = $('#'+campo);
     }
-    else if (field instanceof HTMLElement) {
-        field_obj = $(field);
+    else if (campo instanceof HTMLElement) {
+        field_obj = $(campo);
     }
     
     var formdados = $('#'+form).serializeArray();
     formdados.push({name: '_field_value', value: field_obj.val()});
     
-    var uri = 'engine.php?' + action +'&static=1';
-    formdados.push({name: '_field_id',   value: field_obj.attr('id')});
-    formdados.push({name: '_field_name', value: field_obj.attr('name')});
-    formdados.push({name: '_form_name',  value: form});
+    var uri = 'motor.php?' + acao +'&estatico=1';
+    formdados.push({name: '_id_campo',   value: field_obj.attr('id')});
+    formdados.push({name: '_nome_campo', value: field_obj.attr('name')});
+    formdados.push({name: '_nome_form',  value: form});
     formdados.push({name: '_field_dados', value: $.param(field_obj.dados(), true)});
     formdados.push({name: 'key',         value: field_obj.val()}); // for BC
     formdados.push({name: 'ajax_lookup', value: 1});
@@ -846,16 +846,16 @@ function __ageunet_post_lookup(form, action, field, callback) {
       url: uri,
       dados: formdados
       }).done(function( dados ) {
-          __ageunet_parse_html(dados, callback);
-      }).fail(function(jqxhr, textStatus, exception) {
-         __ageunet_error('Error', textStatus + ': ' + __ageunet_mensagem_falha());
+          __ageunet_analisa_html(dados, callback);
+      }).fail(function(jqxhr, textoStatus, exception) {
+         __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
       });
 }
 
 /**
  * Parse returning HTML
  */
-function __ageunet_parse_html(dados, callback)
+function __ageunet_analisa_html(dados, callback)
 {
     tmp = dados;
     tmp = new String(tmp.replace(/window\.opener\./g, ''));
@@ -871,19 +871,19 @@ function __ageunet_parse_html(dados, callback)
     
     try {
         // permite código estático também escolher o target
-        var match_container = dados.match('adianti_target_container\\s?=\\s?"([0-z]*)"');
+        var combina_recipiente = dados.match('ageunet_recipiente_alvo\\s?=\\s?"([0-z]*)"');
         
-        if ( match_container !== null)
+        if ( combina_recipiente !== null)
         {
-            var target_container = match_container[1];
-            $('#'+target_container).empty();
-            $('#'+target_container).html(tmp);
+            var recipiente_alvo = combina_recipiente[1];
+            $('#'+recipiente_alvo).empty();
+            $('#'+recipiente_alvo).html(tmp);
         }
         else
         {
             // target default
-            $('#adianti_online_content').find('script').remove();
-            $('#adianti_online_content').append(tmp);
+            $('#ageunet_conteudo_online').find('script').remove();
+            $('#ageunet_conteudo_online').append(tmp);
         }
         
         if (callback && typeof(callback) === "function")
@@ -893,35 +893,35 @@ function __ageunet_parse_html(dados, callback)
         
     } catch (e) {
         if (e instanceof Error) {
-            $('<div />').html(e.message + ': ' + tmp).dialog({modal: true, title: 'Error', width : '80%', height : 'auto', resizable: true, closeOnEscape:true, focus:true});
+            $('<div />').html(e.message + ': ' + tmp).dialog({modal: true, title: 'Erro', width : '80%', height : 'auto', resizable: true, closeOnEscape:true, focus:true});
         }
     }
 }
 
 /**
- * Download a file
+ * Download a arquivo
  */
-function __ageunet_download_file(file)
+function __ageunet_baixa_arquivo(arquivo)
 {
-    extension = file.split('.').pop();
-    screenWidth  = screen.width;
-    screenHeight = screen.height;
-    if (extension !== 'html')
+    extensao = arquivo.split('.').pop();
+    larguraTela  = screen.width;
+    alturaTela = screen.height;
+    if (extensao !== 'html')
     {
-        screenWidth /= 3;
-        screenHeight /= 3;
+        larguraTela /= 3;
+        alturaTela /= 3;
     }
     
-    window.open('download.php?file='+file, '_blank',
-      'width='+screenWidth+
-     ',height='+screenHeight+
+    window.open('download.php?arquivo='+arquivo, '_blank',
+      'width='+larguraTela+
+     ',height='+alturaTela+
      ',top=0,left=0,status=yes,scrollbars=yes,toolbar=yes,resizable=yes,maximized=yes,menubar=yes,location=yes');
 }
 
 /**
  * Open pagina in new tab
  */
-function __ageunet_open_pagina(pagina)
+function __ageunet_abre_pagina(pagina)
 {
     var win = window.open(pagina, '_blank');
     if (win)
@@ -958,7 +958,6 @@ function __ageunet_process_popover()
         }
     };
     
-    var get_content = function (tip, element) {
         if (typeof $(this).attr('popaction') === "undefined") {
             if (typeof $(this).attr("popcontent64") !== "undefined") {
                 return base64_decode($(this).attr("popcontent64"));
@@ -969,8 +968,8 @@ function __ageunet_process_popover()
         }
         else {
             var inst = $(this);
-            __ageunet_get_pagina($(this).attr('popaction'), function(dados) {
-                var popover = inst.attr('dados-content',dados).dados('bs.popover');
+            __ageunet_obt_pagina($(this).attr('popaction'), function(dados) {
+                var popover = inst.attr('dados-conteudo',dados).dados('bs.popover');
                 popover.setContent();
                 popover.show();
             }, {'static': '0'});
@@ -990,7 +989,7 @@ function __ageunet_process_popover()
         container: 'body',
         template: pop_template,
         delay: { show: 10, hide: 10 },
-        content: get_content,
+        conteudo: get_content,
         html: true,
         title: get_title,
         sanitizeFn : function(d) { return d },
@@ -1002,15 +1001,15 @@ function __ageunet_process_popover()
         container: 'body',
         template: pop_template,
         delay: { show: 10, hide: 10 },
-        content: get_content,
+        conteudo: get_content,
         sanitizeFn : function(d) { return d },
         html: true,
         title: get_title
     }).on('shown.bs.popover', function (e) {
         if (typeof $(this).attr('popaction') !== "undefined") {
             var inst = $(this);
-            __ageunet_get_pagina($(this).attr('popaction'), function(dados) {
-                var popover = inst.attr('dados-content',dados).dados('bs.popover');
+            __ageunet_obt_pagina($(this).attr('popaction'), function(dados) {
+                var popover = inst.attr('dados-conteudo',dados).dados('bs.popover');
                 popover.setContent();
                 // popover.$tip.addClass( $(e.target).attr('popside') );
             }, {'static': '0'});
@@ -1033,15 +1032,15 @@ function __ageunet_process_popover()
  */
 function __ageunet_show_popover(element, title, message, placement, custom_options)
 {
-    var standard_options = {trigger:"manual", title:title, html: true, content:message, placement:placement, sanitizeFn : function(d) { return d }};
-    var options = standard_options;
+    var standard_options = {trigger:"manual", title:title, html: true, conteudo:message, placement:placement, sanitizeFn : function(d) { return d }};
+    var opcoces = standard_options;
     
     if (typeof custom_options !== undefined)
     {
-        var options = Object.assign(standard_options, custom_options);
+        var opcoces = Object.assign(standard_options, custom_options);
     }
     if ($(element).length>0 && $(element).css("visibility") == "visible") {
-        $(element).popover(options).popover("show");
+        $(element).popover(opcoces).popover("show");
     }
 }
 
@@ -1076,7 +1075,7 @@ $(function() {
             trigger: 'hover',
             cssClass: 'tooltip',
             container: 'body',
-            content: function () {
+            conteudo: function () {
                 return $(this).attr("title");
             },
             html: true
@@ -1121,18 +1120,18 @@ $(document).ajaxComplete(function ()
 /**
  * Override the default pagina loader
  */
-$( document ).on( 'click', '[generator="adianti"]', function()
+$( document ).on( 'click', '[generator="ageunet"]', function()
 {
-   __ageunet_load_pagina($(this).attr('href'));
+   __ageunet_carrega_pagina($(this).attr('href'));
    return false;
 });
 
 /**
  * Override the default pagina loader for new windows
  */
-$( document ).on( 'click', '[generator="adianti2"]', function()
+$( document ).on( 'click', '[generator="ageunet2"]', function()
 {
-   __ageunet_load_pagina2($(this).attr('href'));
+   __ageunet_carrega_pagina2($(this).attr('href'));
    return false;
 });
 
@@ -1143,7 +1142,7 @@ window.onpopstate = function(stackstate)
 {
     if (stackstate.state)
     {
-        __ageunet_load_pagina_no_register(stackstate.state.url);
+        carrega_pagina_nao_registra carrega_pagina_nao_registra(stackstate.state.url);
     }
 };
 

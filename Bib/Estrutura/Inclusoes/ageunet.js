@@ -156,8 +156,8 @@ function __ageunet_consulta_para_json(consulta)
  */
 function __ageunet_carrega_html(conteudo, aposCallback, url)
 {
-    var url_container   = url.match('recipiente_alvo=([0-z-]*)');
-    var combina_recipiente = conteudo.match('ageunet_recipiente_alvo\\s?=\\s?"([0-z-]*)"');
+    var url_container   = url.combina('recipiente_alvo=([0-z-]*)');
+    var combina_recipiente = conteudo.combina('ageunet_recipiente_alvo\\s?=\\s?"([0-z-]*)"');
     
     if (url_container !== null)
     {
@@ -329,7 +329,7 @@ function __ageunet_carrega_pagina(pagina, callback)
         
         __ageunet_roda_antes_carregamentos(url);
         
-        if (url.indexOf('&static=1') > 0)
+        if (url.indexOf('&estatico=1') > 0)
         {
             $.get(url)
             .done(function(dados) {
@@ -364,7 +364,7 @@ function __ageunet_carrega_pagina(pagina, callback)
                     callback();
                 }
                 
-                if ( url.indexOf('register_state=false') < 0 && history.pushState && (dados.indexOf('widget="TWindow"') < 0) )
+                if ( url.indexOf('register_state=false') < 0 && historico.pushState && (dados.indexOf('widget="TWindow"') < 0) )
                 {
                     __ageunet_registra_estado(url, 'ageunet');
                     Ageunet.currentURL = url;
@@ -397,11 +397,11 @@ function __ageunet_bloqueia_ui(mensagem_aguarde)
 {
     if (typeof $.blockUI == 'function')
     {
-        if (typeof Ageunet.blockUIConter == 'undefined')
+        if (typeof Ageunet.bloqueiaContadorUI == 'undefined')
         {
-            Ageunet.blockUIConter = 0;
+            Ageunet.bloqueiaContadorUI = 0;
         }
-        Ageunet.blockUIConter = Ageunet.blockUIConter + 1;
+        Ageunet.bloqueiaContadorUI = Ageunet.bloqueiaContadorUI + 1;
         if (typeof mensagem_aguarde == 'undefined')
         {
             mensagem_aguarde = Ageunet.waitMessage;
@@ -432,7 +432,7 @@ function __ageunet_bloqueia_ui(mensagem_aguarde)
 /**
  * Open a window
  */
-function __ageunet_window(titulo, largura, altura, conteudo)
+function __ageunet_janela(titulo, largura, altura, conteudo)
 {
     $('<div />').html(conteudo).dialog({
         modal: true,
@@ -446,7 +446,7 @@ function __ageunet_window(titulo, largura, altura, conteudo)
     });
 }
 
-function __ageunet_window_pagina(titulo, largura, altura, pagina)
+function __ageunet_janela_pagina(titulo, largura, altura, pagina)
 {
     if (width<2)
     {
@@ -475,13 +475,13 @@ function __ageunet_window_pagina(titulo, largura, altura, pagina)
 function __ageunet_dialogo( opcoces )
 {
     if (opcoces.type == 'info') {
-        var icon = (opcoces.icon ? opcoces.icon : 'fa fa-info-circle fa-4x blue');
+        var icone = (opcoces.icone ? opcoces.icone : 'fa fa-info-circle fa-4x blue');
     }
     else if (opcoces.type == 'warning') {
-        var icon = (opcoces.icon ? opcoces.icon : 'fa fa-exclamation-triangle fa-4x orange');
+        var icone = (opcoces.icone ? opcoces.icone : 'fa fa-exclamation-triangle fa-4x orange');
     }
     else if (opcoces.type == 'erro') {
-        var icon = (opcoces.icon ? opcoces.icon : 'fa fa-exclamation-circle fa-4x red');
+        var icone = (opcoces.icone ? opcoces.icone : 'fa fa-exclamation-circle fa-4x red');
     }
     
     if (typeof bootbox == 'object')
@@ -497,7 +497,7 @@ function __ageunet_dialogo( opcoces )
             }
           },
           message: '<div>'+
-                    '<span class="'+icon+'" style="float:left"></span>'+
+                    '<span class="'+icone+'" style="float:left"></span>'+
                     '<span style="margin-left:70px;display:block;max-height:500px">'+opcoces.message+'</span>'+
                     '</div>',
           buttons: {
@@ -534,7 +534,7 @@ function __ageunet_erro(titulo, mensagem, callback)
 /**
  * Show message info dialog
  */
-function __ageunet_message(titulo, mensagem, callback)
+function __ageunet_mensagem(titulo, mensagem, callback)
 {
     __ageunet_dialogo( { type: 'info', title: titulo, message: mensagem, callback: callback} );
 }
@@ -542,7 +542,7 @@ function __ageunet_message(titulo, mensagem, callback)
 /**
  * Show message warning dialog
  */
-function __ageunet_warning(titulo, mensagem, callback)
+function __ageunet_aviso(titulo, mensagem, callback)
 {
     __ageunet_dialogo( { type: 'warning', title: titulo, message: mensagem, callback: callback} );
 }
@@ -550,12 +550,12 @@ function __ageunet_warning(titulo, mensagem, callback)
 /**
  * Show pergunta dialog
  */
-function __ageunet_pergunta(titulo, mensagem, callback_yes, callback_no, rotulo_sim, rotulo_nao)
+function __ageunet_pergunta(titulo, mensagem, callback_sim, callback_nao, rotulo_sim, rotulo_nao)
 {
     if (typeof bootbox == 'object')
     {
         bootbox.dialog({
-          title: title,
+          title: titulo,
           animate: false,
           message: '<div>'+
                     '<span class="fa fa-pergunta-circle fa-4x blue" style="float:left"></span>'+
@@ -566,7 +566,7 @@ function __ageunet_pergunta(titulo, mensagem, callback_yes, callback_no, rotulo_
               label: rotulo_sim,
               className: "btn-default",
               callback: function() {
-                if (typeof callback_yes != 'undefined') {
+                if (typeof callback_sim != 'undefined') {
                     callback_yes();
                 }
               }
@@ -575,7 +575,7 @@ function __ageunet_pergunta(titulo, mensagem, callback_yes, callback_no, rotulo_
               label: rotulo_nao,
               className: "btn-default",
               callback: function() {
-                if (typeof callback_no != 'undefined') {
+                if (typeof callback_nao != 'undefined') {
                     callback_no();
                 }
               }
@@ -586,13 +586,13 @@ function __ageunet_pergunta(titulo, mensagem, callback_yes, callback_no, rotulo_
     else
     {
         // fallback mode
-        var r = confirm(message);
+        var r = confirm(mensagem);
         if (r == true) {
-            if (typeof callback_yes != 'undefined') {
+            if (typeof callback_sim != 'undefined') {
                 callback_yes();
             }
         } else {
-            if (typeof callback_no != 'undefined') {
+            if (typeof callback_nao != 'undefined') {
                 callback_no();
             }
         }
@@ -619,16 +619,16 @@ function __ageunet_entrada(pergunta, callback)
     }
 }
 
-function __ageunet_show_toast64(tipo, mensagem64, lugar, icon)
+function __ageunet_exibe_toast64(tipo, mensagem64, lugar, icone)
 {
-    __ageunet_show_toast(tipo, atob(mensagem64), lugar, icon)
+    __ageunet_exibe_toast(tipo, atob(mensagem64), lugar, icone)
 }
 
-function __ageunet_show_toast(tipo, mensagem, lugar, icon)
+function __ageunet_exibe_toast(tipo, mensagem, lugar, icone)
 {
-    var lugar = lugar.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
-            if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
-            return index == 0 ? match.toLowerCase() : match.toUpperCase();
+    var lugar = lugar.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(combina, index) {
+            if (+combina === 0) return ""; // or if (/\s+/.test(combina)) for white spaces
+            return index == 0 ? combina.toLowerCase() : combina.toUpperCase();
           });
     
     var opcoces = {
@@ -641,8 +641,8 @@ function __ageunet_show_toast(tipo, mensagem, lugar, icon)
         opcoces['theme'] = 'dark';
     }
     
-    if (typeof icon !== 'undefined') {
-        opcoces['icon'] = 'fa ' + icon.replace(':', '-');
+    if (typeof icone !== 'undefined') {
+        opcoces['icone'] = 'fa ' + icone.replace(':', '-');
     }
     
     iziToast[type]( opcoces );
@@ -655,11 +655,11 @@ function __ageunet_desbloqueia_ui()
 {
     if (typeof $.blockUI == 'function')
     {
-        Ageunet.blockUIConter = Ageunet.blockUIConter -1;
-        if (Ageunet.blockUIConter <= 0)
+        Ageunet.bloqueiaContadorUI = Ageunet.bloqueiaContadorUI -1;
+        if (Ageunet.bloqueiaContadorUI <= 0)
         {
             $.unblockUI( { fadeIn: 0, fadeOut: 0 } );
-            Ageunet.blockUIConter = 0;
+            Ageunet.bloqueiaContadorUI = 0;
         }
     }
 }
@@ -694,7 +694,7 @@ function __ageunet_dados_post(form, acao)
     
     __ageunet_rodar_antes_posts(url);
     
-    if (url.indexOf('&static=1') > 0 || (acao.substring(0,4) == 'xhr-'))
+    if (url.indexOf('&estatico=1') > 0 || (acao.substring(0,4) == 'xhr-'))
     {
         $.post(url, dados)
         .done(function(resultado) {
@@ -763,8 +763,8 @@ function __ageunet_registra_estado(url, origem)
     if (Ageunet.registerState !== false || origem == 'user')
     {
         var estadoObj = { url: url };
-        if (typeof history.pushState != 'undefined') {
-            history.pushState(estadoObj, "", url.replace('motor.php', 'inicio.php').replace('xhr-', ''));
+        if (typeof historico.pushState != 'undefined') {
+            historico.pushState(estadoObj, "", url.replace('motor.php', 'inicio.php').replace('xhr-', ''));
         }
     }
 }
@@ -772,10 +772,10 @@ function __ageunet_registra_estado(url, origem)
 /**
  * Ajax lookup
  */
-function __ageunet_ajax_lookup(acao, campo)
+function __ageunet_pesquisa_ajax(acao, campo)
 {
     var value = campo.value;
-    __ageunet_ajax_exec(acao +'&key='+value+'&ajax_lookup=1', null);
+    __ageunet_ajax_exec(acao +'&key='+value+'&pesquisa_ajax=1', null);
 }
 
 /**
@@ -783,7 +783,7 @@ function __ageunet_ajax_lookup(acao, campo)
  */
 function __ageunet_exec_ajax(acao, callback, saida_automatica)
 {
-    var uri = 'motor.php?' + acao +'&static=1';
+    var uri = 'motor.php?' + acao +'&estatico=1';
     var saida_automatica = (typeof saida_automatica === "undefined") ? true : saida_automatica;
     
     $.ajax({url: uri})
@@ -804,7 +804,7 @@ function __ageunet_exec_ajax(acao, callback, saida_automatica)
  */
 function __ageunet_obt_pagina(acao, callback, dadospost)
 {
-    var uri = 'motor.php?' + acao +'&static=1';
+    var uri = 'motor.php?' + acao +'&estatico=1';
     
     if (typeof dadospost !== "undefined") {
         if (typeof dadospost.static !== "undefined") {
@@ -831,18 +831,18 @@ function __ageunet_pesquisa_post(form, acao, campo, callback) {
     }
     
     var formdados = $('#'+form).serializeArray();
-    formdados.push({name: '_field_value', value: field_obj.val()});
+    formdados.push({name: '_valor_campo', value: field_obj.val()});
     
     var uri = 'motor.php?' + acao +'&estatico=1';
     formdados.push({name: '_id_campo',   value: field_obj.attr('id')});
     formdados.push({name: '_nome_campo', value: field_obj.attr('name')});
     formdados.push({name: '_nome_form',  value: form});
-    formdados.push({name: '_field_dados', value: $.param(field_obj.dados(), true)});
+    formdados.push({name: '_campo_dados', value: $.param(field_obj.dados(), true)});
     formdados.push({name: 'key',         value: field_obj.val()}); // for BC
-    formdados.push({name: 'ajax_lookup', value: 1});
+    formdados.push({name: 'pesquisa_ajax', value: 1});
     
     $.ajax({
-      type: 'POST',
+      tipo: 'POST',
       url: uri,
       dados: formdados
       }).done(function( dados ) {
@@ -871,7 +871,7 @@ function __ageunet_analisa_html(dados, callback)
     
     try {
         // permite código estático também escolher o target
-        var combina_recipiente = dados.match('ageunet_recipiente_alvo\\s?=\\s?"([0-z]*)"');
+        var combina_recipiente = dados.combina('ageunet_recipiente_alvo\\s?=\\s?"([0-z]*)"');
         
         if ( combina_recipiente !== null)
         {
@@ -912,7 +912,7 @@ function __ageunet_baixa_arquivo(arquivo)
         alturaTela /= 3;
     }
     
-    window.open('download.php?arquivo='+arquivo, '_blank',
+    window.open('baixar.php?arquivo='+arquivo, '_blank',
       'width='+larguraTela+
      ',height='+alturaTela+
      ',top=0,left=0,status=yes,scrollbars=yes,toolbar=yes,resizable=yes,maximized=yes,menubar=yes,location=yes');
@@ -937,12 +937,12 @@ function __ageunet_abre_pagina(pagina)
 /**
  * Process popovers
  */
-function __ageunet_process_popover()
+function __ageunet_processa_popover()
 {
-    var get_placement = function (tip, element) {
-        $element = $(element);
+    var obt_localizacao = function (tip, elemento) {
+        $elemento = $(elemento);
 
-        var valid_placements = [
+        var localizacoes_valida = [
             "auto",
             "top",
             "right",
@@ -950,14 +950,14 @@ function __ageunet_process_popover()
             "left",
         ];
 
-        if (typeof $element.attr('popside') === "undefined" || valid_placements.indexOf($element.attr('popside')) === -1) {
+        if (typeof $elemento.attr('popside') === "undefined" || localizacoes_valida.indexOf($elemento.attr('popside')) === -1) {
             return 'auto';
-        }
-        else {
-            return $(element).attr("popside");
+        } else {
+            return $(elemento).attr("popside");
         }
     };
     
+    var obt_conteudo = function (tip, $elemento) {
         if (typeof $(this).attr('popaction') === "undefined") {
             if (typeof $(this).attr("popcontent64") !== "undefined") {
                 return base64_decode($(this).attr("popcontent64"));
@@ -977,34 +977,34 @@ function __ageunet_process_popover()
         }
     };
     
-    var get_title = function () {
+    var obt_titulo = function () {
         return $(this).attr("poptitle") || '';
     };
     
     var pop_template = '<div class="popover" role="tooltip" style="max-width:800px"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>';
 
     $('[popover="true"]:not([poptrigger]):not([processed="true"])').popover({
-        placement: get_placement,
+        placement: obt_localizacao,
         trigger: 'hover',
         container: 'body',
         template: pop_template,
         delay: { show: 10, hide: 10 },
-        conteudo: get_content,
+        conteudo: obt_conteudo,
         html: true,
-        title: get_title,
+        title: obt_titulo,
         sanitizeFn : function(d) { return d },
     }).attr('processed', true);
     
     $('[popover="true"][poptrigger="click"]:not([processed="true"])').popover({
-        placement: get_placement,
+        placement: obt_localizacao,
         trigger: 'click',
         container: 'body',
         template: pop_template,
         delay: { show: 10, hide: 10 },
-        conteudo: get_content,
+        conteudo: obt_conteudo,
         sanitizeFn : function(d) { return d },
         html: true,
-        title: get_title
+        title: obt_titulo
     }).on('shown.bs.popover', function (e) {
         if (typeof $(this).attr('popaction') !== "undefined") {
             var inst = $(this);
@@ -1028,19 +1028,19 @@ function __ageunet_process_popover()
 }
 
 /**
- * Show popover nearby element
+ * Show popover nearby elemento
  */
-function __ageunet_show_popover(element, title, message, placement, custom_options)
+function __ageunet_exibe_popover(elemento, titulo, mensagem, localizacao, opcoes_customizadas)
 {
-    var standard_options = {trigger:"manual", title:title, html: true, conteudo:message, placement:placement, sanitizeFn : function(d) { return d }};
-    var opcoces = standard_options;
+    var opcoes_padrado = {trigger:"manual", title:titulo, html: true, conteudo:mensagem, placement:localizacao, sanitizeFn : function(d) { return d }};
+    var opcoces = opcoes_padrado;
     
-    if (typeof custom_options !== undefined)
+    if (typeof opcoes_customizadas !== undefined)
     {
-        var opcoces = Object.assign(standard_options, custom_options);
+        var opcoces = Object.assign(opcoes_padrado, opcoes_customizadas);
     }
-    if ($(element).length>0 && $(element).css("visibility") == "visible") {
-        $(element).popover(opcoces).popover("show");
+    if ($(elemento).length > 0 && $(elemento).css("visibility") == "visible") {
+        $(elemento).popover(opcoces).popover("show");
     }
 }
 
@@ -1048,16 +1048,16 @@ function __ageunet_show_popover(element, title, message, placement, custom_optio
  * Start actions
  */
 $(function() {
-    Ageunet.blockUIConter = 0;
+    Ageunet.bloqueiaContadorUI = 0;
     
     if (typeof $().tooltip == 'function')
     {
         $(document.body).tooltip({
             selector: "[title]",
-            placement: function (tip, element) {
-                    $element = $(element);
+            placement: function (tip, elemento) {
+                    $elemento = $(elemento);
                     
-                    var valid_placements = [
+                    var localizacoes_valida = [
                         "auto",
                         "top",
                         "right",
@@ -1065,11 +1065,11 @@ $(function() {
                         "left",
                     ];
             
-                    if (typeof $element.attr('titside') === "undefined" || valid_placements.indexOf($element.attr('titside')) === -1) {
+                    if (typeof $elemento.attr('titside') === "undefined" || localizacoes_valida.indexOf($elemento.attr('titside')) === -1) {
                         return 'auto';
                     }
                     else {
-                        return $(element).attr("titside");
+                        return $(elemento).attr("titside");
                     }
                 },
             trigger: 'hover',
@@ -1085,7 +1085,7 @@ $(function() {
     if (typeof $().popover == 'function')
     {
         $( document ).on( "dialogopen", function(){
-            __ageunet_process_popover();
+            __ageunet_processa_popover();
         });
     }
     
@@ -1098,11 +1098,11 @@ $(function() {
 /**
  * On Ajax complete actions
  */
-$(document).ajaxComplete(function ()
+$(document).completaAjax(function ()
 {
     if (typeof $().popover == 'function')
     {
-        __ageunet_process_popover();
+        __ageunet_processa_popover();
     }
     
     if (typeof $().DataTable == 'function')
@@ -1142,7 +1142,7 @@ window.onpopstate = function(stackstate)
 {
     if (stackstate.state)
     {
-        carrega_pagina_nao_registra carrega_pagina_nao_registra(stackstate.state.url);
+        carrega_pagina_nao_registra(stackstate.state.url);
     }
 };
 

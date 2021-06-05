@@ -901,7 +901,7 @@ function __ageunet_analisa_html(dados, callback)
 /**
  * Download a arquivo
  */
-function __ageunet_baixa_arquivo(arquivo)
+function __ageunet_baixar_arquivo(arquivo)
 {
     extensao = arquivo.split('.').pop();
     larguraTela  = screen.width;

@@ -12,7 +12,7 @@ $tema = $ini['geral']['tema'];
 new Sessao;
 //------------------------------------------------------------------------------------------- 
 
-$conteudo = file_get_contents("Aplicativo/Templates/{$tema}/esboco.html"); ### pagina_vazia # painelcontrole
+$conteudo = file_get_contents("Aplicativo/Templates/{$tema}/painelcontrole.html"); ### pagina_vazia # painelcontrole
 $string_menu = ConstrutorMenu::analisa('menu.xml', $tema);
 $conteudo = str_replace('{MENU}', $string_menu, $conteudo);
 $conteudo = str_replace('{template}', $tema, $conteudo);

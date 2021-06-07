@@ -270,6 +270,7 @@ class NucleoAplicativo
      */
     public static function carregaPagina($classe, $metodo = NULL, $parametros = NULL)
     {
+        ///echo "<p>KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK{$classe}</p>" . PHP_EOL;
         $consulta = self::constroiConsultaHttp($classe, $metodo, $parametros);
         
         Script::cria("__ageunet_carrega_pagina('{$consulta}');", true, 1);
@@ -387,8 +388,8 @@ class NucleoAplicativo
         {
             if (substr($chave, 0, 5) == 'HTTP_')
             {
-                $header = str_replace(' ', '-', ucwords(str_replace('_', ' ', strtolower(substr($chave, 5)))));
-                $cabecalhos[$header] = $valor;
+                $cabecalho = str_replace(' ', '-', ucwords(str_replace('_', ' ', strtolower(substr($chave, 5)))));
+                $cabecalhos[$cabecalho] = $valor;
             }
         }
         

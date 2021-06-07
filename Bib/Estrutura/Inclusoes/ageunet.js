@@ -667,7 +667,7 @@ function __ageunet_desbloqueia_ui()
 /**
  * Post form dados
  */
-function __ageunet_dados_post(form, acao)
+function __ageunet_post_dados(form, acao)
 {
     if (acao.substring(0,4) == 'xhr-')
     {

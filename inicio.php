@@ -5,8 +5,8 @@
  * Autor: Eustábio Júnior
  * Data: 27/02/2021
  ********************************************************************************************/
-
-require_once 'inic.php';
+#
+ require_once 'inic.php';
 $tema = $ini['geral']['tema'];
 
 new Sessao;

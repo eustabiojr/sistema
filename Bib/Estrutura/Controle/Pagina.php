@@ -56,7 +56,7 @@ class Pagina extends Elemento {
 
             # caso a variável $classe esteja definida, entra no IF
             if ($classe) {
-                echo "<p>CLASSE CLASSE CLASSE CLASSE</p>" . PHP_EOL;
+                ///echo "<p>CLASSE CLASSE CLASSE CLASSE</p>" . PHP_EOL;
                 /**
                  * testa se o nome da classe fornecido pelo URI é igual ao nome da classe
                  * do objeto atual. Se for igual retorna para na variável $objeto, o objeto 

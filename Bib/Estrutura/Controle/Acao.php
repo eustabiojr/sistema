@@ -91,8 +91,8 @@ class Acao implements InterfaceAcao {
     {
         if (is_array($parametros)) {
             # Não sobreescreve a ação
-            unset($parametros['class']);
-            unset($parametros['method']);
+            unset($parametros['classe']);
+            unset($parametros['metodo']);
             $this->param = $parametros;
         }
     }

@@ -93,12 +93,15 @@ function __ageunet_url_base()
  */
 function __ageunet_string_consulta()
 {
-    var string_consulta = {};
-    var consulta = window.location.search.substring(1);
-    var vars = consulta.split("&");
-    for (var i=0; i<vars.length; i++)
+    // string_consulta é uma objeto vazio inicialmente.
+    let string_consulta = {};
+    // Pega as strings de consulta que fica após o '?'
+    let consulta = window.location.search.substring(1);
+    let vars = consulta.split("&");
+
+    for (let i=0; i < vars.length; i++)
     {
-        var dupla = vars[i].split("=");
+        let dupla = vars[i].split("=");
         if (typeof string_consulta[dupla[0]] === "undefined")
         {
             string_consulta[dupla[0]] = dupla[1];
@@ -106,7 +109,7 @@ function __ageunet_string_consulta()
         }
         else if (typeof string_consulta[dupla[0]] === "string")
         {
-            var arr = [ string_consulta[dupla[0]], dupla[1] ];
+            let arr = [ string_consulta[dupla[0]], dupla[1] ];
             string_consulta[dupla[0]] = arr;
         }
         else
@@ -122,29 +125,30 @@ function __ageunet_string_consulta()
  */
 function __ageunet_consulta_para_json(consulta)
 {
-    var partes = consulta.split('&');
-    var params = Object();
-    var decode = function (s) {
+    let partes = consulta.split('&');
+    let params = Object();
+    let decode = function (s) {
         if (typeof s !== "undefined"){
             return urldecode(s.replace(/\+/g, " "));
         }
         return s;
     };
     
-    for (var i=0; i < partes.length ; i++) {
-        var part = partes[i].split('=');
-        if(part[0].search("\\[\\]") !== -1) {
-            part[0]=part[0].replace(/\[\]$/,'');
-            if( typeof params[part[0]] === 'undefined' ) {
-                params[part[0]] = [decode(part[1])];
+    for (let i=0; i < partes.length ; i++) {
+        let parte = partes[i].split('=');
+        if(parte[0].search("\\[\\]") !== -1) {
+            parte[0]=parte[0].replace(/\[\]$/,'');
+            
+            if( typeof params[parte[0]] === 'undefined' ) {
+                params[parte[0]] = [decode(parte[1])];
 
             } else {
-                params[part[0]].push(decode(part[1]));
+                params[parte[0]].push(decode(parte[1]));
             }
 
 
         } else {
-            params[part[0]] = decode(part[1]);
+            params[parte[0]] = decode(parte[1]);
         }
     }
 

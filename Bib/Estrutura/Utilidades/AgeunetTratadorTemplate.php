@@ -63,7 +63,7 @@ class AgeunetTratadorTemplate
                 if ($moldar) {
                     settype($valor, $moldar);
                 }
-                $conteudo = \str_replace($combinacao, $valor, $conteudo);
+                $conteudo = str_replace($combinacao, $valor, $conteudo);
             }
         }
         return $conteudo;
@@ -75,12 +75,12 @@ class AgeunetTratadorTemplate
     public static function avaliaExpressao($expressao) 
     {
         $analisador = new Analisador();
-        $expressao = \str_replace('+', ' + ', $expressao);
-        $expressao = \str_replace('-', ' - ', $expressao);
-        $expressao = \str_replace('*', ' * ', $expressao);
-        $expressao = \str_replace('/', ' / ', $expressao);
-        $expressao = \str_replace('(', ' ( ', $expressao);
-        $expressao = \str_replace(')', ' ) ', $expressao);
+        $expressao = str_replace('+', ' + ', $expressao);
+        $expressao = str_replace('-', ' - ', $expressao);
+        $expressao = str_replace('*', ' * ', $expressao);
+        $expressao = str_replace('/', ' / ', $expressao);
+        $expressao = str_replace('(', ' ( ', $expressao);
+        $expressao = str_replace(')', ' ) ', $expressao);
 
         return $analisador->avalia($expressao);
     }
@@ -102,18 +102,18 @@ class AgeunetTratadorTemplate
                 $expressao  = $combinacoes3[1][$chave];
 
                 $resultado = self::avaliaExpressao($expressao);
-                $conteudo = \str_replace($cru, $resultado, $conteudo);
+                $conteudo = str_replace($cru, $resultado, $conteudo);
             }
         }
 
-        $mascara_data = [];
-        $mascara_data[] = '/date_format\(([0-9]{4}-[0-9]{2}-[0-9]{2}),\s*\'([A-z_\/\-0-9\s\:\,\.]*)\'\)/'; # máscara 2000-12-31
-        $mascara_data[] = '/date_format\(([0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}),\s*\'([A-z_\/\-0-9\s\:\.\,]*)\'\)/'; # máscara 2000-12-31 10:31:58
-        $mascara_data[] = '/date_format\(([0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]+),\s*\'([A-z_\/\-0-9\s\:\.\,]*)\'\)/'; # máscara 2000-12-31 10:31:58.16809
-        $mascara_data[] = '/date_format\((\s*),\s*\'([A-z_\/\-0-9\s\:\.\,]*)\'\)/'; # Máscara em branco
+        $mascaras_data = [];
+        $mascaras_data[] = '/date_format\(([0-9]{4}-[0-9]{2}-[0-9]{2}),\s*\'([A-z_\/\-0-9\s\:\,\.]*)\'\)/'; # máscara 2000-12-31
+        $mascaras_data[] = '/date_format\(([0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}),\s*\'([A-z_\/\-0-9\s\:\.\,]*)\'\)/'; # máscara 2000-12-31 10:31:58
+        $mascaras_data[] = '/date_format\(([0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]+),\s*\'([A-z_\/\-0-9\s\:\.\,]*)\'\)/'; # máscara 2000-12-31 10:31:58.16809
+        $mascaras_data[] = '/date_format\((\s*),\s*\'([A-z_\/\-0-9\s\:\.\,]*)\'\)/'; # Máscara em branco
 
         foreach ($mascaras_data as $mascara_data) {
-            \preg_match_all($mascara_data, $conteudo, $combinacoes1);
+            preg_match_all($mascara_data, $conteudo, $combinacoes1);
 
             if (count($combinacoes1) > 0) {
                 foreach ($combinacoes1[0] as $chave => $valor) {
@@ -122,15 +122,15 @@ class AgeunetTratadorTemplate
                     $mascara = $combinacoes1[2][$chave];
 
                     if (!empty(trim($data))) {
-                        $conteudo = \str_replace($cru, data_format(date_create($data), $mascara), $conteudo);
+                        $conteudo = str_replace($cru, date_format(date_create($data), $mascara), $conteudo);
                     } else {
-                        $conteudo = \str_replace($cru, '', $conteudo);
+                        $conteudo = str_replace($cru, '', $conteudo);
                     }
                 }
             }
         }
 
-        \preg_match_all('/number_format\(\s*([\d+\.\d]*)\s*,\s*([0-9])+\s*,\s*\'(\,*\.*)\'\s*,\s*\'(\,*\.*)\'\s*\)/', $conteudo, $combinacoes2);
+        preg_match_all('/number_format\(\s*([\d+\.\d]*)\s*,\s*([0-9])+\s*,\s*\'(\,*\.*)\'\s*,\s*\'(\,*\.*)\'\s*\)/', $conteudo, $combinacoes2);
 
         if (count($combinacoes2) > 0) {
             foreach ($combinacoes2[0] as $chave => $valor) {
@@ -140,9 +140,9 @@ class AgeunetTratadorTemplate
                 $sep_dec  = $combinacoes2[3][$chave];
                 $sep_mil  = $combinacoes2[4][$chave];
                 if (!empty(trim($numero))) {
-                    $conteudo = \str_replace($cru, \number_format($numero, $decimais, $sep_dec, $sep_mil), $conteudo);
+                    $conteudo = str_replace($cru, number_format($numero, $decimais, $sep_dec, $sep_mil), $conteudo);
                 } else {
-                    $conteudo = \str_replace($cru, '', $conteudo);
+                    $conteudo = str_replace($cru, '', $conteudo);
                 }
             }
         }

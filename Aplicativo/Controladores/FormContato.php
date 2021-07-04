@@ -6,13 +6,13 @@
  ************************************************************************************/
 
 use Estrutura\Bugigangas\Dialogo\Mensagem;
-use Estrutura\Bugigangas\Embrulho\EmbrulhoForm;
 use Estrutura\Bugigangas\Form\Combo;
 use Estrutura\Bugigangas\Form\Entrada;
 use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Bugigangas\Form\Texto;
 use Estrutura\Controle\Pagina;
 use Estrutura\Controle\Acao;
+use Estrutura\Embrulho\EmbrulhoForm;
 
 /**
  * Class FormContato

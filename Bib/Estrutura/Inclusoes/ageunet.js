@@ -89,7 +89,7 @@ function __ageunet_url_base()
 }
 
 /**
- * Returns the query string
+ * Returns the query string (Atualizado em 20/06/2021)
  */
 function __ageunet_string_consulta()
 {
@@ -121,14 +121,17 @@ function __ageunet_string_consulta()
 }
 
 /**
- * Converts query string into json object
+ * Converts query string into json object (Atualizado para JS Puro. Jun21. Apenas revisado.)
  */
 function __ageunet_consulta_para_json(consulta)
 {
     let partes = consulta.split('&');
     let params = Object();
+
+    // função anônima atribuída a uma variável
     let decode = function (s) {
         if (typeof s !== "undefined"){
+            // este replace substitui globalmente o sinal de mais (+) por espaço em branco
             return urldecode(s.replace(/\+/g, " "));
         }
         return s;
@@ -136,42 +139,54 @@ function __ageunet_consulta_para_json(consulta)
     
     for (let i=0; i < partes.length ; i++) {
         let parte = partes[i].split('=');
-        if(parte[0].search("\\[\\]") !== -1) {
+        // caso localize o alvo, realiza a substituição do alvo por nada (ou seja, remove)
+        // Veja que no search o parâmetro está sendo passado entre aspas. Sendo assim,
+        // neste caso será necessário acrescentar uma barra invertida para escapar o caractere.
+        //
+        // If it locates the target, performs replacement of the target with nothing (ie removes)
+        // See that in search the parameter is being passed in quotes. Therefore,
+        // in this case it will be necessary to add a backslash to escape the character. 
+        //
+        // Portanto, esse regex busca por: [] (Ou seja, um parte de parenteses)
+        // if(parte[0].search("\\[\\]") !== -1) {
+        if(parte[0].search(/\[\]/) !== -1) {
+            // a regex seguinte especifica que o alvo (no caso []) fica no final da string.
             parte[0]=parte[0].replace(/\[\]$/,'');
             
+            /**
+             * Caso não esteja defindo, definimos. Caso esteja definido, acrescentamos 
+             * mais um item.
+             */
             if( typeof params[parte[0]] === 'undefined' ) {
                 params[parte[0]] = [decode(parte[1])];
 
             } else {
                 params[parte[0]].push(decode(parte[1]));
             }
-
-
         } else {
             params[parte[0]] = decode(parte[1]);
         }
     }
-
     return params;
 }
 
 /**
- * Loads an HTML conteudo
+ * Carrega um conteudo HTML
  */
-function __ageunet_carrega_html(conteudo, aposCallback, url)
+function __ageunet_carrega_html(conteudo, aposChamaDeVolta, url)
 {
-    var url_container   = url.combina('recipiente_alvo=([0-z-]*)');
-    var combina_recipiente = conteudo.combina('ageunet_recipiente_alvo\\s?=\\s?"([0-z-]*)"');
+    let recipiente_url   = url.match('recipiente_alvo=([0-z-]*)');
+    let combina_recipiente = conteudo.match('ageunet_recipiente_alvo\\s?=\\s?"([0-z-]*)"');
     
-    if (url_container !== null)
+    if (recipiente_url !== null)
     {
-        var recipiente_alvo = url_container[1];
+        let recipiente_alvo = recipiente_url[1];
         $('#'+recipiente_alvo).empty();
         $('#'+recipiente_alvo).html(conteudo);
     }
     else if ( combina_recipiente !== null)
     {
-        var recipiente_alvo = combina_recipiente[1];
+        let recipiente_alvo = combina_recipiente[1];
         $('#'+recipiente_alvo).empty();
         $('#'+recipiente_alvo).html(conteudo);
     }
@@ -202,9 +217,9 @@ function __ageunet_carrega_html(conteudo, aposCallback, url)
         }
     }
     
-    if (typeof aposCallback == "function")
+    if (typeof aposChamaDeVolta == "function")
     {
-        aposCallback(url, conteudo);
+        aposChamaDeVolta(url, conteudo);
     }
 }
 
@@ -323,8 +338,13 @@ function __ageunet_carrega_pagina(pagina, callback)
 {
     if (typeof pagina !== 'undefined')
     {
-        $( '.modal-backdrop' ).remove();
-        var url = pagina;
+        // $( '.modal-backdrop' ).remove(); // Código jQuery, logo abaixo ...
+        //
+        // JavaScript Puro (ou JS Vanilla)
+        Array.from(document.querySelectorAll('.modal-backdrop')).forEach(function(botao) {
+            botao.remove();
+        });
+        let url = pagina;
         url = url.replace('inicio.php', 'motor.php');
         
         if(url.indexOf('motor.php') == -1) {
@@ -351,7 +371,7 @@ function __ageunet_carrega_pagina(pagina, callback)
                 
             }).fail(function(jqxhr, textoStatus, exception) {
                __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
-               loading = false;
+               carregando = false;
             });
         }
         else
@@ -375,7 +395,7 @@ function __ageunet_carrega_pagina(pagina, callback)
                 }
             }).fail(function(jqxhr, textoStatus, exception) {
                __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
-               loading = false;
+               carregando = false;
             });
         }
     }
@@ -630,9 +650,9 @@ function __ageunet_exibe_toast64(tipo, mensagem64, lugar, icone)
 
 function __ageunet_exibe_toast(tipo, mensagem, lugar, icone)
 {
-    var lugar = lugar.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(combina, index) {
-            if (+combina === 0) return ""; // or if (/\s+/.test(combina)) for white spaces
-            return index == 0 ? combina.toLowerCase() : combina.toUpperCase();
+    var lugar = lugar.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+            if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
+            return index == 0 ? match.toLowerCase() : match.toUpperCase();
           });
     
     var opcoces = {
@@ -713,7 +733,7 @@ function __ageunet_post_dados(form, acao)
         }).fail(function(jqxhr, textoStatus, exception) {
             __ageunet_desbloqueia_ui();
             __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
-            loading = false;
+            carregando = false;
         });
     }
     else
@@ -730,7 +750,7 @@ function __ageunet_post_dados(form, acao)
         }).fail(function(jqxhr, textoStatus, exception) {
             __ageunet_desbloqueia_ui();
             __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
-            loading = false;
+            carregando = false;
         });
     }
 }
@@ -875,7 +895,7 @@ function __ageunet_analisa_html(dados, callback)
     
     try {
         // permite código estático também escolher o target
-        var combina_recipiente = dados.combina('ageunet_recipiente_alvo\\s?=\\s?"([0-z]*)"');
+        var combina_recipiente = dados.match('ageunet_recipiente_alvo\\s?=\\s?"([0-z]*)"');
         
         if ( combina_recipiente !== null)
         {
@@ -1122,7 +1142,7 @@ $(document).completaAjax(function ()
 });
 
 /**
- * Override the default pagina loader
+ * Sobrescreve o carregador de pagina padrão
  */
 $( document ).on( 'click', '[generator="ageunet"]', function()
 {

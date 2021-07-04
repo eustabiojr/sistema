@@ -22,11 +22,11 @@ namespace Estrutura\Utilidades;
      */
     public static function camelCaseDeSublinhado($string, $espacos = FALSE)
     {
-        $palavras = explode('_', \mb_strtolower($string));
+        $palavras = explode('_', mb_strtolower($string));
 
         $retorno = '';
         foreach ($palavras as $palavra) {
-            $retorno .= \ucfirst(trim($palavra));
+            $retorno .= ucfirst(trim($palavra));
             if($espacos) {
                 $retorno .= ' ';
             }
@@ -36,9 +36,9 @@ namespace Estrutura\Utilidades;
 
     public static function SublinhadoDeCamelCase($string, $espacos = FALSE)
     {
-        $saida = \mb_strtolower(\preg_replace('/(a-z)(A-Z)/', '$'.'1_$'.'2', $string));
+        $saida = mb_strtolower(preg_replace('/(a-z)(A-Z)/', '$'.'1_$'.'2', $string));
         if ($espacos) {
-            $saida = \str_replace(' ', '_', trim($saida));
+            $saida = str_replace(' ', '_', trim($saida));
         }
         return $saida;
     }
@@ -80,7 +80,7 @@ namespace Estrutura\Utilidades;
     public static function garanteUnicode($conteudo)
     {
         if (\extension_loaded('mbstring') && \extension_loaded('iconv')) {
-            $cod_como = \mb_detect_encoding($conteudo, ['UTF-8', 'ISO-8859-1','ASCII'], TRUE);
+            $cod_como = mb_detect_encoding($conteudo, ['UTF-8', 'ISO-8859-1','ASCII'], TRUE);
             if ($cod_como !== 'UTF-8') {
                 $convertido = iconv($cod_como, "UTF-8", $conteudo);
                 if ($convertido === false) {
@@ -116,13 +116,13 @@ namespace Estrutura\Utilidades;
     
         $conteudo =strtr($conteudo, $tabela);
 
-        $conteudo = \mb_strtolower($conteudo);
+        $conteudo = mb_strtolower($conteudo);
         # Corta quaisquer caracteres indesejados
-        $conteudo = \preg_replace("/[^a-Z0-9_\s-]/", "", $conteudo);
+        $conteudo = preg_replace("/[^a-Z0-9_\s-]/", "", $conteudo);
         # Limpa traços múltiplos ou espaços em branco
-        $conteudo = \preg_replace("/[\s-]/", " ", $conteudo);
+        $conteudo = preg_replace("/[\s-]/", " ", $conteudo);
         # Converte espaços em branco e sublinhados para traço
-        $conteudo = \preg_replace("/[\s_]/", "-", $conteudo);
+        $conteudo = preg_replace("/[\s_]/", "-", $conteudo);
 
         return $conteudo;
     }

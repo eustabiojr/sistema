@@ -8,7 +8,6 @@
 use Estrutura\BancoDados\Criterio;
 use Estrutura\BancoDados\Repositorio;
 use Estrutura\BancoDados\Transacao;
-use Estrutura\Bugigangas\Base\CaixaV;
 use Estrutura\Bugigangas\Dialogo\Mensagem;
 use Estrutura\Bugigangas\Dialogo\Pergunta;
 use Estrutura\Bugigangas\Embrulho\EmbrulhoForm;
@@ -17,6 +16,7 @@ use Estrutura\Bugigangas\Form\Entrada;
 use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Bugigangas\Gradedados\ColunaGradedados;
 use Estrutura\Bugigangas\Gradedados\Gradedados;
+use Estrutura\Bugigangas\Recipiente\CaixaV;
 use Estrutura\Controle\Acao;
 use Estrutura\Controle\Pagina;
 

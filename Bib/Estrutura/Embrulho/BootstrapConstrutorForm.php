@@ -23,7 +23,7 @@ use Estrutura\Bugigangas\Form\Oculto;
 use Estrutura\Bugigangas\Form\Rotulo;
 use Estrutura\Bugigangas\Util\LinkAcao;
 use Estrutura\Controle\Acao;
-use Estrutura\Sessao\Sessao;
+use Estrutura\Registro\Sessao;
 use FontLib\Table\Type\name;
 
 

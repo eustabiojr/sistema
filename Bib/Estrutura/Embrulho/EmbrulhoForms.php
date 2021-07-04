@@ -8,10 +8,10 @@
 namespace Estrutura\Embrulho;
 
 use Estrutura\Bugigangas\Base\Elemento;
-use Estrutura\Bugigangas\Base\Recipiente\Cartao;
 use Estrutura\Bugigangas\Form\Botao;
 use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Bugigangas\Form\ItensForm;
+use Estrutura\Bugigangas\Recipiente\Cartao;
 
 /**
  * Classe Forms

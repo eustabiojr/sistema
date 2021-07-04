@@ -33,6 +33,7 @@ class Script
         
         $script = new Elemento('script');
         $script->{'language'} = 'JavaScript';
+        #$script->{'type'} = 'text/javascript';
         $script->defUsaAspasSimples(TRUE); 
         $script->defUsaQuebraLinha(FALSE); 
         $script->adic( str_replace( ["\n", "\r"], [' ', ' '], $codigo) );

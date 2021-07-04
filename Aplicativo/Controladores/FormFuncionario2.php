@@ -191,7 +191,7 @@ class FormFuncionario2 extends Pagina
             $mensagemAcao = new Acao(['className', 'methodName']);
             **/
 
-            new Mensagem('info', 'Record saved', $mensagemAcao);
+            new Mensagem('info', 'Registro salvo', $mensagemAcao);
 
         }
         catch (Exception $e) // in case of exception

@@ -67,7 +67,7 @@ class NucleoAplicativo
             if ($estatico)
             {
                 $rf = new ReflectionMethod($classe, $metodo);
-                if ($rf-> isStatic ())
+                if ($rf->isStatic())
                 {
                     call_user_func(array($classe, $metodo), $_REQUEST);
                 }
@@ -232,7 +232,7 @@ class NucleoAplicativo
     }
     
     /**
-     * Process request and insert the result it into template
+     * Processa a solicitação e insere o resultado no template
      */
     public static function processaSolicitacao($template)
     {
@@ -308,7 +308,7 @@ class NucleoAplicativo
     }
     
     /**
-     * Build HTTP Query
+     * Constroi consulta HTTP
      *
      * @param $classe nome da classe
      * @param $metodo nome do método

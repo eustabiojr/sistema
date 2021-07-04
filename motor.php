@@ -4,13 +4,13 @@ require_once 'inic.php';
 
 use Estrutura\Nucleo\ConfigAplicativo;
 use Estrutura\Nucleo\NucleoAplicativo;
-use Estrutura\Sessao\Sessao;
+use Estrutura\Registro\Sessao;
 
 class Aplicativo extends NucleoAplicativo
 {
     public static function rodar($depura = null)
     {
-        new Sessao;
+        new Sessao();
         
         if ($_REQUEST)
         {

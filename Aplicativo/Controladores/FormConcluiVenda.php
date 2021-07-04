@@ -7,13 +7,13 @@
 
 use Estrutura\BancoDados\Transacao;
 use Estrutura\Bugigangas\Dialogo\Mensagem;
-use Estrutura\Bugigangas\Embrulho\EmbrulhoForm;
 use Estrutura\Bugigangas\Form\Combo;
 use Estrutura\Bugigangas\Form\Entrada;
 use Estrutura\Bugigangas\Form\Form;
 use Estrutura\Controle\Acao;
 use Estrutura\Controle\Pagina;
-use Estrutura\Sessao\Sessao;
+use Estrutura\Embrulho\EmbrulhoForm;
+use Estrutura\Registro\Sessao;
 
 /**
  * Classe FormConcluiVenda
@@ -30,7 +30,7 @@ class FormConcluiVenda extends Pagina
     public function __construct()
     {
         parent::__construct();
-        new Sessao;
+        new Sessao();
 
         $this->conexao = 'exemplo';
         $this->registroAtivo = 'Produto';

@@ -179,7 +179,7 @@ class Acao implements InterfaceAcao {
      */
     public function substitui($conteudo, $objeto)
     {
-        if (\preg_match_all('/\{(.*?)}/', $conteudo, $combinacoes)) {
+        if (preg_match_all('/\{(.*?)}/', $conteudo, $combinacoes)) {
             foreach ($combinacoes[0] as $combinacao) {
                 $propriedade = substr($combinacao, 1, -1);
                 $valor       = $objeto->$propriedade ?? null;

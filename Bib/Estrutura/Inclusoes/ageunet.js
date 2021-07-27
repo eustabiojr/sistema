@@ -171,7 +171,7 @@ function __ageunet_consulta_para_json(consulta)
 }
 
 /**
- * Carrega um conteudo HTML
+ * Carrega um conteudo HTML (AQUI)
  */
 function __ageunet_carrega_html(conteudo, aposChamaDeVolta, url)
 {
@@ -1149,6 +1149,11 @@ $( document ).on( 'click', '[generator="ageunet"]', function()
    __ageunet_carrega_pagina($(this).attr('href'));
    return false;
 });
+/*
+const d = document.querySelector(document);
+d.addEventListener("click", function() {
+    alert("Clicou!");
+});*/
 
 /**
  * Override the default pagina loader for new windows

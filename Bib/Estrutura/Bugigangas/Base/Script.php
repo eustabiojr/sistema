@@ -47,12 +47,12 @@ class Script
     /**
      * Importa script
      * 
-     * Pelo visto 'getScript' é um método JQuery. Preciso alterar isso para usar JavaScript puro.
+     * Preciso alterar isso para usar JavaScript puro.
      * 
      * @param $script nome do arquivo de Script
      */
     public static function importaDoArquivo( $script )
     {
-        Script::cria('$.getScript("'.$script.'");');
+        Script::cria('$.obtScript("'.$script.'");');
     }
 }

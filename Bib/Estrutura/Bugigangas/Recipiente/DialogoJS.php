@@ -36,7 +36,7 @@ class DialogoJS extends Elemento
     private $usaBotaoOK;
     private $ordemPilha;
     private $acaoFechar;
-    private $fechaEscape;
+    private $escapeFechar;
     private $classeDialogo;
 
     /**
@@ -57,7 +57,7 @@ class DialogoJS extends Elemento
         $this->fechaEscape = true;
         $this->classeDialogo = '';
 
-        $this->{'id'} = 'dialogo_jquery_' . mt_rand(1000000000, 1999999999);
+        $this->{'id'} = 'dialogo_jspuro_' . mt_rand(1000000000, 1999999999);
         $this->{'style'} = "overflow: auto";
     }
 

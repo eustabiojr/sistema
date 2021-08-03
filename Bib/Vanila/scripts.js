@@ -9,6 +9,17 @@
  */
 
 /**
+ * Método esvazia
+ * @param {*} elemento 
+ */
+function esvazia(elemento) {
+    let noh = document.querySelectorAll(elemento);
+    for(let i=0; i < noh.length; i++) {
+        noh[i].removeChild(noh[i].firstChild);
+    }
+}
+
+/**
 * Método obtScript (substituo do método getScript() do jQuery)
 */
 function obtScript(origem, chamadevolta) {

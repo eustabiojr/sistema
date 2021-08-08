@@ -175,35 +175,46 @@ function __ageunet_consulta_para_json(consulta)
  */
 function __ageunet_carrega_html(conteudo, aposChamaDeVolta, url)
 {
-    let recipiente_url   = url.match('recipiente_alvo=([0-z-]*)');
+    const doc = document;
+    let recipiente_url     = url.match('recipiente_alvo=([0-z-]*)');
     let combina_recipiente = conteudo.match('ageunet_recipiente_alvo\\s?=\\s?"([0-z-]*)"');
-    
+
+    //alert(`O conteúdo de 'recipiente_url' é: ${recipiente_url}. \r\n Já o retorno de 'combina_recipiente' é: ${conteudo}`);
+     
     if (recipiente_url !== null)
     {
+        //alert('OK!!! ' + recipiente_url[1]);
         let recipiente_alvo = recipiente_url[1];
-        $('#'+recipiente_alvo).empty();
-        $('#'+recipiente_alvo).html(conteudo);
+
+        doc.querySelector('#'+recipiente_alvo).innerHTML = '';
+        doc.querySelector('#'+recipiente_alvo).innerHTML = conteudo;
     }
     else if ( combina_recipiente !== null)
     {
         let recipiente_alvo = combina_recipiente[1];
-        $('#'+recipiente_alvo).empty();
-        $('#'+recipiente_alvo).html(conteudo);
-    }
-    else if ($('[widget="TWindow"]').length > 0 && (conteudo.indexOf('widget="TWindow"') > 0))
+
+        doc.querySelector('#'+recipiente_alvo).innerHTML = '';
+        doc.querySelector('#'+recipiente_alvo).innerHTML = conteudo;
+    } 
+    // else if ($('[widget="TWindow"]').length > 0 && (conteudo.indexOf('widget="TWindow"') > 0)) // Aqui está em jQuery
+    else if (doc.querySelectorAll('[widget="GJanela"]').length > 0 && (conteudo.indexOf('widget="GJanela"') > 0))
     {
-        $('[widget="TWindow"]').attr('remove', 'yes');
-        $('#ageunet_conteudo_online').empty();
+        //$('[widget="TWindow"]').attr('remove', 'yes'); // aqui é como era em jQuery
+        doc.querySelectorAll('[widget="GJanela"]').forEach(x => x.setAttribute('remove', 'yes'));
+        //$('#ageunet_conteudo_online').empty();
+        doc.querySelector('#ageunet_conteudo_online').innerHTML = '';
         conteudo = conteudo.replace(new RegExp('__ageunet_anexa_pagina', 'g'), '__ageunet_anexa_pagina2'); // chamadas presentes em botões seekbutton em window, abrem em outra janela
-        $('#ageunet_conteudo_online').html(conteudo);
-        $('[widget="TWindow"][remove="yes"]').remove();
+        //$('#ageunet_conteudo_online').html(conteudo);
+        doc.querySelector('#ageunet_conteudo_online').innerHTML = conteudo;
+        //$('[widget="TWindow"][remove="yes"]').remove();
+        doc.querySelector('[widget="GJanela"][remove="yes"]').remove();
     }
     else
     {
-        if (conteudo.indexOf('widget="TWindow"') > 0)
+        if (conteudo.indexOf('widget="GJanela"') > 0)
         {
             conteudo = conteudo.replace(new RegExp('__ageunet_anexa_pagina', 'g'), '__ageunet_anexa_pagina2'); // chamadas presentes em botões seekbutton em window, abrem em outra janela
-            $('#ageunet_conteudo_online').html(conteudo);
+            doc.querySelector('#ageunet_conteudo_online').innerHTML = conteudo; // era .html(conteudo) com jQuery
         }
         else
         {
@@ -211,12 +222,12 @@ function __ageunet_carrega_html(conteudo, aposChamaDeVolta, url)
             {
                 Ageunet.onClearDOM();
             }
-            
-            $('[widget="TWindow"]').remove();
-            $('#ageunet_conteudo_div').html(conteudo);
+             
+            doc.querySelector('[widget="GJanela"]').remove(); // Falta testar mais
+            doc.querySelector('#ageunet_conteudo_div').innerHTML = conteudo;
         }
     }
-    
+     
     if (typeof aposChamaDeVolta == "function")
     {
         aposChamaDeVolta(url, conteudo);
@@ -228,34 +239,37 @@ function __ageunet_carrega_html(conteudo, aposChamaDeVolta, url)
  */
 function __ageunet_carrega_html2(conteudo)
 {
-   if ($('[widget="TWindow2"]').length > 0)
-   {
-       $('[widget="TWindow2"]').attr('remove', 'yes');
-       $('#ageunet_conteudo_online2').hide();
+    const doc = document;
+    if (doc.querySelectorAll('[widget="GJanela"]').length > 0)
+    {
+       doc.querySelectorAll('[widget="GJanela"]').forEach(x => x.setAttribute('remove', 'yes'));
+       // $('#ageunet_conteudo_online2').hide(); // ###
+       doc.querySelector('#ageunet_conteudo_online2').style.display = 'none';
        conteudo = conteudo.replace(new RegExp('__ageunet_carrega_html', 'g'), '__ageunet_carrega_html2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
        conteudo = conteudo.replace(new RegExp('__ageunet_carrega_pagina', 'g'), '__ageunet_carrega_pagina2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
        conteudo = conteudo.replace(new RegExp('__ageunet_dados_post', 'g'), '__ageunet_dados_post2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
-       conteudo = conteudo.replace(new RegExp('TWindow','g'), 'TWindow2'); // quando submeto botão de busca, é destruído tudo que tem TWindow2 e recarregado
+       conteudo = conteudo.replace(new RegExp('GJanela','g'), 'GJanela'); // quando submeto botão de busca, é destruído tudo que tem GJanela e recarregado
        conteudo = conteudo.replace(new RegExp('generator="ageunet"', 'g'), 'generator="ageunet2"'); // links também são alterados
-       $('#ageunet_conteudo_online2').html(conteudo);
-       $('[widget="TWindow2"][remove="yes"]').remove();
-       $('#ageunet_conteudo_online2').show();
-   }
-   else
-   {
-       if (conteudo.indexOf('widget="TWindow2"') > 0)
-       {
-           $('#ageunet_conteudo_online2').html(conteudo);
-       }
-       else if (conteudo.indexOf('widget="TWindow"') > 0)
-       {
-           $('#ageunet_conteudo_online').html(conteudo);
-       }
-       else
-       {
-           $('#ageunet_conteudo_div').html(conteudo);
-       }
-   }
+       doc.querySelector('#ageunet_conteudo_online2').innerHTML = conteudo;
+       doc.querySelector('[widget="GJanela"][remove="yes"]').remove();
+       // $('#ageunet_conteudo_online2').show();
+       doc.querySelector('#ageunet_conteudo_online2').style.display = 'block';
+    }
+    else
+    {
+        if (conteudo.indexOf('widget="GJanela"') > 0)
+        {
+            doc.querySelector('#ageunet_conteudo_online2').innerHTML = conteudo;
+        }
+        else if (conteudo.indexOf('widget="TWindow"') > 0)
+        {
+            doc.querySelector('#ageunet_conteudo_online').innerHTML = conteudo;
+        }
+        else
+        {
+            doc.querySelector('#ageunet_conteudo_div').innerHTML = conteudo;
+        }
+    }
 }
 
 function __carrega_pagina_nao_registra(pagina)
@@ -323,7 +337,7 @@ function __ageunet_anexa_pagina2(pagina)
         dados = dados.replace(new RegExp('__ageunet_carrega_html', 'g'), '__ageunet_carrega_html2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
         dados = dados.replace(new RegExp('__ageunet_carrega_pagina', 'g'), '__ageunet_carrega_pagina2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
         dados = dados.replace(new RegExp('__ageunet_dados_post', 'g'), '__ageunet_dados_post2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
-        dados = dados.replace(new RegExp('TWindow', 'g'),             'TWindow2'); // quando submeto botão de busca, é destruído tudo que tem TWindow2 e recarregado
+        dados = dados.replace(new RegExp('TWindow', 'g'),             'GJanela'); // quando submeto botão de busca, é destruído tudo que tem GJanela e recarregado
         dados = dados.replace(new RegExp('generator="ageunet"', 'g'), 'generator="ageunet2"'); // links também são alterados
         $('#ageunet_conteudo_online2').after('<div></div>').html(dados);
     }).fail(function(jqxhr, textoStatus, exception) {
@@ -886,11 +900,11 @@ function __ageunet_analisa_html(dados, callback)
     tmp = new String(tmp.replace(/window\.close\(\)\;/g, ''));
     tmp = new String(tmp.replace(/^\s+|\s+$/g,""));
     
-    if ($('[widget="TWindow2"]').length > 0)
+    if ($('[widget="GJanela"]').length > 0)
     {
        // o código dinâmico gerado em ajax lookups (ex: seekbutton)
        // deve ser modificado se estiver dentro de window para pegar window2
-       tmp = new String(tmp.replace(/TWindow/g, 'TWindow2'));
+       tmp = new String(tmp.replace(/TWindow/g, 'GJanela'));
     }
     
     try {

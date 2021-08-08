@@ -178,7 +178,7 @@ class DialogoJS extends Elemento
      */
     public function defLarguraMin($porcentagem, $absoluto)
     {
-        $this->largura = "Matematica.min(\$(window).width() * $porcentagem, $absoluto)";
+        $this->largura = "Math.min(\$(window).width() * $porcentagem, $absoluto)";
     }
 
     /**
@@ -231,7 +231,7 @@ class DialogoJS extends Elemento
         $botao_ok = '';
 
         if ($this->usaBotaoOK) {
-            $botao_ok = ' OK: function() { $(this).remove(); }';
+            $botao_ok = ' OK: function() { document.querySelector(this).remove(); }';
         }
 
         $esquerdo = $this->esquerdo ? $this->esquerdo : 0;
@@ -248,7 +248,7 @@ class DialogoJS extends Elemento
         }
 
         $escapa_ao_fechar = $this->escapeFechar ? 'true' : 'false';
-        parent::adic(Script::cria("gdialogojquery_inicio( '#{$id}', {$this->modal}, {$this->arrastavel}, {$this->redimensionavel}, {$this->largura},
+        parent::adic(Script::cria("gdialogojspuro_inicio( '#{$id}', {$this->modal}, {$this->arrastavel}, {$this->redimensionavel}, {$this->largura},
         {$this->altura}, {$topo}, {$esquerdo}, {$this->ordemPilha}, { {$codigo_acao} {$botao_ok} }, $acao_fechar, $escapa_ao_fechar, '{$this->classeDialogo}' ); ", FALSE));
         parent::exibe();
     }
@@ -258,7 +258,7 @@ class DialogoJS extends Elemento
      */
     public function fecha()
     {
-        parent::adic(Script::cria('$( "#' . $this->{'id'} . '" ).remove();', false));
+        parent::adic(Script::cria('document.querySelector( "#' . $this->{'id'} . '" ).remove();', false));
     }
 
     /**
@@ -266,7 +266,7 @@ class DialogoJS extends Elemento
      */
     public static function fechaPeloId($id)
     {
-        Script::cria('$( "#' . $id . '" ).remove();');
+        Script::cria('document.querySelector( "#' . $id . '" ).remove();');
     }
 
     /**
@@ -276,7 +276,7 @@ class DialogoJS extends Elemento
     {
         if (!isset($_REQUEST['pesquisa_ajax']) OR $_REQUEST['pesquisa_ajax'] !== '1') {
             # 
-            Script::cria( ' $(\'[widget="GJanela"]\').remove(); ' );
+            Script::cria( ' document.querySelector(\'[widget="GJanela"]\').remove(); ' );
         }
     }
 }

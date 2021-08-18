@@ -42,3 +42,17 @@ function obtScript(origem, chamadevolta) {
     script.src  = origem;
     existente.parentNode.insertBefore(script, existente);
 }
+
+/** Aqui estamos inserindo ao objeto global a função abaixo para que ela
+ * se torne disponível a todos os objetos.
+ */
+Object.prototype.insereApos = function(novoElemento, elementoReferencia) {
+    //alert("Insere após");
+
+    // pegamos o elemento pai do elemento de referencia. Em seguida inserimos o novo elemento
+    // após o elemento de referencia por usar 'nextSibling'. Eu sei, esse 'insertBefore' para inserir
+    // após é estranho. Mas é isso mesmo. Por outro lado, note o 'parentNode' e 'nextSibling'. Ele 
+    // pega o nó pai do elemento de refeência como referência para 'insertBefore' e o 'nextSibling'
+    // pega o irmão seguinte para inserir o novo elemento.
+    return elementoReferencia.parentNode.insertBefore(novoElemento, elementoReferencia.nextSibling);
+}

@@ -261,7 +261,7 @@ function __ageunet_carrega_html2(conteudo)
         {
             doc.querySelector('#ageunet_conteudo_online2').innerHTML = conteudo;
         }
-        else if (conteudo.indexOf('widget="TWindow"') > 0)
+        else if (conteudo.indexOf('widget="GJanela"') > 0)
         {
             doc.querySelector('#ageunet_conteudo_online').innerHTML = conteudo;
         }
@@ -274,22 +274,42 @@ function __ageunet_carrega_html2(conteudo)
 
 function __carrega_pagina_nao_registra(pagina)
 {
+    /** Versão jQuery 
     $.get(pagina)
     .done(function(dados) {
         __ageunet_carrega_html(dados, null, pagina);
     }).fail(function(jqxhr, textoStatus, exception) {
        __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
-    });
+    });*/
+
+    fetch(pagina, { headers: { 'cache-control' : 'no-cache' } })
+    .then(resposta => resposta.text())
+    .then(function(dados) {
+        __ageunet_carrega_html(dados, null, pagina); 
+    })
+    .catch(function(textoStatus) {
+        __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
+    })
 }
 
 function __carrega_pagina_nao_registra2(pagina)
 {
+    /** Versão jQuery 
     $.get(pagina)
     .done(function(dados) {
         __ageunet_carrega_html2(dados);
     }).fail(function(jqxhr, textoStatus, exception) {
        __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
-    });
+    }); */
+
+    fetch(pagina, { headers: { 'cache-control' : 'no-cache' } })
+    .then(resposta => resposta.text())
+    .then(function(dados) {
+        __ageunet_carrega_html2(dados, null, pagina); 
+    })
+    .catch(function(textoStatus) {
+        __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
+    })
 }
 
 /**
@@ -304,7 +324,7 @@ function __ageunet_anexa_pagina(pagina, callback)
         + 'classe=' + params_json.classe
         + '&metodo=' + params_json.metodo
         + '&estatico=' + (params_json.estatico == '1' ? '1' : '0');
-
+    /** Versão jQuery 
     $.post(uri, params_json)
     .done(function(dados){
         dados = dados.replace(new RegExp('__ageunet_anexa_pagina', 'g'), '__ageunet_anexa_pagina2'); // chamadas presentes em botões seekbutton em window, abrem em outra janela
@@ -316,7 +336,23 @@ function __ageunet_anexa_pagina(pagina, callback)
         }
     }).fail(function(jqxhr, textoStatus, exception) {
        __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
-    });
+    }); */
+
+    let obtemDados = {
+        method: 'POST', 
+        body: params_json,
+        headers: new Headers()
+    }
+    fetch(uri, { method: 'POST', headers: { 'cache-control' : 'no-cache' }, body: JSON.stringify(params_json) })
+    .then(resposta => resposta.json())
+    .then(function(dados) {
+        dados = dados.replace(new RegExp('__ageunet_anexa_pagina', 'g'), '__ageunet_anexa_pagina2');
+        // O método 'insereApos()' substitui o método jQuery 'after()' do jQuery.
+        doc.querySelector('#ageunet_conteudo_online').insereApos(document.createElement('div')).innerHTML = dados;
+    })
+    .catch(function(textoStatus) {
+        __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
+    })
 }
 
 /**
@@ -332,7 +368,7 @@ function __ageunet_anexa_pagina2(pagina)
         + '&metodo=' + params_json.metodo
         + '&estatico=' + (params_json.estatico == '1' ? '1' : '0');
 
-    $.post(uri, params_json)
+    /*$.post(uri, params_json)
     .done(function(dados) {
         dados = dados.replace(new RegExp('__ageunet_carrega_html', 'g'), '__ageunet_carrega_html2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
         dados = dados.replace(new RegExp('__ageunet_carrega_pagina', 'g'), '__ageunet_carrega_pagina2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
@@ -341,6 +377,18 @@ function __ageunet_anexa_pagina2(pagina)
         dados = dados.replace(new RegExp('generator="ageunet"', 'g'), 'generator="ageunet2"'); // links também são alterados
         $('#ageunet_conteudo_online2').after('<div></div>').html(dados);
     }).fail(function(jqxhr, textoStatus, exception) {
+       __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
+    });*/
+    fetch(uri, params_json)
+    .then(function(dados) {
+        dados = dados.replace(new RegExp('__ageunet_carrega_html', 'g'), '__ageunet_carrega_html2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
+        dados = dados.replace(new RegExp('__ageunet_carrega_pagina', 'g'), '__ageunet_carrega_pagina2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
+        dados = dados.replace(new RegExp('__ageunet_dados_post', 'g'), '__ageunet_dados_post2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
+        dados = dados.replace(new RegExp('TWindow', 'g'),             'GJanela'); // quando submeto botão de busca, é destruído tudo que tem GJanela e recarregado
+        dados = dados.replace(new RegExp('generator="ageunet"', 'g'), 'generator="ageunet2"'); // links também são alterados
+        // Quando era jQuery era assim: after('<div></div>')
+        $('#ageunet_conteudo_online2').insereApos(document.createElement('div')).innerHTML = dados;
+    }).catch(function(jqxhr, textoStatus, exception) {
        __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
     });
 }
@@ -369,8 +417,8 @@ function __ageunet_carrega_pagina(pagina, callback)
         
         if (url.indexOf('&estatico=1') > 0)
         {
-            $.get(url)
-            .done(function(dados) {
+            fetch(url)
+            .then(function(dados) {
                 __ageunet_analisa_html(dados);
                 
                 Ageunet.solicitaURL  = url;
@@ -382,16 +430,17 @@ function __ageunet_carrega_pagina(pagina, callback)
                 }
                 
                 __ageunet_roda_apos_carregamentos(url, dados);
-                
-            }).fail(function(jqxhr, textoStatus, exception) {
+             
+            // .fail(function(jqxhr, textoStatus, exception) {
+            }).catch(function(textoStatus) {
                __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
                carregando = false;
             });
         }
         else
         {
-            $.get(url)
-            .done(function(dados) {
+            fatch(url)
+            .then(function(dados) {
                 Ageunet.solicitaURL  = url;
                 Ageunet.solicitaDados = null;
                 
@@ -402,12 +451,12 @@ function __ageunet_carrega_pagina(pagina, callback)
                     callback();
                 }
                 
-                if ( url.indexOf('register_state=false') < 0 && historico.pushState && (dados.indexOf('widget="TWindow"') < 0) )
+                if ( url.indexOf('registra_estado=false') < 0 && historico.pushState && (dados.indexOf('widget="TWindow"') < 0) )
                 {
                     __ageunet_registra_estado(url, 'ageunet');
                     Ageunet.currentURL = url;
                 }
-            }).fail(function(jqxhr, textoStatus, exception) {
+            }).catch(function(textoStatus) {
                __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
                carregando = false;
             });
@@ -508,44 +557,44 @@ function __ageunet_janela_pagina(titulo, largura, altura, pagina)
 }
 
 /**
- * Show standard dialog
+ * Show standard dialog (###: adaptar para usar bootstrap 5)
  */
-function __ageunet_dialogo( opcoces )
+function __ageunet_dialogo( opcoes )
 {
-    if (opcoces.type == 'info') {
-        var icone = (opcoces.icone ? opcoces.icone : 'fa fa-info-circle fa-4x blue');
+    if (opcoes.type == 'info') {
+        let icone = (opcoes.icone ? opcoes.icone : 'fa fa-info-circle fa-4x blue');
     }
-    else if (opcoces.type == 'warning') {
-        var icone = (opcoces.icone ? opcoces.icone : 'fa fa-exclamation-triangle fa-4x orange');
+    else if (opcoes.type == 'warning') {
+        let icone = (opcoes.icone ? opcoes.icone : 'fa fa-exclamation-triangle fa-4x orange');
     }
-    else if (opcoces.type == 'erro') {
-        var icone = (opcoces.icone ? opcoces.icone : 'fa fa-exclamation-circle fa-4x red');
+    else if (opcoes.type == 'erro') {
+        let icone = (opcoes.icone ? opcoes.icone : 'fa fa-exclamation-circle fa-4x red');
     }
     
     if (typeof bootbox == 'object')
     {
         bootbox.dialog({
-          title: opcoces.title,
+          title: opcoes.title,
           animate: false,
           backdrop: true,
           onEscape: function() {
-            if (typeof opcoces.callback != 'undefined')
+            if (typeof opcoes.callback != 'undefined')
             { 
-                opcoces.callback();
+                opcoes.callback();
             }
           },
           message: '<div>'+
                     '<span class="'+icone+'" style="float:left"></span>'+
-                    '<span style="margin-left:70px;display:block;max-height:500px">'+opcoces.message+'</span>'+
+                    '<span style="margin-left:70px;display:block;max-height:500px">'+opcoes.message+'</span>'+
                     '</div>',
           buttons: {
             success: {
               label: "OK",
               className: "btn-default",
               callback: function() {
-                if (typeof opcoces.callback != 'undefined')
+                if (typeof opcoes.callback != 'undefined')
                 { 
-                    opcoces.callback();
+                    opcoes.callback();
                 }
               }
             }
@@ -554,9 +603,9 @@ function __ageunet_dialogo( opcoces )
     }
     else {
         // fallback mode
-        alert(opcoces.message);
-        if (typeof opcoces.callback != 'undefined') {
-            opcoces.callback();
+        alert(opcoes.message);
+        if (typeof opcoes.callback != 'undefined') {
+            opcoes.callback();
         }
     }
 }
@@ -669,21 +718,21 @@ function __ageunet_exibe_toast(tipo, mensagem, lugar, icone)
             return index == 0 ? match.toLowerCase() : match.toUpperCase();
           });
     
-    var opcoces = {
+    var opcoes = {
         message: mensagem,
         position: lugar
     };
     
     if (type == 'show') {
-        opcoces['progressBarColor'] = 'rgb(0, 255, 184)';
-        opcoces['theme'] = 'dark';
+        opcoes['progressBarColor'] = 'rgb(0, 255, 184)';
+        opcoes['theme'] = 'dark';
     }
     
     if (typeof icone !== 'undefined') {
-        opcoces['icone'] = 'fa ' + icone.replace(':', '-');
+        opcoes['icone'] = 'fa ' + icone.replace(':', '-');
     }
     
-    iziToast[type]( opcoces );
+    iziToast[type]( opcoes );
 }
 
 /**
@@ -1071,14 +1120,14 @@ function __ageunet_processa_popover()
 function __ageunet_exibe_popover(elemento, titulo, mensagem, localizacao, opcoes_customizadas)
 {
     var opcoes_padrado = {trigger:"manual", title:titulo, html: true, conteudo:mensagem, placement:localizacao, sanitizeFn : function(d) { return d }};
-    var opcoces = opcoes_padrado;
+    var opcoes = opcoes_padrado;
     
     if (typeof opcoes_customizadas !== undefined)
     {
-        var opcoces = Object.assign(opcoes_padrado, opcoes_customizadas);
+        var opcoes = Object.assign(opcoes_padrado, opcoes_customizadas);
     }
     if ($(elemento).length > 0 && $(elemento).css("visibility") == "visible") {
-        $(elemento).popover(opcoces).popover("show");
+        $(elemento).popover(opcoes).popover("show");
     }
 }
 

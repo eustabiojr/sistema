@@ -1,5 +1,5 @@
 <?php
-/** ***********************************************************************************
+/*************************************************************************************
  * Classe Pagina
  * 
  * Data: 16/03/2021
@@ -9,6 +9,8 @@ namespace Estrutura\Registro;
 
 /**
  * Adianti APC Record Cache
+ * 
+ * Nota: Este recurso não suportado pelo PHP 8 em diante.
  *
  * @version    7.1
  * @package    registry

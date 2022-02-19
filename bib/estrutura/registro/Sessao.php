@@ -1,6 +1,6 @@
 <?php
 /** ***********************************************************************************
- * Classe Pagina
+ * Sistema Agenet
  * 
  * Data: 16/03/2021
  **************************************************************************************/
@@ -14,8 +14,6 @@ use SessionHandlerInterface;
  */
 class Sessao implements InterfaceRegistro
 {
-    private static $agora;
-
     /**
      * Método Construtor
      */
@@ -127,69 +125,5 @@ class Sessao implements InterfaceRegistro
         } else {
             $_SESSION[] = array();
         }       
-    }
-
-    //------------------------------------------------------------------------------------------------------------------
-    /**
-     * Método atualizaAtividade
-     * 
-     * Quando vamos definir o tempo de atividade?
-     * 
-     * A sessão é iniciada na página inicio.php
-     * 
-     * Quando devemos renovar o tempo de atividade?
-     * 
-     * O tempo de atividade deve ser renovado sempre que o usuário
-     * estiver acessando as páginas em tempor menor que o tempo de 
-     * atividade estabelecido na sessão.
-     */
-    public static function atualizaAtividade()
-    {
-        self::$agora = time();
-
-        $carencia = self::$agora + (2 * 60 * 60);
-        
-        Sessao::defValor('tempo', $carencia);
-
-        #echo "<p>: Carência: " . Sessao::obtValor('tempo') . ", agora: " . self::$agora . "</p>" . PHP_EOL;
-    }
-
-    # verificaForcaBruta()
-    /**
-     * Método verificaAtividade
-     * 
-     * Por razões de segurança este método deve ser usado para fazer logout, caso o usuário
-     * fique inativo por muito tempo na página.
-     */
-    public static function verificaAtividade()
-    {
-        self::$agora = time();
-
-        #echo "<p>: Carência: " . Sessao::obtValor('tempo') . ", agora: " . self::$agora . "</p>" . PHP_EOL;
-
-        /**
-         * Caso 'tempo' não seja menor que agora. 
-         * 
-         * agora: 30; 
-         * atividade = agora - 10; 
-         * 
-         * atividade: 20;
-         * 
-         * atividade > agora;
-         * 
-         * resultado = agora - atividade;
-         */
-        if (Sessao::obtValor('tempo') > self::$agora) {
-
-            self::atualizaAtividade();
-            #echo "<p>Logado</p>" . PHP_EOL;
-            return true;
-        } else {
-            
-            self::defValor('logado', FALSE);
-
-            #echo "<p>Não logado</p>" . PHP_EOL;
-            return false;
-        }
     }
 }

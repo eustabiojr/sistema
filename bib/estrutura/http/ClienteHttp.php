@@ -6,6 +6,7 @@
  ********************************************************************************************/
 namespace Estrutura\Http;
 
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -70,19 +71,19 @@ class ClienteHttp
         
         if (json_last_error() !== JSON_ERROR_NONE)
         {
-            throw new Exception('O retorno não é um JSON válido. Verifique a URL');
+            throw new Exception(NucleoTradutor::traduz('Retorno em JSON não válido. Verifique a URL'));
         }
         
-        if (!empty($retorno['status']) && $retorno['status'] == 'error') {
-            throw new Exception(!empty($retorno['data']) ? $retorno['data'] : $retorno['message']);
+        if (!empty($retorno['status']) && $retorno['status'] == 'erro') {
+            throw new Exception(!empty($retorno['data']) ? $retorno['data'] : $retorno['mensagem']);
         }
         
-        if (!empty($retorno['error'])) {
-            throw new Exception($retorno['error']['message']);
+        if (!empty($retorno['erro'])) {
+            throw new Exception($retorno['erro']['mensagem']);
         }
         
         if (!empty($retorno['errors'])) {
-            throw new Exception($retorno['errors']['message']);
+            throw new Exception($retorno['erros']['mensagem']);
         }
         return $retorno['data'];
     }

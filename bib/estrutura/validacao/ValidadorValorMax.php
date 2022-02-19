@@ -3,6 +3,7 @@ namespace Ageunet\Validacao;
 
 use Ageunet\Validacao\ValidadorCampo;
 use Ageunet\Nucleo\AgeunetNucleoTradutor as AgeunetTradutor;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -24,7 +25,7 @@ class ValidadorValorMax extends ValidadorCampo
         
         if ($valor > $valormax)
         {
-            throw new Exception('O campo ^1 não pode ser maior que ^2', $rotulo, $valormax);
+            throw new Exception(NucleoTradutor::traduz('O campo &1 não pode ser maior que &2'), $rotulo, $valormax);
         }
     }
 }

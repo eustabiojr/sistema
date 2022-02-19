@@ -2,6 +2,7 @@
 namespace Ageunet\Validacao;
 
 use Ageunet\Validacao\ValidadorCampo;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -26,19 +27,19 @@ class ValidadorCPF extends ValidadorCampo
         
         if (strlen($cpf) <> 11)
         {
-            throw new Exception("O campo ^1 não contém um CPF válido", $rotulo);
+            throw new Exception(NucleoTradutor::traduz('O campo &1 não possui um CPF válido'), $rotulo);
         }
         
         // Retorna falso se houver letras no cpf
         if (!(preg_match("/[0-9]/",$cpf)))
         {
-            throw new Exception("O campo ^1 não contém um CPF válido", $rotulo);
+            throw new Exception(NucleoTradutor::traduz('O campo &1 não possui um CPF válido'), $rotulo);
         }
 
         // Retorna falso se o cpf for nulo
         if( in_array($cpf, $nulos) )
         {
-            throw new Exception("O campo ^1 não contém um CPF válido", $rotulo);
+            throw new Exception(NucleoTradutor::traduz('O campo &1 não possui um CPF válido'), $rotulo);
         }
 
         // Calcula o penúltimo dígito verificador
@@ -53,7 +54,7 @@ class ValidadorCPF extends ValidadorCampo
         // Retorna falso se o digito calculado eh diferente do passado na string
         if ($acum != $cpf[9])
         {
-          throw new Exception("O campo ^1 não contém um CPF válido", $rotulo);
+          throw new Exception(NucleoTradutor::traduz('O campo &1 não possui um CPF válido'), $rotulo);
         }
         // Calcula o último dígito verificador
         $acum=0;
@@ -67,7 +68,7 @@ class ValidadorCPF extends ValidadorCampo
         // Retorna falso se o digito calculado eh diferente do passado na string
         if ( $acum != $cpf[10])
         {
-          throw new Exception("O campo ^1 não contém um CPF válido", $rotulo);
+          throw new Exception(NucleoTradutor::traduz('O campo &1 não possui um CPF válido'), $rotulo);
         }  
     }
 }

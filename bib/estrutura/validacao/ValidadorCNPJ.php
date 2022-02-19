@@ -2,6 +2,7 @@
 namespace Ageunet\Validacao;
 
 use Ageunet\Validacao\ValidadorCampo;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -18,7 +19,8 @@ class ValidadorCNPJ extends ValidadorCampo
         $cnpj = preg_replace( "@[./-]@", "", $valor );
         if( strlen( $cnpj ) <> 14 or !is_numeric( $cnpj ) )
         {
-            throw new Exception('O campo ^1 não contém um CNPJ válido', $rotulo);        }
+            throw new Exception(NucleoTradutor::traduz('O campo &1 não possui um CNPJ válido', $rotulo));
+        }
         $k = 6;
         $soma1 = 0;
         $soma2 = 0;
@@ -49,7 +51,7 @@ class ValidadorCNPJ extends ValidadorCampo
         
         if (!$valido)
         {
-            throw new Exception('O campo ^1 não contém um CNPJ válido', $rotulo);
+            throw new Exception(NucleoTradutor::traduz('O campo &1 não possui um CNPJ válido', $rotulo));
         }
     }
 }

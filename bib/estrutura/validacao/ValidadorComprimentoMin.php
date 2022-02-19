@@ -2,6 +2,7 @@
 namespace Ageunet\Validacao;
 
 use Ageunet\Validacao\GValidadorCampo;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -27,7 +28,7 @@ class ValidadorComprimentoMin extends ValidadorCampo
         
         if (strlen(trim($valor)) < $comprimento)
         {
-            throw new Exception('O campo ^1 não pode ter menos de ^2 caracteres', $rotulo, $comprimento);
+            throw new Exception(NucleoTradutor::traduz('O campo &1 não pode ser menor que &2 caracteres'), $rotulo, $comprimento);
         }
     }
 }

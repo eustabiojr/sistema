@@ -2,6 +2,7 @@
 namespace Ageunet\Validacao;
 
 use Ageunet\Validacao\ValidadorCampo;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -25,7 +26,7 @@ class ValidadorNumerico extends ValidadorCampo
     {
         if (!is_numeric($valor))
         {
-            throw new Exception('O campo ^1 deve ser numérico', $rotulo);
+            throw new Exception(NucleoTradutor::traduz('O campo &1 deve ser numérico'), $rotulo);
         }
     }
 }

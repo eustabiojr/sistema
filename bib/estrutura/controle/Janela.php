@@ -59,7 +59,7 @@ class Janela extends Pagina
      */
     public function removeBarraTitulo()
     {
-        $this->defClasseDialogo('no-title');
+        $this->defClasseDialogo('sem-titulo');
     }
     
     /**

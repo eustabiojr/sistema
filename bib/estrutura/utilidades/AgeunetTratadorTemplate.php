@@ -7,6 +7,8 @@
 namespace Estrutura\Utilidades;
 
 #use Matematica\Analisador;
+
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 use Matematica\Analisador;
 
@@ -51,7 +53,7 @@ class AgeunetTratadorTemplate
                             $resultado = $recipiente->$parte;
                             $recipiente = $resultado;
                         } else {
-                            throw new Exception("Tentativa de acesso à uma propriedade não existente {$propriedade}");
+                            throw new Exception(NucleoTradutor::traduz('Tentando acessar uma propriedade não existente (&1)', $propriedade));
                         }
                     }
                     $valor = $resultado;
@@ -96,7 +98,7 @@ class AgeunetTratadorTemplate
 
         preg_match_all('/evaluate\(([-+\/\d\.\s\(\))*]*)\)/', $conteudo, $combinacoes3);
 
-        if (count($combinacoes3 > 0)) {
+        if (count($combinacoes3) > 0) {
             foreach ($combinacoes3[0] as $chave => $valor) {
                 $cru        = $combinacoes3[0][$chave];
                 $expressao  = $combinacoes3[1][$chave];
@@ -113,13 +115,13 @@ class AgeunetTratadorTemplate
         $mascaras_data[] = '/date_format\((\s*),\s*\'([A-z_\/\-0-9\s\:\.\,]*)\'\)/'; # Máscara em branco
 
         foreach ($mascaras_data as $mascara_data) {
-            preg_match_all($mascara_data, $conteudo, $combinacoes1);
+            preg_match_all($mascara_data, $conteudo, $coincidencias1);
 
-            if (count($combinacoes1) > 0) {
-                foreach ($combinacoes1[0] as $chave => $valor) {
-                    $cru     = $combinacoes1[0][$chave];
-                    $data    = $combinacoes1[1][$chave];
-                    $mascara = $combinacoes1[2][$chave];
+            if (count($coincidencias1) > 0) {
+                foreach ($coincidencias1[0] as $chave => $valor) {
+                    $cru     = $coincidencias1[0][$chave];
+                    $data    = $coincidencias1[1][$chave];
+                    $mascara = $coincidencias1[2][$chave];
 
                     if (!empty(trim($data))) {
                         $conteudo = str_replace($cru, date_format(date_create($data), $mascara), $conteudo);
@@ -130,15 +132,15 @@ class AgeunetTratadorTemplate
             }
         }
 
-        preg_match_all('/number_format\(\s*([\d+\.\d]*)\s*,\s*([0-9])+\s*,\s*\'(\,*\.*)\'\s*,\s*\'(\,*\.*)\'\s*\)/', $conteudo, $combinacoes2);
+        preg_match_all('/number_format\(\s*([\d+\.\d]*)\s*,\s*([0-9])+\s*,\s*\'(\,*\.*)\'\s*,\s*\'(\,*\.*)\'\s*\)/', $conteudo, $coincidencias2);
 
-        if (count($combinacoes2) > 0) {
-            foreach ($combinacoes2[0] as $chave => $valor) {
-                $cru      = $combinacoes2[0][$chave];
-                $numero   = $combinacoes2[1][$chave];
-                $decimais = $combinacoes2[2][$chave];
-                $sep_dec  = $combinacoes2[3][$chave];
-                $sep_mil  = $combinacoes2[4][$chave];
+        if (count($coincidencias2) > 0) {
+            foreach ($coincidencias2[0] as $chave => $valor) {
+                $cru      = $coincidencias2[0][$chave];
+                $numero   = $coincidencias2[1][$chave];
+                $decimais = $coincidencias2[2][$chave];
+                $sep_dec  = $coincidencias2[3][$chave];
+                $sep_mil  = $coincidencias2[4][$chave];
                 if (!empty(trim($numero))) {
                     $conteudo = str_replace($cru, number_format($numero, $decimais, $sep_dec, $sep_mil), $conteudo);
                 } else {
@@ -161,12 +163,12 @@ class AgeunetTratadorTemplate
         $mascaras[] = '/\{\%\s*def\s*([A-z_]*)\s*=\s*([-+\/\d\.\s\(\))*]*) \%\}/';
 
         foreach ($mascaras as $chave_masc => $mascara) {
-            \preg_match_all($mascara, $conteudo, $combinacoes1);
+            \preg_match_all($mascara, $conteudo, $coincidencias1);
 
-            if (count($combinacoes1) > 0) {
-                foreach ($combinacoes1[0] as $chave => $valor) {
-                    $variavel  = $combinacoes1[1][$chave];
-                    $expressao = $combinacoes1[2][$chave];
+            if (count($coincidencias1) > 0) {
+                foreach ($coincidencias1[0] as $chave => $valor) {
+                    $variavel  = $coincidencias1[1][$chave];
+                    $expressao = $coincidencias1[2][$chave];
     
                     if ($chave_masc == 0) {
                         if (!isset($substituicoes['principal'][$variavel])) {

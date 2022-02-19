@@ -10,6 +10,7 @@ namespace Estrutura\Controle;
 
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Script;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -216,7 +217,7 @@ class Pagina extends Elemento {
         parent::exibe();
 
         if (!$this->construido) {
-            throw new Exception("Você deve executar o construtor de {__CLASS__}");
+            throw new Exception(NucleoTradutor::traduz('Você deve chamar o construtor &1', __CLASS__));
         }
     }
 }

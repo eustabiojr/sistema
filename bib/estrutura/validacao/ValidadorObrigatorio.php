@@ -2,6 +2,7 @@
 namespace Ageunet\Validacao;
 
 use Ageunet\Validacao\ValidadorCampo;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -32,7 +33,7 @@ class ValidadorObrigatorio extends ValidadorCampo
           OR (is_array($valor) AND count($valor)==1 AND isset($valor[0]) AND $vazio_escalar($valor[0]))
           OR (is_array($valor) AND empty($valor)) )
         {
-            throw new Exception('O campo ^1 é obrigatório', $rotulo);
+            throw new Exception(NucleoTradutor::traduz('O campo &1 é necessário'), $rotulo);
         }
     }
 }

@@ -2,6 +2,7 @@
 namespace Ageunet\Validacao;
 
 use Ageunet\Validacao\ValidadorCampo;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -27,7 +28,7 @@ class ValidadorValorMin extends ValidadorCampo
         
         if ($valor < $valorminimo)
         {
-            throw new Exception('O campo ^1 não pode ser menor que ^2', $rotulo, $valorminimo);
+            throw new Exception(NucleoTradutor::traduz('O campo &1 não pode ser menor que &2'), $rotulo, $valorminimo);
         }
     }
 }

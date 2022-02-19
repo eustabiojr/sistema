@@ -2,6 +2,7 @@
 namespace Ageunet\Validacao;
 
 use Ageunet\Validacao\ValidadorCampo;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -24,7 +25,7 @@ class ValidadorEmail extends ValidadorCampo
             
             if ($filtro === FALSE)
             {
-                throw new Exception('O campo ^1 contém um e-mail inválido', $rotulo);
+                throw new Exception(NucleoTradutor::traduz('O campo &1 contém um e-mail inválido'), $rotulo);
             }
         }
     }

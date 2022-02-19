@@ -12,11 +12,11 @@ $tema = $ini['geral']['tema'];
 new Sessao;
 //------------------------------------------------------------------------------------------- 
 
-$conteudo = file_get_contents("Aplicativo/Templates/{$tema}/painelcontrole.html"); ### pagina_vazia # painelcontrole
+$conteudo = file_get_contents("aplicativo/templates/{$tema}/painelcontrole.html"); ### pagina_vazia # painelcontrole
 $string_menu = ConstrutorMenu::analisa('menu.xml', $tema);
 $conteudo = str_replace('{MENU}', $string_menu, $conteudo);
 $conteudo = str_replace('{template}', $tema, $conteudo);
-$conteudo = str_replace('{BIBLIOTECAS}', file_get_contents("Aplicativo/Templates/{$tema}/bibliotecas.html"), $conteudo);
+$conteudo = str_replace('{BIBLIOTECAS}', file_get_contents("aplicativo/templates/{$tema}/bibliotecas.html"), $conteudo);
 $conteudo = str_replace('{classe}', $_REQUEST['classe'] ?? '', $conteudo);
 $conteudo = str_replace('{template}', $tema, $conteudo);
 $conteudo = str_replace('{MENU}', $string_menu, $conteudo);

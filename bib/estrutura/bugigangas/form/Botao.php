@@ -11,6 +11,7 @@ use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Script;
 use Estrutura\Bugigangas\Util\Imagem;
 use Estrutura\Controle\Acao;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -171,7 +172,7 @@ class Botao extends Campo implements InterfaceBugiganga
         if ($this->acao) {
             if (empty($this->nomeForm)) {
                 $rotulo = ($this->rotulo instanceof Rotulo) ? $this->rotulo->obtValor() : $this->rotulo;
-                throw new Exception("Você deve passar o {__CLASS__} ({$rotulo}) como parâmetro para Form::defCampos()");
+                throw new Exception(NucleoTradutor::traduz('Você deve passar o &1 (&2) como parâmetro para &3', __CLASS__, $rotulo, 'Form::defCampos()'));
             }
 
             # Obtém a ação como URL

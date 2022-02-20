@@ -11,6 +11,7 @@ use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Script;
 use Estrutura\Bugigangas\Util\Imagem;
 use Estrutura\Controle\Acao;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 use ReflectionClass;
 
@@ -180,7 +181,7 @@ class BotaoBusca extends Entrada implements InterfaceBugiganga
         {
             if (!Form::obtFormPeloNome($this->nomeForm) instanceof Form)
             {
-                throw new Exception("Você deve passar {__CLASS__} ({$this->nome}) como um parâmetro para Form::setFields()");
+                throw new Exception(NucleoTradutor::traduz('Você deve passar o &1 (&2) como parâmetro para &3', __CLASS__, $this->nome, 'Form::defCampos()'));
             }
             
             $acao_serializada = '';

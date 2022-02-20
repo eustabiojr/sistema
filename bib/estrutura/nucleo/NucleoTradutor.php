@@ -90,7 +90,7 @@ class NucleoTradutor {
         $this->mensagens['pt'][] = 'A classe &1 não aceita como argumento. A classe informada deve implementar &2.';
         $this->mensagens['pt'][] = 'A classe &1 não encontrada. Verifique o nome da classe ou do arquivo. Eles devem coincidir';
         $this->mensagens['pt'][] = 'Nome de propriedade reservada (&1) na classe &2';
-        $this->mensagens['pt'][] = 'A ação (&1) deve ser estático para ser usado em &2';
+        $this->mensagens['pt'][] = 'A ação (&1) deve ser estática para ser usado em &2';
         $this->mensagens['pt'][] = 'Tentando acessar uma propriedade não existente (&1)'; 
         $this->mensagens['pt'][] = 'Formulário não encontrado. Verifique se você passou o campo (&1) para defCampos()';
         $this->mensagens['pt'][] = 'Classe &1 não encontrada em &2';

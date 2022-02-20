@@ -12,6 +12,7 @@ use Estrutura\Bugigangas\Base\Script;
 use Estrutura\Bugigangas\Form\Campo;
 use Estrutura\Controle\Acao;
 use Estrutura\Nucleo\ConfigAplicativo;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -59,7 +60,7 @@ class Arquivo extends Campo implements InterfaceBugiganga
     {
         $this->galeriaImagens  = true;
         $this->larguraGaleria  = is_null($largura) ? 'unset' : $largura;
-        $this->alturaGaleria = is_null($altura) ? 'unset' : $altura;
+        $this->alturaGaleria   = is_null($altura)  ? 'unset' : $altura;
     }
     
     /**
@@ -69,8 +70,8 @@ class Arquivo extends Campo implements InterfaceBugiganga
      */
     public function habilitaPopover($titulo = null, $conteudo = '')
     {
-        $this->popover    = TRUE;
-        $this->tituloPop  = $titulo;
+        $this->popover     = TRUE;
+        $this->tituloPop   = $titulo;
         $this->conteudoPop = $conteudo;
     }
     
@@ -217,7 +218,8 @@ class Arquivo extends Campo implements InterfaceBugiganga
             {
                 if (!Form::obtFormPeloNome($this->formName) instanceof Form)
                 {
-                    throw new Exception("Você deve passar o {__CLASS__} ({$this->nome})como parâmetro para {Form::defCampos()}");
+                    throw new Exception(NucleoTradutor::traduz('Você deve passar o &1 (&2) como parâmetro para &3', __CLASS__, $this->nome,
+                         'Form::defCampos()'));
                 }
                 
                 $string_acao  = $acao->serializa(FALSE);
@@ -292,7 +294,7 @@ class Arquivo extends Campo implements InterfaceBugiganga
         else
         {
             $string_acao = $acao->paraString();
-            throw new Exception("Ação ({$string_acao}) deve ser estática a ser usada em {__METHOD__}"); 
+            throw new Exception(NucleoTradutor::traduz('A ação (&1) deve ser estática para ser usado em &2', $string_acao, __METHOD__)); 
         }
     }
     

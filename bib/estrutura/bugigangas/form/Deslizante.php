@@ -43,7 +43,7 @@ class Deslizante extends Campo implements InterfaceBugiganga
      * @param $max Maximal value
      * @param $degrau Step value
      */
-    public function defAlcance($min, $max, $degrau)
+    public function defIntervalo($min, $max, $degrau)
     {
         $this->min = $min;
         $this->max = $max;

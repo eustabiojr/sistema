@@ -10,6 +10,7 @@
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Script;
 use Estrutura\Controle\Acao;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -103,7 +104,7 @@ class Cor extends Entrada implements InterfaceBugiganga
         {
             if (!Form::obtFormPeloNome($this->nomeForm) instanceof Form)
             {
-                throw new Exception('You must pass the ^1 (^2) as a parameter to ^3', __CLASS__, $this->nome, 'Form::setFields()');
+                throw new Exception(NucleoTradutor::traduz('Você deve passar o &1 (&2) como parâmetro para &3', __CLASS__, $this->nome, 'Form::defCampos()'));
             }
             
             $string_acao = $this->mudaAcao->serializa(FALSE);

@@ -11,6 +11,7 @@ use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Script;
 use Estrutura\Controle\Acao;
 use Estrutura\Nucleo\ConfigAplicativo;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -217,7 +218,7 @@ class MultiArquivo extends Campo implements InterfaceBugiganga
             {
                 if (!Form::obtFormPeloNome($this->nomeForm) instanceof Form)
                 {
-                    throw new Exception("Você deve passar {__CLASS__} ({$this->nome}) a como um parâmetro para {Form::defCampos()}"); 
+                    throw new Exception(NucleoTradutor::traduz('Você deve passar o &1 (&2) como parâmetro para &3', __CLASS__, $this->nome, 'Form::defCampos()'));
                 }
                 $acao_string = $this->acaoCompleta->serialize(FALSE);
                 

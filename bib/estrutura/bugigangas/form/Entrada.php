@@ -10,6 +10,7 @@
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Script;
 use Estrutura\Controle\Acao;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -153,7 +154,7 @@ class Entrada extends Campo implements InterfaceBugiganga
             $this->acaoSair = $acao;
         } else {
             $acao_string = $acao->paraString();
-            throw new Exception("A ação {$acao_string} deve ser estática para ser usada em {__METHOD__}");
+            throw new Exception(NucleoTradutor::traduz('A ação (&1) deve ser estática para ser usado em &2', $acao_string, __METHOD__));
         }
     }
 

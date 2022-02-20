@@ -10,6 +10,7 @@
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Script;
 use Estrutura\Controle\Acao;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -238,7 +239,7 @@ class GrupoRadio extends Campo implements InterfaceBugiganga
         else
         {
             $string_acao = $acao->paraString();
-            throw new Exception("A ação {$string_acao} deve ser estática a ser usada em {METHOD}");
+            throw new Exception(NucleoTradutor::traduz('A ação (&1) deve ser estática para ser usado em &2', $string_acao, __METHOD__));
         }
     }
     
@@ -351,7 +352,7 @@ class GrupoRadio extends Campo implements InterfaceBugiganga
                     {
                         if (!Form::obtFormPeloNome($this->nomeFor) instanceof Form)
                         {
-                            throw new Exception("Você deve passar o {__CLASS__} ({}) como parâmetro para {Form::defCampos()}");
+                            throw new Exception(NucleoTradutor::traduz('Você deve passar o &1 (&2) como parâmetro para &3', __CLASS__, $this->nome, 'Form::defCampos()'));
                         }
                         $string_acao = $this->acaoMuda->serialize(FALSE);
                         

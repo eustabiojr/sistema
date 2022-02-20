@@ -9,6 +9,7 @@ namespace Estrutura\Bugigangas\Form;
 
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Controle\Acao;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -94,9 +95,8 @@ class Texto extends Campo implements InterfaceBugiganga
         }
         else
         {
-            $acao_string = $acao->paraString();
-            throw new Exception("Ação {$acao_string} deve ser estatico a ser usada em ({__METHOD__})");
-            
+            $string_acao = $acao->paraString();
+            throw new Exception(NucleoTradutor::traduz('A ação (&1) deve ser estática para ser usado em &2', $string_acao, __METHOD__));
         }
     }
     
@@ -162,7 +162,7 @@ class Texto extends Campo implements InterfaceBugiganga
         {
             if (!Form::obtFormPeloNome($this->nomeForm) instanceof Form)
             {
-                throw new Exception("Você deve passar a {__CLASS__} ({$this->nome}) como parâmetro para Form::defCampos()");
+                throw new Exception(NucleoTradutor::traduz('Você deve passar o &1 (&2) como parâmetro para &3', __CLASS__, $this->nome, 'Form::defCampos()'));
             }
             $acao_string = $this->acaoSair->serializa(FALSE);
             $this->defPropriedade('exitaction', "__adianti_post_lookup('{$this->nomeForm}', '{$acao_string}', this, 'callback')");

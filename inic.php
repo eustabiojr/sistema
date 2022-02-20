@@ -4,7 +4,7 @@
 require_once 'bib/estrutura/nucleo/CarregadorNucleo.php';
 
 spl_autoload_register(array('estrutura\nucleo\CarregadorNucleo', 'autocarrega'));
-estrutura\nucleo\CarregadorNucleo::carregaMapaClasse();
+Estrutura\Nucleo\CarregadorNucleo::carregaMapaClasse();
 //-------------------------------------------------------------------------------------------
 #(new ClasseTeste);
 
@@ -23,6 +23,7 @@ ConfigAplicativo::aplica();
 
 # define constantes
 define('NOME_APLICATIVO', $ini['geral']['idioma']);
+define('OS', strtoupper(substr(PHP_OS, 0, 3)));
 define('CAMINHO', dirname(__FILE__));
 define('IDIOMA', $ini['geral']['idioma']);
 

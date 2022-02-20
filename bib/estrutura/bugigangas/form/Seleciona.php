@@ -10,6 +10,7 @@
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Script;
 use Estrutura\Controle\Acao;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -187,7 +188,7 @@ class Seleciona extends Campo implements InterfaceBugiganga
         else
         {
             $string_acao = $acao->paraString();
-            throw new Exception("A ação {$string_acao} deve ser estática a ser usada em {__METHOD__}");
+            throw new Exception(NucleoTradutor::traduz('A ação (&1) deve ser estática para ser usado em &2', $string_acao, __METHOD__));
         }
     }
     
@@ -335,7 +336,7 @@ class Seleciona extends Campo implements InterfaceBugiganga
             {
                 if (!Form::obtFormPeloNome($this->nomeForm) instanceof Form)
                 {
-                    throw new Exception("Você deve passer a {__CLASS__} ({$this->nome}) como parâmetro para Form::defCampos()");
+                    throw new Exception(NucleoTradutor::traduz('Você deve passar o &1 (&2) como parâmetro para &3', __CLASS__, $this->nome, 'Form::defCampos()'));
                 }
                 
                 $string_acao = $this->mudaAcao->serializa(FALSE);

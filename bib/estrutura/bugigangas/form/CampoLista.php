@@ -12,6 +12,7 @@ use Estrutura\Bugigangas\Base\Script;
 use Estrutura\Bugigangas\Recipiente\Tabela;
 use Estrutura\Bugigangas\Util\Imagem;
 use Estrutura\Controle\Acao;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -92,7 +93,7 @@ class CampoLista extends Tabela
         else
         {
             $string_acao = $acao->paraString();
-            throw new Exception("Action ({$string_acao}) must be static to be used in {__METHOD__}");
+            throw new Exception(NucleoTradutor::traduz('A ação (&1) deve ser estática para ser usado em &2', $string_acao, __METHOD__));
         }
     }
     
@@ -133,7 +134,7 @@ class CampoLista extends Tabela
             
             if (isset($this->campos[$nome]) AND substr($nome,-2) !== '[]')
             {
-                throw new Exception("Você já adicionou o campo nomeado {$nome} no formulário");
+                throw new Exception(NucleoTradutor::traduz('Você já adicionou um campo chamado "&1" ao formulário', $nome));
 
             }
             

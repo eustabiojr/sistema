@@ -10,7 +10,7 @@
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Script;
 use Estrutura\Controle\Acao;
-
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -214,7 +214,7 @@ class GrupoVerifica extends Campo implements InterfaceBugiganga
      * Define the action to be executed when the user changes the combo
      * @param $acao TAction object
      */
-    public function setChangeAction(Acao $acao)
+    public function defMudaAcao(Acao $acao)
     {
         if ($acao->ehEstatico())
         {
@@ -223,7 +223,7 @@ class GrupoVerifica extends Campo implements InterfaceBugiganga
         else
         {
             $acao_string = $acao->paraString();
-            throw new Exception("Ação ({$acao_string}) deve estática para ser usada em {__METHOD__}");
+            throw new Exception(NucleoTradutor::traduz('A ação (&1) deve ser estática para ser usado em &2', $acao_string, __METHOD__));
         }
     }
     
@@ -315,7 +315,7 @@ class GrupoVerifica extends Campo implements InterfaceBugiganga
                     {
                         if (!Form::obtFormPeloNome($this->nomeForm) instanceof Form)
                         {
-                            throw new Exception('Você deve passer a {__CLASS__} ({$this->nome}) como um parâmetro para Form::defCampos()');
+                            throw new Exception(NucleoTradutor::traduz('Você deve passar o &1 (&2) como parâmetro para &3', __CLASS__, $this->nome, 'Form::defCampos()'));
                         }
                         $acao_string = $this->mudaAcao->serialize(FALSE);
                         

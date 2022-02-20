@@ -13,6 +13,7 @@ use Ageunet\Validacao\ValidadorComprimentoMin;
 use Ageunet\Validacao\ValidadorEmail;
 use Ageunet\Validacao\ValidadorObrigatorio;
 use Estrutura\Bugigangas\Base\Elemento;
+use Estrutura\Nucleo\NucleoTradutor;
 
 use Exception;
 use ReflectionClass;
@@ -43,7 +44,7 @@ abstract class Campo
         $nomeclasse = $cr->getShortName();
 
         if (empty($nome)) {
-            throw new Exception("O parâmetro {$nome} do construtor de {$nomeclasse} é obrigatório");
+            throw new Exception(NucleoTradutor::traduz('O parâmetro (&1) de &2 construtor é necessário', $nome,$nomeclasse));
         }
 
         # Talvez seja melhor tornar estes métodos estáticos
@@ -111,7 +112,7 @@ abstract class Campo
         if (method_exists($this->tag, $metodo)) {
             return call_user_func_array( array($this->tag, $metodo), $param);
         } else {
-            throw new Exception("Método {$metodo}() não encontrado");
+            throw new Exception(NucleoTradutor::traduz('Método &1 não encontrado', $metodo));
         }
     }
 

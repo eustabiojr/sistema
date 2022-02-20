@@ -10,6 +10,7 @@ namespace Estrutura\Bugigangas\Form;
 
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Controle\InterfaceAcao;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 use ReflectionClass;
 
@@ -179,7 +180,7 @@ class Form implements InterfaceElementoForm
     {
         $nome = $campo->obtNome();
         if (isset($this->campos[$nome]) AND substr($nome, -2) !== '[]') {
-            throw new Exception("Você já adicionou o campo {$nome} ao formulário");
+            throw new Exception(NucleoTradutor::traduz('Você já adicionou um campo chamado "&1" ao formulário', $nome));
         }
         # Esta propriedade precisa ser trabalhada.
         if ($nome) {
@@ -228,7 +229,7 @@ class Form implements InterfaceElementoForm
                 $this->adicCampo(($campo));
             }
         } else {
-            throw new Exception("O método {__METHOD__} deve receber um parâmetro tipo Array");
+            throw new Exception(NucleoTradutor::traduz('Método &1 deve receber um parâmetro do tipo &2', __METHOD__,'Array'));
         }
     }
 
@@ -288,7 +289,7 @@ class Form implements InterfaceElementoForm
     public function obtDados($classe = 'stdClass')
     {
         if (!class_exists($classe)) {
-            throw new Exception("A classe {$classe} não encontrada em {__METHOD__}");
+            throw new Exception(NucleoTradutor::traduz('Classe &1 não encontrada em &2', $classe, __METHOD__));
         }
 
         $objeto = new $classe;
@@ -321,7 +322,7 @@ class Form implements InterfaceElementoForm
     public function obtValores($classe = 'StdClass', $comOpcoes = false)
     {
         if (!class_exists($classe)) {
-            throw new Exception("A classe {$classe} não encontrada em {__METHOD__}");
+            throw new Exception(NucleoTradutor::traduz('Classe &1 não encontrada em &2', $classe, __METHOD__));
         }
 
         $objeto = new $classe;
@@ -357,6 +358,8 @@ class Form implements InterfaceElementoForm
      * 
      * Este método está aqui apenas para estudo de como implementar validação
      * de formulário (pelo menos por enquanto).
+     * 
+     * Nota: Certamente será melhor colocar esse método em outra classe.
      */
     public function valida() {
         # Atribui os dados post antes da validação

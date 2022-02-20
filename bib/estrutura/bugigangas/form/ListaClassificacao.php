@@ -11,6 +11,7 @@ use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Bugigangas\Base\Script;
 use Estrutura\Bugigangas\Util\Imagem;
 use Estrutura\Controle\Acao;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -204,7 +205,7 @@ class ListaClassificacao extends Campo implements InterfaceBugiganga
         else
         {
             $string_acao = $acao->paraString();
-            throw new Exception('Acao ({$string_acao}) deve ser estática para ser usada em {__METHOD__}}');
+            throw new Exception(NucleoTradutor::traduz('A ação (&1) deve ser estática para ser usado em &2', $string_acao, __METHOD__));
         }
     }
     
@@ -319,7 +320,7 @@ class ListaClassificacao extends Campo implements InterfaceBugiganga
             {
                 if (!Form::obtFormPeloNome($this->formName) instanceof Form)
                 {
-                    throw new Exception("Você deve passar {__CLASS__} ({$this->nome}) como um parâmetro para Form::setFields()");
+                    throw new Exception(NucleoTradutor::traduz('Você deve passar o &1 (&2) como parâmetro para &3', __CLASS__, $this->nome, 'Form::defCampos()'));
                 }            
                 $string_acao = $this->mudaAcao->serialize(FALSE);
                 $funcao_muda = "function() { __adianti_post_lookup('{$this->formName}', '{$string_acao}', '{$this->id}', 'callback'); }";

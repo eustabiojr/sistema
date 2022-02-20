@@ -9,6 +9,7 @@ namespace Estrutura\Bugigangas\Form;
 
 use Estrutura\Bugigangas\Base\Script;
 use Estrutura\Nucleo\ConfigAplicativo;
+use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 
 /**
@@ -244,7 +245,7 @@ class MultiBusca extends Seleciona implements InterfaceBugiganga
         
         if (isset($this->mudaAcao)) {
             if (!Form::obtFormPeloNome($this->nomeForm) instanceof Form) {
-                throw new Exception("Você deve passar a {__CLASS__} ({$this->nome}) como parâmetro para Form::defCampos()");
+                throw new Exception(NucleoTradutor::traduz('Você deve passar o &1 (&2) como parâmetro para &3', __CLASS__, $this->nome, 'Form::defCampos()'));
             }
             
             $string_acao = $this->mudaAcao->serialize(FALSE);

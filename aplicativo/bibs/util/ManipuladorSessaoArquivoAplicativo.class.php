@@ -32,21 +32,21 @@ class ManipuladorSessaoArquivoAplicativo implements SessionHandlerInterface
     public function destroi($id)
     {
         $application = NOME_APLICATIVO;
-        $file = "{$this->salvaCaminho}/sess_{$application}_{$id}";
-        if (file_exists($file)) {
-            unlink($file);
+        $arquivo = "{$this->salvaCaminho}/sess_{$application}_{$id}";
+        if (file_exists($arquivo)) {
+            unlink($arquivo);
         }
 
         return true;
     }
 
-    public function gc($maxlifetime)
+    public function gc($tempovidamax)
     {
         $application = NOME_APLICATIVO;
-        foreach (glob("{$this->salvaCaminho}/sess_{$application}_*") as $file) {
-            clearstatcache(true, $file);
-            if (filemtime($file) + $maxlifetime < time() && file_exists($file)) {
-                unlink($file);
+        foreach (glob("{$this->salvaCaminho}/sess_{$application}_*") as $arquivo) {
+            clearstatcache(true, $arquivo);
+            if (filemtime($arquivo) + $tempovidamax < time() && file_exists($arquivo)) {
+                unlink($arquivo);
             }
         }
 

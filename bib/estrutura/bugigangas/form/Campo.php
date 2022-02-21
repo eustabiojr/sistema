@@ -8,12 +8,13 @@
  # Espaço de nomes
 namespace Estrutura\Bugigangas\Form;
 
-use Ageunet\Validacao\ValidadorCampo;
-use Ageunet\Validacao\ValidadorComprimentoMin;
-use Ageunet\Validacao\ValidadorEmail;
-use Ageunet\Validacao\ValidadorObrigatorio;
 use Estrutura\Bugigangas\Base\Elemento;
 use Estrutura\Nucleo\NucleoTradutor;
+use Estrutura\Validacao\ValidadorCampo;
+use Estrutura\Validacao\ValidadorComprimentoMax;
+use Estrutura\Validacao\ValidadorComprimentoMin;
+use Estrutura\Validacao\ValidadorEmail;
+use Estrutura\Validacao\ValidadorObrigatorio;
 
 use Exception;
 use ReflectionClass;
@@ -328,7 +329,7 @@ abstract class Campo
             $this->tag->{'type'} = 'email';
         }
 
-        if ($validador instanceof ValidadorComprimentoMin) {
+        if ($validador instanceof ValidadorComprimentoMax) {
             $this->tag->{'minlength'} = $parametros[0];
         }
 

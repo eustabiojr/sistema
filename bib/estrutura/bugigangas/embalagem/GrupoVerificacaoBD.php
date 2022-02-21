@@ -10,7 +10,7 @@ namespace Estrutura\Bugigangas\Embalagem;
 use Estrutura\BancoDados\Criterio;
 use Estrutura\BancoDados\Repositorio;
 use Estrutura\BancoDados\Transacao;
-use Estrutura\Bugigangas\Form\GrupoVerificacao;
+use Estrutura\Bugigangas\Form\GrupoVerifica;
 use Exception;
 
 /**
@@ -23,7 +23,7 @@ use Exception;
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    http://www.adianti.com.br/framework-license
  */
-class GrupoVerificacaoBD extends GrupoVerificacao
+class GrupoVerificacaoBD extends GrupoVerifica
 {
     protected $items; // array containing the combobox options
     

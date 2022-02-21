@@ -1,5 +1,5 @@
 <?php
-namespace Ageunet\Validacao;
+namespace Estrutura\Validacao;
 
 /**
  * ValidadorCampo abstract validation class

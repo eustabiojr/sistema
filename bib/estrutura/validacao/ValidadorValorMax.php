@@ -1,8 +1,6 @@
 <?php
-namespace Ageunet\Validacao;
+namespace Estrutura\Validacao;
 
-use Ageunet\Validacao\ValidadorCampo;
-use Ageunet\Nucleo\AgeunetNucleoTradutor as AgeunetTradutor;
 use Estrutura\Nucleo\NucleoTradutor;
 use Exception;
 

@@ -3,6 +3,7 @@
         "twig/twig": "^2.0",
         "dompdf/dompdf": "^1.0",
         "bacon/bacon-qr-code": "^2.0",
-        "picqer/php-barcode-generator": "^2.1"
+        "picqer/php-barcode-generator": "^2.1",
+        "phpmailer/phpmailer": "^6.5"
     }
 }

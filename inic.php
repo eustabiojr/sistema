@@ -1,6 +1,9 @@
 <?php
 //------------------------------------------------------------------------------------------- 
 
+use Estrutura\Nucleo\ConfigAplicativo;
+use Estrutura\Nucleo\NucleoTradutor;
+
 require_once 'bib/estrutura/nucleo/CarregadorNucleo.php';
 
 spl_autoload_register(array('estrutura\nucleo\CarregadorNucleo', 'autocarrega'));
@@ -14,6 +17,8 @@ $carregador->register();
 
 # lê as configurações
 $ini = parse_ini_file('aplicativo/config/aplicativo.ini', true);
+# configurações de idioma
+NucleoTradutor::defIdioma($ini['geral']['idioma']);
 # definição do fuso-horário padrão
 date_default_timezone_set($ini['geral']['fuso-horario']); 
 # 
@@ -29,6 +34,6 @@ define('IDIOMA', $ini['geral']['idioma']);
 
 //------------------------------------------------------------------------------------------- 
 # Ambiente de execução
-if (version_compare(PHP_VERSION, '8.0.0') == -1) {
-    die('A versão mínima para executar esta aplicação é: 8.0.0');
+if (version_compare(PHP_VERSION, '8.1.0') == -1) {
+    die(NucleoTradutor::traduz('A versão mínima exigida para PHP é &1', '8.1'));
 }

@@ -25,6 +25,7 @@ class ComposerStaticInit2518bc1144fdfa6cfb152c24a8dde8a7
         'P' => 
         array (
             'Picqer\\Barcode\\' => 15,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'F' => 
         array (
@@ -61,6 +62,10 @@ class ComposerStaticInit2518bc1144fdfa6cfb152c24a8dde8a7
         'Picqer\\Barcode\\' => 
         array (
             0 => __DIR__ . '/..' . '/picqer/php-barcode-generator/src',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'FontLib\\' => 
         array (

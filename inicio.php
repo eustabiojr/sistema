@@ -5,6 +5,10 @@
  * Autor: Eustábio Júnior
  * Data: 27/02/2021
  ********************************************************************************************/
+
+use Estrutura\Controle\Pagina;
+use Estrutura\Nucleo\NucleoAplicativo;
+
 #
  require_once 'inic.php';
 $tema = $ini['geral']['tema'];

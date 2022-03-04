@@ -37,10 +37,10 @@ class NucleoAplicativo
         self::$id_solicitacao = uniqid();
         
         $ini = ConfigAplicativo::obt();
-        $servico  = isset($ini['geral']['servico_hist_solicitacao']) ? $ini['geral']['servico_hist_solicitacao'] : '\SistemaServicoHistSolicitacao';
-        $classe   = isset($_REQUEST['classe'])   ? $_REQUEST['classe']   : ''; 
-        $estatico = isset($_REQUEST['estatico']) ? $_REQUEST['estatico']  : '';
-        $metodo   = isset($_REQUEST['metodo'])   ? $_REQUEST['metodo']  : '';
+        $servico  = $ini['geral']['servico_hist_solicitacao']) ? $ini['geral']['servico_hist_solicitacao'] : '\SistemaServicoHistSolicitacao';
+        $classe   = $_REQUEST['classe']    ?? ''; 
+        $estatico = $_REQUEST['estatico']  ?? '';
+        $metodo   = $_REQUEST['metodo']    ?? '';
         
         $conteudo = '';
         set_error_handler(array('NucleoAplicativo', 'tratadorErro'));

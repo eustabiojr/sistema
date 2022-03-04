@@ -1,8 +1,12 @@
 <?php
+
+# define('NOME_APLICATIVO', 'teste');
+
 class ManipuladorSessaoArquivoAplicativo implements SessionHandlerInterface
 {
     private $salvaCaminho;
-    public function abre($salvaCaminho, $nomeSessao)
+    
+    public function open($salvaCaminho, $nomeSessao)
     {
         $this->salvaCaminho = $salvaCaminho ? $salvaCaminho : '/tmp';
         if (!is_dir($this->salvaCaminho)) {
@@ -12,27 +16,27 @@ class ManipuladorSessaoArquivoAplicativo implements SessionHandlerInterface
         return true;
     }
 
-    public function fecha()
+    public function close()
     {
         return true;
     }
 
-    public function ler($id)
+    public function read($id)
     {
-        $application = NOME_APLICATIVO;
-        return (string)@file_get_contents("{$this->salvaCaminho}/sess_{$application}_{$id}");
+        $aplicativo = NOME_APLICATIVO;
+        return (string)@file_get_contents("{$this->salvaCaminho}/sess_{$aplicativo}_{$id}");
     }
 
-    public function escreve($id, $data)
+    public function write($id, $data)
     {
-        $application = NOME_APLICATIVO;
-        return file_put_contents("{$this->salvaCaminho}/sess_{$application}_{$id}", $data) === false ? false : true;
+        $aplicativo = NOME_APLICATIVO;
+        return file_put_contents("{$this->salvaCaminho}/sess_{$aplicativo}_{$id}", $data) === false ? false : true;
     }
 
-    public function destroi($id)
+    public function destroy($id)
     {
-        $application = NOME_APLICATIVO;
-        $arquivo = "{$this->salvaCaminho}/sess_{$application}_{$id}";
+        $aplicativo = NOME_APLICATIVO;
+        $arquivo = "{$this->salvaCaminho}/sess_{$aplicativo}_{$id}";
         if (file_exists($arquivo)) {
             unlink($arquivo);
         }
@@ -40,12 +44,12 @@ class ManipuladorSessaoArquivoAplicativo implements SessionHandlerInterface
         return true;
     }
 
-    public function gc($tempovidamax)
+    public function gc($maxtempovida)
     {
-        $application = NOME_APLICATIVO;
-        foreach (glob("{$this->salvaCaminho}/sess_{$application}_*") as $arquivo) {
+        $aplicativo = NOME_APLICATIVO;
+        foreach (glob("{$this->salvaCaminho}/sess_{$aplicativo}_*") as $arquivo) {
             clearstatcache(true, $arquivo);
-            if (filemtime($arquivo) + $tempovidamax < time() && file_exists($arquivo)) {
+            if (filemtime($arquivo) + $maxtempovida < time() && file_exists($arquivo)) {
                 unlink($arquivo);
             }
         }
@@ -53,3 +57,8 @@ class ManipuladorSessaoArquivoAplicativo implements SessionHandlerInterface
         return true;
     }
 }
+
+
+#$tratador = new ManipuladorSessaoArquivoAplicativo();
+#session_set_save_handler($tratador, true);
+#session_start();

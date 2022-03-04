@@ -19,18 +19,21 @@ $carregador->register();
 $ini = parse_ini_file('aplicativo/config/aplicativo.ini', true);
 # configurações de idioma
 NucleoTradutor::defIdioma($ini['geral']['idioma']);
+TradutorAplicativo::defIdioma($ini['geral']['idioma']);
 # definição do fuso-horário padrão
 date_default_timezone_set($ini['geral']['fuso-horario']); 
 # 
 ConfigAplicativo::carrega($ini);
 ConfigAplicativo::aplica();
 
-
 # define constantes
-define('NOME_APLICATIVO', $ini['geral']['idioma']);
+define('NOME_APLICATIVO', $ini['geral']['aplicativo']);
 define('OS', strtoupper(substr(PHP_OS, 0, 3)));
 define('CAMINHO', dirname(__FILE__));
 define('IDIOMA', $ini['geral']['idioma']);
+
+// nome de sessão personalizado
+session_name('PHPSESSID_'.$ini['geral']['aplicativo']);
 
 //------------------------------------------------------------------------------------------- 
 # Ambiente de execução

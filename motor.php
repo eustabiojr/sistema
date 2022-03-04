@@ -15,7 +15,7 @@ class Aplicativo extends NucleoAplicativo
         if ($_REQUEST)
         {
             $ini    = ConfigAplicativo::obt();
-            $depura  = is_null($depura)? $ini['general']['debug'] : $depura;
+            $depura  = is_null($depura)? $ini['geral']['depuracao'] : $depura;
             
             parent::rodar($depura);
         }

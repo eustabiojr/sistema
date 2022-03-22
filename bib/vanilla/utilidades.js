@@ -12,17 +12,48 @@
  * Método esvazia
  * @param {*} elemento 
  */
-function esvazia(elemento) {
+Object.prototype.esvazia = function(elemento) {
     let noh = document.querySelectorAll(elemento);
     for(let i=0; i < noh.length; i++) {
         noh[i].removeChild(noh[i].firstChild);
     }
+    this.retorno = el_int;
+    return this;
 }
+
+Object.prototype.localiza = function(elem) {
+    let el_int = [];
+    let parametros = this.retorno;
+    
+    for (let i=0; i < parametros.length; i++) {
+        let localizados = parametros[i].querySelectorAll(elem);
+
+        localizados = Array.prototype.slice.call(localizados);
+
+        el_int = el_int.concat(localizados);
+    }
+    this.retorno = el_int;
+    return this;
+};
+
+Object.prototype.busca = function(seletor,pai) {
+    this.retorno = (pai ? pai : document).querySelectorAll(seletor);
+    return this;
+};
+
+Object.prototype.estilo = function(css) {
+    let parametros = this.retorno;
+    for(let y=0; y < parametros.length; y++) {
+        parametros[y].style.cssText = css;
+    }
+    this.retorno = null;
+    return this;
+};
 
 /**
 * Método obtScript (substituo do método getScript() do jQuery)
 */
-function obtScript(origem, chamadevolta) {
+Object.prototype.obtScript = function(origem, chamadevolta) {
     let script = document.createElement('script');
     script.async = 1;
     const existente = document.getElementsByTagName('script')[0];

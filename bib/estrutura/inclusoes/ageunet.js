@@ -218,9 +218,9 @@ function __ageunet_carrega_html(conteudo, aposChamaDeVolta, url)
         }
         else
         {
-            if (typeof Ageunet.onClearDOM == "function")
+            if (typeof Ageunet.aoLimparDOM == "function")
             {
-                Ageunet.onClearDOM();
+                Ageunet.aoLimparDOM();
             }
              
             doc.querySelector('[widget="GJanela"]').remove(); // Falta testar mais
@@ -282,7 +282,8 @@ function __carrega_pagina_nao_registra(pagina)
        __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
     });*/
 
-    fetch(pagina, { headers: { 'cache-control' : 'no-cache' } })
+    /** Versão JS Puro */
+    fetch(pagina, { method: 'GET', headers: { 'cache-control' : 'no-cache' } })
     .then(resposta => resposta.text())
     .then(function(dados) {
         __ageunet_carrega_html(dados, null, pagina); 
@@ -302,7 +303,8 @@ function __carrega_pagina_nao_registra2(pagina)
        __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
     }); */
 
-    fetch(pagina, { headers: { 'cache-control' : 'no-cache' } })
+    /** Versão JS Puro */
+    fetch(pagina, { method: 'GET', headers: { 'cache-control' : 'no-cache' } })
     .then(resposta => resposta.text())
     .then(function(dados) {
         __ageunet_carrega_html2(dados, null, pagina); 
@@ -338,6 +340,7 @@ function __ageunet_anexa_pagina(pagina, callback)
        __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
     }); */
 
+    /** Versão JS Puro */
     let obtemDados = {
         method: 'POST', 
         body: params_json,
@@ -368,6 +371,7 @@ function __ageunet_anexa_pagina2(pagina)
         + '&metodo=' + params_json.metodo
         + '&estatico=' + (params_json.estatico == '1' ? '1' : '0');
 
+    /** Versão jQuery */
     /*$.post(uri, params_json)
     .done(function(dados) {
         dados = dados.replace(new RegExp('__ageunet_carrega_html', 'g'), '__ageunet_carrega_html2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
@@ -379,6 +383,8 @@ function __ageunet_anexa_pagina2(pagina)
     }).fail(function(jqxhr, textoStatus, exception) {
        __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
     });*/
+
+    /** Versão JS Puro */
     fetch(uri, params_json)
     .then(function(dados) {
         dados = dados.replace(new RegExp('__ageunet_carrega_html', 'g'), '__ageunet_carrega_html2'); // se tem um botão de buscar, ele está conectado a __ageunet_carrega_html
@@ -439,7 +445,7 @@ function __ageunet_carrega_pagina(pagina, callback)
         }
         else
         {
-            fatch(url)
+            fetch(url)
             .then(function(dados) {
                 Ageunet.solicitaURL  = url;
                 Ageunet.solicitaDados = null;
@@ -451,10 +457,10 @@ function __ageunet_carrega_pagina(pagina, callback)
                     callback();
                 }
                 
-                if ( url.indexOf('registra_estado=false') < 0 && historico.pushState && (dados.indexOf('widget="TWindow"') < 0) )
+                if ( url.indexOf('registra_estado=false') < 0 && historico.pushState && (dados.indexOf('widget="GWindow"') < 0) )
                 {
                     __ageunet_registra_estado(url, 'ageunet');
-                    Ageunet.currentURL = url;
+                    Ageunet.URLCorrente = url;
                 }
             }).catch(function(textoStatus) {
                __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
@@ -477,25 +483,28 @@ function __ageunet_carrega_pagina2(pagina)
     Ageunet.solicitaDados = null;
 }
 
+//=====================================================================================================
+  // PAREI AQUI ****
 /**
- * Start blockUI dialog XXXX
+ * Start BloqueiaUI dialog XXXX
  */
 function __ageunet_bloqueia_ui(mensagem_aguarde)
 {
-    if (typeof $.blockUI == 'function')
+    if (typeof $.BloqueiaUI == 'function')
     {
         if (typeof Ageunet.bloqueiaContadorUI == 'undefined')
         {
             Ageunet.bloqueiaContadorUI = 0;
         }
+        
         Ageunet.bloqueiaContadorUI = Ageunet.bloqueiaContadorUI + 1;
         if (typeof mensagem_aguarde == 'undefined')
         {
-            mensagem_aguarde = Ageunet.waitMessage;
+            mensagem_aguarde = Ageunet.mensagemAguarde;
         }
         
-        $.blockUI({ 
-           message: '<h1><i class="fa fa-spinner fa-pulse"></i> '+mensagem_aguarde+'</h1>',
+        $.BloqueiaUI({ 
+           message: '<h1><i class="fa fa-spinner fa-pulse"></i> ' + mensagem_aguarde + '</h1>',
            fadeIn: 0,
            fadeOut: 0,
            css: { 
@@ -512,7 +521,7 @@ function __ageunet_bloqueia_ui(mensagem_aguarde)
            }
         });
         
-        $('.blockUI.blockMsg').mycenter();
+        $('.BloqueiaUI.blockMsg').mycenter();
     }
 }
 
@@ -736,11 +745,11 @@ function __ageunet_exibe_toast(tipo, mensagem, lugar, icone)
 }
 
 /**
- * Closes blockUI dialog
+ * Closes BloqueiaUI dialog
  */
 function __ageunet_desbloqueia_ui()
 {
-    if (typeof $.blockUI == 'function')
+    if (typeof $.BloqueiaUI == 'function')
     {
         Ageunet.bloqueiaContadorUI = Ageunet.bloqueiaContadorUI -1;
         if (Ageunet.bloqueiaContadorUI <= 0)
@@ -803,7 +812,7 @@ function __ageunet_post_dados(form, acao)
     {
         $.post(url, dados)
         .done(function(resultado) {
-            Ageunet.currentURL  = url;
+            Ageunet.URLCorrente  = url;
             Ageunet.solicitaURL  = url;
             Ageunet.solicitaDados = dados;
             
@@ -868,28 +877,40 @@ function __ageunet_pesquisa_ajax(acao, campo)
 /**
  * Execute an Ajax acao
  */
-function __ageunet_exec_ajax(acao, callback, saida_automatica)
+function __ageunet_exec_ajax(acao, chamadevolta, saida_automatica)
 {
     var uri = 'motor.php?' + acao +'&estatico=1';
     var saida_automatica = (typeof saida_automatica === "undefined") ? true : saida_automatica;
-    
+    /*
     $.ajax({url: uri})
     .done(function( dados ) {
         if (saida_automatica) {
-            __ageunet_analisa_html(dados, callback);
+            __ageunet_analisa_html(dados, chamadevolta);
         }
         else {
-            callback(dados);
+            chamadevolta(dados);
         }
     }).fail(function(jqxhr, textoStatus, exception) {
        __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
-    });
+    });*/
+    fetch(uri)
+        .then(dados => {
+            if(saida_automatica) {
+                __ageunet_analisa_html(dados, chamadevolta);
+            } else {
+                chamadevolta(dados);
+            }
+        })
+        .catch(textoStatus => {
+            __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
+        });
+
 }
 
 /**
  * Get remote conteudo
  */
-function __ageunet_obt_pagina(acao, callback, dadospost)
+function __ageunet_obt_pagina(acao, chamadevolta, dadospost)
 {
     var uri = 'motor.php?' + acao +'&estatico=1';
     
@@ -898,15 +919,25 @@ function __ageunet_obt_pagina(acao, callback, dadospost)
             var uri = 'motor.php?' + acao +'&estatico='+dadospost.static;
         }
     }
-    
+    /*
     $.ajax({
       url: uri,
       dados: dadospost
       }).done(function( dados ) {
-          return callback(dados);
+          return chamadevolta(dados);
       }).fail(function(jqxhr, textoStatus, exception) {
          __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
-      });
+      }); */
+    fetch(uri, {
+        method: 'POST',
+        cache: 'no-cache'
+    })
+    .then(function(dados){
+        return chamadevolta(dados);
+    })
+    .catch(function(textoStatus) {
+        __ageunet_erro('Erro', textoStatus + ': ' + __ageunet_mensagem_falha());
+    })
 }
 
 function __ageunet_pesquisa_post(form, acao, campo, callback) {

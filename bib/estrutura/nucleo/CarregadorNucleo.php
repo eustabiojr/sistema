@@ -120,8 +120,11 @@ class CarregadorNucleo
         # Caso esteja definido com base na classe informada.
         if (isset(self::$mapaClasse[$classe]))
         { 
+            #echo "<p>A classe <b>" . $classe . "</b> existe.</p>" . PHP_EOL;
+            #echo "<p>O caminho é: <b>" . self::$mapaClasse[$classe] . "</b>.</p>" . PHP_EOL;
             if (file_exists(self::$mapaClasse[$classe]))
             {
+                #echo "<p>O arquivo da <b>" . $classe . "</b> existe.</p>" . PHP_EOL;
                 ///echo '<p> >>>>> Mapa da classe (LEGADO)>>>>><b>: ' . self::$mapaClasse[$classe] . '</b></p><br>';
                 require_once self::$mapaClasse[$classe];
                 

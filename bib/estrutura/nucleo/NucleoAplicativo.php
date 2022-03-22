@@ -37,7 +37,7 @@ class NucleoAplicativo
         self::$id_solicitacao = uniqid();
         
         $ini = ConfigAplicativo::obt();
-        $servico  = $ini['geral']['servico_hist_solicitacao']) ? $ini['geral']['servico_hist_solicitacao'] : '\SistemaServicoHistSolicitacao';
+        $servico  = ($ini['geral']['servico_hist_solicitacao']) ? $ini['geral']['servico_hist_solicitacao'] : '\SistemaServicoHistSolicitacao';
         $classe   = $_REQUEST['classe']    ?? ''; 
         $estatico = $_REQUEST['estatico']  ?? '';
         $metodo   = $_REQUEST['metodo']    ?? '';
@@ -58,8 +58,8 @@ class NucleoAplicativo
         if (in_array(strtolower($classe), array_map('strtolower', MapaClasse::obtClassesInternas()) ))
         {
             ob_start();
-            new Mensagem( 'erro', "A classe interna <b><i><u>{$classe}</u></i></b> não pode ser executada");
-            $conteudo = ob_get_contents();
+                new Mensagem( 'erro', "A classe interna <b><i><u>{$classe}</u></i></b> não pode ser executada");
+                $conteudo = ob_get_contents();
             ob_end_clean();
         }
         else if (class_exists($classe))
